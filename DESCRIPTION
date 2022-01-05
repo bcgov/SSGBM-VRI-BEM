@@ -1,0 +1,14 @@
+Package: SSGBM.VRI.BEM
+Title: Vegetation Resource Inventory & Broad Ecosystem Mapping
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Bruno", "Tremblay", email = "bruno@boostao.ca", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-2945-356X")),
+    person(family = "Province of British Columbia", role = c("cph", "fnd")))
+Description: This package is for the VRI-BEM
+    (vegetation Resource Inventory & Broad Ecosystem Mapping)
+    component of wildlife models.
+License: file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
