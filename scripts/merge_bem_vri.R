@@ -1,6 +1,4 @@
-library(sf)
-library(data.table)
-library(units)
+devtools::load_all()
 
 path <- "C:/Users/nicol/OneDrive/Documents/boostao/Python to R spatial script conversion/"
 
@@ -8,6 +6,9 @@ path <- "C:/Users/nicol/OneDrive/Documents/boostao/Python to R spatial script co
 vri <- st_read(paste0(path, "veg_comp_poly_aoi/veg_comp_poly_aoi.shp"))
 bem <- st_read(paste0(path, "tei_long_tbl_aoi/tei_long_tbl_aoi.shp"))
 
+print(Sys.time())
+vri <- merge_vri_bem(vri, bem)
+print(Sys.time())
 
 # check if teis_id seems already merged on vri
 if ("TEIS_ID" %in% names(vri)) {
