@@ -1,4 +1,4 @@
-#' Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory)
+#' Upadate BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes
 #'
 #' @param ifc sf object that represent the input polygon feature class
 #' @param rfc sf object that represent Rivers polygon feature class (FWA_Rivers)
@@ -46,13 +46,10 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
     # TODO message and exit
   }
 
-  # Is this part really necessary in R
-  # Maybe just to message that we created the columm Lbl_edit, but other than that the column
-  # will be created in the perform correction regardless of if it exists of not
 
   if (!("Lbl_edit" %in% existing_attributes)) {
     # TODO logger inform
-    set(ifc , j = "Lbl_edit", value = character(nrow(ifc)))
+    set(ifc , j = "Lbl_edit", value = "")
     required_attributes <- c(required_attributes, "Lbl_edit")
   }
 
@@ -82,7 +79,7 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
 
  # perform correction
 
-  set(ifc , j = "Lbl_edit", value = "")
+
   set(ifc , j = "Site_M3A", value = "")
   set(ifc , j = "Area_HA", value = round(ifc[["SHAPE_AREA"]]/10000, 2))
 
@@ -233,7 +230,8 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 380
-  condition_8 <- !(condition_1 | condition_2 | condition_3 | condition_4 | condition_5 | condition_6 | condition_7) & blcs_level_4_in_TB_TC_TM
+  any_previous_condition <- condition_1 | condition_2 | condition_3 | condition_4 | condition_5 | condition_6 | condition_7
+  condition_8 <- !(any_previous_condition) & blcs_level_4_in_TB_TC_TM
 
   if (any(condition_8)) {
 
@@ -335,10 +333,188 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
         }
       }
     }
-
   }
 
  # line 448
+ any_previous_condition <- any_previous_condition | condition_8
+ condition_12 <- !any_previous_condition & ifc[["SPECIES_CD_1"]] == "SB" & ifc[["SPECIES_PCT_1"]] >= 90
+
+ if (any(condition_12)) {
+   which_lines <- which(condition_12)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "BB")
+ }
+
+ # line 457
+ any_previous_condition <- any_previous_condition | condition_12
+ condition_13 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]]  == "AP"
+
+ if (any(condition_13)) {
+   which_lines <- which(condition_13)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "UR")
+ }
+
+ # line 464
+ any_previous_condition <- any_previous_condition | condition_13
+ condition_14 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]]  == "BU"
+
+ if (any(condition_14)) {
+   which_lines <- which(condition_14)
+   set(ifc, i = which_lines, j = "DISTCLS_1", value = "F")
+ }
+
+ # line 470
+ any_previous_condition <- any_previous_condition | condition_14
+ condition_15 <- !any_previous_condition & ifc[["SLOPE_MOD"]]  %in% c("q", "z")
+
+ if (any(condition_15)) {
+   which_lines <- which(condition_15)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "CL")
+ }
+
+ # line 484
+ any_previous_condition <- any_previous_condition | condition_15
+ condition_16 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "GB"
+
+ if (any(condition_16)) {
+   which_lines <- which(condition_16)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "GB")
+ }
+
+ # line 491
+ any_previous_condition <- any_previous_condition | condition_16
+ condition_17 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("GL", "PN")
+
+ if (any(condition_17)) {
+   which_lines <- which(condition_17)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "GL")
+ }
+
+ # line 498
+ any_previous_condition <- any_previous_condition | condition_17
+ condition_18 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "GP"
+
+ if (any(condition_18)) {
+   which_lines <- which(condition_18)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "GP")
+ }
+
+ # line 505
+ any_previous_condition <- any_previous_condition | condition_18
+ condition_19 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "LL"
+
+ if (any(condition_19)) {
+   which_lines <- which(condition_19)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "LL")
+ }
+
+ # line 512
+ any_previous_condition <- any_previous_condition | condition_19
+ condition_20 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("MI", "TZ", "MZ")
+
+ if (any(condition_20)) {
+   which_lines <- which(condition_20)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "MI")
+ }
+
+ # line 519
+ any_previous_condition <- any_previous_condition | condition_20
+ condition_21 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("RO", "BR", "BI")
+
+ if (any(condition_21)) {
+   which_lines <- which(condition_21)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "RO")
+ }
+
+ # line 526
+ any_previous_condition <- any_previous_condition | condition_21
+ condition_22 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "TA"
+
+ if (any(condition_22)) {
+   which_lines <- which(condition_22)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "TA")
+ }
+
+ # line 533
+ any_previous_condition <- any_previous_condition | condition_22
+ condition_23 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("TC", "RN", "RZ")
+
+ if (any(condition_23)) {
+   which_lines <- which(condition_23)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "TC")
+ }
+
+ # line 540
+ any_previous_condition <- any_previous_condition | condition_23
+ condition_24 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "TR"
+
+ if (any(condition_24)) {
+   which_lines <- which(condition_24)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "TR")
+ }
+
+ # line 547 and line 555 combined
+ any_previous_condition <- any_previous_condition | condition_24
+ condition_25 <- !any_previous_condition & (ifc[["BCLCS_LEVEL_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") | (ifc[["LAND_COVER_CLASS_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") & ifc[["EST_COVERAGE_PCT_1"]] >= 95))
+
+ if (any(condition_25)) {
+   which_lines <- which(condition_25)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "UV")
+ }
+
+ # line 564
+ any_previous_condition <- any_previous_condition | condition_25
+ condition_26 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "UR"
+
+ if (any(condition_26)) {
+   which_lines <- which(condition_26)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "UR")
+ }
+
+ # line 564
+ any_previous_condition <- any_previous_condition | condition_26
+ condition_27 <- !any_previous_condition & ifc[["BCLCS_LEVEL_2"]] == "T" & ifc[["SDEC_1"]] == 10 & ifc[["LINE_5_VEGETATION_COVER"]] %in% c('rz', 'rz,by', 'rz,by,he', 'rz,by,he,sl', 'rz,by,sl', 'rz,by,sl,he', 'rz,by,st', 'rz,he',
+                                                                                                                   'rz,by,sl,he', 'rz,by,st', 'rz,he', 'rz,he,by', 'rz,he,by,sl', 'rz,he,sl', 'rz,he,sl,by',
+                                                                                                                   'rz,he,st', 'rz,he,st,by', 'rz,hf,by', 'rz,hf,sl,by', 'rz,hg', 'rz,hg,sl', 'rz,sl',
+                                                                                                                   'rz,sl,by', 'rz,sl,by,he', 'rz,sl,he', 'rz,sl,he,by', 'rz,sl,hf', 'rz,sl,hf,by', 'rz,sl,hg',
+                                                                                                                   'rz,st', 'rz,st,he', 'rz,st,he,by', 'rz,st,hf', 'rz,st,hg')
+
+ if (any(condition_27)) {
+   which_lines <- which(condition_27)
+   set(ifc, i = which_lines, j = "SDEC_1", value = 8)
+   set(ifc, i = which_lines, j = "SDEC_2", value = 2)
+   set(ifc, i = which_lines, j = "BEUMC_S1", value = "TC")
+ }
+
+ # line 608 (no else if be careful it's a simple if)
+ condition_28 <- smpl_type_is_empy & ifc[["SPECIES_CD_1"]] %in% c("AC", "ACB", "ACT", "AT", "EP")
+
+ if (any(condition_28)) {
+
+
+ }
+
+
+
+
+
+
+
+
+
 
 
 
