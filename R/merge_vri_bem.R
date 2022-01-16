@@ -1,4 +1,4 @@
-#' Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory)
+#' Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features
 #'
 #' @param vri sf object that represent BEM (broad ecosystem mapping) features
 #' @param bem sf object that represent VRI (vegetation ressource inventory) features
