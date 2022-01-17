@@ -101,6 +101,7 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
 
   set(ifc, j = "row_updated", value = 0)
   set(ifc, j = "blank_eco_variables", value = 0)
+  set(ifc, j = "lbl_join", value = "")
 
   eco_variables_1 <- c("BEUMC_S1", "REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
                        "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITEAM_S1D",
@@ -150,16 +151,17 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
   # we get in all the condition that needs corrections
 
   # line 259
-  condition_1 <- smpl_type_is_empy & beumc_s1_eq_beumc_s2
+  condition <- smpl_type_is_empy & beumc_s1_eq_beumc_s2
+  any_previous_condition <- condition
 
-  if (any(condition_1)) {
-    if (any(condition_1 & sdec_1_gt_0 & sdec_2_gt_0)) {
+  if (any(condition)) {
+    if (any(condition & sdec_1_gt_0 & sdec_2_gt_0)) {
       which_lines <- which(condition_1 & sdec_1_gt_0 & sdec_2_gt_0)
       set(ifc , i = which_lines, j = "SDEC_1", value = ifc[["SDEC_1"]][which_lines] + ifc[["SDEC_2"]][which_lines])
     }
 
     # line 262
-    which_lines <- which(condition_1)
+    which_lines <- which(condition)
     set(ifc , i = which_lines, j = "SDEC_2", value = ifc[["SDEC_3"]][which_lines])
     # verify what type of NA and if None is equivalent to NA
     set(ifc , i = which_lines, j = "SDEC_3", value = NA)
@@ -182,93 +184,106 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
     }
 
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Combined components 1 and 2 with same BEUMC_S# code into single component 1")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
   }
 
   # line 279
-  condition_2 <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & area_ha_le_2
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & area_ha_le_2
+  any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
-    which_lines <- which(condition_2)
+    which_lines <- which(condition)
     set(ifc, i = which_lines , j = "SDEC_1", value = 10)
     set(ifc, i = which_lines , j = "BEUMC_S1", value = "OW")
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 OW because BCLCS_LEVEL_1 = 'N', BCLCS_LEVEL_5 = 'LA', Area <= 10 ha")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
     set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
 
   }
 
   # line 291
-  condition_3 <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_2 & area_ha_le_60
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_2 & area_ha_le_60
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_3)) {
-    which_lines <- which(condition_3)
+  if (any(condition)) {
+    which_lines <- which(condition)
     set(ifc, i = which_lines, j = "SDEC_1", value = 10)
     set(ifc, i = which_lines, j = "BEUMC_S1", value = "LS")
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 LS because BCLCS_LEVEL_1 = 'N', BCLCS_LEVEL_5 = 'LA', Area <= 60 ha")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
     set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # lines 303
-  condition_4 <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_60
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_60
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_4)) {
-    which_lines <- which(condition_4)
+  if (any(condition)) {
+    which_lines <- which(condition)
     set(ifc, i = which_lines, j = "SDEC_1", value = 10)
     set(ifc, i = which_lines, j = "BEUMC_S1", value = "LL")
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 LL because BCLCS_LEVEL_1 = 'N', BCLCS_LEVEL_5 = 'LA', Area > 60 ha")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
     set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 315
-  condition_5 <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_RE
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_RE
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_5)) {
-    which_lines <- which(condition_5)
+  if (any(condition)) {
+    which_lines <- which(condition)
     set(ifc, i = which_lines, j = "SDEC_1", value = 10)
     set(ifc, i = which_lines, j = "BEUMC_S1", value = "RE")
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 RE because BCLCS_LEVEL_1 = 'N', BCLCS_LEVEL_5 = 'RE'")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
     set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 331
-  condition_6 <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_in_RI_RS
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_in_RI_RS
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_6)) {
-    which_lines <- which(condition_6)
+  if (any(condition)) {
+    which_lines <- which(condition)
     set(ifc, i = which_lines, j = "SDEC_1", value = 10)
     set(ifc, i = which_lines, j = "BEUMC_S1", value = "RI")
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 RI because BCLCS_LEVEL_1 = 'N', BCLCS_LEVEL_5 = 'RI' or 'RS'")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
     set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 367
-  condition_7 <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_V & blcs_level_2_eq_N & blcs_level_3_eq_W & age_cl_sts_eq_minus_1
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_V & blcs_level_2_eq_N & blcs_level_3_eq_W & age_cl_sts_eq_minus_1
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_7)) {
-    which_lines <- which(condition_7)
+  if (any(condition)) {
+    which_lines <- which(condition)
     set(ifc, i = which_lines, j = "SDEC_1", value = 10)
     set(ifc, i = which_lines, j = "BEUMC_S1", value = "WL")
     set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 WL because BCLCS_LEVEL_1/2/3 = 'V'/'N'/'W' and AGE_CL_STS = -1")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
     set(ifc, i = which_lines, j = "row_updated", value = 1)
     set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 380
-  any_previous_condition <- condition_1 | condition_2 | condition_3 | condition_4 | condition_5 | condition_6 | condition_7
-  condition_8 <- !(any_previous_condition) & blcs_level_4_in_TB_TC_TM
+  condition <- !any_previous_condition & smpl_type_is_empy & blcs_level_4_in_TB_TC_TM
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_8)) {
+  if (any(condition)) {
 
-    condition_9 <- condition_8 & beumc_s1_eq_WL
+    sub_condition <- condition & beumc_s1_eq_WL
 
-    if (any(condition_9)) {
-      if (any(condition_9 & sdec_2_gt_0)) {
-        which_lines <- which(condition_9 & sdec_2_gt_0)
+    if (any(sub_condition)) {
+      if (any(sub_condition & sdec_2_gt_0)) {
+        which_lines <- which(sub_condition & sdec_2_gt_0)
         set(ifc, i = which_lines, j = "SDEC_1", value = ifc[["SDEC_1"]][which_lines] + ifc[["SDEC_2"]][which_lines])
         set(ifc, i = which_lines, j = "SDEC_2", value = ifc[["SDEC_3"]][which_lines])
         set(ifc, i = which_lines, j = "SDEC_3", value = NA)
@@ -292,22 +307,24 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
           }
         }
         set(ifc, i = which_lines, j = "Lbl_edit", value = "Removed WL in component 1 because BCLCS_LEVEL_4 = 'TB', 'TC' or 'TM'")
+        set(ifc, i = which_lines, j = "lbl_join", value = "; ")
         set(ifc, i = which_lines, j = "row_updated", value = 1)
       }
-      if (any(condition_9 & !sdec_2_gt_0)) {
+      if (any(sub_condition & !sdec_2_gt_0)) {
         which_lines <- which(condition_9 & !sdec_2_gt_0)
         set(ifc, i = which_lines, j = "Lbl_edit", value = "**** Warning: Polygon is pure WL, but BCLCS_LEVEL_4 = 'TB', 'TC' or 'TM'")
+        set(ifc, i = which_lines, j = "lbl_join", value = "; ")
         set(ifc, i = which_lines, j = "row_updated", value = 1)
       }
     }
 
     # line 404
-    condition_10 <- condition_8 & !beumc_s1_eq_WL & beumc_s2_eq_WL
+    sub_condition <- condition & !beumc_s1_eq_WL & beumc_s2_eq_WL
 
-    if (any(condition_10)) {
+    if (any(sub_condition)) {
       # line 405
-      if (any(condition_10 & sdec_3_gt_0)) {
-        which_lines <- which(condition_10 & sdec_3_gt_0)
+      if (any(sub_condition & sdec_3_gt_0)) {
+        which_lines <- which(sub_condition & sdec_3_gt_0)
         set(ifc, i = which_lines, j = "SDEC_2", value = ifc[["SDEC_2"]][which_lines] + ifc[["SDEC_3"]][which_lines])
         set(ifc, i = which_lines, j = "SDEC_3", value = NA)
         # line 409
@@ -327,12 +344,13 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
           }
         }
         set(ifc, i = which_lines, j = "Lbl_edit", value = "Removed WL in component 2 because BCLCS_LEVEL_4 = 'TB', 'TC' or 'TM'")
+        set(ifc, i = which_lines, j = "lbl_join", value = "; ")
         set(ifc, i = which_lines, j = "row_updated", value = 1)
       }
 
       # line 417
-      if (any(condition_10 & !sdec_3_gt_0)) {
-        which_lines <- which(condition_10 & !sdec_3_gt_0)
+      if (any(sub_condition & !sdec_3_gt_0)) {
+        which_lines <- which(sub_condition & !sdec_3_gt_0)
         set(ifc, i = which_lines, j = "SDEC_1", value = ifc[["SDEC_1"]][which_lines] + ifc[["SDEC_2"]][which_lines])
         set(ifc, i = which_lines, j = "SDEC_2", value = NA)
         for (i in seq_eco_variables) {
@@ -348,15 +366,16 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
           }
         }
         set(ifc, i = which_lines, j = "Lbl_edit", value = "Removed WL in component 2 because BCLCS_LEVEL_4 = 'TB', 'TC' or 'TM'")
+        set(ifc, i = which_lines, j = "lbl_join", value = "; ")
         set(ifc, i = which_lines, j = "row_updated", value = 1)
       }
     }
 
     # line 429
-    condition_11 <- condition_8 & !beumc_s1_eq_WL & !beumc_s2_eq_WL & beumc_s3_eq_WL
+    sub_condition <- condition & !beumc_s1_eq_WL & !beumc_s2_eq_WL & beumc_s3_eq_WL
 
-    if (any(condition_11)) {
-      which_lines <- which(condition_11)
+    if (any(sub_condition)) {
+      which_lines <- which(sub_condition)
       set(ifc, i = which_lines, j = "SDEC_2", value = ifc[["SDEC_2"]][which_lines] + ifc[["SDEC_3"]][which_lines])
       set(ifc, i = which_lines, j = "SDEC_3", value = NA)
       # line 432
@@ -373,246 +392,330 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
         }
       }
       set(ifc, i = which_lines, j = "Lbl_edit", value = "Removed WL in component 3 because BCLCS_LEVEL_4 = 'TB', 'TC' or 'TM'")
+      set(ifc, i = which_lines, j = "lbl_join", value = "; ")
       set(ifc, i = which_lines, j = "row_updated", value = 1)
     }
   }
 
   # line 448
-  any_previous_condition <- any_previous_condition | condition_8
-  condition_12 <- !any_previous_condition & ifc[["SPECIES_CD_1"]] == "SB" & ifc[["SPECIES_PCT_1"]] >= 90
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["SPECIES_CD_1"]] == "SB" & ifc[["SPECIES_PCT_1"]] >= 90
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_12)) {
-   which_lines <- which(condition_12)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "BB")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 BB because SPECIES_CD_1 = 'SB'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 457
-  any_previous_condition <- any_previous_condition | condition_12
-  condition_13 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]]  == "AP"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]]  == "AP"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_13)) {
-   which_lines <- which(condition_13)
+
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "UR")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 UR because BCLCS_LEVEL_5 = 'AP'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 464
-  any_previous_condition <- any_previous_condition | condition_13
-  condition_14 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]]  == "BU"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]]  == "BU"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_14)) {
-   which_lines <- which(condition_14)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "DISTCLS_1", value = "F")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to DISTCLS_1 'F' because BCLCS_LEVEL_5 = 'BU'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
   }
 
   # line 470
-  any_previous_condition <- any_previous_condition | condition_14
-  condition_15 <- !any_previous_condition & ifc[["SLOPE_MOD"]]  %in% c("q", "z")
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["SLOPE_MOD"]]  %in% c("q", "z")
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_15)) {
-   which_lines <- which(condition_15)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "CL")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 CL because Slope Mod is q or z")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 484
-  any_previous_condition <- any_previous_condition | condition_15
-  condition_16 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "GB"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "GB"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_16)) {
-   which_lines <- which(condition_16)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "GB")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 GB because BCLCS_LEVEL_5 = 'GB'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 491
-  any_previous_condition <- any_previous_condition | condition_16
-  condition_17 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("GL", "PN")
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("GL", "PN")
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_17)) {
-   which_lines <- which(condition_17)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "GL")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 GL because BCLCS_LEVEL_5 = 'GL' or 'PN'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 498
-  any_previous_condition <- any_previous_condition | condition_17
-  condition_18 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "GP"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "GP"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_18)) {
-   which_lines <- which(condition_18)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "GP")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 GP because BCLCS_LEVEL_5 = 'GP'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 505
-  any_previous_condition <- any_previous_condition | condition_18
-  condition_19 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "LL"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "LL"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_19)) {
-   which_lines <- which(condition_19)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "LL")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 LL because BCLCS_LEVEL_5 = 'LL'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 512
-  any_previous_condition <- any_previous_condition | condition_19
-  condition_20 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("MI", "TZ", "MZ")
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("MI", "TZ", "MZ")
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_20)) {
-   which_lines <- which(condition_20)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "MI")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 MI because BCLCS_LEVEL_5 = 'MI', 'TZ' or 'MZ'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 519
-  any_previous_condition <- any_previous_condition | condition_20
-  condition_21 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("RO", "BR", "BI")
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("RO", "BR", "BI")
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_21)) {
-   which_lines <- which(condition_21)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "RO")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 RO because BCLCS_LEVEL_5 = 'RO', 'BR' or 'BI'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 526
-  any_previous_condition <- any_previous_condition | condition_21
-  condition_22 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "TA"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "TA"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_22)) {
-   which_lines <- which(condition_22)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "TA")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 TA because BCLCS_LEVEL_5 = 'TA'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 533
-  any_previous_condition <- any_previous_condition | condition_22
-  condition_23 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] %in% c("TC", "RN", "RZ")
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("TC", "RN", "RZ")
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_23)) {
-   which_lines <- which(condition_23)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "TC")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 TC because BCLCS_LEVEL_5 = 'TC', 'RN' or 'RZ'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
 
   }
 
   # line 540
-  any_previous_condition <- any_previous_condition | condition_23
-  condition_24 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "TR"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "TR"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_24)) {
-   which_lines <- which(condition_24)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "TR")
    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 TR because BCLCS_LEVEL_5 = 'TR'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
    set(ifc, i = which_lines, j = "row_updated", value = 1)
    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
-  # line 547 and line 555 combined
-  any_previous_condition <- any_previous_condition | condition_24
-  condition_25 <- !any_previous_condition & (ifc[["BCLCS_LEVEL_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") | (ifc[["LAND_COVER_CLASS_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") & ifc[["EST_COVERAGE_PCT_1"]] >= 95))
+  # line 547
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM")
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_25)) {
-   which_lines <- which(condition_25)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "UV")
+   set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 UV because BCLCS_LEVEL_5 = 'UV', 'RS', 'MU', 'ES', 'CB', 'MN' or 'RM'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+   set(ifc, i = which_lines, j = "row_updated", value = 1)
+   set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
+  }
+
+  # line 555
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["LAND_COVER_CLASS_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") & ifc[["EST_COVERAGE_PCT_1"]] >= 95
+  any_previous_condition <- any_previous_condition | condition
+
+  if (any(condition)) {
+    which_lines <- which(condition)
+    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
+    set(ifc, i = which_lines, j = "BEUMC_S1", value = "UV")
+    set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 UV because LAND_COVER_CLASS_CD_1 = 'UV', 'RS', 'MU', 'ES', 'CB', 'MN' or 'RM' and EST_COVERAGE_PCT_1 >= 95'")
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+    set(ifc, i = which_lines, j = "row_updated", value = 1)
+    set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 564
-  any_previous_condition <- any_previous_condition | condition_25
-  condition_26 <- !any_previous_condition & ifc[["BCLCS_LEVEL_5"]] == "UR"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "UR"
+  any_previous_condition <- any_previous_condition | condition
 
-  if (any(condition_26)) {
-   which_lines <- which(condition_26)
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 10)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "UR")
+   set(ifc, i = which_lines, j = "Lbl_edit", value = "Updated to 10 UR because BCLCS_LEVEL_5 = 'UR'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+   set(ifc, i = which_lines, j = "row_updated", value = 1)
+   set(ifc, i = which_lines, j = "blank_eco_variables", value = 1)
   }
 
   # line 564
-  any_previous_condition <- any_previous_condition | condition_26
-  condition_27 <- !any_previous_condition & ifc[["BCLCS_LEVEL_2"]] == "T" & ifc[["SDEC_1"]] == 10 & ifc[["LINE_5_VEGETATION_COVER"]] %in% c('rz', 'rz,by', 'rz,by,he', 'rz,by,he,sl', 'rz,by,sl', 'rz,by,sl,he', 'rz,by,st', 'rz,he',
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_2"]] == "T" & ifc[["SDEC_1"]] == 10 & ifc[["LINE_5_VEGETATION_COVER"]] %in% c('rz', 'rz,by', 'rz,by,he', 'rz,by,he,sl', 'rz,by,sl', 'rz,by,sl,he', 'rz,by,st', 'rz,he',
                                                                                                                    'rz,by,sl,he', 'rz,by,st', 'rz,he', 'rz,he,by', 'rz,he,by,sl', 'rz,he,sl', 'rz,he,sl,by',
                                                                                                                    'rz,he,st', 'rz,he,st,by', 'rz,hf,by', 'rz,hf,sl,by', 'rz,hg', 'rz,hg,sl', 'rz,sl',
                                                                                                                    'rz,sl,by', 'rz,sl,by,he', 'rz,sl,he', 'rz,sl,he,by', 'rz,sl,hf', 'rz,sl,hf,by', 'rz,sl,hg',
                                                                                                                    'rz,st', 'rz,st,he', 'rz,st,he,by', 'rz,st,hf', 'rz,st,hg')
 
-  if (any(condition_27)) {
-   which_lines <- which(condition_27)
+
+  any_previous_condition <- any_previous_condition | condition
+
+  if (any(condition)) {
+   which_lines <- which(condition)
    set(ifc, i = which_lines, j = "SDEC_1", value = 8)
    set(ifc, i = which_lines, j = "SDEC_2", value = 2)
    set(ifc, i = which_lines, j = "BEUMC_S1", value = "TC")
+   set(ifc, i = which_lines, j = "Lbl_edit", value = "Added 2nd component 2 TC because BCLCS_LEVEL_2 = 'T' and LINE_5_VEGETATION_COVER begins with 'rz'")
+   set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+   set(ifc, i = which_lines, j = "row_updated", value = 1)
   }
 
   # line 608 (no else if be careful it's a simple if)
-  condition_28 <- smpl_type_is_empy & ifc[["SPECIES_CD_1"]] %in% c("AC", "ACB", "ACT", "AT", "EP")
+  condition <- smpl_type_is_empy  & ifc[["SPECIES_CD_1"]] %in% c("AC", "ACB", "ACT", "AT", "EP")
 
-  if (any(condition_28)) {
+  if (any(condition)) {
     # line 609
-    condition_29 <- species_pct_1_ge_75 & ifc[["STAND_A1"]] %in% c("C", "M")
-    if (any(condition_29)) {
-      which_lines <- which(condition_29)
+    sub_condition <-  condition & species_pct_1_ge_75 & ifc[["STAND_A1"]] %in% c("C", "M")
+    if (any(sub_condition)) {
+      which_lines <- which(sub_condition)
       set(ifc, i = which_lines, j = "STAND_A1", value = "B")
+      set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "Updated STAND_A1 to 'B' because SPECIES_CD_1 = '", ifc[["SPECIES_CD_1"]][which_lines], "' and SPECIES_PCT_1 >= 75 and STAND_A1 was 'C' or 'M'"))
+      set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+      set(ifc, i = which_lines, j = "row_updated", value = 1)
     }
     # line 618
-    condition_30 <- !species_pct_1_ge_75  & ifc[["STAND_A1"]] %in% c("C", "B")
-    if (any(condition_30)) {
-      which_lines <- which(condition_30)
+    sub_condition <- condition & !species_pct_1_ge_75  & ifc[["STAND_A1"]] %in% c("C", "B")
+    if (any(sub_condition)) {
+      which_lines <- which(sub_condition)
       set(ifc, i = which_lines, j = "STAND_A1", value = "M")
+      set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines] , "Updated STAND_A1 to 'M' because SPECIES_CD_1 = '", ifc[["SPECIES_CD_1"]][which_lines], "' and SPECIES_PCT_1 >= 50 and < 75 and STAND_A1 was 'C' or 'B'"))
+      set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+      set(ifc, i = which_lines, j = "row_updated", value = 1)
     }
   }
 
   # line 627
-  condition_31 <-  smpl_type_is_empy & ifc[["SPECIES_CD_1"]] %in% c("B", "BB", "BL", "CW", "FD", "FDI", "HM", "HW", "PA", "PL", "PLI",
+  condition <-  smpl_type_is_empy & ifc[["SPECIES_CD_1"]] %in% c("B", "BB", "BL", "CW", "FD", "FDI", "HM", "HW", "PA", "PL", "PLI",
                                                                     "S", "SB", "SE", "SS", "SW", "SX", "SXW") & species_pct_1_ge_75 & ifc[["STAND_A1"]] == "M"
 
-  if (any(condition_31)) {
-    which_lines <- which(condition_31)
+  if (any(condition)) {
+    which_lines <- which(condition)
     set(ifc, i = which_lines, j ="STAND_A1", value =  "C")
+    set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "Updated STAND_A1 to 'C' because SPECIES_CD_1 = '", ifc[["SPECIES_CD_1"]][which_lines], "' and SPECIES_PCT_1 >= 75 and STAND_A1 was 'M'"))
+    set(ifc, i = which_lines, j = "lbl_join", value = "; ")
+    set(ifc, i = which_lines, j = "row_updated", value = 1)
   }
 
+  # line 639
 
+  # blank remaining eco fields
+  which_lines <- which(ifc[["blank_eco_variables"]] == 1)
+  for (i in seq_eco_variables) {
 
+    # var 3 are fill with empty values
+    # again we need to make sure we understand the equivalent of none vs empty
 
+    if (fill_empty_ind[i]) {
+      set(ifc, i = which_lines, j = eco_variables_1[i], value = NA)
+      set(ifc, i = which_lines, j = eco_variables_2[i], value = NA)
+      set(ifc, i = which_lines, j = eco_variables_3[i], value = NA)
+    }
+    else {
+      if (!(eco_variables_1[i] %in% c("BEUMC_S1", "STRCT_S1"))) {
+        set(ifc, i = which_lines, j = eco_variables_1[i], value = "")
+        set(ifc, i = which_lines, j = eco_variables_2[i], value = "")
+        set(ifc, i = which_lines, j = eco_variables_3[i], value = "")
+      }
+    }
+  }
+  set(ifc, i = which_lines, j = "SDEC_2", value = NA)
+  set(ifc, i = which_lines, j = "SDEC_3", value = NA)
 
+  # line 654
+  # can SDEC be negatives?
 
+  set(ifc, j = "SEDC_1_txt", value = as.character(ifc[["SDEC_1"]]))
+  set(ifc, j = "SEDC_2_txt", value = as.character(ifc[["SDEC_2"]]))
+  set(ifc, j = "SEDC_3_txt", value = as.character(ifc[["SDEC_3"]]))
+  set(ifc, i = which(is.na(ifc[["SDEC_1_txt"]])), j = "SEDC_1_txt", value = "0")
+  set(ifc, i = which(is.na(ifc[["SDEC_2_txt"]])), j = "SEDC_2_txt", value = "0")
+  set(ifc, i = which(is.na(ifc[["SDEC_3_txt"]])), j = "SEDC_3_txt", value = "0")
 
+  decile_total <- (ifc[["SDEC_1"]] * ifc[["SDEC_1"]] > 0) + (ifc[["SDEC_2"]] * ifc[["SDEC_2"]] > 0) + (ifc[["SDEC_3"]] * ifc[["SDEC_3"]] > 0)
+
+  which_lines <- which(smpl_type_is_empy & decile_total != 10)
+  set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "**** DECILE TOTAL ", ifc[["SDEC_1_txt"]][which_lines], "+", ifc[["SDEC_2_txt"]][which_lines], "+", ifc[["SDEC_3_txt"]][which_lines], "=", decile_total[which_lines]))
 
 
 
