@@ -8,6 +8,9 @@
 #' @import data.table
 update_bem_from_wet <- function(bfc, wfc, buc) {
 
+  classes_ifc <- attr(bfc, "class")
+  setDT(bfc)
+
   # check if all required attributes are there
 
   required_attributes <- c("TEIS_ID", "SDEC_1", "BEUMC_S1", "REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1",

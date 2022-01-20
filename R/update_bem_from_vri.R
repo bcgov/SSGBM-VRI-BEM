@@ -764,6 +764,8 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "Updated SITE_M3A from '", ifc[["SITE_M3A"]][which_lines], "' to 'a' because polygon is adjacent to river"))
   set(ifc, i = which_lines, j = "SITE_M3A", value = "a")
 
+
+  attr(ifc, "class") <- classes_ifc
   return(ifc)
 
 }
