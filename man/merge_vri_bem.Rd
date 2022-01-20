@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_vri_bem.R
 \name{merge_vri_bem}
 \alias{merge_vri_bem}
-\title{Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory)}
+\title{Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features}
 \usage{
 merge_vri_bem(vri, bem)
 }
@@ -15,5 +15,5 @@ merge_vri_bem(vri, bem)
 sf object that represent the original VRI with merged BEM attributes based on largest overlay
 }
 \description{
-Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory)
+Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features
 }

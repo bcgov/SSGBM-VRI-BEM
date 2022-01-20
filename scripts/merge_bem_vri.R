@@ -36,7 +36,7 @@ vri <- vri[which(st_area(vri$geometry) >= set_units(1000, "m^2"))]
 
 # not sure what made the new ID unique in the python script
 # might be useless because we dont use arcgis
-set(vri, j = "temp_id", value = 1:nrow(vri))
+set(vri, j = "VRI_OBJ_ID", value = seq.int(along.with = nrow(vri)))
 
 # potentiel other way to do it
 attr(vri, "class") <- classes_vri

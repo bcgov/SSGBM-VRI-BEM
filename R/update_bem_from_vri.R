@@ -1,8 +1,8 @@
 #' Upadate BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes
 #'
-#' @param ifc sf object that represents the input polygon feature class
-#' @param rfc sf object that represents Rivers polygon feature class (FWA_Rivers)
-#' @param bec_beu data.table object that represents allowed BEC and BEM Code Combos
+#' @param ifc sf object that represent the input polygon feature class
+#' @param rfc sf object that represent Rivers polygon feature class (FWA_Rivers)
+#' @param bec_bea data.table object of allowed BEC and BEM Code Combos
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @return sf object
 #' @import sf
@@ -53,7 +53,6 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
     required_attributes <- c(required_attributes, "Lbl_edit")
   }
 
-  # probably  not usefull since we will create it later anyway
   if (!("Dec_Total" %in% existing_attributes)) {
     # TODO logger inform
     set(ifc , j = "Dec_Total", value = numeric(nrow(ifc)))
@@ -116,7 +115,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
 
   fill_empty_ind <- substr(eco_variables_1, 1, 4) %in% c("TREE", "SHRU")
 
-  smpl_type_is_empty <- ifc[["SMPL_TYPE"]] %in% c("", "None")
+  smpl_type_is_empy <- ifc[["SMPL_TYPE"]] %in% c("", "None")
 
   beumc_s1_eq_beumc_s2 <- ifc[["BEUMC_S1"]] == ifc[["BEUMC_S2"]]
 
@@ -152,7 +151,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   # we get in all the condition that needs corrections
 
   # line 259
-  condition <- smpl_type_is_empty & beumc_s1_eq_beumc_s2
+  condition <- smpl_type_is_empy & beumc_s1_eq_beumc_s2
   any_previous_condition <- condition
 
   if (any(condition)) {
@@ -190,7 +189,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 279
-  condition <- smpl_type_is_empty & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & area_ha_le_2
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & area_ha_le_2
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -205,7 +204,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 291
-  condition <- smpl_type_is_empty & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_2 & area_ha_le_60
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_2 & area_ha_le_60
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -219,7 +218,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # lines 303
-  condition <- smpl_type_is_empty & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_60
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & !area_ha_le_60
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -233,7 +232,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 315
-  condition <- smpl_type_is_empty & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_RE
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_RE
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -247,7 +246,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 331
-  condition <- smpl_type_is_empty & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_in_RI_RS
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_in_RI_RS
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -261,7 +260,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 367
-  condition <- smpl_type_is_empty & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_V & blcs_level_2_eq_N & blcs_level_3_eq_W & age_cl_sts_eq_minus_1
+  condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_V & blcs_level_2_eq_N & blcs_level_3_eq_W & age_cl_sts_eq_minus_1
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -275,7 +274,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 380
-  condition <- !any_previous_condition & smpl_type_is_empty & blcs_level_4_in_TB_TC_TM
+  condition <- !any_previous_condition & smpl_type_is_empy & blcs_level_4_in_TB_TC_TM
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -399,7 +398,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 448
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["SPECIES_CD_1"]] == "SB" & ifc[["SPECIES_PCT_1"]] >= 90
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["SPECIES_CD_1"]] == "SB" & ifc[["SPECIES_PCT_1"]] >= 90
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -413,7 +412,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 457
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]]  == "AP"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]]  == "AP"
   any_previous_condition <- any_previous_condition | condition
 
 
@@ -428,7 +427,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 464
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]]  == "BU"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]]  == "BU"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -440,7 +439,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 470
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["SLOPE_MOD"]]  %in% c("q", "z")
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["SLOPE_MOD"]]  %in% c("q", "z")
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -454,7 +453,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 484
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] == "GB"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "GB"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -468,7 +467,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 491
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] %in% c("GL", "PN")
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("GL", "PN")
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -482,7 +481,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 498
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] == "GP"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "GP"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -496,7 +495,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 505
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] == "LL"
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "LL"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -510,7 +509,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 512
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] %in% c("MI", "TZ", "MZ")
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("MI", "TZ", "MZ")
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -524,7 +523,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 519
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] %in% c("RO", "BR", "BI")
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("RO", "BR", "BI")
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -538,7 +537,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 526
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] == "TA"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "TA"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -552,7 +551,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 533
-  condition <- !any_previous_condition & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] %in% c("TC", "RN", "RZ")
+  condition <- !any_previous_condition & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("TC", "RN", "RZ")
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -567,7 +566,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 540
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] == "TR"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "TR"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -581,7 +580,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 547
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM")
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM")
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -595,7 +594,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 555
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["LAND_COVER_CLASS_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") & ifc[["EST_COVERAGE_PCT_1"]] >= 95
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["LAND_COVER_CLASS_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") & ifc[["EST_COVERAGE_PCT_1"]] >= 95
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -609,7 +608,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 564
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_5"]] == "UR"
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_5"]] == "UR"
   any_previous_condition <- any_previous_condition | condition
 
   if (any(condition)) {
@@ -623,7 +622,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 564
-  condition <- !any_previous_condition  & smpl_type_is_empty & ifc[["BCLCS_LEVEL_2"]] == "T" & ifc[["SDEC_1"]] == 10 & ifc[["LINE_5_VEGETATION_COVER"]] %in% c('rz', 'rz,by', 'rz,by,he', 'rz,by,he,sl', 'rz,by,sl', 'rz,by,sl,he', 'rz,by,st', 'rz,he',
+  condition <- !any_previous_condition  & smpl_type_is_empy & ifc[["BCLCS_LEVEL_2"]] == "T" & ifc[["SDEC_1"]] == 10 & ifc[["LINE_5_VEGETATION_COVER"]] %in% c('rz', 'rz,by', 'rz,by,he', 'rz,by,he,sl', 'rz,by,sl', 'rz,by,sl,he', 'rz,by,st', 'rz,he',
                                                                                                                    'rz,by,sl,he', 'rz,by,st', 'rz,he', 'rz,he,by', 'rz,he,by,sl', 'rz,he,sl', 'rz,he,sl,by',
                                                                                                                    'rz,he,st', 'rz,he,st,by', 'rz,hf,by', 'rz,hf,sl,by', 'rz,hg', 'rz,hg,sl', 'rz,sl',
                                                                                                                    'rz,sl,by', 'rz,sl,by,he', 'rz,sl,he', 'rz,sl,he,by', 'rz,sl,hf', 'rz,sl,hf,by', 'rz,sl,hg',
@@ -643,7 +642,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 608 (no else if be careful it's a simple if)
-  condition <- smpl_type_is_empty  & ifc[["SPECIES_CD_1"]] %in% c("AC", "ACB", "ACT", "AT", "EP")
+  condition <- smpl_type_is_empy  & ifc[["SPECIES_CD_1"]] %in% c("AC", "ACB", "ACT", "AT", "EP")
 
   if (any(condition)) {
     # line 609
@@ -667,7 +666,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   }
 
   # line 627
-  condition <-  smpl_type_is_empty & ifc[["SPECIES_CD_1"]] %in% c("B", "BB", "BL", "CW", "FD", "FDI", "HM", "HW", "PA", "PL", "PLI",
+  condition <-  smpl_type_is_empy & ifc[["SPECIES_CD_1"]] %in% c("B", "BB", "BL", "CW", "FD", "FDI", "HM", "HW", "PA", "PL", "PLI",
                                                                     "S", "SB", "SE", "SS", "SW", "SX", "SXW") & species_pct_1_ge_75 & ifc[["STAND_A1"]] == "M"
 
   if (any(condition)) {
@@ -713,9 +712,9 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   set(ifc, i = which(is.na(ifc[["SDEC_2_txt"]])), j = "SEDC_2_txt", value = "0")
   set(ifc, i = which(is.na(ifc[["SDEC_3_txt"]])), j = "SEDC_3_txt", value = "0")
 
-  set(ifc, i = which(smpl_type_is_empty), j = "DEC_Total", value = (ifc[["SDEC_1"]] * ifc[["SDEC_1"]] > 0) + (ifc[["SDEC_2"]] * ifc[["SDEC_2"]] > 0) + (ifc[["SDEC_3"]] * ifc[["SDEC_3"]] > 0))
+  set(ifc, i = which(smpl_type_is_empy), j = "DEC_Total", value = (ifc[["SDEC_1"]] * ifc[["SDEC_1"]] > 0) + (ifc[["SDEC_2"]] * ifc[["SDEC_2"]] > 0) + (ifc[["SDEC_3"]] * ifc[["SDEC_3"]] > 0))
 
-  which_lines <- which(smpl_type_is_empty & decile_total != 10)
+  which_lines <- which(smpl_type_is_empy & decile_total != 10)
   set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "**** DECILE TOTAL ", ifc[["SDEC_1_txt"]][which_lines], "+", ifc[["SDEC_2_txt"]][which_lines], "+", ifc[["SDEC_3_txt"]][which_lines], "=", ifc[["DEC_Total"]][which_lines]))
 
 
@@ -737,7 +736,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   # I have trouble doing this in my head , i will be easier once I have the dataset
 
   for (i in seq.int(from = 1, to = 3)) {
-    which_lines <- which(smpl_type_is_empty & ifc[[paste0("SDEC", i)]] > 0)
+    which_lines <- which(smpl_type_is_empy & ifc[[paste0("SDEC", i)]] > 0)
     match_lines <- match(paste0(ifc[["subzone_txt"]][which_lines], "_", paste0(ifc[["BEUMC_S"]][which_lines], i)), beu_bec[["merge_key"]])
     set(ifc, i = which_lines, j = "script_rule", value = beu_bec[["Script rule"]][match_lines])
     set(ifc, i = which_lines, j = "change_to_beu", value = beu_bec[["Change to BEU ="]][match_lines])

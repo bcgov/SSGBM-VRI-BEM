@@ -32,6 +32,9 @@ merge_vri_bem <- function(vri, bem) {
   # remove feature with area below 1000
   vri <- vri[which(st_area(vri$geometry) >= set_units(1000, "m^2"))]
 
+  # new unique id
+  set(vri, j = "VRI_OBJ_ID", value = seq.int(along.with = nrow(vri)))
+
   attr(vri, "class") <- classes_vri
 
   # merge bem attributes on larger intersecting area with vri
