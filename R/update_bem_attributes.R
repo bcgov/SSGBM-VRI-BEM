@@ -712,13 +712,58 @@ update_bem_attributes <- function(ifc, rfc, bec_beu, clear_site_ma) {
   set(ifc, i = which(is.na(ifc[["SDEC_2_txt"]])), j = "SEDC_2_txt", value = "0")
   set(ifc, i = which(is.na(ifc[["SDEC_3_txt"]])), j = "SEDC_3_txt", value = "0")
 
-  decile_total <- (ifc[["SDEC_1"]] * ifc[["SDEC_1"]] > 0) + (ifc[["SDEC_2"]] * ifc[["SDEC_2"]] > 0) + (ifc[["SDEC_3"]] * ifc[["SDEC_3"]] > 0)
+  set(ifc, i = which(smpl_type_is_empy), j = "DEC_Total", value = (ifc[["SDEC_1"]] * ifc[["SDEC_1"]] > 0) + (ifc[["SDEC_2"]] * ifc[["SDEC_2"]] > 0) + (ifc[["SDEC_3"]] * ifc[["SDEC_3"]] > 0))
 
   which_lines <- which(smpl_type_is_empy & decile_total != 10)
-  set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "**** DECILE TOTAL ", ifc[["SDEC_1_txt"]][which_lines], "+", ifc[["SDEC_2_txt"]][which_lines], "+", ifc[["SDEC_3_txt"]][which_lines], "=", decile_total[which_lines]))
+  set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "**** DECILE TOTAL ", ifc[["SDEC_1_txt"]][which_lines], "+", ifc[["SDEC_2_txt"]][which_lines], "+", ifc[["SDEC_3_txt"]][which_lines], "=", ifc[["DEC_Total"]][which_lines]))
 
 
+  # bgc subzone and beu mapcode
+  set(ifc, j = "bgc_zone_txt", value = as.character(ifc[["BGC_ZONE"]]))
+  set(ifc, i = which(is.na(ifc[["bgc_zone_txt"]])) , j = "bgc_zone_txt", value = "")
+
+  set(ifc, j = "bgc_subzone_txt", value = as.character(ifc[["BGC_SUBZON"]]))
+  set(ifc, i = which(is.na(ifc[["bgc_subzone_txt"]])) , j = "bgc_subzone_txt", value = "")
+
+  set(ifc, j = "subzone_txt", value = paste0(ifc[["bgc_zone_txt"]], ifc[["bgc_subzone_txt"]]))
+
+  set(beu_bec, j = "merge_key", value = paste0(beu_bec[["BGC Subzone"]], "_", beu_bec[["BEU_#"]]))
+
+  #for each decile merge bec beu on ifc on subzone and beu_# (BEUMC_Si), when script rule = 'Error' if len of "Change to BEU =" is 2 do x else do y , if no merge do z
+
+  # I can probably optimise this even more  need to run some tests
+
+  # I have trouble doing this in my head , i will be easier once I have the dataset
+
+  for (i in seq.int(from = 1, to = 3)) {
+    which_lines <- which(smpl_type_is_empy & ifc[[paste0("SDEC", i)]] > 0)
+    match_lines <- match(paste0(ifc[["subzone_txt"]][which_lines], "_", paste0(ifc[["BEUMC_S"]][which_lines], i)), beu_bec[["merge_key"]])
+    set(ifc, i = which_lines, j = "script_rule", value = beu_bec[["Script rule"]][match_lines])
+    set(ifc, i = which_lines, j = "change_to_beu", value = beu_bec[["Change to BEU ="]][match_lines])
+
+    which_lines <- which(ifc[["script_rule"]] == "Error")
+  }
+
+  # TODO  write csv
 
 
+  # for all feature that intersect with rivers
+  # SITE_M3A becomes "a"
+  # and lbl is updated to say the old value became "a"
+
+  # maybe reverse the geometry and the unique ( need to test)
+  # just need to find the line that intersect with riversf
+  which_lines <- sf:::CPL_geos_binop(
+                   ifc$geometry,
+                   rfc$geometry,
+                  "intersects",
+                   pattern = NA_character_,
+                   prepared = TRUE
+                  )
+
+  set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "Updated SITE_M3A from '", ifc[["SITE_M3A"]][which_lines], "' to 'a' because polygon is adjacent to river"))
+  set(ifc, i = which_lines, j = "SITE_M3A", value = "a")
+
+  return(ifc)
 
 }
