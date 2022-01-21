@@ -7,7 +7,7 @@
 #' @return sf object
 #' @import sf
 #' @import data.table
-update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
+update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE) {
 
   classes_ifc <- attr(ifc, "class")
   setDT(ifc)
@@ -63,11 +63,11 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   # bec beu csv part
   # are those legit variable names in R?
 
-  required_variables <- c("BGC Subzone", "BEU_#", "Script rule", "Change to BEU =")
-  missing_variables <- setdiff(required_variables, names(bec_beu))
-  if (length(missing_variables) > 0) {
-    # TODO message and exit
-  }
+  # required_variables <- c("BGC Subzone", "BEU_#", "Script rule", "Change to BEU =")
+  # missing_variables <- setdiff(required_variables, names(bec_beu))
+  # if (length(missing_variables) > 0) {
+  #   # TODO message and exit
+  # }
 
  # in python they read the csv line by line and
  # they create two dictionnaries, one for the allowed combinations and another for the combinations not allowed
@@ -124,11 +124,11 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   sdec_3_gt_0 <- ifc[["SDEC_3"]] > 0
 
   blcs_level_1_eq_N <- ifc[["BCLCS_LEVEL_1"]] == "N"
-  blcs_level_1_eq_N <- ifc[["BCLCS_LEVEL_1"]] == "V"
+  blcs_level_1_eq_V <- ifc[["BCLCS_LEVEL_1"]] == "V"
 
   blcs_level_2_eq_N <- ifc[["BCLCS_LEVEL_2"]] == "N"
 
-  blcs_level_3_eq_N <- ifc[["BCLCS_LEVEL_3"]] == "W"
+  blcs_level_3_eq_W <- ifc[["BCLCS_LEVEL_3"]] == "W"
 
   blcs_level_4_in_TB_TC_TM <- ifc[["BCLCS_LEVEL_4"]] %in% c("TB", "TC", "TM")
 
@@ -188,7 +188,7 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
     set(ifc, i = which_lines, j = "row_updated", value = 1)
   }
 
-  # line 279
+  # line 279  10 OW because BCLCS_LEVEL_1 = 'N', BCLCS_LEVEL_5 = 'LA', Area <= 10 ha"
   condition <- smpl_type_is_empy & !beumc_s1_eq_beumc_s2 & blcs_level_1_eq_N & blcs_level_5_eq_LA & area_ha_le_2
   any_previous_condition <- any_previous_condition | condition
 
@@ -714,20 +714,20 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
 
   set(ifc, i = which(smpl_type_is_empy), j = "DEC_Total", value = (ifc[["SDEC_1"]] * ifc[["SDEC_1"]] > 0) + (ifc[["SDEC_2"]] * ifc[["SDEC_2"]] > 0) + (ifc[["SDEC_3"]] * ifc[["SDEC_3"]] > 0))
 
-  which_lines <- which(smpl_type_is_empy & decile_total != 10)
+  which_lines <- which(smpl_type_is_empy & ifc[["DEC_Total"]] != 10)
   set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "**** DECILE TOTAL ", ifc[["SDEC_1_txt"]][which_lines], "+", ifc[["SDEC_2_txt"]][which_lines], "+", ifc[["SDEC_3_txt"]][which_lines], "=", ifc[["DEC_Total"]][which_lines]))
 
 
   # bgc subzone and beu mapcode
-  set(ifc, j = "bgc_zone_txt", value = as.character(ifc[["BGC_ZONE"]]))
-  set(ifc, i = which(is.na(ifc[["bgc_zone_txt"]])) , j = "bgc_zone_txt", value = "")
-
-  set(ifc, j = "bgc_subzone_txt", value = as.character(ifc[["BGC_SUBZON"]]))
-  set(ifc, i = which(is.na(ifc[["bgc_subzone_txt"]])) , j = "bgc_subzone_txt", value = "")
-
-  set(ifc, j = "subzone_txt", value = paste0(ifc[["bgc_zone_txt"]], ifc[["bgc_subzone_txt"]]))
-
-  set(beu_bec, j = "merge_key", value = paste0(beu_bec[["BGC Subzone"]], "_", beu_bec[["BEU_#"]]))
+  # set(ifc, j = "bgc_zone_txt", value = as.character(ifc[["BGC_ZONE"]]))
+  # set(ifc, i = which(is.na(ifc[["bgc_zone_txt"]])) , j = "bgc_zone_txt", value = "")
+  #
+  # set(ifc, j = "bgc_subzone_txt", value = as.character(ifc[["BGC_SUBZON"]]))
+  # set(ifc, i = which(is.na(ifc[["bgc_subzone_txt"]])) , j = "bgc_subzone_txt", value = "")
+  #
+  # set(ifc, j = "subzone_txt", value = paste0(ifc[["bgc_zone_txt"]], ifc[["bgc_subzone_txt"]]))
+  #
+  # set(beu_bec, j = "merge_key", value = paste0(beu_bec[["BGC Subzone"]], "_", beu_bec[["BEU_#"]]))
 
   #for each decile merge bec beu on ifc on subzone and beu_# (BEUMC_Si), when script rule = 'Error' if len of "Change to BEU =" is 2 do x else do y , if no merge do z
 
@@ -735,14 +735,14 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
 
   # I have trouble doing this in my head , i will be easier once I have the dataset
 
-  for (i in seq.int(from = 1, to = 3)) {
-    which_lines <- which(smpl_type_is_empy & ifc[[paste0("SDEC", i)]] > 0)
-    match_lines <- match(paste0(ifc[["subzone_txt"]][which_lines], "_", paste0(ifc[["BEUMC_S"]][which_lines], i)), beu_bec[["merge_key"]])
-    set(ifc, i = which_lines, j = "script_rule", value = beu_bec[["Script rule"]][match_lines])
-    set(ifc, i = which_lines, j = "change_to_beu", value = beu_bec[["Change to BEU ="]][match_lines])
-
-    which_lines <- which(ifc[["script_rule"]] == "Error")
-  }
+  # for (i in seq.int(from = 1, to = 3)) {
+  #   which_lines <- which(smpl_type_is_empy & ifc[[paste0("SDEC", i)]] > 0)
+  #   match_lines <- match(paste0(ifc[["subzone_txt"]][which_lines], "_", paste0(ifc[["BEUMC_S"]][which_lines], i)), beu_bec[["merge_key"]])
+  #   set(ifc, i = which_lines, j = "script_rule", value = beu_bec[["Script rule"]][match_lines])
+  #   set(ifc, i = which_lines, j = "change_to_beu", value = beu_bec[["Change to BEU ="]][match_lines])
+  #
+  #   which_lines <- which(ifc[["script_rule"]] == "Error")
+  # }
 
   # TODO  write csv
 
@@ -754,16 +754,20 @@ update_bem_from_vri <- function(ifc, rfc, bec_beu, clear_site_ma) {
   # maybe reverse the geometry and the unique ( need to test)
   # just need to find the line that intersect with rivers
   which_lines <- sf:::CPL_geos_binop(
-                   ifc$geometry,
-                   rfc$geometry,
+                   rfc$GEOMETRY,
+                   ifc$Shape,
                   "intersects",
                    pattern = NA_character_,
                    prepared = TRUE
-                  )
+                  ) |> unlist() |> unique()
 
   set(ifc, i = which_lines, j = "Lbl_edit", value = paste0(ifc[["Lbl_edit"]][which_lines], ifc[["lbl_join"]][which_lines], "Updated SITE_M3A from '", ifc[["SITE_M3A"]][which_lines], "' to 'a' because polygon is adjacent to river"))
   set(ifc, i = which_lines, j = "SITE_M3A", value = "a")
 
+
+  # remove temp variables
+
+  set(ifc, j = c("row_updated", "blank_eco_variables", "lbl_join", "SEDC_1_txt", "SEDC_2_txt", "SEDC_3_txt"), value = NULL)
 
   attr(ifc, "class") <- classes_ifc
   return(ifc)

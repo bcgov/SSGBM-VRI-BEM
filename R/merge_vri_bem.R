@@ -8,10 +8,6 @@
 #' @import units
 merge_vri_bem <- function(vri, bem) {
 
-  #make sure that all geometries are valid, since they are from esri format
-  bem$geometry <- st_make_valid(bem$geometry)
-  vri$geometry <- st_make_valid(vri$geometry)
-
   # check if teis_id seems already merged on vri
   if ("TEIS_ID" %in% names(vri)) {
     # TODO message and exit
@@ -26,31 +22,29 @@ merge_vri_bem <- function(vri, bem) {
   vri <- st_cast(vri,"POLYGON", warn = F)
 
   # use data.table to optimise speed
-  classes_vri <- attr(vri, "class")
+  classes_bem <- attr(bem, "class")
   setDT(vri)
+  setDT(bem)
+
 
   # remove feature with area below 1000
-  vri <- vri[which(st_area(vri$geometry) >= set_units(1000, "m^2"))]
+  vri <- vri[which(st_area(vri$Shape) >= set_units(1000, "m^2"))]
 
   # new unique id
   set(vri, j = "VRI_OBJ_ID", value = seq.int(along.with = nrow(vri)))
 
-  attr(vri, "class") <- classes_vri
-
   # merge bem attributes on larger intersecting area with vri
-  intersections <- st_intersection(vri$geometry, bem$geometry)
-  setDT(vri)
-  setDT(bem)
+  intersections <- st_intersection(vri$Shape, bem$Shape)
   intersection_dt <- data.table(vri = attr(intersections, "idx")[, 1], bem = attr(intersections, "idx")[, 2], area = st_area(intersections))
   index_dt <- intersection_dt[, .SD$bem[which.max(area)], by = vri]
-  vri <- cbind(vri[index_dt$vri], bem[index_dt$V1])
+  vri <- cbind(vri[index_dt$vri,-c("Shape")], bem[index_dt$V1, -c("Shape")], vri[index_dt$vri, "Shape"]) |> st_as_sf()
 
   # check for vri that have no bem match
   if (length(which(is.na(vri$TEIS_ID))) > 0) {
     # TODO message and do something
   }
 
-  attr(vri, "class") <- classes_vri
+  attr(bem, "class") <- classes_bem
 
   return(vri)
 }
