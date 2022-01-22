@@ -52,6 +52,19 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
     required_attributes <- c(required_attributes, "SMPL_TYPE")
   }
 
+  # create eco variables vectors so its easier to blank them
+  eco_variables_string_1 <- c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
+                              "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
+                              "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
+                              "SESUBCL_1", "COND_1", "VIAB_1")
+  eco_variables_string_2 <- sub("1", "2", eco_variables_string_1)
+  eco_variables_string_3 <- sub("1", "3", eco_variables_string_1)
+
+  eco_variables_integer_1 <- c("TREE_C1", "SHRUB_C1")
+  eco_variables_integer_2 <- sub("1", "2", eco_variables_integer_1)
+  eco_variables_integer_3 <- sub("1", "3", eco_variables_integer_1)
+
+
   # Make note of which polygons have SITE_M3A == 'a' for later (before the 'a' is potentially moved to
   # SITE_M1A or SITE_M2A)
 
@@ -59,6 +72,10 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   # TODO
   # Read the table of BEU decile and mapcode updates according to wetland overlap percentage
+
+  # TODO merge the table on the bfc to have Code_WL_x
+
+  # create column to have range of decile when merging
 
 
   # compute percentile of wetland area for each BEM
@@ -74,7 +91,20 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   bfc[!is.na(pct_area), Lbl_edit_wl := paste0(pct_area, "% of polygon occupied by wetland.")]
 
   bfc[, Lbl_edit_wl := paste0(Lbl_edit_wl, " Current BEU: ", SDEC_1, " ", BEUMC_S1)]
+
+  # creation of condition variables that will be used multiple times to avoid having to compute them more than once
+  sdec_2_gt_0 <- bfc[["SDEC_1"]] > 5
   sdec_2_gt_0 <- bfc[["SDEC_2"]] > 0
+  sdec_3_gt_0 <- bfc[["SDEC_3"]] > 0
+
+  beumc_s3_eq_WL <- bfc[["BEUMC_S3"]] == "WL"
+  beumc_s1_in_list <-
+
+
+
+
+
+
   bfc[(sdec_2_gt_0), Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
   bfc[(sdec_2_gt_0) & (sdec_3_gt_0), Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
 
@@ -88,14 +118,38 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # and the 5th digit is:
   #     0 if the first and only component is not WL
   #     1 if the first and only component is WL
-  bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", (((SDEC_1 * 10) + (SDEC_2 * !is.na(SDEC_2))) * 10 + (SDEC_3 * !is.na(SDEC_3))) * 10 + ((1 * BEUMC_S1 == "WL") + (2 * BEUMC_S1 != "WL" & BEUMC_S2 == "WL") + (3 * BEUMC_S1 != "WL" & BEUMC_S2 != "WL" & BEUMC_S3 == "WL")), ")")]
 
 
-  bfc[SDEC_3 > 0 & BEUMC_S3 == "WL", `:=`(
+  bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", (((SDEC_1 * 10) + (SDEC_2 * !is.na(SDEC_2))) * 10 + (SDEC_3 * !is.na(SDEC_3))) * 10 + ((1 * BEUMC_S1 == "WL") + (2 * BEUMC_S1 != "WL" & BEUMC_S2 == "WL") + (3 * BEUMC_S1 != "WL" & BEUMC_S2 != "WL" & (beumc_s3_eq_WL))), ")")]
+
+
+  # line 351
+  bfc[(sdec_3_gt_0 & beumc_s3_eq_WL), `:=`(
     SDEC_1 = SDEC_3,
     SDEC_3 = NA,
     BEUMC_S3 = ""
   )]
+
+  # line 355
+  bfc[(sdec_3_gt_0 & beumc_s3_eq_WL), c(eco_variables_string_1, eco_variables_string_2, eco_variables_string_3) := ""]
+  bfc[(sdec_3_gt_0 & beumc_s3_eq_WL), c(eco_variables_integer_1, eco_variables_integer_2, eco_variables_integer_3) := NA_integer_]
+
+  # line 364
+  condition <- ifc[["SDEC_1"]] < 5 &
+               ifc[["pct_area"]] >= 8 &
+               !(bfc[["BCLCS_LEVEL_4"]] %in% c("TB", "TC", "TM"))  &
+               !(bfc[["BEUMC_S1"]] %in%  c("WL","BB", "CB", "CR", "ER", "RI", "PB", "PR", "RR", "RS", "SK", "SR", "TF","WG", "WR", "YB", "YS", "BG", "FE", "MR", "OW", "SH", "SW", "BA", "LS", "LL")) &
+               !is.na(bfc[["Code_Orig"]])
+
+  # we probably dont have to create the key the whole thing is juste a merge on the csv table , we could modify the csv table and merge
+
+
+
+
+
+
+
+
 
 
 

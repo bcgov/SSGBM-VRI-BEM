@@ -16,3 +16,10 @@ rivers$GEOMETRY <- st_make_valid(rivers$GEOMETRY) |> st_cast("MULTIPOLYGON")
 
 vri_bem <- merge_vri_bem(vri, bem)
 vri_bem_updated  <- update_bem_from_vri(vri_bem, rivers)
+
+
+
+rbind(fc[SDEC_1 > 0, .N , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1)],
+      fc[SDEC_2 > 0, .N , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2)],
+      fc[SDEC_3 > 0, .N , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3)])[ , sum(N) , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1)]
+
