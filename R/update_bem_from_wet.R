@@ -57,7 +57,48 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   site_m3a_eq_a <- bfc[["SITE_M3A"]] == "a"
 
+  # TODO
   # Read the table of BEU decile and mapcode updates according to wetland overlap percentage
+
+
+  # compute percentile of wetland area for each BEM
+
+  # find intersections between BEM and Wetlands
+  intersections <- st_intersection(bfc$Shape, wfc$Shape)
+  intersection_dt <- data.table(bfc = attr(intersections, "idx")[, 1], wfc = attr(intersections, "idx")[, 2], area = st_area(intersections))
+  index_dt <- intersection_dt[, .(wfc = .SD$bem[which.max(area)], pct_area = area/sum(area)), by = bfc]
+
+  bfc[index_dt[["bfc"]], pct_area := index_dt[["pct_area"]]]
+
+  bfc[, Lbl_edit_wl := paste0(pct_area, "No Wetland.")]
+  bfc[!is.na(pct_area), Lbl_edit_wl := paste0(pct_area, "% of polygon occupied by wetland.")]
+
+  bfc[, Lbl_edit_wl := paste0(Lbl_edit_wl, " Current BEU: ", SDEC_1, " ", BEUMC_S1)]
+  sdec_2_gt_0 <- bfc[["SDEC_2"]] > 0
+  bfc[(sdec_2_gt_0), Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
+  bfc[(sdec_2_gt_0) & (sdec_3_gt_0), Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
+
+
+  # If curr_beu_code is 4 digits: 1 digit for each decile, with the 4th digit:
+  #     0 if none of the 3 components is WL
+  #     1 if the 1st component is WL
+  #     2 if the 2nd component is WL
+  #     3 if the 3rd component is WL
+  # If curr_beu_code is 5 digits: the first decile value must 10, the 2nd and 3rd are 0's,
+  # and the 5th digit is:
+  #     0 if the first and only component is not WL
+  #     1 if the first and only component is WL
+  bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", (((SDEC_1 * 10) + (SDEC_2 * !is.na(SDEC_2))) * 10 + (SDEC_3 * !is.na(SDEC_3))) * 10 + ((1 * BEUMC_S1 == "WL") + (2 * BEUMC_S1 != "WL" & BEUMC_S2 == "WL") + (3 * BEUMC_S1 != "WL" & BEUMC_S2 != "WL" & BEUMC_S3 == "WL")), ")")]
+
+
+  bfc[SDEC_3 > 0 & BEUMC_S3 == "WL", `:=`(
+    SDEC_1 = SDEC_3,
+    SDEC_3 = NA,
+    BEUMC_S3 = ""
+  )]
+
+
+
 
 
 
