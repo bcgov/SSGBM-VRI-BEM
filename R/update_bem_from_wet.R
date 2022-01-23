@@ -67,8 +67,8 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   # Make note of which polygons have SITE_M3A == 'a' for later (before the 'a' is potentially moved to
   # SITE_M1A or SITE_M2A)
-
   site_m3a_eq_a <- bfc[["SITE_M3A"]] == "a"
+
 
   # TODO
   # Read the table of BEU decile and mapcode updates according to wetland overlap percentage
@@ -148,13 +148,23 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
 
 
+  # line 681
+
+  non_veg  <- c("RI", "WL", "BB", "UR", "OW", "LS", "LL", "RE", "CL", "GB", "GL", "GP", "MI", "RO", "TA", "TC", "TR",
+               "UV", "BG", "CB", "FE", "MR", "PB", "RS", "SH", "SK", "SW", "WG", "TF", "YB", "YS", "AU", "AV", "ES",
+               "IM", "ME", "OV", "RM", "SC", "SM", "ST")
+
+  riparian_mapcode_dt <- data.table(bgc_zone = c("CDF", "BWBS", "SWB", "ESSF", "ICH", "CWH", "SBPS", "SBS"), beumc_s1 = c("CR", "PR", "PR", "ER", "RR", "SR", "WR", "WR"))
 
 
+  which_lines <- which(site_m3a_eq_a & ifc[["MEAN_SLOPE"]] < 10 & !(ifc[["BEUMC_S1"]] %in% non_veg) & ifc[["BGC_ZONE"]] %in% riparian_mapcode_dt[["bgc_zone"]])
+
+  ifc[which_lines, c("SDEC_1", "SDEC_2", "SDEC_3", "BEUMC_S1", "BEUMC_S2", "BEUMC_S3",
+                     eco_variables_string_2, eco_variables_string_3,
+                     eco_variables_integer_2, eco_variables_integer_3) := list(10, 0, 0, BEUMC_S1[match(BGC_ZONE, riparian_mapcode_dt[["BGC_ZONE"]])], "", "", "", "", NA_integer_, NA_integer_)]
 
 
-
-
-
+  ifc[site_m3a_eq_a , SITE_M3A := "a"]
 
 
 
