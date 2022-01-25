@@ -83,7 +83,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # find intersections between BEM and Wetlands
   intersections <- st_intersection(bfc$Shape, wfc$Shape)
   intersection_dt <- data.table(bfc = attr(intersections, "idx")[, 1], wfc = attr(intersections, "idx")[, 2], area = st_area(intersections))
-  index_dt <- intersection_dt[, .(wfc = .SD$bem[which.max(area)], pct_area = area/sum(area)), by = bfc]
+  index_dt <- intersection_dt[, .(pct_area = sum(area)/vri_area), by = bfc]
 
   bfc[index_dt[["bfc"]], pct_area := index_dt[["pct_area"]]]
 
@@ -98,7 +98,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   sdec_3_gt_0 <- bfc[["SDEC_3"]] > 0
 
   beumc_s3_eq_WL <- bfc[["BEUMC_S3"]] == "WL"
-  beumc_s1_in_list <-
+
 
 
 
