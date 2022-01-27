@@ -13,9 +13,11 @@ merge_elevation_raster_on_bem <- function(elev_raster, bem) {
 
   terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "degrees")
 
+  add(terrain_raster) <- elev
+
   mean_raster_by_bem <- setDT(extract(terrain_raster, vect(bem)))[, .(mean_elev = mean(dem),
-                                                mean_slope = mean(slope/360),
-                                                mean_aspect = 360 * mean(aspect/360)), by = .(bem_index = ID)]
+                                                                      mean_slope = mean(slope/360),
+                                                                      mean_aspect = 360 * mean(aspect/360)), by = .(bem_index = ID)]
 
 
   for (variable in c("mean_elev", "mean_slope", "mean_aspect")) {

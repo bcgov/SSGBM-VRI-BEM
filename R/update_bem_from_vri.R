@@ -7,7 +7,7 @@
 #' @return sf object
 #' @import sf
 #' @import data.table
-update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE) {
+update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
 
   classes_ifc <- attr(ifc, "class")
   setDT(ifc)
@@ -720,32 +720,60 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE) {
   set(ifc, i = which_lines, j = "row_updated", value = 1)
 
   # bgc subzone and beu mapcode
-  # set(ifc, j = "bgc_zone_txt", value = as.character(ifc[["BGC_ZONE"]]))
-  # set(ifc, i = which(is.na(ifc[["bgc_zone_txt"]])) , j = "bgc_zone_txt", value = "")
-  #
-  # set(ifc, j = "bgc_subzone_txt", value = as.character(ifc[["BGC_SUBZON"]]))
-  # set(ifc, i = which(is.na(ifc[["bgc_subzone_txt"]])) , j = "bgc_subzone_txt", value = "")
-  #
-  # set(ifc, j = "subzone_txt", value = paste0(ifc[["bgc_zone_txt"]], ifc[["bgc_subzone_txt"]]))
-  #
-  # set(beu_bec, j = "merge_key", value = paste0(beu_bec[["BGC Subzone"]], "_", beu_bec[["BEU_#"]]))
 
-  #for each decile merge bec beu on ifc on subzone and beu_# (BEUMC_Si), when script rule = 'Error' if len of "Change to BEU =" is 2 do x else do y , if no merge do z
+   set(ifc, j = "merge_key", value = paste0(ifc[["BGC_ZONE"]], ifc[["BGC_SUBZON"]]))
 
-  # I can probably optimise this even more  need to run some tests
+   # merge and change beu for decile 1
 
-  # I have trouble doing this in my head , i will be easier once I have the dataset
+   ifc[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S1 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
 
-  # for (i in seq.int(from = 1, to = 3)) {
-  #   which_lines <- which(smpl_type_is_empty & ifc[[paste0("SDEC", i)]] > 0)
-  #   match_lines <- match(paste0(ifc[["subzone_txt"]][which_lines], "_", paste0(ifc[["BEUMC_S"]][which_lines], i)), beu_bec[["merge_key"]])
-  #   set(ifc, i = which_lines, j = "script_rule", value = beu_bec[["Script rule"]][match_lines])
-  #   set(ifc, i = which_lines, j = "change_to_beu", value = beu_bec[["Change to BEU ="]][match_lines])
-  #
-  #   which_lines <- which(ifc[["script_rule"]] == "Error")
-  # }
+   ifc[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S1 = change_to_beu,
+                                                                 Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " corrected to ", change_to_beu, " in decile 1"),
+                                                                 row_updated = 1)]
 
-  # TODO  write csv
+   ifc[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 is invalid combination (mapper needs to assess)"),
+                                                                 row_updated = 1)]
+
+   ifc[script_rule == "Error" &  is.na(change_to_beu), `:=`(Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 combination is not listed"),
+                                                            row_updated = 1)]
+
+   # remove merged variables
+   set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
+
+
+   # merge and change beu for decile 2
+
+   ifc[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S2 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
+
+   ifc[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S2 = change_to_beu,
+                                                                 Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " corrected to ", change_to_beu, " in decile 2"),
+                                                                 row_updated = 1)]
+
+   ifc[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 is invalid combination (mapper needs to assess)"),
+                                                                 row_updated = 1)]
+
+   ifc[script_rule == "Error" &  is.na(change_to_beu), `:=`(Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 combination is not listed"),
+                                                            row_updated = 1)]
+
+   set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
+
+
+   # merge and change beu for decile 3
+
+   ifc[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S3 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
+
+   ifc[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S3 = change_to_beu,
+                                                                 Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " corrected to ", change_to_beu, " in decile 3"),
+                                                                 row_updated = 1)]
+
+   ifc[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 is invalid combination (mapper needs to assess)"),
+                                                                 row_updated = 1)]
+
+   ifc[script_rule == "Error" &  is.na(change_to_beu), `:=`(Lbl_edit = paste0(Lbl_edit, fifelse(Lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 combination is not listed"),
+                                                            row_updated = 1)]
+
+   set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
+
 
 
   # for all feature that intersect with rivers
