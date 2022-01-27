@@ -1,0 +1,2501 @@
+BGC Subzone,BEU_#,Name,Script rule,Change to BEU =
+BAFAun,AC,Trembling Aspen Copse,Error,AS
+BAFAunp,AC,Trembling Aspen Copse,Error,AS
+ESSFmc,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmcp,AC,Trembling Aspen Copse,Error,SU
+ESSFmm,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmmp,AC,Trembling Aspen Copse,Error,SU
+ESSFmv,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmvp,AC,Trembling Aspen Copse,Error,SU
+ESSFvc,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwc,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwcp,AC,Trembling Aspen Copse,Error,SU
+ESSFwcw,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwk,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwv,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFxv,AC,Trembling Aspen Copse,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ICHmc,AC,Trembling Aspen Copse,Error,SA
+ICHmm,AC,Trembling Aspen Copse,Error,SA
+ICHvk,AC,Trembling Aspen Copse,Error,SA
+ICHwk,AC,Trembling Aspen Copse,Error,SA
+SBPSdc,AC,Trembling Aspen Copse,Allowed,
+SBPSmc,AC,Trembling Aspen Copse,Allowed,
+SBPSmk,AC,Trembling Aspen Copse,Allowed,
+SBSdh,AC,Trembling Aspen Copse,Error,SA
+SBSdk,AC,Trembling Aspen Copse,Error,SA
+SBSdw,AC,Trembling Aspen Copse,Error,SA
+SBSmc,AC,Trembling Aspen Copse,Error,SA
+SBSmh,AC,Trembling Aspen Copse,Error,SA
+SBSmk,AC,Trembling Aspen Copse,Error,SA
+SBSmw,AC,Trembling Aspen Copse,Error,SA
+SBSvk,AC,Trembling Aspen Copse,Error,SA
+SBSwk,AC,Trembling Aspen Copse,Error,SA
+ESSFmc,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFmm,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFmv,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFvc,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFwc,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFwcw,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFwk,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFwv,AD,Sitka Alder Devils-club Shrub,Allowed,
+ESSFxv,AD,Sitka Alder Devils-club Shrub,Allowed,
+BAFAun,AG,Alpine Grassland,Correct match of BEC and BEU,
+BAFAunp,AG,Alpine Grassland,Correct match of BEC and BEU,
+BWBSmk,AG,Alpine Grassland (check where this occurs; meant for Alpine Tundra),Error,SG
+ESSFmcp,AG,Alpine Grassland,Allowed,
+ESSFmkp,AG,Alpine Grassland,Allowed,
+ESSFmm,AG,Alpine Grassland,Correct match of BEC and BEU,
+ESSFmmp,AG,Alpine Grassland,Correct match of BEC and BEU,
+SWBmk,AG,Alpine Grassland (check where this occurs; meant for Alpine Tundra),Error,SG
+SWBmks,AG,Alpine Grassland (check where this occurs; meant for Alpine Tundra),Error,SG
+BAFAun,AH,Alpine Heath,Correct match of BEC and BEU,
+BAFAunp,AH,Alpine Heath,Correct match of BEC and BEU,
+ESSFmc,AH,Alpine Heath,Error,FP
+ESSFmm,AH,Alpine Heath,Error,FP
+ESSFmv,AH,Alpine Heath,Error,FP
+ESSFvc,AH,Alpine Heath,Error,FP
+ESSFwc,AH,Alpine Heath,Error,FP
+ESSFwcp,AH,Alpine Heath,Correct match of BEC and BEU,
+ESSFwcw,AH,Alpine Heath,Error,FP
+ESSFwk,AH,Alpine Heath,Error,FP
+ESSFwv,AH,Alpine Heath,Error,FP
+ESSFxv,AH,Alpine Heath,Error,FP
+IMAun,AH,Alpine Heath,Correct match of BEC and BEU,
+MHmm,AH,Alpine Heath,Error,HP
+MHmmp,AH,Alpine Heath,Error,HP
+BAFAun,AM,Alpine Meadow,Correct match of BEC and BEU,
+BAFAunp,AM,Alpine Meadow,Correct match of BEC and BEU,
+BWBSdk,AM,Alpine Meadow,Error,ME
+BWBSmk,AM,Alpine Meadow,Error,ME
+BWBSmw,AM,Alpine Meadow,Error,ME
+BWBSwk,AM,Alpine Meadow,Error,ME
+CMAun,AM,Alpine Meadow,Allowed,
+CMAunp,AM,Alpine Meadow,Allowed,
+CWHvm,AM,Alpine Meadow,Error,ME
+ESSFmc,AM,Alpine Meadow,Error,ME
+ESSFmcp,AM,Alpine Meadow,Correct match of BEC and BEU,
+ESSFmk,AM,Alpine Meadow,Error,ME
+ESSFmkp,AM,Alpine Meadow,Error,SM
+ESSFmm,AM,Alpine Meadow,Error,ME
+ESSFmmp,AM,Alpine Meadow,Correct match of BEC and BEU,
+ESSFmv,AM,Alpine Meadow,Error,ME
+ESSFmvp,AM,Alpine Meadow,Correct match of BEC and BEU,
+ESSFun,AM,Alpine Meadow,Error,SM
+ESSFunp,AM,Alpine Meadow,Error,SM
+ESSFvc,AM,Alpine Meadow,Error,ME
+ESSFwc,AM,Alpine Meadow,Error,ME
+ESSFwcp,AM,Alpine Meadow,Correct match of BEC and BEU,
+ESSFwcw,AM,Alpine Meadow,Error,ME
+ESSFwk,AM,Alpine Meadow,Error,ME
+ESSFwv,AM,Alpine Meadow,Error,ME
+ESSFwvp,AM,Alpine Meadow,Correct match of BEC and BEU,
+ESSFxv,AM,Alpine Meadow,Error,ME
+IMAun,AM,Alpine Meadow,Correct match of BEC and BEU,
+MHmm,AM,Alpine Meadow,Error,ME
+MHmmp,AM,Alpine Meadow,Error,SM
+SWBmk,AM,Alpine Meadow,Error,SM
+SWBmks,AM,Alpine Meadow,Error,SM
+BAFAun,AN,Alpine Sparsely Vegetated,Correct match of BEC and BEU,
+BAFAunp,AN,Alpine Sparsely Vegetated,Correct match of BEC and BEU,
+ESSFmc,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFmm,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFmv,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFmvp,AN,Alpine Sparsely Vegetated,Correct match of BEC and BEU,
+ESSFvc,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFwc,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFwcp,AN,Alpine Sparsely Vegetated,Correct match of BEC and BEU,
+ESSFwcw,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFwk,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFwv,AN,Alpine Sparsely Vegetated,Error,UV
+ESSFxv,AN,Alpine Sparsely Vegetated,Error,UV
+BAFAun,AS,Alpine Shrub,Correct match of BEC and BEU,
+BAFAunp,AS,Alpine Shrub,Correct match of BEC and BEU,
+ESSFmcp,AS,Alpine Shrub,Correct match of BEC and BEU,
+ESSFmvp,AS,Alpine Shrub,Correct match of BEC and BEU,
+BAFAun,AT,Alpine Tundra,Correct match of BEC and BEU,
+BAFAunp,AT,Alpine Tundra,Correct match of BEC and BEU,
+BWBSdk,AT,Alpine Tundra,Error,UV
+BWBSmk,AT,Alpine Tundra,Error,UV
+BWBSmw,AT,Alpine Tundra,Error,UV
+BWBSwk,AT,Alpine Tundra,Error,UV
+CMAun,AT,Alpine Tundra,Allowed,
+CMAunp,AT,Alpine Tundra,Allowed,
+CWHvm,AT,Alpine Tundra,Error,UV
+ESSFmc,AT,Alpine Tundra,Error,UV
+ESSFmcp,AT,Alpine Tundra,Correct match of BEC and BEU,
+ESSFmk,AT,Alpine Tundra,Error,UV
+ESSFmkp,AT,Alpine Tundra,Allowed,
+ESSFmm,AT,Alpine Tundra,Error,UV
+ESSFmmp,AT,Alpine Tundra,Correct match of BEC and BEU,
+ESSFmv,AT,Alpine Tundra,Error,UV
+ESSFmvp,AT,Alpine Tundra,Correct match of BEC and BEU,
+ESSFun,AT,Alpine Tundra,Error,UV
+ESSFunp,AT,Alpine Tundra,Error,UV
+ESSFvc,AT,Alpine Tundra,Error,UV
+ESSFwc,AT,Alpine Tundra,Error,UV
+ESSFwcp,AT,Alpine Tundra,Correct match of BEC and BEU,
+ESSFwcw,AT,Alpine Tundra,Error,UV
+ESSFwk,AT,Alpine Tundra,Error,UV
+ESSFwv,AT,Alpine Tundra,Error,UV
+ESSFwvp,AT,Alpine Tundra,Correct match of BEC and BEU,
+ESSFxv,AT,Alpine Tundra,Error,UV
+ICHmm,AT,Alpine Tundra,Error,UV
+IMAun,AT,Alpine Tundra,Correct match of BEC and BEU,
+MHmm,AT,Alpine Tundra,Error,UV
+MHmmp,AT,Alpine Tundra,Error,HP
+SBSvk,AT,Alpine Tundra,Error,UV
+SWBmk,AT,Alpine Tundra,Error,SU
+SWBmks,AT,Alpine Tundra,Error,SU
+BAFAun,AU,Alpine Unvegetated,Correct match of BEC and BEU,
+BAFAunp,AU,Alpine Unvegetated,Correct match of BEC and BEU,
+BWBSdk,AU,Alpine Unvegetated,Error,UV
+BWBSmk,AU,Alpine Unvegetated,Error,UV
+BWBSmw,AU,Alpine Unvegetated,Error,UV
+BWBSwk,AU,Alpine Unvegetated,Error,UV
+CMAun,AU,Alpine Unvegetated,Allowed,
+CMAunp,AU,Alpine Unvegetated,Allowed,
+CWHvh,AU,Alpine Unvegetated,Error,UV
+CWHvm,AU,Alpine Unvegetated,Error,UV
+CWHws,AU,Alpine Unvegetated,Error,UV
+ESSFmc,AU,Alpine Unvegetated,Error,UV
+ESSFmcp,AU,Alpine Unvegetated,Error ,UV
+ESSFmk,AU,Alpine Unvegetated,Error,UV
+ESSFmkp,AU,Alpine Unvegetated,Error,UV
+ESSFmm,AU,Alpine Unvegetated,Error,UV
+ESSFmmp,AU,Alpine Unvegetated,Error ,UV
+ESSFmv,AU,Alpine Unvegetated,Error,UV
+ESSFmvp,AU,Alpine Unvegetated,Error ,UV
+ESSFun,AU,Alpine Unvegetated,Error,UV
+ESSFunp,AU,Alpine Unvegetated,Error,UV
+ESSFvc,AU,Alpine Unvegetated,Error,UV
+ESSFwc,AU,Alpine Unvegetated,Error,UV
+ESSFwcp,AU,Alpine Unvegetated,Error ,UV
+ESSFwcw,AU,Alpine Unvegetated,Error,UV
+ESSFwk,AU,Alpine Unvegetated,Error,UV
+ESSFwv,AU,Alpine Unvegetated,Error,UV
+ESSFwvp,AU,Alpine Unvegetated,Error ,UV
+ESSFxv,AU,Alpine Unvegetated,Error,UV
+ICHmc,AU,Alpine Unvegetated,Error,UV
+ICHvk,AU,Alpine Unvegetated,Error,UV
+ICHwk,AU,Alpine Unvegetated,Error,UV
+IMAun,AU,Alpine Unvegetated,Allowed,
+MHmm,AU,Alpine Unvegetated,Error,UV
+MHmmp,AU,Alpine Unvegetated,Error,UV
+MHwh1,AU,Alpine Unvegetated,Error,UV
+SBSdh,AU,Alpine Unvegetated,Error,UV
+SBSdk,AU,Alpine Unvegetated,Error,UV
+SBSdw,AU,Alpine Unvegetated,Error,UV
+SBSmc,AU,Alpine Unvegetated,Error,UV
+SBSmh,AU,Alpine Unvegetated,Error,UV
+SBSmk,AU,Alpine Unvegetated,Error,UV
+SBSmw,AU,Alpine Unvegetated,Error,UV
+SBSvk,AU,Alpine Unvegetated,Error,UV
+SBSwk,AU,Alpine Unvegetated,Error,UV
+SWBmk,AU,Alpine Unvegetated,Error,UV
+SWBmks,AU,Alpine Unvegetated,Error,UV
+BAFAun,AV,Avalanche Track,Correct match of BEC and BEU,
+BAFAunp,AV,Avalanche Track,Correct match of BEC and BEU,
+BWBSdk,AV,Avalanche Track,Allowed,
+BWBSmk,AV,Avalanche Track,Allowed,
+BWBSmw,AV,Avalanche Track,Allowed,
+BWBSwk,AV,Avalanche Track,Allowed,
+CMAun,AV,Avalanche Track,Allowed,
+CMAunp,AV,Avalanche Track,Allowed,
+CWHvh,AV,Avalanche Track,Allowed,
+CWHvm,AV,Avalanche Track,Allowed,
+CWHwm,AV,Avalanche Track,Allowed,
+CWHws,AV,Avalanche Track,Allowed,
+ESSFmc,AV,Avalanche Track,Allowed,
+ESSFmcp,AV,Avalanche Track,Correct match of BEC and BEU,
+ESSFmk,AV,Avalanche Track,Allowed,
+ESSFmkp,AV,Avalanche Track,Allowed,
+ESSFmm,AV,Avalanche Track,Allowed,
+ESSFmmp,AV,Avalanche Track,Correct match of BEC and BEU,
+ESSFmv,AV,Avalanche Track,Allowed,
+ESSFmvp,AV,Avalanche Track,Correct match of BEC and BEU,
+ESSFun,AV,Avalanche Track,Allowed,
+ESSFunp,AV,Avalanche Track,Allowed,
+ESSFvc,AV,Avalanche Track,Allowed,
+ESSFwc,AV,Avalanche Track,Allowed,
+ESSFwcp,AV,Avalanche Track,Correct match of BEC and BEU,
+ESSFwcw,AV,Avalanche Track,Allowed,
+ESSFwk,AV,Avalanche Track,Allowed,
+ESSFwv,AV,Avalanche Track,Allowed,
+ESSFwvp,AV,Avalanche Track,Correct match of BEC and BEU,
+ESSFxv,AV,Avalanche Track,Allowed,
+ICHmc,AV,Avalanche Track,Allowed,
+ICHmm,AV,Avalanche Track,Error,UV
+ICHvc,AV,Avalanche Track,Allowed,
+ICHvk,AV,Avalanche Track,Error,UV
+ICHwk,AV,Avalanche Track,Error,UV
+IMAun,AV,Avalanche Track,Correct match of BEC and BEU,
+MHmm,AV,Avalanche Track,Allowed,
+MHmmp,AV,Avalanche Track,Allowed,
+MHwh1,AV,Avalanche Track,Allowed,
+MHwhp,AV,Avalanche Track,Allowed,
+SBPSdc,AV,Avalanche Track,Allowed,
+SBPSmc,AV,Avalanche Track,Allowed,
+SBPSmk,AV,Avalanche Track,Allowed,
+SBSdh,AV,Avalanche Track,Allowed,
+SBSdk,AV,Avalanche Track,Allowed,
+SBSdw,AV,Avalanche Track,Allowed,
+SBSmc,AV,Avalanche Track,Allowed,
+SBSmh,AV,Avalanche Track,Allowed,
+SBSmk,AV,Avalanche Track,Allowed,
+SBSmw,AV,Avalanche Track,Allowed,
+SBSun,AV,Avalanche Track,Allowed,
+SBSvk,AV,Avalanche Track,Allowed,
+SBSwk,AV,Avalanche Track,Allowed,
+SWBmk,AV,Avalanche Track,Allowed,
+SWBmks,AV,Avalanche Track,Allowed,
+BAFAun,BA,Boreal White Spruce - Trembling Aspen,Error,AT
+BAFAunp,BA,Boreal White Spruce - Trembling Aspen,Error,AT
+BWBSdk,BA,Boreal White Spruce - Trembling Aspen,Allowed,
+BWBSmk,BA,Boreal White Spruce - Trembling Aspen,Allowed,
+BWBSmw,BA,Boreal White Spruce - Trembling Aspen,Allowed,
+BWBSwk,BA,Boreal White Spruce - Trembling Aspen,Allowed,
+ESSFmc,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmm,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmv,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFvc,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwc,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwcw,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwk,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwv,BA,Boreal White Spruce - Trembling Aspen,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFxv,BA,Boreal White Spruce - Trembling Aspen,Error,
+SBSdh,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSdk,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSdw,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSmc,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSmh,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSmk,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSmw,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSvk,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SBSwk,BA,Boreal White Spruce - Trembling Aspen,Error,SA
+SWBmk,BA,Boreal White Spruce - Trembling Aspen,Error,TB
+SWBmks,BA,Boreal White Spruce - Trembling Aspen,Error,TB
+BAFAun,BB,Black Spruce Bog,Error,AT
+BAFAunp,BB,Black Spruce Bog,Error,AT
+BWBSdk,BB,Black Spruce Bog,Allowed,
+BWBSmk,BB,Black Spruce Bog,Allowed,
+BWBSmw,BB,Black Spruce Bog,Allowed,
+BWBSwk,BB,Black Spruce Bog,Allowed,
+CWHws,BB,Black Spruce Bog,Error,CB
+ESSFmc,BB,Black Spruce Bog,Error,BG
+ESSFmcp,BB,Black Spruce Bog,Correct match of BEC and BEU,
+ESSFmm,BB,Black Spruce Bog,Error,BG
+ESSFmmp,BB,Black Spruce Bog,Correct match of BEC and BEU,
+ESSFmv,BB,Black Spruce Bog,Error,BG
+ESSFmvp,BB,Black Spruce Bog,Correct match of BEC and BEU,
+ESSFvc,BB,Black Spruce Bog,Error,BG
+ESSFwc,BB,Black Spruce Bog,Error,BG
+ESSFwcp,BB,Black Spruce Bog,Correct match of BEC and BEU,
+ESSFwcw,BB,Black Spruce Bog,Error,BG
+ESSFwk,BB,Black Spruce Bog,Error,BG
+ESSFwv,BB,Black Spruce Bog,Error,BG
+ESSFwvp,BB,Black Spruce Bog,Allowed,
+ESSFxv,BB,Black Spruce Bog,Error,BG
+ICHmc,BB,Black Spruce Bog,Allowed,
+ICHmm,BB,Black Spruce Bog,Allowed,
+ICHvk,BB,Black Spruce Bog,Allowed,
+ICHwk,BB,Black Spruce Bog,Allowed,
+IMAun,BB,Black Spruce Bog,Correct match of BEC and BEU,
+SBPSdc,BB,Black Spruce Bog,Allowed,
+SBPSmc,BB,Black Spruce Bog,Allowed,
+SBPSmk,BB,Black Spruce Bog,Allowed,
+SBSdh,BB,Black Spruce Bog,Allowed,
+SBSdk,BB,Black Spruce Bog,Allowed,
+SBSdw,BB,Black Spruce Bog,Allowed,
+SBSmc,BB,Black Spruce Bog,Allowed,
+SBSmh,BB,Black Spruce Bog,Allowed,
+SBSmk,BB,Black Spruce Bog,Allowed,
+SBSmw,BB,Black Spruce Bog,Allowed,
+SBSvk,BB,Black Spruce Bog,Allowed,
+SBSwk,BB,Black Spruce Bog,Allowed,
+SWBmk,BB,Black Spruce Bog,Allowed,
+SWBmks,BB,Black Spruce Bog,Allowed,
+BAFAun,BG,Sphagnum Bog,Error,AT
+BAFAunp,BG,Sphagnum Bog,Error,AT
+BWBSdk,BG,Sphagnum Bog,Allowed,
+BWBSmk,BG,Sphagnum Bog,Allowed,
+BWBSmw,BG,Sphagnum Bog,Allowed,
+BWBSwk,BG,Sphagnum Bog,Allowed,
+CWHvh,BG,Sphagnum Bog,Allowed,
+CWHvm,BG,Sphagnum Bog,Allowed,
+ESSFmc,BG,Sphagnum Bog,Allowed,
+ESSFmcp,BG,Sphagnum Bog,Correct match of BEC and BEU,
+ESSFmm,BG,Sphagnum Bog,Allowed,
+ESSFmmp,BG,Sphagnum Bog,Correct match of BEC and BEU,
+ESSFmv,BG,Sphagnum Bog,Allowed,
+ESSFmvp,BG,Sphagnum Bog,Correct match of BEC and BEU,
+ESSFvc,BG,Sphagnum Bog,Allowed,
+ESSFwc,BG,Sphagnum Bog,Allowed,
+ESSFwcp,BG,Sphagnum Bog,Correct match of BEC and BEU,
+ESSFwcw,BG,Sphagnum Bog,Allowed,
+ESSFwk,BG,Sphagnum Bog,Allowed,
+ESSFwv,BG,Sphagnum Bog,Allowed,
+ESSFwvp,BG,Sphagnum Bog,Correct match of BEC and BEU,
+ESSFxv,BG,Sphagnum Bog,Allowed,
+IMAun,BG,Sphagnum Bog,Correct match of BEC and BEU,
+MHwhp,BG,Sphagnum Bog,Error,YB
+SBPSdc,BG,Sphagnum Bog,Allowed,
+SBPSmc,BG,Sphagnum Bog,Allowed,
+SBPSmk,BG,Sphagnum Bog,Allowed,
+SBSdh,BG,Sphagnum Bog,Allowed,
+SBSdk,BG,Sphagnum Bog,Allowed,
+SBSdw,BG,Sphagnum Bog,Allowed,
+SBSmc,BG,Sphagnum Bog,Allowed,
+SBSmh,BG,Sphagnum Bog,Allowed,
+SBSmk,BG,Sphagnum Bog,Allowed,
+SBSmw,BG,Sphagnum Bog,Allowed,
+SBSvk,BG,Sphagnum Bog,Allowed,
+SBSwk,BG,Sphagnum Bog,Allowed,
+SWBmk,BG,Sphagnum Bog,Allowed,
+SWBmks,BG,Sphagnum Bog,Allowed,
+BAFAun,BK,Subalpine Fir - Scrub Birch Krummholz,Correct match of BEC and BEU,
+BAFAunp,BK,Subalpine Fir - Scrub Birch Krummholz,Correct match of BEC and BEU,
+BWBSdk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FB
+BWBSmk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FB
+BWBSmw,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FB
+BWBSwk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FB
+ESSFmc,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFmcp,BK,Subalpine Fir - Scrub Birch Krummholz,Correct match of BEC and BEU,
+ESSFmm,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFmmp,BK,Subalpine Fir - Scrub Birch Krummholz,Allowed,
+ESSFmv,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFmvp,BK,Subalpine Fir - Scrub Birch Krummholz,Correct match of BEC and BEU,
+ESSFvc,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFwc,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFwcp,BK,Subalpine Fir - Scrub Birch Krummholz,Correct match of BEC and BEU,
+ESSFwcw,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFwk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFwv,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+ESSFwvp,BK,Subalpine Fir - Scrub Birch Krummholz,Allowed,
+ESSFxv,BK,Subalpine Fir - Scrub Birch Krummholz,Error,FP
+SBSdh,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSdk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSdw,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSmc,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSmh,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSmk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSmw,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSvk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SBSwk,BK,Subalpine Fir - Scrub Birch Krummholz,Error,MS
+SWBmk,BK,Subalpine Fir - Scrub Birch Krummholz,Allowed,
+SWBmks,BK,Subalpine Fir - Scrub Birch Krummholz,Allowed,
+BWBSdk,BL,Black Spruce - Lodgepole Pine,Allowed,
+BWBSmk,BL,Black Spruce - Lodgepole Pine,Allowed,
+BWBSmw,BL,Black Spruce - Lodgepole Pine,Allowed,
+BWBSwk,BL,Black Spruce - Lodgepole Pine,Allowed,
+ESSFmc,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFmm,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFmmp,BL,Black Spruce - Lodgepole Pine,Allowed match of BEC and BEU,
+ESSFmv,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFvc,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFwc,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFwcw,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFwk,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFwv,BL,Black Spruce - Lodgepole Pine,Error,EF
+ESSFxv,BL,Black Spruce - Lodgepole Pine,Error,EF
+SBPSdc,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBPSmc,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBPSmk,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSdh,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSdk,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSdw,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSmc,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSmh,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSmk,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSmw,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSvk,BL,Black Spruce - Lodgepole Pine,Allowed,
+SBSwk,BL,Black Spruce - Lodgepole Pine,Allowed,
+SWBmk,BL,Black Spruce - Lodgepole Pine,Error,BB
+SWBmks,BL,Black Spruce - Lodgepole Pine,Error,BB
+BWBSdk,BP,Boreal White Spruce - Lodgepole Pine,Allowed,
+BWBSmk,BP,Boreal White Spruce - Lodgepole Pine,Allowed,
+BWBSmw,BP,Boreal White Spruce - Lodgepole Pine,Allowed,
+BWBSwk,BP,Boreal White Spruce - Lodgepole Pine,Allowed,
+ESSFmc,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFmm,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFmv,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFvc,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwc,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwcp,BP,Boreal White Spruce - Lodgepole Pine,Error,FP
+ESSFwcw,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwk,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwv,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFxv,BP,Boreal White Spruce - Lodgepole Pine,Error,EF
+SBSdh,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSdk,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSdw,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSmc,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSmh,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSmk,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSmw,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSvk,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SBSwk,BP,Boreal White Spruce - Lodgepole Pine,Error,SL
+SWBmk,BP,Boreal White Spruce - Lodgepole Pine,Error,SA
+SWBmks,BP,Boreal White Spruce - Lodgepole Pine,Error,SA
+BAFAun,BR,Brush - specific to NSR sites and NCBR in VRI,Error,AS
+BAFAunp,BR,Brush - specific to NSR sites and NCBR in VRI,Error,AS
+BWBSdk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+BWBSmk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+BWBSmw,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+BWBSwk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFmc,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFmcp,BR,Brush - specific to NSR sites and NCBR in VRI,Error,AS
+ESSFmm,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFmmp,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFmv,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFmvp,BR,Brush - specific to NSR sites and NCBR in VRI,Error,AS
+ESSFvc,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFwc,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFwcp,BR,Brush - specific to NSR sites and NCBR in VRI,Error,AS
+ESSFwcw,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFwk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFwv,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFwvp,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+ESSFxv,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBPSdc,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBPSmc,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBPSmk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSdh,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSdk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSdw,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSmc,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSmh,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSmk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSmw,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSvk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBSwk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SWBmk,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SWBmks,BR,Brush - specific to NSR sites and NCBR in VRI,Allowed,
+SBPSdc,BS,Bunchgrass Grassland,Allowed,
+SBPSmc,BS,Bunchgrass Grassland,Allowed,
+SBPSmk,BS,Bunchgrass Grassland,Allowed,
+SBSdk,BS,Bunchgrass Grassland,Allowed,
+SBSdw,BS,Bunchgrass Grassland,Error,MS
+SBSmc,BS,Bunchgrass Grassland,Error,MS
+CMAunp,CB,Cedars - Shore Pine Bog,Error,HP
+CWHvh,CB,Cedars - Shore Pine Bog,Allowed,
+CWHvm,CB,Cedars - Shore Pine Bog,Allowed,
+MHmm,CB,Cedars - Shore Pine Bog,Error,YB
+MHmmp,CB,Cedars - Shore Pine Bog,Error,YB
+MHwh1,CB,Cedars - Shore Pine Bog,Error,YB
+MHwhp,CB,Cedars - Shore Pine Bog,Error,YB
+BAFAun,CF,Cultivated Field,Error,AT
+BAFAunp,CF,Cultivated Field,Error,AT
+BWBSdk,CF,Cultivated Field,Allowed,
+BWBSmk,CF,Cultivated Field,Allowed,
+BWBSmw,CF,Cultivated Field,Allowed,
+BWBSwk,CF,Cultivated Field,Allowed,
+ESSFmc,CF,Cultivated Field,Allowed,
+ESSFmcp,CF,Cultivated Field,Error,SU
+ESSFmm,CF,Cultivated Field,Allowed,
+ESSFmmp,CF,Cultivated Field,Error,SU
+ESSFmv,CF,Cultivated Field,Allowed,
+ESSFmvp,CF,Cultivated Field,Error,SU
+ESSFvc,CF,Cultivated Field,Allowed,
+ESSFwc,CF,Cultivated Field,Allowed,
+ESSFwcp,CF,Cultivated Field,Error,SU
+ESSFwcw,CF,Cultivated Field,Allowed,
+ESSFwk,CF,Cultivated Field,Allowed,
+ESSFwv,CF,Cultivated Field,Allowed,
+ESSFwvp,CF,Cultivated Field,Error,SU
+ESSFxv,CF,Cultivated Field,Allowed,
+ICHmm,CF,Cultivated Field,Allowed,
+ICHvk,CF,Cultivated Field,Allowed,
+ICHwk,CF,Cultivated Field,Allowed,
+IMAun,CF,Cultivated Field,Error,AT
+SBPSdc,CF,Cultivated Field,Allowed,
+SBPSmc,CF,Cultivated Field,Allowed,
+SBPSmk,CF,Cultivated Field,Allowed,
+SBSdh,CF,Cultivated Field,Allowed,
+SBSdk,CF,Cultivated Field,Allowed,
+SBSdw,CF,Cultivated Field,Allowed,
+SBSmc,CF,Cultivated Field,Allowed,
+SBSmh,CF,Cultivated Field,Allowed,
+SBSmk,CF,Cultivated Field,Allowed,
+SBSmw,CF,Cultivated Field,Allowed,
+SBSvk,CF,Cultivated Field,Allowed,
+SBSwk,CF,Cultivated Field,Allowed,
+SWBmk,CF,Cultivated Field,Allowed,
+SWBmks,CF,Cultivated Field,Allowed,
+CMAunp,CH,Coastal Western Hemlock - Western Redcedar,Error,HP
+CWHvh,CH,Coastal Western Hemlock - Western Redcedar,Allowed,
+CWHvm,CH,Coastal Western Hemlock - Western Redcedar,Allowed,
+CWHwm,CH,Coastal Western Hemlock - Western Redcedar,Allowed,
+CWHws,CH,Coastal Western Hemlock - Western Redcedar,Allowed,
+MHmm,CH,Coastal Western Hemlock - Western Redcedar,Error,YM
+MHmmp,CH,Coastal Western Hemlock - Western Redcedar,Error,YM
+MHwh1,CH,Coastal Western Hemlock - Western Redcedar,Error,YM
+MHwhp,CH,Coastal Western Hemlock - Western Redcedar,Error,YM
+BAFAun,CL,Cliff,Allowed,
+BAFAunp,CL,Cliff,Allowed,
+BWBSdk,CL,Cliff,Allowed,
+BWBSmk,CL,Cliff,Allowed,
+BWBSmw,CL,Cliff,Allowed,
+BWBSwk,CL,Cliff,Allowed,
+CMAun,CL,Cliff,Allowed,
+CMAunp,CL,Cliff,Allowed,
+CWHvh,CL,Cliff,Allowed,
+CWHvm,CL,Cliff,Allowed,
+CWHwm,CL,Cliff,Allowed,
+CWHws,CL,Cliff,Allowed,
+ESSFmc,CL,Cliff,Allowed,
+ESSFmcp,CL,Cliff,Allowed,
+ESSFmk,CL,Cliff,Allowed,
+ESSFmkp,CL,Cliff,Allowed,
+ESSFmm,CL,Cliff,Allowed,
+ESSFmmp,CL,Cliff,Allowed,
+ESSFmv,CL,Cliff,Allowed,
+ESSFmvp,CL,Cliff,Allowed,
+ESSFun,CL,Cliff,Allowed,
+ESSFvc,CL,Cliff,Allowed,
+ESSFwc,CL,Cliff,Allowed,
+ESSFwcp,CL,Cliff,Allowed,
+ESSFwcw,CL,Cliff,Allowed,
+ESSFwk,CL,Cliff,Allowed,
+ESSFwv,CL,Cliff,Allowed,
+ESSFwvp,CL,Cliff,Allowed,
+ESSFxv,CL,Cliff,Allowed,
+ICHmc,CL,Cliff,Allowed,
+ICHmm,CL,,Allowed,
+ICHvc,CL,Cliff,Allowed,
+ICHvk,CL,,Allowed,
+ICHwk,CL,,Allowed,
+IMAun,CL,Cliff,Allowed,
+MHmm,CL,Cliff,Allowed,
+MHmmp,CL,Cliff,Allowed,
+MHwh1,CL,Cliff,Allowed,
+MHwhp,CL,Cliff,Allowed,
+SBPSdc,CL,Cliff,Allowed,
+SBPSmc,CL,Cliff,Allowed,
+SBPSmk,CL,Cliff,Allowed,
+SBSdh,CL,Cliff,Allowed,
+SBSdk,CL,Cliff,Allowed,
+SBSdw,CL,Cliff,Allowed,
+SBSmc,CL,Cliff,Allowed,
+SBSmh,CL,Cliff,Allowed,
+SBSmk,CL,Cliff,Allowed,
+SBSmw,CL,Cliff,Allowed,
+SBSvk,CL,Cliff,Allowed,
+SBSwk,CL,Cliff,Allowed,
+SWBmk,CL,Cliff,Allowed,
+SWBmks,CL,Cliff,Allowed,
+CWHws,CS,Coastal Western Hemlock–Subalpine Fir,Error,CW
+ESSFmc,CS,–Subalpine Fir,Error,EW
+ESSFmm,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFmv,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFun,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFvc,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFwc,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFwcw,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFwk,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFwv,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ESSFwvp,CS,Coastal Western Hemlock - Douglas-fir,Error,FP
+ESSFxv,CS,Coastal Western Hemlock - Douglas-fir,Error,EW
+ICHmc,CS,Coastal Western Hemlock - Douglas-fir,Allowed,
+ICHvc,CS,Coastal Western Hemlock - Douglas-fir,Allowed,
+MHmm,CS,Coastal Western Hemlock - Douglas-fir,Error,HP
+SBSdk,CS,Coastal Western Hemlock - Douglas-fir,Error,SF
+SBSmc,CS,Coastal Western Hemlock - Douglas-fir,Error,SF
+CWHws,CW,Coastal Western Hemlock - Douglas Fir,Allowed,
+BAFAun,DF,Interior Douglas-fir,Error,AT
+BAFAunp,DF,Interior Douglas-fir,Error,AT
+BWBSdk,DF,Interior Douglas-fir,Error,LP
+BWBSmk,DF,Interior Douglas-fir,Error,LP
+BWBSmw,DF,Interior Douglas-fir,Error,LP
+BWBSwk,DF,Interior Douglas-fir,Error,LP
+ESSFmc,DF,Interior Douglas-fir,Error,LP
+ESSFmcp,DF,Interior Douglas-fir,Error,EF
+ESSFmk,DF,Interior Douglas-fir,Error,EF
+ESSFmm,DF,Interior Douglas-fir,Error,LP
+ESSFmmp,DF,Interior Douglas-fir,Error,EF
+ESSFmv,DF,Interior Douglas-fir,Error,LP
+ESSFmvp,DF,Interior Douglas-fir,Error,EF
+ESSFvc,DF,Interior Douglas-fir,Error,LP
+ESSFwc,DF,Interior Douglas-fir,Error,LP
+ESSFwcp,DF,Interior Douglas-fir,Error,EF
+ESSFwcw,DF,Interior Douglas-fir,Error,LP
+ESSFwk,DF,Interior Douglas-fir,Error,LP
+ESSFwv,DF,Interior Douglas-fir,Error,LP
+ESSFxv,DF,Interior Douglas-fir,Error,LP
+ICHmm,DF,Interior Douglas-fir,Allowed,
+ICHvk,DF,Interior Douglas-fir,Allowed,
+ICHwk,DF,Interior Douglas-fir,Allowed,
+IMAun,DF,Interior Douglas-fir,Error,AT
+MSxv,DF,Interior Douglas-fir,Allowed,
+SBPSdc,DF,Interior Douglas-fir,Allowed,
+SBPSmc,DF,Interior Douglas-fir,Allowed,
+SBPSmk,DF,Interior Douglas-fir,Allowed,
+SBSdh,DF,Interior Douglas-fir,Allowed,
+SBSdk,DF,Interior Douglas-fir,Allowed,
+SBSdw,DF,Interior Douglas-fir,Allowed,
+SBSmc,DF,Interior Douglas-fir,Allowed,
+SBSmh,DF,Interior Douglas-fir,Allowed,
+SBSmk,DF,Interior Douglas-fir,Allowed,
+SBSmw,DF,Interior Douglas-fir,Allowed,
+SBSvk,DF,Interior Douglas-fir,Allowed,
+SBSwk,DF,Interior Douglas-fir,Allowed,
+SWBmk,DF,Interior Douglas-fir,Error,SA
+SWBmks,DF,Interior Douglas-fir,Error,SA
+ESSFmc,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFmm,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFmv,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFvc,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFwc,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFwcw,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFwk,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFwv,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ESSFxv,DL,Douglas-fir - Lodgepole Pine,Error,LP
+ICHmm,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBPSdc,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBPSmc,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBPSmk,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSdh,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSdk,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSdw,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSmc,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSmh,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSmk,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSmw,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSvk,DL,Douglas-fir - Lodgepole Pine,Allowed,
+SBSwk,DL,Douglas-fir - Lodgepole Pine,Allowed,
+BAFAun,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,AT
+BAFAunp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,AT
+BWBSdk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,FB
+BWBSmk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,FB
+BWBSmw,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,FB
+BWBSwk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,FB
+CWHws,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,HL
+ESSFmc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFmcp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFmk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFmkp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,WP
+ESSFmm,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFmmp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFmv,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFmvp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFun,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFvc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFwc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFwcp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFwcw,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFwk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFwv,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFwvp,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ESSFxv,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Allowed,
+ICHmc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,CS
+ICHmm,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,SF
+ICHvk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,SF
+ICHwk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,SF
+IMAun,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,AT
+MHmm,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,MF
+MSxv,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,SL
+SBPSdc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBPSmc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBPSmk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSdh,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSdk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSdw,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSmc,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSmh,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSmk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSmw,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSvk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SBSwk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,DF
+SWBmk,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,FB
+SWBmks,EF,Engelmann Spruce - Subalpine Fir Dry Forested,Error,FB
+BWBSdk,ER,Engelmann Spruce Riparian,Error,PR
+BWBSmk,ER,Engelmann Spruce Riparian,Error,PR
+BWBSmw,ER,Engelmann Spruce Riparian,Error,PR
+BWBSwk,ER,Engelmann Spruce Riparian,Error,PR
+ESSFmc,ER,Engelmann Spruce Riparian,Allowed,
+ESSFmcp,ER,Engelmann Spruce Riparian,Allowed,
+ESSFmk,ER,Engelmann Spruce Riparian,Allowed,
+ESSFmm,ER,Engelmann Spruce Riparian,Allowed,
+ESSFmmp,ER,Engelmann Spruce Riparian,Allowed,
+ESSFmv,ER,Engelmann Spruce Riparian,Allowed,
+ESSFmvp,ER,Engelmann Spruce Riparian,Allowed,
+ESSFvc,ER,Engelmann Spruce Riparian,Allowed,
+ESSFwc,ER,Engelmann Spruce Riparian,Allowed,
+ESSFwcp,ER,Engelmann Spruce Riparian,Allowed,
+ESSFwcw,ER,Engelmann Spruce Riparian,Allowed,
+ESSFwk,ER,Engelmann Spruce Riparian,Allowed,
+ESSFwv,ER,Engelmann Spruce Riparian,Allowed,
+ESSFxv,ER,Engelmann Spruce Riparian,Allowed,
+ICHmm,ER,Engelmann Spruce Riparian,Error,WR
+SBPSdc,ER,Engelmann Spruce Riparian,Error,WR
+SBPSmc,ER,Engelmann Spruce Riparian,Error,WR
+SBPSmk,ER,Engelmann Spruce Riparian,Error,WR
+SBSdh,ER,Engelmann Spruce Riparian,Error,WR
+SBSdk,ER,Engelmann Spruce Riparian,Error,WR
+SBSdw,ER,Engelmann Spruce Riparian,Error,WR
+SBSmc,ER,Engelmann Spruce Riparian,Error,WR
+SBSmh,ER,Engelmann Spruce Riparian,Error,WR
+SBSmk,ER,Engelmann Spruce Riparian,Error,WR
+SBSmw,ER,Engelmann Spruce Riparian,Error,WR
+SBSvk,ER,Engelmann Spruce Riparian,Error,WR
+SBSwk,ER,Engelmann Spruce Riparian,Error,WR
+SWBmk,ER,Engelmann Spruce Riparian,Error,PR
+SWBmks,ER,Engelmann Spruce Riparian,Error,PR
+ESSFmkp,ER,Engelmann Spruce Riparian,Allowed,
+ESSFun,ER,Engelmann Spruce Riparian,Allowed,
+ESSFwvp,ER,Engelmann Spruce Riparian,Allowed,
+CWHvm,ES,Estuary,Allowed,
+CWHwm,ES,Estuary,Allowed,
+BAFAun,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,AT
+BAFAunp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,AT
+CWHws,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,HL
+ESSFmc,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Allowed,
+ESSFmcp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,FB
+ESSFmk,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Allowed,
+ESSFmkp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,WP
+ESSFmm,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Allowed,
+ESSFmmp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Allowed,
+ESSFmv,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Allowed,
+ESSFun,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,FB
+ESSFunp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,FB
+ESSFvc,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Allowed,
+ESSFwc,EW,Subalpine Fir - Mountain Hemlock Wet Forested,Allowed,
+ESSFwcw,EW,Subalpine Fir - Mountain Hemlock Wet Forested,Allowed,
+ESSFwk,EW,Subalpine Fir - Mountain Hemlock Wet Forested,Allowed,
+ESSFwv,EW,Subalpine Fir - Mountain Hemlock Wet Forested,Allowed,
+ESSFwvp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,FB
+ESSFxv,EW,Subalpine Fir - Mountain Hemlock Wet Forested,Allowed,
+ICHmc,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SF
+ICHvc,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SF
+MHmm,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,MF
+MHmmp,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,HP
+SBSdh,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSdk,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSdw,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSmc,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSmh,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSmk,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSmw,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSun,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSvk,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+SBSwk,EW,Engelmann Spruce - Subalpine Fir Wet Forested,Error,SL
+BAFAun,FB,Subalpine Fir - Scrub Birch Forested,Error,AT
+BAFAunp,FB,Subalpine Fir - Scrub Birch Forested,Error,AT
+BWBSdk,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+BWBSmk,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+BWBSmw,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+BWBSwk,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+CWHws,FB,Subalpine Fir - Scrub Birch Forested,Error,FR
+ESSFmc,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFmcp,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+ESSFmk,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+ESSFmkp,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFmm,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFmmp,FB,Subalpine Fir - Scrub Birch Forested,Error,
+ESSFmv,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFmvp,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+ESSFun,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+ESSFunp,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFvc,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFwc,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFwcp,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+ESSFwcw,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFwk,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFwv,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ESSFwvp,FB,Subalpine Fir - Scrub Birch Forested,Error,
+ESSFxv,FB,Subalpine Fir - Scrub Birch Forested,Error,WP
+ICHmc,FB,Subalpine Fir - Scrub Birch Forested,Error,CS
+SBSdh,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSdk,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSdw,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSmc,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSmh,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSmk,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSmw,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSvk,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SBSwk,FB,Subalpine Fir - Scrub Birch Forested,Error,SF
+SWBmk,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+SWBmks,FB,Subalpine Fir - Scrub Birch Forested,Allowed,
+BAFAun,FE,Sedge Fen,Allowed,
+BAFAunp,FE,Sedge Fen,Allowed,
+BWBSdk,FE,Sedge fen,Allowed,
+BWBSmk,FE,Sedge fen,Allowed,
+BWBSmw,FE,Sedge fen,Allowed,
+BWBSwk,FE,Sedge fen,Allowed,
+ESSFmc,FE,Sedge fen,Allowed,
+ESSFmcp,FE,Sedge Fen,Allowed,
+ESSFmm,FE,Sedge fen,Allowed,
+ESSFmmp,FE,Sedge Fen,Allowed,
+ESSFmv,FE,Sedge fen,Allowed,
+ESSFmvp,FE,Sedge Fen,Allowed,
+ESSFvc,FE,Sedge fen,Allowed,
+ESSFwc,FE,Sedge fen,Allowed,
+ESSFwcp,FE,Sedge Fen,Allowed,
+ESSFwcw,FE,Sedge fen,Allowed,
+ESSFwk,FE,Sedge fen,Allowed,
+ESSFwv,FE,Sedge fen,Allowed,
+ESSFwvp,FE,Sedge Fen,Allowed,
+ESSFxv,FE,Sedge fen,Allowed,
+SBPSdc,FE,Sedge fen,Allowed,
+SBPSmc,FE,Sedge fen,Allowed,
+SBPSmk,FE,Sedge fen,Allowed,
+SBSdh,FE,Sedge fen,Allowed,
+SBSdk,FE,Sedge fen,Allowed,
+SBSdw,FE,Sedge fen,Allowed,
+SBSmc,FE,Sedge fen,Allowed,
+SBSmh,FE,Sedge fen,Allowed,
+SBSmk,FE,Sedge fen,Allowed,
+SBSmw,FE,Sedge fen,Allowed,
+SBSvk,FE,Sedge fen,Allowed,
+SBSwk,FE,Sedge fen,Allowed,
+SWBmk,FE,Sedge Fen,Allowed,
+SWBmks,FE,Sedge Fen,Allowed,
+BAFAun,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+BAFAunp,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+BWBSdk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,FB
+BWBSmk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,FB
+BWBSmw,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,FB
+BWBSwk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,FB
+ESSFmc,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFmcp,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFmk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFmm,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFmmp,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFmv,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFmvp,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFvc,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFwc,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFwcp,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFwcw,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFwk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFwv,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFwvp,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ESSFxv,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+ICHmm,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+ICHvk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+ICHwk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+IMAun,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Allowed,
+SBSdh,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSdk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSdw,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSmc,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSmh,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSmk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSmw,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSvk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SBSwk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,SF
+SWBmk,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,FB
+SWBmks,FP,Engelmann Spruce - Subalpine Fir Dry Parkland,Error,FB
+CMAun,FR,Amabilis Fir - Western Hemlock ,Error,HP
+CMAunp,FR,Amabilis Fir - Western Hemlock ,Error,HP
+CWHvh,FR,Amabilis Fir - Western Hemlock ,Allowed,
+CWHvm,FR,Amabilis Fir - Western Hemlock ,Allowed,
+CWHwm,FR,Amabilis Fir - Western Hemlock ,Allowed,
+CWHws,FR,Amabilis Fir - Western Hemlock ,Allowed,
+ESSFmc,FR,Amabilis Fir - Western Hemlock ,Error,EF
+ESSFmk,FR,Amabilis Fir - Western Hemlock ,Error,EF
+ESSFwv,FR,Amabilis Fir - Western Hemlock ,Error,EW
+ICHmc,FR,Amabilis Fir - Western Hemlock ,Error,IS
+MHmm,FR,Amabilis Fir - Western Hemlock ,Error,MF
+MHmmp,FR,Amabilis Fir - Western Hemlock ,Error,HP
+MHwh1,FR,Amabilis Fir - Western Hemlock ,Error,MF
+MHwhp,FR,Amabilis Fir - Western Hemlock ,Error,HP
+SBSmc,FR,Amabilis Fir - Western Hemlock ,Error,SF
+BAFAun,FS,Fast Perennial Stream,Error,RI
+BAFAunp,FS,Fast Perennial Stream,Error,RI
+BWBSdk,FS,Fast Perennial Stream,Error,RI
+BWBSmk,FS,Fast Perennial Stream,Error,RI
+BWBSmw,FS,Fast Perennial Stream,Error,RI
+BWBSwk,FS,Fast Perennial Stream,Error,RI
+ESSFmc,FS,Fast Perennial Stream,Error,RI
+ESSFmcp,FS,Fast Perennial Stream,Error,RI
+ESSFmm,FS,Fast Perennial Stream,Error,RI
+ESSFmmp,FS,Fast Perennial Stream,Error,RI
+ESSFmv,FS,Fast Perennial Stream,Error,RI
+ESSFmvp,FS,Fast Perennial Stream,Error,RI
+ESSFvc,FS,Fast Perennial Stream,Error,RI
+ESSFwc,FS,Fast Perennial Stream,Error,RI
+ESSFwcp,FS,Fast Perennial Stream,Error,RI
+ESSFwcw,FS,Fast Perennial Stream,Error,RI
+ESSFwk,FS,Fast Perennial Stream,Error,RI
+ESSFwv,FS,Fast Perennial Stream,Error,RI
+ESSFwvp,FS,Fast Perennial Stream,Error,RI
+ESSFxv,FS,Fast Perennial Stream,Error,RI
+SBPSdc,FS,Fast Perennial Stream,Error,RI
+SBPSmc,FS,Fast Perennial Stream,Error,RI
+SBPSmk,FS,Fast Perennial Stream,Error,RI
+SBSdh,FS,Fast Perennial Stream,Error,RI
+SBSdk,FS,Fast Perennial Stream,Error,RI
+SBSdw,FS,Fast Perennial Stream,Error,RI
+SBSmc,FS,Fast Perennial Stream,Error,RI
+SBSmh,FS,Fast Perennial Stream,Error,RI
+SBSmk,FS,Fast Perennial Stream,Error,RI
+SBSmw,FS,Fast Perennial Stream,Error,RI
+SBSvk,FS,Fast Perennial Stream,Error,RI
+SBSwk,FS,Fast Perennial Stream,Error,RI
+SWBmk,FS,Fast Perennial Stream,Error,RI
+SWBmks,FS,Fast Perennial Stream,Error,RI
+BWBSdk,GB,Gravel Bar,Allowed,
+BWBSmk,GB,Gravel Bar,Allowed,
+BWBSmw,GB,Gravel Bar,Allowed,
+BWBSwk,GB,Gravel Bar,Allowed,
+CWHvm,GB,Gravel Bar,Allowed,
+CWHws,GB,Gravel Bar,Allowed,
+ESSFmcp,GB,Gravel Bar,Allowed,
+ESSFmmp,GB,Gravel Bar,Allowed,
+ESSFmvp,GB,Gravel Bar,Allowed,
+ESSFwcp,GB,Gravel Bar,Allowed,
+ESSFwcw,GB,Gravel Bar,Allowed,
+ESSFwvp,GB,Gravel Bar,Allowed,
+ICHmc,GB,Gravel Bar,Allowed,
+SBPSdc,GB,Gravel Bar,Allowed,
+SBPSmc,GB,Gravel Bar,Allowed,
+SBPSmk,GB,Gravel Bar,Allowed,
+SBSdh,GB,Gravel Bar,Allowed,
+SBSdk,GB,Gravel Bar,Allowed,
+SBSdw,GB,Gravel Bar,Allowed,
+SBSmc,GB,Gravel Bar,Allowed,
+SBSmh,GB,Gravel Bar,Allowed,
+SBSmk,GB,Gravel Bar,Allowed,
+SBSmw,GB,Gravel Bar,Allowed,
+SBSvk,GB,Gravel Bar,Allowed,
+SBSwk,GB,Gravel Bar,Allowed,
+SWBmk,GB,Gravel Bar,Allowed,
+SWBmks,GB,Gravel Bar,Allowed,
+BAFAun,GL,Glacier,Allowed,
+BAFAunp,GL,Glacier,Allowed,
+CMAun,GL,Glacier,Allowed,
+CMAunp,GL,Glacier,Allowed,
+CWHvm,GL,Glacier,Error,UV
+CWHws,GL,Glacier,Allowed,
+ESSFmc,GL,Glacier,Allowed,
+ESSFmcp,GL,Glacier,Allowed,
+ESSFmk,GL,Glacier,Error,UV
+ESSFmkp,GL,Glacier,Allowed,
+ESSFmm,GL,Glacier,Allowed,
+ESSFmmp,GL,Glacier,Allowed,
+ESSFmv,GL,Glacier,Allowed,
+ESSFmvp,GL,Glacier,Allowed,
+ESSFun,GL,Glacier,Allowed,
+ESSFunp,GL,Glacier,Allowed,
+ESSFvc,GL,Glacier,Allowed,
+ESSFwc,GL,Glacier,Allowed,
+ESSFwcp,GL,Glacier,Allowed,
+ESSFwcw,GL,Glacier,Allowed,
+ESSFwk,GL,Glacier,Allowed,
+ESSFwv,GL,Glacier,Allowed,
+ESSFwvp,GL,Glacier,Allowed,
+ESSFxv,GL,Glacier,Allowed,
+IMAun,GL,Glacier,Allowed,
+MHmm,GL,Glacier,Error,UV
+MHmmp,GL,Glacier,Allowed,
+SBSdh,GL,Glacier,Error,UV
+SBSdk,GL,Glacier,Error,UV
+SBSdw,GL,Glacier,Error,UV
+SBSmc,GL,Glacier,Error,UV
+SBSmh,GL,Glacier,Error,UV
+SBSmk,GL,Glacier,Error,UV
+SBSmw,GL,Glacier,Error,UV
+SBSvk,GL,Glacier,Error,UV
+SBSwk,GL,Glacier,Error,UV
+SWBmk,GL,Glacier,Allowed,
+SWBmks,GL,Glacier,Allowed,
+CWHwm,GL,Glacier,Error ,UV
+ICHvc,GL,Glacier,Allowed ,
+BWBSdk,GP,Gravel Pit,Allowed,
+BWBSmk,GP,Gravel Pit,Allowed,
+BWBSmw,GP,Gravel Pit,Allowed,
+BWBSwk,GP,Gravel Pit,Allowed,
+CWHvm,GP,Gravel Pit,Allowed,
+CWHwm,GP,Gravel Pit,Allowed,
+CWHws,GP,Gravel Pit,Allowed,
+ESSFmc,GP,Gravel Pit,Allowed,
+ESSFmm,GP,Gravel Pit,Allowed,
+ESSFmv,GP,Gravel Pit,Allowed,
+ESSFvc,GP,Gravel Pit,Allowed,
+ESSFwc,GP,Gravel Pit,Allowed,
+ESSFwcw,GP,Gravel Pit,Allowed,
+ESSFwk,GP,Gravel Pit,Allowed,
+ESSFwv,GP,Gravel Pit,Allowed,
+ESSFxv,GP,Gravel Pit,Allowed,
+ICHmc,GP,Gravel Pit,Allowed,
+ICHmm,GP,Gravel Pit,Allowed,
+ICHvc,GP,Gravel Pit,Allowed,
+ICHwk,GP,Gravel Pit,Allowed,
+MHmm,GP,Gravel Pit,Allowed,
+MHmmp,GP,Gravel Pit,Allowed,
+SBPSdc,GP,Gravel Pit,Allowed,
+SBPSmc,GP,Gravel Pit,Allowed,
+SBPSmk,GP,Gravel Pit,Allowed,
+SBSdh,GP,Gravel Pit,Allowed,
+SBSdk,GP,Gravel Pit,Allowed,
+SBSdw,GP,Gravel Pit,Allowed,
+SBSmc,GP,Gravel Pit,Allowed,
+SBSmc2,GP,Gravel Pit,Allowed,
+SBSmc3,GP,Gravel Pit,Allowed,
+SBSmh,GP,Gravel Pit,Allowed,
+SBSmk,GP,Gravel Pit,Allowed,
+SBSmw,GP,Gravel Pit,Allowed,
+SBSvk,GP,Gravel Pit,Allowed,
+SBSwk,GP,Gravel Pit,Allowed,
+CWHvh,HL,Coastal Western Hemlock - Lodgepole Pine,Allowed,
+CWHvm,HL,Coastal Western Hemlock - Lodgepole Pine,Allowed,
+CWHwm,HL,Coastal Western Hemlock - Lodgepole Pine,Allowed,
+CWHws,HL,Coastal Western Hemlock - Lodgepole Pine,Allowed,
+BAFAun,HP,Mountain Hemlock Parkland,Allowed,
+BAFAunp,HP,Mountain Hemlock Parkland,Allowed,
+CMAun,HP,Mountain Hemlock Parkland,Allowed,
+CMAunp,HP,Mountain Hemlock Parkland,Allowed,
+CWHvh,HP,Mountain Hemlock Parkland,Error,HL
+CWHvm,HP,Mountain Hemlock Parkland,Error,HL
+CWHws,HP,Mountain Hemlock Parkland,Error,HL
+ESSFmk,HP,Mountain Hemlock Parkland,Error,WP
+ESSFmkp,HP,Mountain Hemlock Parkland,Error,WP
+ESSFwv,HP,Mountain Hemlock Parkland,Error,FP
+ESSFwvp,HP,Mountain Hemlock Parkland,Allowed,
+ICHmc,HP,Mountain Hemlock Parkland,Error,FR
+MHmm,HP,Mountain Hemlock Parkland,Allowed,
+MHmmp,HP,Mountain Hemlock Parkland,Allowed,
+MHwh1,HP,Mountain Hemlock Parkland,Allowed,
+MHwhp,HP,Mountain Hemlock Parkland,Allowed,
+CWHvh,HS,Western Hemlock - Sitka Spruce,Allowed,
+CWHwm,HS,Western Hemlock - Sitka Spruce,Allowed,
+CWHws,HS,Western Hemlock - Sitka Spruce,Allowed,
+MHmm,HS,Western Hemlock - Sitka Spruce,Error,MF
+MHmmp,HS,Western Hemlock - Sitka Spruce,Error,HP
+MHwh1,HS,Western Hemlock - Sitka Spruce,Error,MF
+ESSFmc,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFmm,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFmv,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFvc,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFwc,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFwcw,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFwk,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFwv,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ESSFxv,IH,Interior Western Hemlock - Douglas-fir,Error,LP
+ICHmm,IH,Interior Western Hemlock - Douglas-fir,Allowed,
+ICHvk,IH,Interior Western Hemlock - Douglas-fir,Allowed,
+ICHwk,IH,Interior Western Hemlock - Douglas-fir,Allowed,
+SBSdh,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSdk,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSdw,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSmc,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSmh,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSmk,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSmw,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSvk,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+SBSwk,IH,Interior Western Hemlock - Douglas-fir,Error,DF
+ESSFmcp,IN,Intermittent Stream,Allowed,
+ESSFmmp,IN,Intermittent Stream,Allowed,
+ESSFmvp,IN,Intermittent Stream,Allowed,
+ESSFwcp,IN,Intermittent Stream,Allowed,
+ESSFwcw,IN,Intermittent Stream,Allowed,
+ESSFwvp,IN,Intermittent Stream,Allowed,
+SBSdh,IN,Intermittent Stream,Error,RI
+SBSdk,IN,Intermittent Stream,Error,RI
+SBSdw,IN,Intermittent Stream,Error,RI
+SBSmc,IN,Intermittent Stream,Error,RI
+SBSmh,IN,Intermittent Stream,Error,RI
+SBSmk,IN,Intermittent Stream,Error,RI
+SBSmw,IN,Intermittent Stream,Error,RI
+SBSvk,IN,Intermittent Stream,Error,RI
+SBSwk,IN,Intermittent Stream,Error,RI
+SWBmks,IN,Intermittent Stream,Allowed,
+ESSFmc,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFmm,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFmv,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFun,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFvc,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFwc,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFwcw,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFwk,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFwv,IS,Interior Western Hemlock - White Spruce,Error,EF
+ESSFxv,IS,Interior Western Hemlock - White Spruce,Error,EF
+ICHmc,IS,Interior Western Hemlock - White Spruce,Allowed,
+ICHmm,IS,Interior Western Hemlock - White Spruce,Allowed,
+ICHvc,IS,Interior Western Hemlock - White Spruce,Allowed,
+ICHvk,IS,Interior Western Hemlock - White Spruce,Allowed,
+ICHwk,IS,Interior Western Hemlock - White Spruce,Allowed,
+MHmm,IS,Interior Western Hemlock - White Spruce,Error,MF
+SBSdh,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSdk,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSdw,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSmc,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSmh,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSmk,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSmw,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSun,IS,Interior Western Hemlock - White Spruce,Error,SL
+SBSvk,IS,Interior Western Hemlock - White Spruce,Error,SD
+SBSwk,IS,Interior Western Hemlock - White Spruce,Error,SD
+BAFAun,LL,Large Lake,Allowed,
+BAFAunp,LL,Large Lake,Allowed,
+BWBSdk,LL,Large Lake,Allowed,
+BWBSmk,LL,Large Lake,Allowed,
+BWBSmw,LL,Large Lake,Allowed,
+BWBSwk,LL,Large Lake,Allowed,
+CMAun,LL,Large Lake,Allowed,
+CWHvh,LL,Large Lake,Allowed,
+CWHvm,LL,Large Lake,Allowed,
+CWHwm,LL,Large Lake,Allowed,
+CWHws,LL,Large Lake,Allowed,
+ESSFmc,LL,Large Lake,Allowed,
+ESSFmcp,LL,Large Lake,Allowed,
+ESSFmk,LL,Large Lake,Allowed,
+ESSFmkp,LL,Large Lake,Allowed,
+ESSFmm,LL,Large Lake,Allowed,
+ESSFmmp,LL,Large Lake,Allowed,
+ESSFmv,LL,Large Lake,Allowed,
+ESSFmvp,LL,Large Lake,Allowed,
+ESSFun,LL,Large Lake,Allowed,
+ESSFunp,LL,Large Lake,Allowed,
+ESSFvc,LL,Large Lake,Allowed,
+ESSFwc,LL,Large Lake,Allowed,
+ESSFwcp,LL,Large Lake,Allowed,
+ESSFwcw,LL,Large Lake,Allowed,
+ESSFwk,LL,Large Lake,Allowed,
+ESSFwv,LL,Large Lake,Allowed,
+ESSFwvp,LL,Large Lake,Allowed,
+ESSFxv,LL,Large Lake,Allowed,
+ICHmc,LL,Large Lake,Allowed,
+ICHmm,LL,Large Lake,Allowed,
+ICHvc,LL,Large Lake,Allowed,
+ICHwk,LL,Large Lake,Allowed,
+MHmm,LL,Large Lake,Allowed,
+MHmmp,LL,Large Lake,Allowed,
+MHwh1,LL,Large Lake,Allowed,
+SBPSdc,LL,Large Lake,Allowed,
+SBPSmc,LL,Large Lake,Allowed,
+SBPSmk,LL,Large Lake,Allowed,
+SBSdh,LL,Large Lake,Allowed,
+SBSdk,LL,Large Lake,Allowed,
+SBSdw,LL,Large Lake,Allowed,
+SBSmc,LL,Large Lake,Allowed,
+SBSmh,LL,Large Lake,Allowed,
+SBSmk,LL,Large Lake,Allowed,
+SBSmw,LL,Large Lake,Allowed,
+SBSvk,LL,Large Lake,Allowed,
+SBSwk,LL,Large Lake,Allowed,
+SWBmk,LL,Large Lake,Allowed,
+SWBmks,LL,Large Lake,Allowed,
+BAFAun,LP,Lodgepole Pine,Error,AT
+BAFAunp,LP,Lodgepole Pine,Error,AT
+BWBSdk,LP,Lodgepole Pine,Allowed,
+BWBSmk,LP,Lodgepole Pine,Allowed,
+BWBSmw,LP,Lodgepole Pine,Allowed,
+BWBSwk,LP,Lodgepole Pine,Allowed,
+ESSFmc,LP,Lodgepole Pine,Allowed,
+ESSFmcp,LP,Lodgepole Pine,Error,FP
+ESSFmm,LP,Lodgepole Pine,Allowed,
+ESSFmmp,LP,Lodgepole Pine,Error,FP
+ESSFmv,LP,Lodgepole Pine,Allowed,
+ESSFmvp,LP,Lodgepole Pine,Error,FP
+ESSFvc,LP,Lodgepole Pine,Allowed,
+ESSFwc,LP,Lodgepole Pine,Allowed,
+ESSFwcp,LP,Lodgepole Pine,Error,AT
+ESSFwcw,LP,Lodgepole Pine,Allowed,
+ESSFwk,LP,Lodgepole Pine,Allowed,
+ESSFwv,LP,Lodgepole Pine,Allowed,
+ESSFxv,LP,Lodgepole Pine,Allowed,
+ICHmc,LP,Lodgepole Pine,Allowed,
+ICHmm,LP,Lodgepole Pine,Allowed,
+ICHvc,LP,Lodgepole Pine,Allowed,
+ICHvk,LP,Lodgepole Pine,Allowed,
+ICHwk,LP,Lodgepole Pine,Allowed,
+IMAun,LP,Lodgepole Pine,Error,FP
+MSxv,LP,Lodgepole Pine,Allowed,
+SBPSdc,LP,Lodgepole Pine,Allowed,
+SBPSmc,LP,Lodgepole Pine,Allowed,
+SBPSmk,LP,Lodgepole Pine,Allowed,
+SBSdh,LP,Lodgepole Pine,Allowed,
+SBSdk,LP,Lodgepole Pine,Allowed,
+SBSdw,LP,Lodgepole Pine,Allowed,
+SBSmc,LP,Lodgepole Pine,Allowed,
+SBSmh,LP,Lodgepole Pine,Allowed,
+SBSmk,LP,Lodgepole Pine,Allowed,
+SBSmw,LP,Lodgepole Pine,Allowed,
+SBSvk,LP,Lodgepole Pine,Allowed,
+SBSwk,LP,Lodgepole Pine,Allowed,
+SWBmk,LP,Lodgepole Pine,Error,SA
+SWBmks,LP,Lodgepole Pine,Error,SA
+BAFAun,LS,Small Lake,Allowed,
+BAFAunp,LS,Small Lake,Allowed,
+BWBSdk,LS,Small Lake,Allowed,
+BWBSmk,LS,Small Lake,Allowed,
+BWBSmw,LS,Small Lake,Allowed,
+BWBSwk,LS,Small Lake,Allowed,
+CMAun,LS,Small Lake,Allowed,
+CMAunp,LS,Small Lake,Allowed,
+CWHvh,LS,Small Lake,Allowed,
+CWHvm,LS,Small Lake,Allowed,
+CWHwm,LS,Small Lake,Allowed,
+CWHws,LS,Small Lake,Allowed,
+ESSFmc,LS,Small Lake,Allowed,
+ESSFmcp,LS,Small Lake,Allowed,
+ESSFmk,LS,Small Lake,Allowed,
+ESSFmkp,LS,Small Lake,Allowed,
+ESSFmm,LS,Small Lake,Allowed,
+ESSFmmp,LS,Small Lake,Allowed,
+ESSFmv,LS,Small Lake,Allowed,
+ESSFmvp,LS,Small Lake,Allowed,
+ESSFun,LS,Small Lake,Allowed,
+ESSFunp,LS,Small Lake,Allowed,
+ESSFvc,LS,Small Lake,Allowed,
+ESSFwc,LS,Small Lake,Allowed,
+ESSFwcp,LS,Small Lake,Allowed,
+ESSFwcw,LS,Small Lake,Allowed,
+ESSFwk,LS,Small Lake,Allowed,
+ESSFwv,LS,Small Lake,Allowed,
+ESSFwvp,LS,Small Lake,Allowed,
+ESSFxv,LS,Small Lake,Allowed,
+ICHmc,LS,Small Lake,Allowed,
+ICHmm,LS,Small Lake,Allowed,
+ICHvc,LS,Small Lake,Allowed,
+ICHvk,LS,Small Lake,Allowed,
+ICHwk,LS,Small Lake,Allowed,
+IMAun,LS,Small Lake,Allowed,
+MHmm,LS,Small Lake,Allowed,
+MHmmp,LS,Small Lake,Allowed,
+MHwh1,LS,Small Lake,Allowed,
+MHwhp,LS,Small Lake,Allowed,
+MSxv,LS,Small Lake,Allowed,
+SBPSdc,LS,Small Lake,Allowed,
+SBPSmc,LS,Small Lake,Allowed,
+SBPSmk,LS,Small Lake,Allowed,
+SBSdh,LS,Small Lake,Allowed,
+SBSdk,LS,Small Lake,Allowed,
+SBSdw,LS,Small Lake,Allowed,
+SBSmc,LS,Small Lake,Allowed,
+SBSmh,LS,Small Lake,Allowed,
+SBSmk,LS,Small Lake,Allowed,
+SBSmw,LS,Small Lake,Allowed,
+SBSvk,LS,Small Lake,Allowed,
+SBSwk,LS,Small Lake,Allowed,
+SWBmk,LS,Small Lake,Allowed,
+SWBmks,LS,Small Lake,Allowed,
+BAFAun,ME,Meadow,Error,AM
+BAFAunp,ME,Meadow,Error,AM
+BWBSdk,ME,Meadow,Allowed,
+BWBSmk,ME,Meadow,Allowed,
+BWBSmw,ME,Meadow,Allowed,
+BWBSwk,ME,Meadow,Allowed,
+CWHvh,ME,Meadow,Allowed,
+CWHvm,ME,Meadow,Allowed,
+CWHwm,ME,Meadow,Allowed,
+CWHws,ME,Meadow,Allowed,
+ESSFmc,ME,Meadow,Allowed,
+ESSFmcp,ME,Meadow,Allowed,
+ESSFmk,ME,Meadow,Allowed,
+ESSFmm,ME,Meadow,Allowed,
+ESSFmmp,ME,Meadow,Allowed,
+ESSFmv,ME,Meadow,Allowed,
+ESSFmvp,ME,Meadow,Allowed,
+ESSFun,ME,Meadow,Error,SM
+ESSFvc,ME,Meadow,Allowed,
+ESSFwc,ME,Meadow,Allowed,
+ESSFwcp,ME,Meadow,Allowed,
+ESSFwcw,ME,Meadow,Allowed,
+ESSFwk,ME,Meadow,Allowed,
+ESSFwv,ME,Meadow,Allowed,
+ESSFwvp,ME,Meadow,Allowed,
+ESSFxv,ME,Meadow,Allowed,
+ICHmc,ME,Meadow,Allowed,
+ICHvc,ME,Meadow,Allowed,
+MHmm,ME,Meadow,Allowed,
+SBPSdc,ME,Meadow,Allowed,
+SBPSmc,ME,Meadow,Allowed,
+SBPSmk,ME,Meadow,Allowed,
+SBSdh,ME,Meadow,Allowed,
+SBSdk,ME,Meadow,Allowed,
+SBSdw,ME,Meadow,Allowed,
+SBSmc,ME,Meadow,Allowed,
+SBSmh,ME,Meadow,Allowed,
+SBSmk,ME,Meadow,Allowed,
+SBSmw,ME,Meadow,Allowed,
+SBSvk,ME,Meadow,Allowed,
+SBSwk,ME,Meadow,Allowed,
+SWBmk,ME,Meadow,Allowed,
+SWBmks,ME,Meadow,Allowed,
+BAFAun,MF,Mountain Hemlock - Amabilis Fir,Error,HP
+BAFAunp,MF,Mountain Hemlock - Amabilis Fir,Error,HP
+CMAun,MF,Mountain Hemlock - Amabilis Fir,Error,HP
+CMAunp,MF,Mountain Hemlock - Amabilis Fir,Error,HP
+CWHvh,MF,Mountain Hemlock - Amabilis Fir,Error,FR
+CWHvm,MF,Mountain Hemlock - Amabilis Fir,Error,FR
+CWHws,MF,Mountain Hemlock - Amabilis Fir,Error,FR
+ESSFmk,MF,Mountain Hemlock - Amabilis Fir,Error,EF
+ESSFmkp,MF,Mountain Hemlock - Amabilis Fir,Error,EF
+ESSFwv,MF,Mountain Hemlock - Amabilis Fir,Error,EF
+ESSFwvp,MF,Mountain Hemlock - Amabilis Fir,Error,FP
+ICHmc,MF,Mountain Hemlock - Amabilis Fir,Error,FR
+MHmm,MF,Mountain Hemlock - Amabilis Fir,Allowed,
+MHmmp,MF,Mountain Hemlock - Amabilis Fir,Allowed,
+MHwh1,MF,Mountain Hemlock - Amabilis Fir,Allowed,
+MHwhp,MF,Mountain Hemlock - Amabilis Fir,Allowed,
+BAFAun,MI,Mine,Allowed,
+BAFAunp,MI,Mine,Allowed,
+BWBSdk,MI,Mine,Allowed,
+BWBSmk,MI,Mine,Allowed,
+BWBSmw,MI,Mine,Allowed,
+BWBSwk,MI,Mine,Allowed,
+CWHvm,MI,Mine,Allowed,
+ESSFmc,MI,Mine,Allowed,
+ESSFmcp,MI,Mine,Allowed,
+ESSFmm,MI,Mine,Allowed,
+ESSFmmp,MI,Mine,Allowed,
+ESSFmv,MI,Mine,Allowed,
+ESSFmvp,MI,Mine,Allowed,
+ESSFvc,MI,Mine,Allowed,
+ESSFwc,MI,Mine,Allowed,
+ESSFwcp,MI,Mine,Allowed,
+ESSFwcw,MI,Mine,Allowed,
+ESSFwk,MI,Mine,Allowed,
+ESSFwv,MI,Mine,Allowed,
+ESSFwvp,MI,Mine,Allowed,
+ESSFxv,MI,Mine,Allowed,
+SBPSdc,MI,Mine,Allowed,
+SBPSmc,MI,Mine,Allowed,
+SBPSmk,MI,Mine,Allowed,
+SBSdh,MI,Mine,Allowed,
+SBSdk,MI,Mine,Allowed,
+SBSdw,MI,Mine,Allowed,
+SBSmc,MI,Mine,Allowed,
+SBSmh,MI,Mine,Allowed,
+SBSmk,MI,Mine,Allowed,
+SBSmw,MI,Mine,Allowed,
+SBSvk,MI,Mine,Allowed,
+SBSwk,MI,Mine,Allowed,
+SWBmk,MI,Mine,Allowed,
+SWBmks,MI,Mine,Allowed,
+BWBSdk,MR,Marsh,Allowed,
+BWBSmk,MR,Marsh,Allowed,
+BWBSmw,MR,Marsh,Allowed,
+BWBSwk,MR,Marsh,Allowed,
+ESSFmcp,MR,Marsh,Allowed,
+ESSFmmp,MR,Marsh,Allowed,
+ESSFmvp,MR,Marsh,Allowed,
+ESSFwcp,MR,Marsh,Allowed,
+ESSFwcw,MR,Marsh,Allowed,
+ESSFwvp,MR,Marsh,Allowed,
+SBPSdc,MR,Marsh,Allowed,
+SBPSmc,MR,Marsh,Allowed,
+SBPSmk,MR,Marsh,Allowed,
+SBSdh,MR,Marsh,Allowed,
+SBSdk,MR,Marsh,Allowed,
+SBSdw,MR,Marsh,Allowed,
+SBSmc,MR,Marsh,Allowed,
+SBSmh,MR,Marsh,Allowed,
+SBSmk,MR,Marsh,Allowed,
+SBSmw,MR,Marsh,Allowed,
+SBSvk,MR,Marsh,Allowed,
+SBSwk,MR,Marsh,Allowed,
+SWBmks,MR,Marsh,Allowed,
+BWBSdk,MS,Montane Shrub/Grassland,Allowed,
+BWBSmk,MS,Montane Shrub/Grassland,Allowed,
+BWBSmw,MS,Montane Shrub/Grassland,Allowed,
+BWBSwk,MS,Montane Shrub/Grassland,Allowed,
+SBPSdc,MS,Montane Shrub/Grassland,Allowed,
+SBPSmc,MS,Montane Shrub/Grassland,Allowed,
+SBPSmk,MS,Montane Shrub/Grassland,Allowed,
+SBSdh,MS,Montane Shrub/Grassland,Allowed,
+SBSdk,MS,Montane Shrub/Grassland,Allowed,
+SBSdw,MS,Montane Shrub/Grassland,Allowed,
+SBSmc,MS,Montane Shrub/Grassland,Allowed,
+SBSmh,MS,Montane Shrub/Grassland,Allowed,
+SBSmk,MS,Montane Shrub/Grassland,Allowed,
+SBSmw,MS,Montane Shrub/Grassland,Allowed,
+SBSvk,MS,Montane Shrub/Grassland,Allowed,
+SBSwk,MS,Montane Shrub/Grassland,Allowed,
+SWBmk,MS,Montane Shrub/Grassland,Error,SU
+BAFAun,OW,Shallow open water,Allowed,
+BAFAunp,OW,Shallow open water,Allowed,
+BWBSdk,OW,Shallow open water,Allowed,
+BWBSmk,OW,Shallow open water,Allowed,
+BWBSmw,OW,Shallow open water,Allowed,
+BWBSwk,OW,Shallow open water,Allowed,
+CMAun,OW,Shallow open water,Allowed,
+CMAunp,OW,Shallow open water,Allowed,
+CWHvh,OW,Shallow open water,Allowed,
+CWHvm,OW,Shallow open water,Allowed,
+CWHwm,OW,Shallow open water,Allowed,
+CWHws,OW,Shallow open water,Allowed,
+ESSFmc,OW,Shallow open water,Allowed,
+ESSFmcp,OW,Shallow open water,Allowed,
+ESSFmk,OW,Shallow open water,Allowed,
+ESSFmkp,OW,Shallow open water,Allowed,
+ESSFmm,OW,Shallow open water,Allowed,
+ESSFmmp,OW,Shallow open water,Allowed,
+ESSFmv,OW,Shallow open water,Allowed,
+ESSFmvp,OW,Shallow open water,Allowed,
+ESSFun,OW,Shallow open water,Allowed,
+ESSFunp,OW,Shallow open water,Allowed,
+ESSFvc,OW,Shallow open water,Allowed,
+ESSFwc,OW,Shallow open water,Allowed,
+ESSFwcp,OW,Shallow open water,Allowed,
+ESSFwcw,OW,Shallow open water,Allowed,
+ESSFwk,OW,Shallow open water,Allowed,
+ESSFwv,OW,Shallow open water,Allowed,
+ESSFwvp,OW,Shallow open water,Allowed,
+ESSFxv,OW,Shallow open water,Allowed,
+ICHmc,OW,Shallow open water,Allowed,
+ICHmm,OW,Shallow open water,Allowed,
+ICHvc,OW,Shallow open water,Allowed,
+ICHvk,OW,Shallow open water,Allowed,
+ICHwk,OW,Shallow open water,Allowed,
+IMAun,OW,Shallow open water,Allowed,
+MHmm,OW,Shallow open water,Allowed,
+MHmmp,OW,Shallow open water,Allowed,
+MHwhp,OW,Shallow open water,Allowed,
+MSxv,OW,Shallow open water,Allowed,
+SBPSdc,OW,Shallow Open Water,Allowed,
+SBPSmc,OW,Shallow Open Water,Allowed,
+SBPSmk,OW,Shallow Open Water,Allowed,
+SBSdh,OW,Shallow Open Water,Allowed,
+SBSdk,OW,Shallow Open Water,Allowed,
+SBSdw,OW,Shallow Open Water,Allowed,
+SBSmc,OW,Shallow Open Water,Allowed,
+SBSmh,OW,Shallow Open Water,Allowed,
+SBSmk,OW,Shallow Open Water,Allowed,
+SBSmw,OW,Shallow Open Water,Allowed,
+SBSun,OW,Shallow open water,Allowed,
+SBSvk,OW,Shallow Open Water,Allowed,
+SBSwk,OW,Shallow Open Water,Allowed,
+SWBmk,OW,Shallow open water,Allowed,
+SWBmks,OW,Shallow open water,Allowed,
+BWBSdk,PR,White Spruce - Balsam Poplar Riparian,Allowed,
+BWBSmk,PR,White Spruce - Balsam Poplar Riparian,Allowed,
+BWBSmw,PR,White Spruce - Balsam Poplar Riparian,Allowed,
+BWBSwk,PR,White Spruce - Balsam Poplar Riparian,Allowed,
+ESSFmc,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFmm,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFmv,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFvc,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFwc,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFwcw,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFwk,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFwv,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+ESSFxv,PR,White Spruce - Balsam Poplar Riparian,Error,ER
+SBSdh,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSdk,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSdw,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSmc,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSmh,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSmk,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSmw,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSvk,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SBSwk,PR,White Spruce - Balsam Poplar Riparian,Error,WR
+SWBmk,PR,White Spruce - Balsam Poplar Riparian,Allowed,
+SWBmks,PR,White Spruce - Balsam Poplar Riparian,Allowed,
+BWBSdk,RE,Reservoir,Allowed,
+BWBSmk,RE,Reservoir,Allowed,
+BWBSmw,RE,Reservoir,Allowed,
+BWBSwk,RE,Reservoir,Allowed,
+CWHvm,RE,Reservoir,Allowed,
+ESSFmc,RE,Reservoir,Allowed,
+ESSFmcp,RE,Reservoir,Allowed,
+ESSFmm,RE,Reservoir,Allowed,
+ESSFmmp,RE,Reservoir,Allowed,
+ESSFmv,RE,Reservoir,Allowed,
+ESSFmvp,RE,Reservoir,Allowed,
+ESSFvc,RE,Reservoir,Allowed,
+ESSFwc,RE,Reservoir,Allowed,
+ESSFwcp,RE,Reservoir,Allowed,
+ESSFwcw,RE,Reservoir,Allowed,
+ESSFwk,RE,Reservoir,Allowed,
+ESSFwv,RE,Reservoir,Allowed,
+ESSFwvp,RE,Reservoir,Allowed,
+ESSFxv,RE,Reservoir,Allowed,
+ICHmc,RE,Reservoir,Allowed,
+ICHmm,RE,Reservoir,Allowed,
+ICHwk,RE,Reservoir,Allowed,
+SBPSdc,RE,Reservoir,Allowed,
+SBPSmc,RE,Reservoir,Allowed,
+SBPSmk,RE,Reservoir,Allowed,
+SBSdh,RE,Reservoir,Allowed,
+SBSdk,RE,Reservoir,Allowed,
+SBSdw,RE,Reservoir,Allowed,
+SBSmc,RE,Reservoir,Allowed,
+SBSmh,RE,Reservoir,Allowed,
+SBSmk,RE,Reservoir,Allowed,
+SBSmw,RE,Reservoir,Allowed,
+SBSvk,RE,Reservoir,Allowed,
+SBSwk,RE,Reservoir,Allowed,
+SWBmk,RE,Reservoir,Allowed,
+SWBmks,RE,Reservoir,Allowed,
+BAFAun,RI,River,Allowed,
+BAFAunp,RI,River,Allowed,
+BWBSdk,RI,River,Allowed,
+BWBSmk,RI,River,Allowed,
+BWBSmw,RI,River,Allowed,
+BWBSwk,RI,River,Allowed,
+CWHvh,RI,River,Allowed,
+CWHvm,RI,River,Allowed,
+CWHwm,RI,River,Allowed,
+CWHws,RI,River,Allowed,
+ESSFmc,RI,River,Allowed,
+ESSFmcp,RI,River,Allowed,
+ESSFmk,RI,River,Allowed,
+ESSFmkp,RI,River,Allowed,
+ESSFmm,RI,River,Allowed,
+ESSFmmp,RI,River,Allowed,
+ESSFmv,RI,River,Allowed,
+ESSFmvp,RI,River,Allowed,
+ESSFun,RI,River,Allowed,
+ESSFunp,RI,River,Allowed,
+ESSFvc,RI,River,Allowed,
+ESSFwc,RI,River,Allowed,
+ESSFwcp,RI,River,Allowed,
+ESSFwcw,RI,River,Allowed,
+ESSFwk,RI,River,Allowed,
+ESSFwv,RI,River,Allowed,
+ESSFwvp,RI,River,Allowed,
+ESSFxv,RI,River,Allowed,
+ICHmc,RI,River,Allowed,
+ICHmm,RI,River,Allowed,
+ICHvc,RI,River,Allowed,
+ICHvk,RI,River,Allowed,
+ICHwk,RI,River,Allowed,
+MHmm,RI,River,Allowed,
+MHmmp,RI,River,Allowed,
+SBPSdc,RI,River,Allowed,
+SBPSmc,RI,River,Allowed,
+SBPSmk,RI,River,Allowed,
+SBSdh,RI,River,Allowed,
+SBSdk,RI,River,Allowed,
+SBSdw,RI,River,Allowed,
+SBSmc,RI,River,Allowed,
+SBSmc3,RI,River,Allowed,
+SBSmh,RI,River,Allowed,
+SBSmk,RI,River,Allowed,
+SBSmw,RI,River,Allowed,
+SBSun,RI,River,Allowed,
+SBSvk,RI,River,Allowed,
+SBSwk,RI,River,Allowed,
+SWBmk,RI,River,Allowed,
+SWBmks,RI,River,Allowed,
+BAFAun,RM,Reclaimed Mine,Allowed,
+BAFAunp,RM,Reclaimed Mine,Allowed,
+BWBSdk,RM,Reclaimed Mine,Allowed,
+BWBSmk,RM,Reclaimed Mine,Allowed,
+BWBSmw,RM,Reclaimed Mine,Allowed,
+BWBSwk,RM,Reclaimed Mine,Allowed,
+ESSFmcp,RM,Reclaimed Mine,Allowed,
+ESSFmmp,RM,Reclaimed Mine,Allowed,
+ESSFmvp,RM,Reclaimed Mine,Allowed,
+ESSFwcp,RM,Reclaimed Mine,Allowed,
+ESSFwcw,RM,Reclaimed Mine,Allowed,
+ESSFwvp,RM,Reclaimed Mine,Allowed,
+SBPSdc,RM,Reclaimed Mine,Allowed,
+SBPSmc,RM,Reclaimed Mine,Allowed,
+SBPSmk,RM,Reclaimed Mine,Allowed,
+SBSdh,RM,Reclaimed Mine,Allowed,
+SBSdk,RM,Reclaimed Mine,Allowed,
+SBSdw,RM,Reclaimed Mine,Allowed,
+SBSmc,RM,Reclaimed Mine,Allowed,
+SBSmh,RM,Reclaimed Mine,Allowed,
+SBSmk,RM,Reclaimed Mine,Allowed,
+SBSmw,RM,Reclaimed Mine,Allowed,
+SBSvk,RM,Reclaimed Mine,Allowed,
+SBSwk,RM,Reclaimed Mine,Allowed,
+SWBmk,RM,Reclaimed Mine,Allowed,
+SWBmks,RM,Reclaimed Mine,Allowed,
+BAFAun,RO,Rock,Error,AU
+BAFAunp,RO,Rock,Error,AU
+BWBSdk,RO,Rock,Allowed,
+BWBSmk,RO,Rock,Allowed,
+BWBSmw,RO,Rock,Allowed,
+BWBSwk,RO,Rock,Allowed,
+CMAun,RO,Rock,Error,AU
+CMAunp,RO,Rock,Error,AU
+CWHvh,RO,Rock,Allowed,
+CWHvm,RO,Rock,Allowed,
+CWHwm,RO,Rock,Allowed,
+CWHws,RO,Rock,Allowed,
+ESSFmc,RO,Rock,Allowed,
+ESSFmcp,RO,Rock,Allowed,
+ESSFmk,RO,Rock,Allowed,
+ESSFmkp,RO,Rock,Allowed,
+ESSFmm,RO,Rock,Allowed,
+ESSFmmp,RO,Rock,Allowed,
+ESSFmv,RO,Rock,Allowed,
+ESSFmvp,RO,Rock,Allowed,
+ESSFun,RO,Rock,Allowed,
+ESSFunp,RO,Rock,Allowed,
+ESSFvc,RO,Rock,Allowed,
+ESSFwc,RO,Rock,Allowed,
+ESSFwcp,RO,Rock,Allowed,
+ESSFwcw,RO,Rock,Allowed,
+ESSFwk,RO,Rock,Allowed,
+ESSFwv,RO,Rock,Allowed,
+ESSFwvp,RO,Rock,Allowed,
+ESSFxv,RO,Rock,Allowed,
+ICHmc,RO,Rock,Allowed,
+ICHmm,RO,Rock,Allowed,
+ICHvc,RO,Rock,Allowed,
+ICHvk,RO,Rock,Allowed,
+ICHwk,RO,Rock,Allowed,
+IMAun,RO,Rock,Error,AU
+MHmm,RO,Rock,Allowed,
+MHmmp,RO,Rock,Allowed,
+MHwh1,RO,Rock,Allowed,
+MHwhp,RO,Rock,Allowed,
+SBPSdc,RO,Rock,Allowed,
+SBPSmc,RO,Rock,Allowed,
+SBPSmk,RO,Rock,Allowed,
+SBSdh,RO,Rock,Allowed,
+SBSdk,RO,Rock,Allowed,
+SBSdw,RO,Rock,Allowed,
+SBSmc,RO,Rock,Allowed,
+SBSmh,RO,Rock,Allowed,
+SBSmk,RO,Rock,Allowed,
+SBSmw,RO,Rock,Allowed,
+SBSun,RO,Rock,Allowed,
+SBSvk,RO,Rock,Allowed,
+SBSwk,RO,Rock,Allowed,
+SWBmk,RO,Rock,Allowed,
+SWBmks,RO,Rock,Allowed,
+ESSFmc,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFmm,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFmv,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFvc,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFwc,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFwcw,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFwk,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFwv,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ESSFxv,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ICHmm,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ICHvc,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ICHvk,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+ICHwk,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+SBSdh,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSdk,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSdw,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSmc,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSmh,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSmk,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSmw,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSvk,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+SBSwk,RR,Western Redcedar - Black Cottonwood Riparian,Error,WR
+ICHmc,RR,Western Redcedar - Black Cottonwood Riparian,Allowed,
+CWHws,RS,Western Redcedar Swamp,Allowed,
+BWBSdk,SA,Sub-boreal White Spruce - Trembling Aspen,Error,BA
+BWBSmk,SA,Sub-boreal White Spruce - Trembling Aspen,Error,BA
+BWBSmw,SA,Sub-boreal White Spruce - Trembling Aspen,Error,BA
+BWBSwk,SA,Sub-boreal White Spruce - Trembling Aspen,Error,BA
+SBPSdc,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBPSmc,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBPSmk,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSdh,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSdk,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSdw,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSmc,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSmh,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSmk,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSmw,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSvk,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SBSwk,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SWBmk,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+SWBmks,SA,Sub-boreal White Spruce - Trembling Aspen,Allowed,
+ESSFmc,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmm,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmv,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFvc,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwc,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwcw,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwk,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwv,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFxv,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ICHvk,SB,White Spruce - Paper Birch,Error,WR
+SBSdk,SB,White Spruce - Paper Birch,Error,SF
+SBSdw,SB,White Spruce - Paper Birch,Error,SF
+SBSmc,SB,White Spruce - Paper Birch,Error,SF
+SBSmh,SB,White Spruce - Paper Birch,Allowed,
+SBSmk,SB,White Spruce - Paper Birch,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+SBSmw,SB,White Spruce - Paper Birch,Error,SF
+SBSwk,SB,White Spruce - Paper Birch,Error,SF
+BWBSdk,SC,Shrub-Carr,Allowed,
+BWBSmk,SC,Shrub-Carr,Allowed,
+BWBSmw,SC,Shrub-Carr,Allowed,
+BWBSwk,SC,Shrub-Carr,Allowed,
+ESSFmcp,SC,Shrub-Carr,Allowed,
+ESSFmmp,SC,Shrub-Carr,Allowed,
+ESSFmvp,SC,Shrub-Carr,Allowed,
+ESSFwcp,SC,Shrub-Carr,Allowed,
+ESSFwcw,SC,Shrub-Carr,Allowed,
+ESSFwvp,SC,Shrub-Carr,Allowed,
+SBPSdc,SC,Shrub-Carr,Allowed,
+SBPSmc,SC,Shrub-Carr,Allowed,
+SBPSmk,SC,Shrub-Carr,Allowed,
+SBSdh,SC,Shrub-Carr,Allowed,
+SBSdk,SC,Shrub-Carr,Allowed,
+SBSdw,SC,Shrub-Carr,Allowed,
+SBSmc,SC,Shrub-Carr,Allowed,
+SBSmh,SC,Shrub-Carr,Allowed,
+SBSmk,SC,Shrub-Carr,Allowed,
+SBSmw,SC,Shrub-Carr,Allowed,
+SBSvk,SC,Shrub-Carr,Allowed,
+SBSwk,SC,Shrub-Carr,Allowed,
+SWBmks,SC,Shrub-Carr,Allowed,
+ESSFmc,SD,Spruce - Douglas-fir,Error,LP
+ESSFmm,SD,Spruce - Douglas-fir,Error,LP
+ESSFmv,SD,Spruce - Douglas-fir,Error,LP
+ESSFvc,SD,Spruce - Douglas-fir,Error,LP
+ESSFwc,SD,Spruce - Douglas-fir,Error,LP
+ESSFwcw,SD,Spruce - Douglas-fir,Error,LP
+ESSFwk,SD,Spruce - Douglas-fir,Error,LP
+ESSFwv,SD,Spruce - Douglas-fir,Error,LP
+ESSFxv,SD,Spruce - Douglas-fir,Error,LP
+ICHmm,SD,Spruce - Douglas-fir,Error,DF
+ICHvk,SD,Spruce - Douglas-fir,Error,DF
+SBSdh,SD,Spruce - Douglas-fir,Allowed,
+SBSdk,SD,Spruce - Douglas-fir,Allowed,
+SBSdw,SD,Spruce - Douglas-fir,Allowed,
+SBSmc,SD,Spruce - Douglas-fir,Allowed,
+SBSmh,SD,Spruce - Douglas-fir,Allowed,
+SBSmk,SD,Spruce - Douglas-fir,Allowed,
+SBSmw,SD,Spruce - Douglas-fir,Allowed,
+SBSvk,SD,Spruce - Douglas-fir,Allowed,
+SBSwk,SD,Spruce - Douglas-fir,Allowed,
+BAFAun,SF,White Spruce - Subalpine Fir,Error,AT
+BAFAunp,SF,White Spruce - Subalpine Fir,Error,AT
+BWBSdk,SF,White Spruce - Subalpine Fir,Error,BP
+BWBSmk,SF,White Spruce - Subalpine Fir,Error,BP
+BWBSmw,SF,White Spruce - Subalpine Fir,Error,BP
+BWBSwk,SF,White Spruce - Subalpine Fir,Error,BP
+CWHws,SF,White Spruce - Subalpine Fir,Error,FR
+ESSFmc,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFmcp,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFmk,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFmm,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFmmp,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFmv,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFmvp,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFun,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFvc,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFwc,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFwcp,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFwcw,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFwk,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFwv,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFwvp,SF,White Spruce - Subalpine Fir,Error,EF
+ESSFxv,SF,White Spruce - Subalpine Fir,Error,EF
+ICHmc,SF,White Spruce - Subalpine Fir,Allowed,
+ICHmm,SF,White Spruce - Subalpine Fir,Allowed,
+ICHvc,SF,White Spruce - Subalpine Fir,Allowed,
+ICHvk,SF,White Spruce - Subalpine Fir,Allowed,
+ICHwk,SF,White Spruce - Subalpine Fir,Allowed,
+IMAun,SF,White Spruce - Subalpine Fir,Error,AT
+SBPSdc,SF,White Spruce - Subalpine Fir,Error,SL
+SBPSmc,SF,White Spruce - Subalpine Fir,Error,SL
+SBPSmk,SF,White Spruce - Subalpine Fir,Error,SL
+SBSdh,SF,White Spruce - Subalpine Fir,Allowed,
+SBSdk,SF,White Spruce - Subalpine Fir,Allowed,
+SBSdw,SF,White Spruce - Subalpine Fir,Allowed,
+SBSmc,SF,White Spruce - Subalpine Fir,Allowed,
+SBSmh,SF,White Spruce - Subalpine Fir,Allowed,
+SBSmk,SF,White Spruce - Subalpine Fir,Allowed,
+SBSmw,SF,White Spruce - Subalpine Fir,Allowed,
+SBSun,SF,White Spruce - Subalpine Fir,Allowed,
+SBSvk,SF,White Spruce - Subalpine Fir,Allowed,
+SBSwk,SF,White Spruce - Subalpine Fir,Allowed,
+SWBmk,SF,White Spruce - Subalpine Fir,Error,SA
+SWBmks,SF,White Spruce - Subalpine Fir,Error,SA
+BAFAun,SG,Subalpine Grassland,Error,AG
+BAFAunp,SG,Subalpine Grassland,Error,AG
+BWBSdk,SG,Subalpine Grassland,Allowed,
+BWBSmk,SG,Subalpine Grassland,Allowed,
+BWBSmw,SG,Subalpine Grassland,Allowed,
+BWBSwk,SG,Subalpine Grassland,Allowed,
+ESSFmc,SG,Subalpine Grassland,Allowed,
+ESSFmcp,SG,Subalpine Grassland,Allowed,
+ESSFmm,SG,Subalpine Grassland,Allowed,
+ESSFmmp,SG,Subalpine Grassland,Allowed,
+ESSFmv,SG,Subalpine Grassland,Allowed,
+ESSFmv,SG,Subalpine Grassland,Allowed,
+ESSFmvp,SG,Subalpine Grassland,Allowed,
+ESSFvc,SG,Subalpine Grassland,Allowed,
+ESSFwc,SG,Subalpine Grassland,Allowed,
+ESSFwcp,SG,Subalpine Grassland,Allowed,
+ESSFwcw,SG,Subalpine Grassland,Allowed,
+ESSFwk,SG,Subalpine Grassland,Allowed,
+ESSFwv,SG,Subalpine Grassland,Allowed,
+ESSFwvp,SG,Subalpine Grassland,Allowed,
+ESSFxv,SG,Subalpine Grassland,Allowed,
+SBSmc,SG,Subalpine Grassland,Allowed,
+SBSmc2,SG,Subalpine Grassland,Error,MS
+SWBmk,SG,Subalpine Grassland,Allowed,
+SWBmks,SG,Subalpine Grassland,Allowed,
+BWBSdk,SH,Shrub fen,Allowed,
+BWBSmk,SH,Shrub fen,Allowed,
+BWBSmw,SH,Shrub fen,Allowed,
+BWBSwk,SH,Shrub fen,Allowed,
+ESSFmc,SH,Shrub fen,Allowed,
+ESSFmcp,SH,Shrub fen,Allowed,
+ESSFmm,SH,Shrub fen,Allowed,
+ESSFmmp,SH,Shrub fen,Allowed,
+ESSFmv,SH,Shrub fen,Allowed,
+ESSFmvp,SH,Shrub fen,Allowed,
+ESSFvc,SH,Shrub fen,Allowed,
+ESSFwc,SH,Shrub fen,Allowed,
+ESSFwcp,SH,Shrub fen,Allowed,
+ESSFwcw,SH,Shrub fen,Allowed,
+ESSFwk,SH,Shrub fen,Allowed,
+ESSFwv,SH,Shrub fen,Allowed,
+ESSFwvp,SH,Shrub fen,Allowed,
+ESSFxv,SH,Shrub fen,Allowed,
+SBPSdc,SH,Shrub fen,Allowed,
+SBPSmc,SH,Shrub fen,Allowed,
+SBPSmk,SH,Shrub fen,Allowed,
+SBSdh,SH,Shrub fen,Allowed,
+SBSdk,SH,Shrub fen,Allowed,
+SBSdw,SH,Shrub fen,Allowed,
+SBSmc,SH,Shrub fen,Allowed,
+SBSmh,SH,Shrub fen,Allowed,
+SBSmk,SH,Shrub fen,Allowed,
+SBSmw,SH,Shrub fen,Allowed,
+SBSvk,SH,Shrub fen,Allowed,
+SBSwk,SH,Shrub fen,Allowed,
+SWBmk,SH,Shrub fen,Allowed,
+SWBmks,SH,Shrub fen,Allowed,
+BWBSdk,SK,Spruce - Swamp,Allowed,
+BWBSmk,SK,Spruce - Swamp,Allowed,
+BWBSmw,SK,Spruce - Swamp,Allowed,
+BWBSwk,SK,Spruce - Swamp,Allowed,
+ESSFmc,SK,Spruce - Swamp,Error,EF
+ESSFmm,SK,Spruce - Swamp,Error,EF
+ESSFmv,SK,Spruce - Swamp,Error,EF
+ESSFvc,SK,Spruce - Swamp,Error,EF
+ESSFwc,SK,Spruce - Swamp,Error,EF
+ESSFwcw,SK,Spruce - Swamp,Error,EF
+ESSFwk,SK,Spruce - Swamp,Error,EF
+ESSFwv,SK,Spruce - Swamp,Error,EF
+ESSFxv,SK,Spruce - Swamp,Error,EF
+SBPSdc,SK,Spruce - Swamp,Allowed,
+SBPSmc,SK,Spruce - Swamp,Allowed,
+SBPSmk,SK,Spruce - Swamp,Allowed,
+SBSdh,SK,Spruce - Swamp,Allowed,
+SBSdk,SK,Spruce - Swamp,Allowed,
+SBSdw,SK,Spruce - Swamp,Allowed,
+SBSmc,SK,Spruce - Swamp,Allowed,
+SBSmh,SK,Spruce - Swamp,Allowed,
+SBSmk,SK,Spruce - Swamp,Allowed,
+SBSmw,SK,Spruce - Swamp,Allowed,
+SBSvk,SK,Spruce - Swamp,Allowed,
+SBSwk,SK,Spruce - Swamp,Allowed,
+BAFAun,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,AT
+BAFAunp,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,AT
+BWBSdk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,BP
+BWBSmk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,BP
+BWBSmw,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,BP
+BWBSwk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,BP
+CWHws,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+ESSFmc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFmcp,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,FB
+ESSFmk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,FB
+ESSFmm,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFmmp,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,FB
+ESSFmv,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFmvp,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,FB
+ESSFvc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwcp,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,FB
+ESSFwcw,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwv,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ESSFwvp,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,FB
+ESSFxv,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,EF
+ICHmc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+ICHmm,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,IS
+ICHvk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,IS
+ICHwk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,IS
+IMAun,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,AT
+MSxv,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBPSdc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBPSmc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBPSmk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSdh,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSdk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSdw,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSmc,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSmh,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSmk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSmw,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSun,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSvk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SBSwk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+SWBmk,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,SA
+SWBmks,SL,Sub-Boreal White Spruce - Lodgepole Pine,Error,SA
+SBSdw,SL ,Sub-Boreal White Spruce - Lodgepole Pine,Allowed,
+BAFAun,SM,Subalpine Meadow,Error,AM
+BAFAunp,SM,Subalpine Meadow,Error,AM
+BWBSdk,SM,Subalpine Meadow,Error,ME
+BWBSmk,SM,Subalpine Meadow,Error,ME
+BWBSmw,SM,Subalpine Meadow,Error,ME
+BWBSwk,SM,Subalpine Meadow,Error,ME
+CMAun,SM,Subalpine Meadow,Error,AM
+CWHvh,SM,Subalpine Meadow,Error,ME
+CWHvm,SM,Subalpine Meadow,Error,ME
+CWHws,SM,Subalpine Meadow,Error,ME
+ESSFmc,SM,Subalpine Meadow,Allowed,
+ESSFmcp,SM,Subalpine Meadow,Allowed,
+ESSFmk,SM,Subalpine Meadow,Allowed,
+ESSFmkp,SM,Subalpine Meadow,Allowed,
+ESSFmm,SM,Subalpine Meadow,Allowed,
+ESSFmmp,SM,Subalpine Meadow,Allowed,
+ESSFmv,SM,Subalpine Meadow,Allowed,
+ESSFmvp,SM,Subalpine Meadow,Allowed,
+ESSFun,SM,Subalpine Meadow,Allowed,
+ESSFunp,SM,Subalpine Meadow,Allowed,
+ESSFvc,SM,Subalpine Meadow,Allowed,
+ESSFwc,SM,Subalpine Meadow,Allowed,
+ESSFwcp,SM,Subalpine Meadow,Allowed,
+ESSFwcw,SM,Subalpine Meadow,Allowed,
+ESSFwk,SM,Subalpine Meadow,Allowed,
+ESSFwv,SM,Subalpine Meadow,Allowed,
+ESSFwvp,SM,Subalpine Meadow,Allowed,
+ESSFxv,SM,Subalpine Meadow,Allowed,
+ICHmc,SM,Subalpine Meadow,Error,ME
+ICHvc,SM,Subalpine Meadow,Error,ME
+IMAun,SM,Subalpine Meadow,Error,AM
+MHmm,SM,Subalpine Meadow,Allowed,
+MHmmp,SM,Subalpine Meadow,Allowed,
+MHwh1,SM,Subalpine Meadow,Allowed,
+MHwhp,SM,Subalpine Meadow,Allowed,
+SBSdh,SM,Subalpine Meadow,Error,ME
+SBSdk,SM,Subalpine Meadow,Error,ME
+SBSdw,SM,Subalpine Meadow,Error,ME
+SBSmc,SM,Subalpine Meadow,Error,ME
+SBSmh,SM,Subalpine Meadow,Error,ME
+SBSmk,SM,Subalpine Meadow,Error,ME
+SBSmw,SM,Subalpine Meadow,Error,ME
+SBSun,SM,Subalpine Meadow,Allowed,
+SBSvk,SM,Subalpine Meadow,Error,ME
+SBSwk,SM,Subalpine Meadow,Error,ME
+SWBmk,SM,Subalpine Meadow,Allowed,
+SWBmks,SM,Subalpine Meadow,Allowed,
+BAFAun,SP,Slow Perennial Stream,Error,RI
+BAFAunp,SP,Slow Perennial Stream,Error,RI
+BWBSdk,SP,Slow Perennial Stream,Error,RI
+BWBSmk,SP,Slow Perennial Stream,Error,RI
+BWBSmw,SP,Slow Perennial Stream,Error,RI
+BWBSwk,SP,Slow Perennial Stream,Error,RI
+CMAun,SP,Slow Perennial Stream,Error,RI
+CMAunp,SP,Slow Perennial Stream,Error,RI
+CWHvh,SP,Slow Perennial Stream,Error,RI
+CWHvm,SP,Slow Perennial Stream,Error,RI
+CWHws,SP,Slow Perennial Stream,Error,RI
+ESSFmc,SP,Slow Perennial Stream,Error,RI
+ESSFmcp,SP,Slow Perennial Stream,Error,RI
+ESSFmk,SP,Slow Perennial Stream,Error,RI
+ESSFmkp,SP,Slow Perennial Stream,Error,RI
+ESSFmm,SP,Slow Perennial Stream,Error,RI
+ESSFmmp,SP,Slow Perennial Stream,Error,RI
+ESSFmv,SP,Slow Perennial Stream,Error,RI
+ESSFmvp,SP,Slow Perennial Stream,Error,RI
+ESSFun,SP,Slow Perennial Stream,Error,RI
+ESSFunp,SP,Slow Perennial Stream,Error,RI
+ESSFvc,SP,Slow Perennial Stream,Error,RI
+ESSFwc,SP,Slow Perennial Stream,Error,RI
+ESSFwcp,SP,Slow Perennial Stream,Error,RI
+ESSFwcw,SP,Slow Perennial Stream,Error,RI
+ESSFwk,SP,Slow Perennial Stream,Error,RI
+ESSFwv,SP,Slow Perennial Stream,Error,RI
+ESSFwvp,SP,Slow Perennial Stream,Error,RI
+ESSFxv,SP,Slow Perennial Stream,Error,RI
+ICHmc,SP,Slow Perennial Stream,Error,RI
+ICHmm,SP,Slow Perennial Stream,Error,RI
+ICHvk,SP,Slow Perennial Stream,Error,RI
+ICHwk,SP,Slow Perennial Stream,Error,RI
+IMAun,SP,Slow Perennial Stream,Error,RI
+MHmm,SP,Slow Perennial Stream,Error,RI
+MHmmp,SP,Slow Perennial Stream,Error,RI
+SBPSdc,SP,Slow Perennial Stream,Error,RI
+SBPSmc,SP,Slow Perennial Stream,Error,RI
+SBPSmk,SP,Slow Perennial Stream,Error,RI
+SBSdh,SP,Slow Perennial Stream,Error,RI
+SBSdk,SP,Slow Perennial Stream,Error,RI
+SBSdw,SP,Slow Perennial Stream,Error,RI
+SBSmc,SP,Slow Perennial Stream,Error,RI
+SBSmc2,SP,Slow Perennial Stream,Error,RI
+SBSmc3,SP,Slow Perennial Stream,Error,RI
+SBSmh,SP,Slow Perennial Stream,Error,RI
+SBSmk,SP,Slow Perennial Stream,Error,RI
+SBSmw,SP,Slow Perennial Stream,Error,RI
+SBSvk,SP,Slow Perennial Stream,Error,RI
+SBSwk,SP,Slow Perennial Stream,Error,RI
+SWBmk,SP,Slow Perennial Stream,Error,RI
+SWBmks,SP,Slow Perennial Stream,Error,RI
+CWHvh,SR,Sitka Spruce - Black Cottonwood Riparian,Allowed,
+CWHvm,SR,Sitka Spruce - Black Cottonwood Riparian,Allowed,
+CWHwm,SR,Sitka Spruce - Black Cottonwood Riparian,Allowed,
+CWHws,SR,Sitka Spruce - Black Cottonwood Riparian,Allowed,
+MHmm,SR,Sitka Spruce - Black Cottonwood Riparian,Allowed,
+MHmmp,SR,Sitka Spruce - Black Cottonwood Riparian,Error,HP
+CWHvh,ST,Subtidal Marine,Allowed,
+CWHvm,ST,Subtidal Marine,Allowed,
+CWHwm,ST,Subtidal Marine,Allowed,
+BAFAun,SU,Subalpine Shrub/Grassland,Error,AS
+BAFAunp,SU,Subalpine Shrub/Grassland,Error,AS
+BWBSdk,SU,Subalpine Shrub/Grassland,Error,MS
+BWBSmk,SU,Subalpine Shrub/Grassland,Error,MS
+BWBSmw,SU,Subalpine Shrub/Grassland,Error,MS
+BWBSwk,SU,Subalpine Shrub/Grassland,Error,MS
+ESSFmc,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFmcp,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFmk,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFmm,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFmmp,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFmv,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFmvp,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFun,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFunp,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFvc,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFwc,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFwcp,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFwcw,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFwk,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFwv,SU,Subalpine Shrub/Grassland,Error,SG
+ESSFwvp,SU,Subalpine Shrub/Grassland,Allowed,
+ESSFxv,SU,Subalpine Shrub/Grassland,Error,SG
+SWBmk,SU,Subalpine Shrub/Grassland,Allowed,
+SWBmks,SU,Subalpine Shrub/Grassland,Allowed,
+BWBSdk,SW,Shrub Swamp,Allowed,
+BWBSmk,SW,Shrub Swamp,Allowed,
+BWBSmw,SW,Shrub Swamp,Allowed,
+BWBSwk,SW,Shrub Swamp,Allowed,
+SBPSdc,SW,Shrub Swamp,Allowed,
+SBPSmc,SW,Shrub Swamp,Allowed,
+SBPSmk,SW,Shrub Swamp,Allowed,
+SBSdh,SW,Shrub Swamp,Allowed,
+SBSdk,SW,Shrub Swamp,Allowed,
+SBSdw,SW,Shrub Swamp,Allowed,
+SBSmc,SW,Shrub Swamp,Allowed,
+SBSmh,SW,Shrub Swamp,Allowed,
+SBSmk,SW,Shrub Swamp,Allowed,
+SBSmw,SW,Shrub Swamp,Allowed,
+SBSvk,SW,Shrub Swamp,Allowed,
+SBSwk,SW,Shrub Swamp,Allowed,
+SWBmk,SW,Shrub Swamp,Allowed,
+SWBmks,SW,Shrub Swamp,Allowed,
+BAFAun,TA,Talus,Allowed,
+BAFAunp,TA,Talus,Allowed,
+BWBSdk,TA,Talus,Allowed,
+BWBSmk,TA,Talus,Allowed,
+BWBSmw,TA,Talus,Allowed,
+BWBSwk,TA,Talus,Allowed,
+CMAun,TA,Talus,Allowed,
+CMAunp,TA,Talus,Allowed,
+CWHvm,TA,Talus,Allowed,
+CWHws,TA,Talus,Allowed,
+ESSFmc,TA,Talus,Allowed,
+ESSFmcp,TA,Talus,Allowed,
+ESSFmk,TA,Talus,Allowed,
+ESSFmkp,TA,Talus,Allowed,
+ESSFmm,TA,Talus,Allowed,
+ESSFmmp,TA,Talus,Allowed,
+ESSFmv,TA,Talus,Allowed,
+ESSFmvp,TA,Talus,Allowed,
+ESSFvc,TA,Talus,Allowed,
+ESSFwc,TA,Talus,Allowed,
+ESSFwcp,TA,Talus,Allowed,
+ESSFwcw,TA,Talus,Allowed,
+ESSFwk,TA,Talus,Allowed,
+ESSFwv,TA,Talus,Allowed,
+ESSFwvp,TA,Talus,Allowed,
+ESSFxv,TA,Talus,Allowed,
+ICHmc,TA,Talus,Allowed,
+ICHmm,TA,Talus,Allowed,
+ICHvk,TA,Talus,Allowed,
+ICHwk,TA,Talus,Allowed,
+IMAun,TA,Talus,Allowed,
+MHmm,TA,Talus,Allowed,
+MHmmp,TA,Talus,Allowed,
+SBPSdc,TA,Talus,Allowed,
+SBPSmc,TA,Talus,Allowed,
+SBPSmk,TA,Talus,Allowed,
+SBSdh,TA,Talus,Allowed,
+SBSdk,TA,Talus,Allowed,
+SBSdw,TA,Talus,Allowed,
+SBSmc,TA,Talus,Allowed,
+SBSmh,TA,Talus,Allowed,
+SBSmk,TA,Talus,Allowed,
+SBSmw,TA,Talus,Allowed,
+SBSvk,TA,Talus,Allowed,
+SBSwk,TA,Talus,Allowed,
+SWBmk,TA,Talus,Allowed,
+SWBmks,TA,Talus,Allowed,
+ESSFmc,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmm,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFmv,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFvc,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwc,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwcw,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwk,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFwv,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+ESSFxv,TB,Trembling Aspen - Balsam Poplar,Error,"Note error ""BEU assigned not allowed in this BGC"" (mapper needs to assess)"
+SBPSdc,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBPSmc,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBPSmk,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSdh,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSdk,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSdw,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSmc,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSmh,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSmk,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSmw,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSvk,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SBSwk,TB,Trembling Aspen - Balsam Poplar,Error,SA
+SWBmk,TB,Trembling Aspen - Balsam Poplar,Allowed,
+SWBmks,TB,Trembling Aspen - Balsam Poplar,Allowed,
+BAFAun,TC,Transportation Corridor,Allowed,
+BAFAunp,TC,Transportation Corridor,Allowed,
+BWBSdk,TC,Transportation Corridor,Allowed,
+BWBSmk,TC,Transportation Corridor,Allowed,
+BWBSmw,TC,Transportation Corridor,Allowed,
+BWBSwk,TC,Transportation Corridor,Allowed,
+CWHws,TC,Transportation Corridor,Allowed,
+ESSFmc,TC,Transportation Corridor,Allowed,
+ESSFmcp,TC,Transportation Corridor,Allowed,
+ESSFmm,TC,Transportation Corridor,Allowed,
+ESSFmmp,TC,Transportation Corridor,Allowed,
+ESSFmv,TC,Transportation Corridor,Allowed,
+ESSFmvp,TC,Transportation Corridor,Allowed,
+ESSFvc,TC,Transportation Corridor,Allowed,
+ESSFwc,TC,Transportation Corridor,Allowed,
+ESSFwcp,TC,Transportation Corridor,Allowed,
+ESSFwcw,TC,Transportation Corridor,Allowed,
+ESSFwk,TC,Transportation Corridor,Allowed,
+ESSFwv,TC,Transportation Corridor,Allowed,
+ESSFwvp,TC,Transportation Corridor,Allowed,
+ESSFxv,TC,Transportation Corridor,Allowed,
+ICHmm,TC,Transportation Corridor,Allowed,
+SBPSdc,TC,Transportation Corridor,Allowed,
+SBPSmc,TC,Transportation Corridor,Allowed,
+SBPSmk,TC,Transportation Corridor,Allowed,
+SBSdh,TC,Transportation Corridor,Allowed,
+SBSdk,TC,Transportation Corridor,Allowed,
+SBSdw,TC,Transportation Corridor,Allowed,
+SBSmc,TC,Transportation Corridor,Allowed,
+SBSmh,TC,Transportation Corridor,Allowed,
+SBSmk,TC,Transportation Corridor,Allowed,
+SBSmw,TC,Transportation Corridor,Allowed,
+SBSvk,TC,Transportation Corridor,Allowed,
+SBSwk,TC,Transportation Corridor,Allowed,
+SWBmk,TC,Transportation Corridor,Allowed,
+SWBmks,TC,Transportation Corridor,Allowed,
+BWBSdk,TF,Tamarack Wetland,Allowed,
+BWBSmk,TF,Tamarack Wetland,Allowed,
+BWBSmw,TF,Tamarack Wetland,Allowed,
+BWBSwk,TF,Tamarack Wetland,Allowed,
+BAFAun,TR,Transmission Line,Allowed,
+BAFAunp,TR,Transmission Line,Allowed,
+BWBSdk,TR,Transmission Line,Allowed,
+BWBSmk,TR,Transmission Line,Allowed,
+BWBSmw,TR,Transmission Line,Allowed,
+BWBSwk,TR,Transmission Line,Allowed,
+ESSFmc,TR,Transmission Line,Allowed,
+ESSFmcp,TR,Transmission Line,Allowed,
+ESSFmm,TR,Transmission Line,Allowed,
+ESSFmmp,TR,Transmission Line,Allowed,
+ESSFmv,TR,Transmission Line,Allowed,
+ESSFmvp,TR,Transmission Line,Allowed,
+ESSFvc,TR,Transmission Line,Allowed,
+ESSFwc,TR,Transmission Line,Allowed,
+ESSFwcp,TR,Transmission Line,Allowed,
+ESSFwcw,TR,Transmission Line,Allowed,
+ESSFwk,TR,Transmission Line,Allowed,
+ESSFwv,TR,Transmission Line,Allowed,
+ESSFwvp,TR,Transmission Line,Allowed,
+ESSFxv,TR,Transmission Line,Allowed,
+SBPSdc,TR,Transmission Line,Allowed,
+SBPSmc,TR,Transmission Line,Allowed,
+SBPSmk,TR,Transmission Line,Allowed,
+SBSdh,TR,Transmission Line,Allowed,
+SBSdk,TR,Transmission Line,Allowed,
+SBSdw,TR,Transmission Line,Allowed,
+SBSmc,TR,Transmission Line,Allowed,
+SBSmh,TR,Transmission Line,Allowed,
+SBSmk,TR,Transmission Line,Allowed,
+SBSmw,TR,Transmission Line,Allowed,
+SBSvk,TR,Transmission Line,Allowed,
+SBSwk,TR,Transmission Line,Allowed,
+SWBmk,TR,Transmission Line,Allowed,
+SWBmks,TR,Transmission Line,Allowed,
+BAFAun,UR,Urban,Error,AT
+BAFAunp,UR,Urban,Error,AT
+BWBSdk,UR,Urban,Allowed,
+BWBSmk,UR,Urban,Allowed,
+BWBSmw,UR,Urban,Allowed,
+BWBSwk,UR,Urban,Allowed,
+CWHvh,UR,Urban,Allowed,
+CWHvm,UR,Urban,Allowed,
+CWHwm,UR,Urban,Allowed,
+CWHws,UR,Urban,Allowed,
+ESSFmc,UR,Urban,Allowed,
+ESSFmm,UR,Urban,Allowed,
+ESSFmv,UR,Urban,Allowed,
+ESSFmvp,UR,Urban,Error,SU
+ESSFvc,UR,Urban,Allowed,
+ESSFwc,UR,Urban,Allowed,
+ESSFwcw,UR,Urban,Allowed,
+ESSFwk,UR,Urban,Allowed,
+ESSFwv,UR,Urban,Allowed,
+ESSFxv,UR,Urban,Allowed,
+ICHmc,UR,Urban,Allowed,
+ICHmm,UR,Urban,Allowed,
+ICHvc,UR,Urban,Allowed,
+ICHwk,UR,Urban,Allowed,
+MHmm,UR,Urban,Allowed,
+MHwh1,UR,Urban,Allowed,
+SBPSdc,UR,Urban,Allowed,
+SBPSmc,UR,Urban,Allowed,
+SBPSmk,UR,Urban,Allowed,
+SBSdh,UR,Urban,Allowed,
+SBSdk,UR,Urban,Allowed,
+SBSdw,UR,Urban,Allowed,
+SBSmc,UR,Urban,Allowed,
+SBSmh,UR,Urban,Allowed,
+SBSmk,UR,Urban,Allowed,
+SBSmw,UR,Urban,Allowed,
+SBSvk,UR,Urban,Allowed,
+SBSwk,UR,Urban,Allowed,
+SWBmk,UR,Urban,Allowed,
+SWBmks,UR,Urban,Allowed,
+BAFAun,UV,Unvegetated,Error,AU
+BAFAunp,UV,Unvegetated,Error,AU
+BWBSdk,UV,Unvegetated,Allowed,
+BWBSmk,UV,Unvegetated,Allowed,
+BWBSmw,UV,Unvegetated,Allowed,
+BWBSwk,UV,Unvegetated,Allowed,
+CMAun,UV,Unvegetated,Error,AU
+CWHvh,UV,Unvegetated,Allowed,
+CWHvm,UV,Unvegetated,Allowed,
+CWHwm,UV,Unvegetated,Allowed,
+CWHws,UV,Unvegetated,Allowed,
+ESSFmc,UV,Unvegetated,Allowed,
+ESSFmcp,UV,Unvegetated,Allowed,
+ESSFmk,UV,Unvegetated,Allowed,
+ESSFmkp,UV,Unvegetated,Allowed,
+ESSFmm,UV,Unvegetated,Allowed,
+ESSFmmp,UV,Unvegetated,Allowed,
+ESSFmv,UV,Unvegetated,Allowed,
+ESSFmvp,UV,Unvegetated,Allowed,
+ESSFun,UV,Unvegetated,Allowed,
+ESSFunp,UV,Unvegetated,Allowed,
+ESSFvc,UV,Unvegetated,Allowed,
+ESSFwc,UV,Unvegetated,Allowed,
+ESSFwcp,UV,Unvegetated,Allowed,
+ESSFwcw,UV,Unvegetated,Allowed,
+ESSFwk,UV,Unvegetated,Allowed,
+ESSFwv,UV,Unvegetated,Allowed,
+ESSFwvp,UV,Unvegetated,Allowed,
+ESSFxv,UV,Unvegetated,Allowed,
+ICHmc,UV,Unvegetated,Allowed,
+ICHmm,UV,Unvegetated,Allowed,
+ICHvc,UV,Unvegetated,Allowed,
+ICHvk,UV,Unvegetated,Allowed,
+ICHwk,UV,Unvegetated,Allowed,
+IMAun,UV,Unvegetated,Allowed,
+MHmm,UV,Unvegetated,Allowed,
+MHmmp,UV,Unvegetated,Allowed,
+MHwh1,UV,Unvegetated,Allowed,
+MSxv,UV,Unvegetated,Allowed,
+SBPSdc,UV,Unvegetated,Allowed,
+SBPSmc,UV,Unvegetated,Allowed,
+SBPSmk,UV,Unvegetated,Allowed,
+SBSdh,UV,Unvegetated,Allowed,
+SBSdk,UV,Unvegetated,Allowed,
+SBSdw,UV,Unvegetated,Allowed,
+SBSmc,UV,Unvegetated,Allowed,
+SBSmh,UV,Unvegetated,Allowed,
+SBSmk,UV,Unvegetated,Allowed,
+SBSmw,UV,Unvegetated,Allowed,
+SBSvk,UV,Unvegetated,Allowed,
+SBSwk,UV,Unvegetated,Allowed,
+SWBmk,UV,Unvegetated,Allowed,
+SWBmks,UV,Unvegetated,Allowed,
+BAFAun,WB,Whitebark Pine Subalpine,Allowed,
+BAFAunp,WB,Whitebark Pine Subalpine,Allowed,
+CMAun,WB,Whitebark Pine Subalpine,Allowed,
+CWHws,WB,Whitebark Pine Subalpine,Error,FR
+ESSFmc,WB,Whitebark Pine Subalpine,Allowed,
+ESSFmcp,WB,Whitebark Pine Subalpine,Error,FB
+ESSFmk,WB,Whitebark Pine Subalpine,Allowed,
+ESSFmkp,WB,Whitebark Pine Subalpine,Allowed,
+ESSFmm,WB,Whitebark Pine Subalpine,Allowed,
+ESSFmv,WB,Whitebark Pine Subalpine,Allowed,
+ESSFvc,WB,Whitebark Pine Subalpine,Allowed,
+ESSFwc,WB,Whitebark Pine Subalpine,Allowed,
+ESSFwcw,WB,Whitebark Pine Subalpine,Allowed,
+ESSFwk,WB,Whitebark Pine Subalpine,Allowed,
+ESSFwv,WB,Whitebark Pine Subalpine,Allowed,
+ESSFxv,WB,Whitebark Pine Subalpine,Allowed,
+MHmm,WB,Whitebark Pine Subalpine,Allowed,
+MHmmp,WB,Whitebark Pine Subalpine,Allowed,
+BWBSdk,WG,Hybrid White Spruce Bog Forest,Allowed,
+BWBSmk,WG,Hybrid White Spruce Bog Forest,Allowed,
+BWBSmw,WG,Hybrid White Spruce Bog Forest,Allowed,
+BWBSwk,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSdh,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSdk,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSdw,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSmc,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSmh,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSmk,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSmw,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSvk,WG,Hybrid White Spruce Bog Forest,Allowed,
+SBSwk,WG,Hybrid White Spruce Bog Forest,Allowed,
+SWBmk,WG,Hybrid White Spruce Bog Forest,Error,BB
+SWBmks,WG,Hybrid White Spruce Bog Forest,Error,BB
+BAFAun,WL,Wetland,Allowed,
+BAFAunp,WL,Wetland,Allowed,
+BWBSdk,WL,Wetland,Allowed,
+BWBSmk,WL,Wetland,Allowed,
+BWBSmw,WL,Wetland,Allowed,
+BWBSwk,WL,Wetland,Allowed,
+CMAun,WL,Wetland,Allowed,
+CWHvh,WL,Wetland,Allowed,
+CWHvm,WL,Wetland,Allowed,
+CWHwm,WL,Wetland,Allowed,
+CWHws,WL,Wetland,Allowed,
+ESSFmc,WL,Wetland,Allowed,
+ESSFmcp,WL,Wetland,Allowed,
+ESSFmk,WL,Wetland,Allowed,
+ESSFmkp,WL,Wetland,Allowed,
+ESSFmm,WL,Wetland,Allowed,
+ESSFmmp,WL,Wetland,Allowed,
+ESSFmv,WL,Wetland,Allowed,
+ESSFmvp,WL,Wetland,Allowed,
+ESSFun,WL,Wetland,Allowed,
+ESSFunp,WL,Wetland,Allowed,
+ESSFvc,WL,Wetland,Allowed,
+ESSFwc,WL,Wetland,Allowed,
+ESSFwcp,WL,Wetland,Allowed,
+ESSFwcw,WL,Wetland,Allowed,
+ESSFwk,WL,Wetland,Allowed,
+ESSFwv,WL,Wetland,Allowed,
+ESSFwvp,WL,Wetland,Allowed,
+ESSFxv,WL,Wetland,Allowed,
+ESSFxv,WL,Wetland,Allowed,
+ICHmc,WL,Wetland,Allowed,
+ICHmm,WL,Wetland,Allowed,
+ICHvc,WL,Wetland,Allowed,
+ICHvk,WL,Wetland,Allowed,
+ICHwk,WL,Wetland,Allowed,
+IMAun,WL,Wetland,Allowed,
+MHmm,WL,Wetland,Allowed,
+MHmmp,WL,Wetland,Allowed,
+MHwh1,WL,Wetland,Allowed,
+MSxv,WL,Wetland,Allowed,
+SBPSdc,WL,Wetland,Allowed,
+SBPSmc,WL,Wetland,Allowed,
+SBPSmk,WL,Wetland,Allowed,
+SBSdh,WL,Wetland,Allowed,
+SBSdk,WL,Wetland,Allowed,
+SBSdw,WL,Wetland,Allowed,
+SBSmc,WL,Wetland,Allowed,
+SBSmh,WL,Wetland,Allowed,
+SBSmk,WL,Wetland,Allowed,
+SBSmw,WL,Wetland,Allowed,
+SBSun,WL,Wetland,Allowed,
+SBSvk,WL,Wetland,Allowed,
+SBSwk,WL,Wetland,Allowed,
+SWBmk,WL,Wetland,Allowed,
+SWBmks,WL,Wetland,Allowed,
+BAFAun,WP,Subalpine Fir - Mountain Hemlock Wet Parkland,Allowed,
+BAFAunp,WP,Subalpine Fir - Mountain Hemlock Wet Parkland,Allowed,
+CWHws,WP,Subalpine Fir - Mountain Hemlock Wet Parkland,Error,FR
+ESSFmc,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmcp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmkp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmm,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmmp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmv,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFmvp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFvc,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFwc,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFwcp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFwcw,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFwk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFwv,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFwvp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFxv,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ICHmc,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SF
+ICHvc,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SF
+MHmm,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,HP
+MHmmp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,HP
+SBSdh,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSdk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSdw,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSmc,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSmh,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSmk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSmw,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSvk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SBSwk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,SL
+SWBmk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,BK
+SWBmks,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+ESSFunp,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Allowed,
+BWBSdk,WR,White Spruce - Black Cottonwood Riparian,Error,PR
+BWBSmk,WR,White Spruce - Black Cottonwood Riparian,Error,PR
+BWBSmw,WR,White Spruce - Black Cottonwood Riparian,Error,PR
+BWBSwk,WR,White Spruce - Black Cottonwood Riparian,Error,PR
+CWHws,WR,White Spruce - Black Cottonwood Riparian,Error,SR
+ESSFmc,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFmm,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFmv,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFvc,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFwc,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFwcw,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFwk,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFwv,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ESSFxv,WR,White Spruce - Black Cottonwood Riparian,Error,ER
+ICHmc,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+ICHmm,WR,White Spruce - Black Cottonwood Riparian,Error,SF
+ICHvc,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+ICHvk,WR,White Spruce - Black Cottonwood Riparian,Error,SF
+ICHwk,WR,White Spruce - Black Cottonwood Riparian,Error,SF
+SBPSdc,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBPSmc,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBPSmk,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSdh,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSdk,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSdw,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSmc,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSmh,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSmk,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSmw,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSvk,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SBSwk,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+SWBmk,WR,White Spruce - Black Cottonwood Riparian,Error,PR
+SWBmks,WR,White Spruce - Black Cottonwood Riparian,Error,PR
+SBSun,WR,White Spruce - Black Cottonwood Riparian,Allowed,
+CWHvh,YB,Yellow-cedar Bog Forest,Allowed,
+CWHvm,YB,Yellow-cedar Bog Forest,Allowed,
+MHmm,YB,Yellow-cedar Bog Forest,Allowed,
+MHmmp,YB,Yellow-cedar Bog Forest,Allowed,
+MHwh1,YB,Yellow-cedar Bog Forest,Allowed,
+MHwhp,YB,Yellow-cedar Bog Forest,Allowed,
+CWHvh,YM,Yellow-cedar - Mountain Hemlock Forest ,Allowed,
+CWHvm,YM,Yellow-cedar - Mountain Hemlock Forest ,Allowed,
+MHmm,YM,Yellow-cedar - Mountain Hemlock Forest ,Allowed,
+MHmmp,YM,Yellow-cedar - Mountain Hemlock Forest ,Allowed,
+MHwh1,YM,Yellow-cedar - Mountain Hemlock Forest ,Allowed,
+MHwhp,YM,Yellow-cedar - Mountain Hemlock Forest ,Allowed,
+CWHvh,YS,Yellow-cedar Skunk Cabbage Swamp Forest ,Allowed,
+CWHvm,YS,Yellow-cedar Skunk Cabbage Swamp Forest ,Allowed,
+MHmm,YS,Yellow-cedar Skunk Cabbage Swamp Forest ,Allowed,
+MHwh1,YS,Yellow-cedar Skunk Cabbage Swamp Forest ,Allowed,
+MHwhp,YS,Yellow-cedar Skunk Cabbage Swamp Forest ,Allowed,
+SWBmk,AS,Alpine Shrub,Error,SU
+SWBmks,AS,Alpine Shrub,Error,SU
+ESSFmvp,BP,Boreal White Spruce - Lodgepole Pine,Error,FP
+BWBSmk,TB,Trembling Aspen - Balsam Poplar,Error,BA
+BWBSdk,WP,Subalpine Fir- Mountain Hemlock Wet Parkland,Error,FP
+CMAunp,AH,Alpine Heath,Allowed,
+CWHvm,CD,Coastal Douglas-fir,Error,FR
+CWHvm,CR,Black Cottonwood Riparian Habitat Class,Allowed,
+CWHvm,CW,Coastal Western Hemlock–Douglas-fir,Allowed,
+CWHvm,HS,Western Hemlock– Sitka Spruce,Error,CH
+CWHws,CD,Coastal Douglas-fir,Error,FR
+CWHws,CR,Black Cottonwood Riparian Habitat Class,Error,SR
+MSxv,BB,Black Spruce Bog,Error,WG

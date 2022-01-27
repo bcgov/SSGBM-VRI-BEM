@@ -2,4 +2,5 @@
 
 import(data.table)
 import(sf)
+import(terra)
 import(units)

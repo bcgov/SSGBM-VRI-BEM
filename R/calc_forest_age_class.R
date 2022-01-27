@@ -1,3 +1,10 @@
+#' compute variable for structural stage look up and stand composition look up
+#'
+#' @param vri sf object that represent VRI (vegetation ressource inventory) features
+#' @param most_recent_harvest_year integer that represent the most recent harvers year
+#' @return sf object vri
+#' @import data.table
+#'
 calc_forest_age_class <- function(vri, most_recent_harvest_year) {
 
   # TODO Might be useless if we can adapt the look up table
