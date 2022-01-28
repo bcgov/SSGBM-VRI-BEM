@@ -7,9 +7,9 @@
 merge_vri_bem(vri, bem)
 }
 \arguments{
-\item{vri}{sf object that represent BEM (broad ecosystem mapping) features}
+\item{vri}{sf object that represent VRI (vegetation ressource inventory) features}
 
-\item{bem}{sf object that represent VRI (vegetation ressource inventory) features}
+\item{bem}{sf object that represent BEM (broad ecosystem mapping) features}
 }
 \value{
 sf object that represent the original VRI with merged BEM attributes based on largest overlay
