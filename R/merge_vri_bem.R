@@ -23,7 +23,9 @@ merge_vri_bem <- function(vri, bem) {
 
   # use data.table to optimise speed
   classes_bem <- attr(bem, "class")
+  classes_vri <- attr(vri, "class")
   setDT(vri)
+  setDT(bem)
 
 
   # remove feature with area below 1000

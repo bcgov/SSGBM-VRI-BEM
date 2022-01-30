@@ -12,44 +12,33 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   setDT(bfc)
 
   # check if all required attributes are there
-
-  required_attributes <- c("TEIS_ID", "SDEC_1", "BEUMC_S1", "REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1",
-                            "SITEAM_S1A", "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B",
-                            "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1", "TREE_C1", "SHRUB_C1", "DISTCLS_1",
-                            "DISTSCLS_1", "DISSSCLS_1", "SECL_1", "SESUBCL_1", "COND_1", "VIAB_1", "SDEC_2", "BEUMC_S2",
-                            "REALM_2", "GROUP_2", "CLASS_2", "KIND_2", "SITE_S2", "SITEAM_S2A", "SITEAM_S2B", "SITEAM_S2C",
-                            "SITEAM_S2D", "SITEMC_S2", "SITE_M2A", "SITE_M2B", "STRCT_S2", "STRCT_M2", "STAND_A2",
-                            "SERAL_2", "TREE_C2", "SHRUB_C2", "DISTCLS_2", "DISTSCLS_2", "DISSSCLS_2", "SECL_2",
-                            "SESUBCL_2", "COND_2", "VIAB_2", "SDEC_3", "BEUMC_S3", "REALM_3", "GROUP_3", "CLASS_3",
-                            "KIND_3", "SITE_S3", "SITEAM_S3A", "SITEAM_S3B", "SITEAM_S3C", "SITEAM_S3D", "SITEMC_S3",
-                            "SITE_M3A", "SITE_M3B", "STRCT_S3", "STRCT_M3", "STAND_A3", "SERAL_3", "TREE_C3", "SHRUB_C3",
-                            "DISTCLS_3", "DISTSCLS_3", "DISSSCLS_3", "SECL_3", "SESUBCL_3", "COND_3", "VIAB_3", "BGC_ZONE",
-                            "MEAN_SLOPE", "BCLCS_LEVEL_4")
-
-  existing_attributes <- names(bfc)
-
-  if (length(setdiff(required_attributes, existing_attributes)) > 0) {
-    # TODO message and action
-  }
-
+  validate_required_attributes(ifc = bfc,
+                               required_attributes = c("TEIS_ID", "SDEC_1", "BEUMC_S1", "REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1",
+                                                       "SITEAM_S1A", "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B",
+                                                       "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1", "TREE_C1", "SHRUB_C1", "DISTCLS_1",
+                                                       "DISTSCLS_1", "DISSSCLS_1", "SECL_1", "SESUBCL_1", "COND_1", "VIAB_1", "SDEC_2", "BEUMC_S2",
+                                                       "REALM_2", "GROUP_2", "CLASS_2", "KIND_2", "SITE_S2", "SITEAM_S2A", "SITEAM_S2B", "SITEAM_S2C",
+                                                       "SITEAM_S2D", "SITEMC_S2", "SITE_M2A", "SITE_M2B", "STRCT_S2", "STRCT_M2", "STAND_A2",
+                                                       "SERAL_2", "TREE_C2", "SHRUB_C2", "DISTCLS_2", "DISTSCLS_2", "DISSSCLS_2", "SECL_2",
+                                                       "SESUBCL_2", "COND_2", "VIAB_2", "SDEC_3", "BEUMC_S3", "REALM_3", "GROUP_3", "CLASS_3",
+                                                       "KIND_3", "SITE_S3", "SITEAM_S3A", "SITEAM_S3B", "SITEAM_S3C", "SITEAM_S3D", "SITEMC_S3",
+                                                       "SITE_M3A", "SITE_M3B", "STRCT_S3", "STRCT_M3", "STAND_A3", "SERAL_3", "TREE_C3", "SHRUB_C3",
+                                                       "DISTCLS_3", "DISTSCLS_3", "DISSSCLS_3", "SECL_3", "SESUBCL_3", "COND_3", "VIAB_3", "BGC_ZONE",
+                                                       "MEAN_SLOPE", "BCLCS_LV_4"))
   # check if bem contains duplicate teis_id
   if (length(unique(bfc$TEIS_ID)) < nrow(bfc)) {
-    # TODO message
+    warning("Duplicate TEIS_ID values found. Repopulating TEIS_ID field with unique values.")
     set(bfc, j = "TEIS_ID", value = seq.int(along.with = nrow(bfc)))
   }
 
-  if (!("Lbl_edit_wl" %in% existing_attributes)) {
-    # TODO logger inform
+  if (is.null(bfc[["Lbl_edit_wl"]])) {
     set(bfc , j = "Lbl_edit_wl", value = "")
-    required_attributes <- c(required_attributes, "Lbl_edit_wl")
   }
 
   # Add SMPL_TYPE field if it doesn't already exist
 
-  if (!("SMPL_TYPE" %in% existing_attributes)) {
-    # TODO logger inform
+  if (is.null(bfc[["SMPL_TYPE"]])) {
     set(bfc , j = "SMPL_TYPE", value = "")
-    required_attributes <- c(required_attributes, "SMPL_TYPE")
   }
 
   # create eco variables vectors so its easier to blank them
@@ -70,43 +59,26 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   site_m3a_eq_a <- bfc[["SITE_M3A"]] == "a"
 
 
-  # TODO
-  # Read the table of BEU decile and mapcode updates according to wetland overlap percentage
+  # compute % of wetland area for each BEM ----
 
-  # TODO merge the table on the bfc to have Code_WL_x
-
-  # create column to have range of decile when merging
-
-
-  # compute percentile of wetland area for each BEM
-
-  # find intersections between BEM and Wetlands
+  # Find intersections between BEM and Wetlands
   intersections <- st_intersection(bfc$Shape, wfc$Shape)
   intersection_dt <- data.table(bfc = attr(intersections, "idx")[, 1], wfc = attr(intersections, "idx")[, 2], area = st_area(intersections))
-  index_dt <- intersection_dt[, .(pct_area = sum(area)/vri_area), by = bfc]
+  index_dt <- intersection_dt[, .(wetland_area = sum(area)), by = bfc]
 
-  bfc[index_dt[["bfc"]], pct_area := index_dt[["pct_area"]]]
+  bfc[index_dt[["bfc"]], wetland_area := index_dt[["wetland_area"]]]
+  bfc[, pct_area:= wetland_area/vri_area]
 
-  bfc[, Lbl_edit_wl := paste0(pct_area, "No Wetland.")]
+  bfc[, Lbl_edit_wl := "No Wetland."]
   bfc[!is.na(pct_area), Lbl_edit_wl := paste0(pct_area, "% of polygon occupied by wetland.")]
 
   bfc[, Lbl_edit_wl := paste0(Lbl_edit_wl, " Current BEU: ", SDEC_1, " ", BEUMC_S1)]
 
   # creation of condition variables that will be used multiple times to avoid having to compute them more than once
-  sdec_2_gt_0 <- bfc[["SDEC_1"]] > 5
-  sdec_2_gt_0 <- bfc[["SDEC_2"]] > 0
-  sdec_3_gt_0 <- bfc[["SDEC_3"]] > 0
-
-  beumc_s3_eq_WL <- bfc[["BEUMC_S3"]] == "WL"
 
 
-
-
-
-
-
-  bfc[(sdec_2_gt_0), Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
-  bfc[(sdec_2_gt_0) & (sdec_3_gt_0), Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
+  bfc[SDEC_2 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
+  bfc[SDEC_3 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
 
 
   # If curr_beu_code is 4 digits: 1 digit for each decile, with the 4th digit:
@@ -119,61 +91,130 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   #     0 if the first and only component is not WL
   #     1 if the first and only component is WL
 
+  bfc[, SDEC_2_num := fifelse(is.na(SDEC_2), 0, SDEC_2)]
+  bfc[, SDEC_3_num := fifelse(is.na(SDEC_3), 0, SDEC_3)]
+  bfc[, curr_wl_zone:=fcase(BEUMC_S1 == "WL", 1,
+                            BEUMC_S2 == "WL", 2,
+                            BEUMC_S3 == "WL", 3,
+                            default = 0)]
 
-  bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", (((SDEC_1 * 10) + (SDEC_2 * !is.na(SDEC_2))) * 10 + (SDEC_3 * !is.na(SDEC_3))) * 10 + ((1 * BEUMC_S1 == "WL") + (2 * BEUMC_S1 != "WL" & BEUMC_S2 == "WL") + (3 * BEUMC_S1 != "WL" & BEUMC_S2 != "WL" & (beumc_s3_eq_WL))), ")")]
+  bfc[, curr_beu_code:= paste0(SDEC1, SDEC2_num, SDEC3_num, curr_wl_zone)]
+
+
+  bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", curr_beu_code, ")")]
 
 
   # line 351
-  bfc[(sdec_3_gt_0 & beumc_s3_eq_WL), `:=`(
-    SDEC_1 = SDEC_3,
-    SDEC_3 = NA,
-    BEUMC_S3 = ""
-  )]
+  #TODO ensure there is no problem here reassigning the same values
+  bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
+      `:=`(SDEC_1 = SDEC_3,
+           SDEC_3 = NA,
+           BEUMC_S3 = "")]
 
   # line 355
-  bfc[(sdec_3_gt_0 & beumc_s3_eq_WL), c(eco_variables_string_1, eco_variables_string_2, eco_variables_string_3) := ""]
-  bfc[(sdec_3_gt_0 & beumc_s3_eq_WL), c(eco_variables_integer_1, eco_variables_integer_2, eco_variables_integer_3) := NA_integer_]
+  bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"), c(eco_variables_string_1, eco_variables_string_2, eco_variables_string_3) := ""]
+  bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"), c(eco_variables_integer_1, eco_variables_integer_2, eco_variables_integer_3) := NA_integer_]
 
-  # line 364
-  condition <- ifc[["SDEC_1"]] < 5 &
-               ifc[["pct_area"]] >= 8 &
-               !(bfc[["BCLCS_LEVEL_4"]] %in% c("TB", "TC", "TM"))  &
-               !(bfc[["BEUMC_S1"]] %in%  c("WL","BB", "CB", "CR", "ER", "RI", "PB", "PR", "RR", "RS", "SK", "SR", "TF","WG", "WR", "YB", "YS", "BG", "FE", "MR", "OW", "SH", "SW", "BA", "LS", "LL")) &
-               !is.na(bfc[["Code_Orig"]])
+  # Merge allowed BEU codes  -----
+  ifc[buc, on = list(curr_beu_code = Code_Orig),
+      `:=`(Code_WL0 = i.Code_WL0,
+           Code_WL1 = i.Code_WL1,
+           Code_WL2 = i.Code_WL2,
+           Code_WL3 = i.Code_WL3,
+           Code_WL4 = i.Code_WL4,
+           Code_WL5 = i.Code_WL5,
+           Code_WL6 = i.Code_WL6,
+           Code_WL8 = i.Code_WL8,
+           Code_WL10 = i.COde_WL10)]
 
-  # we probably dont have to create the key the whole thing is juste a merge on the csv table , we could modify the csv table and merge
+  # Allowed BEU codes adjustments (line 364) -----
+  bfc[!(SDEC_1 >= 5 & BEUMC_S1 %in% c("BB", "CB", "CR", "ER", "RI", "PB", "PR", "RR", "RS", "SK", "SR", "TF",
+                                      "WG", "WR", "YB", "YS", "BG", "FE", "MR", "OW", "SH", "SW", "BA", "LS", "LL")) &
+        !(SDEC_1 == 10 & BEUMC_S1 == "WL") & wl_pct >= 8 & !BCLCS_LV_4 %in% c("TB", "TC", "TM") &
+        curr_beu_code %in% buc$Code_Orig,
+
+      new_beu_code:= fcase(wl_pct < 14, Code_WL1, # condition that wl_pct is above
+                           wl_pct < 25, Code_WL2,
+                           wl_pct < 35, Code_WL3,
+                           wl_pct < 45, Code_WL4,
+                           wl_pct < 55, Code_WL5,
+                           wl_pct < 65, Code_WL6,
+                           wl_pct < 75, Code_WL7,
+                           wl_pct < 80, Code_WL8,
+                           wl_pct >= 80, Code_WL10)]
+  #Create new vars
+  bfc[, `:=`(new_sdec_1 = SDEC_1,
+             new_beumc_s1 = BEUMC_S1,
+             new_sdec_2 = SDEC_2,
+             new_beumc_s2 = BEUMC_S2,
+             new_sdec_3 = SDEC_3,
+             new_beumc_s3 = BEUMC_S3)]
+
+  bfc[curr_beu_code!=new_beu_code,
+        `:=`(new_sdec_1 = (new_beu_code - new_beu_code %% 1000) /1000,
+             new_sdec_2 = (new_beu_code %% 1000 - new_beu_code %% 100) /100,
+             new_sdec_3 = (new_beu_code %% 100 - new_beu_code %% 10) /10,
+             new_wl_zone = new_beu_code %% 10)]
+
+  #TODO :
+  #  - create function to reassign eco components
+  #  - make adjustment bellow when creating a WL component
+  #  - create labal specifying wich rows where updated (ref: pyhton line #618)
+
+  bfc[new_sdec_1 == 10, ]#Emplty eco_vars for 2 & 3]
+  bfc[new_wl_zone == curr_wl_zone, ] # No change assign all eco_vars to same as before
+  bfc[new_wl_zone == 0 & curr_wl_zone == 1, ] # Remove WL from component 1, (2 & 3 move up toward 1)
+  bfc[new_wl_zone == 0 & curr_wl_zone == 2, ] # Remove WL from component 2  (3 move up to 2)
+  bfc[new_wl_zone == 0 & curr_wl_zone == 2, ] # Remove WL from component 3
+  bfc[new_wl_zone == 1 & curr_wl_zone == 0, ] # Add WL to component 1, (2 & 3 move down toward 3)
+  bfc[new_wl_zone == 1 & curr_wl_zone == 2, ] # invert eco_vars 1 & 2
+  bfc[new_wl_zone == 1 & curr_wl_zone == 3, ] # invert eco_vars 1 & 3
+  bfc[new_wl_zone == 2 & curr_wl_zone == 0, ] # Add WL to component 2, (2 move down to 3)
+  bfc[new_wl_zone == 2 & curr_wl_zone == 1, ] # invert eco_vars 1 & 2
+  bfc[new_wl_zone == 2 & curr_wl_zone == 3, ] # invert eco_vars 2 & 3
+  bfc[new_wl_zone == 3 & curr_wl_zone == 0, ] # Add WL to component 3
+  bfc[new_wl_zone == 3 & curr_wl_zone == 1, ] # move 1 to 3 (2 & 3 shift up towards 1)
+  bfc[new_wl_zone == 3 & curr_wl_zone == 2, ] # invert eco_vars 2 & 3
 
 
+  #  # When adding a new WL component, also make REALM_# = "W",
+  # GROUP_# = "W" and KIND_# = "U"
+  # if eco_unit_string_field[:5] in ["REALM", "GROUP"]:
+  #   new_eco_unit["1"].append("W")
+  # elif eco_unit_string_field[:4] == "KIND":
+  #   new_eco_unit["1"].append("U")
+  # else:
+  #   new_eco_unit["1"].append("")
 
 
-
-
-  # line 681
+  #  Riparian Mapcode adjustments (line 681) -----
 
   non_veg  <- c("RI", "WL", "BB", "UR", "OW", "LS", "LL", "RE", "CL", "GB", "GL", "GP", "MI", "RO", "TA", "TC", "TR",
                "UV", "BG", "CB", "FE", "MR", "PB", "RS", "SH", "SK", "SW", "WG", "TF", "YB", "YS", "AU", "AV", "ES",
                "IM", "ME", "OV", "RM", "SC", "SM", "ST")
 
-  riparian_mapcode_dt <- data.table(bgc_zone = c("CDF", "BWBS", "SWB", "ESSF", "ICH", "CWH", "SBPS", "SBS"), beumc_s1 = c("CR", "PR", "PR", "ER", "RR", "SR", "WR", "WR"))
+  riparian_mapcode_dt <- data.table(bgc_zone = c("CDF", "BWBS", "SWB", "ESSF", "ICH", "CWH", "SBPS", "SBS"),
+                                    beumc_s1 = c("CR", "PR", "PR", "ER", "RR", "SR", "WR", "WR"))
 
 
-  which_lines <- which(site_m3a_eq_a & ifc[["MEAN_SLOPE"]] < 10 & !(ifc[["BEUMC_S1"]] %in% non_veg) & ifc[["BGC_ZONE"]] %in% riparian_mapcode_dt[["bgc_zone"]])
+  riparian_update_lines <- which(site_m3a_eq_a & MEAN_SLOPE < 10 & !BEUMC_S1 %in% non_veg & BGC_ZONE %in% riparian_mapcode_dt[["bgc_zone"]])
 
-  ifc[which_lines, c("SDEC_1", "SDEC_2", "SDEC_3", "BEUMC_S1", "BEUMC_S2", "BEUMC_S3",
-                     eco_variables_string_2, eco_variables_string_3,
-                     eco_variables_integer_2, eco_variables_integer_3) := list(10, 0, 0, BEUMC_S1[match(BGC_ZONE, riparian_mapcode_dt[["BGC_ZONE"]])], "", "", "", "", NA_integer_, NA_integer_)]
+  set(bfc, i = riparian_update_lines, j = "SDEC_1", value = 10)
+  set(bfc, i = riparian_update_lines, j = "SDEC_2", value = 0)
+  set(bfc, i = riparian_update_lines, j = "SDEC_3", value = 0)
+  set(bfc, i = riparian_update_lines, j = "BEUMC_S1", value = riparian_mapcode_dt$beumc_s1[match(bfc$BGC_ZONE[riparian_update_lines],
+                                                                                                 riparian_mapcode_dt$bgc_zone)])
+  set(bfc, i = riparian_update_lines, j = "BEUMC_S2", value = "")
+  set(bfc, i = riparian_update_lines, j = "BEUMC_S3", value = "")
+  set(bfc, i = riparian_update_lines, j = c(eco_variables_string_2, eco_variables_string_3), value = "")
+  set(bfc, i = riparian_update_lines, j = c(eco_variables_integer_2, eco_variables_integer_3), value = NA_integer_)
+  set(bfc, i = riparian_update_lines, j = "Lbl_edit_wl", value = paste0(updates))
+
+  bfc[(riparian_update_lines),
+      Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]
+
+  bfc[site_m3a_eq_a , SITE_M3A := "a"]
 
 
-  ifc[site_m3a_eq_a , SITE_M3A := "a"]
-
-
-
-
-
-
-
-
-
-
-
+  bfc
 }
