@@ -47,6 +47,7 @@ merge_vri_on_bem <- function(vri, bem) {
     # TODO message and do something
   }
 
+  # TODO we know this doesn't work because we don't return bem, do we really need to transform the bem in data.table for this function? it's only use to subet a column it could be done in class sf
   attr(bem, "class") <- classes_bem
 
   return(vri)
