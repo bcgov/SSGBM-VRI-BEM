@@ -57,4 +57,14 @@ bem_elev <- merge_elevation_raster_on_bem(elev_raster = elev_rast,
 
 
 #4 ----
+vri_forest_age <- calc_forest_age_class(vri = bem_elev,
+                                        most_recent_harvest_year = 2020)
+
+
+#4b ----
+
+
+
+#4c ----
+vri_std_crown <- add_std_crown_fields(vri = vri_forest_age)
 
