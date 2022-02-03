@@ -3,6 +3,7 @@
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
 #' @return data.table
 #' @import data.table
+#' @export
 create_unique_ecosytem_dt <- function(bem) {
 
   bem <- as.data.table(bem)

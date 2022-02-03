@@ -5,6 +5,7 @@
 #' @return data.table
 #' @import data.table
 #' @import terra
+#' @export
 #'
 merge_elevation_raster_on_bem <- function(elev_raster, bem) {
 

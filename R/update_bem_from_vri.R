@@ -7,6 +7,7 @@
 #' @return sf object
 #' @import sf
 #' @import data.table
+#' @export
 update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
 
   classes_ifc <- attr(ifc, "class")

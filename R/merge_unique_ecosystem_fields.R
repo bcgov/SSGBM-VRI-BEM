@@ -3,6 +3,7 @@
 #' @param ifc sf object
 #' @return sf object
 #' @import data.table
+#' @export
 
 merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
 

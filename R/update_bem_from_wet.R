@@ -6,6 +6,7 @@
 #' @return sf object
 #' @import sf
 #' @import data.table
+#' @export
 update_bem_from_wet <- function(bfc, wfc, buc) {
 
   classes_ifc <- attr(bfc, "class")
@@ -161,9 +162,14 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   #  - make adjustment bellow when creating a WL component
   #  - create labal specifying wich rows where updated (ref: pyhton line #618)
 
-  bfc[new_sdec_1 == 10, ]#Emplty eco_vars for 2 & 3]
-  bfc[new_wl_zone == curr_wl_zone, ] # No change assign all eco_vars to same as before
-  bfc[new_wl_zone == 0 & curr_wl_zone == 1, ] # Remove WL from component 1, (2 & 3 move up toward 1)
+  #bfc[new_sdec_1 == 10, ]#Emplty eco_vars for 2 & 3]
+  set_shifted_eco_variables(bfc, bfc[["new_sdec_1"]] == 10, list(c(1,2), c(NA,NA)))
+
+  #bfc[new_wl_zone == curr_wl_zone, ] # No change assign all eco_vars to same as before
+
+  #bfc[new_wl_zone == 0 & curr_wl_zone == 1, ] # Remove WL from component 1, (2 & 3 move up toward 1)
+  set_shifted_eco_variables(bfc, bfc[["new_wl_zone"]] == 0 & bfc[["curr_wl_zone"]] == 1, list(c(1,2,3), c(2,3,NA)))
+
   bfc[new_wl_zone == 0 & curr_wl_zone == 2, ] # Remove WL from component 2  (3 move up to 2)
   bfc[new_wl_zone == 0 & curr_wl_zone == 2, ] # Remove WL from component 3
   bfc[new_wl_zone == 1 & curr_wl_zone == 0, ] # Add WL to component 1, (2 & 3 move down toward 3)

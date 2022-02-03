@@ -6,7 +6,8 @@
 #' @import sf
 #' @import data.table
 #' @import units
-merge_vri_bem <- function(vri, bem) {
+#' @export
+merge_vri_on_bem <- function(vri, bem) {
 
   # check if teis_id seems already merged on vri
   if ("TEIS_ID" %in% names(vri)) {

@@ -6,6 +6,7 @@
 #' @return sf object
 #' @import data.table
 #' @import sf
+#' @export
 find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
 
   # if no intersections object previoulsy calculated is passed , recompute the intersections

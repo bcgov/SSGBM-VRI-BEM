@@ -18,7 +18,7 @@ vri$Shape <- vri$geometry
 bem$Shape <- sf::st_make_valid(bem$geometry)
 vri$Shape <- st_make_valid(vri$geometry) |> st_cast("MULTIPOLYGON")
 # 1a ----
-vri_bem <- merge_vri_bem(vri, bem)
+vri_bem <- merge_vri_on_bem(vri, bem)
 
 vri_bem
 

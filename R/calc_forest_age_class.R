@@ -4,6 +4,7 @@
 #' @param most_recent_harvest_year integer that represent the most recent harvers year
 #' @return sf object vri
 #' @import data.table
+#' @export
 #'
 calc_forest_age_class <- function(vri, most_recent_harvest_year) {
 

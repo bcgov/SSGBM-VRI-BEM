@@ -7,6 +7,7 @@
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @return sf object
 #' @import data.table
+#' @export
 add_std_crown_fields <- function(vri) {
 
   # use data.table for fast data manipulation
