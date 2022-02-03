@@ -72,6 +72,6 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
   set(input_dt, i = which_lines, j = final_integer_variables, value = input_dt[which_lines, all_to_integer_variables])
 
   # removed temp variables
-  set(input_dt, i = which_lines, j = c(final_character_variables, final_integer_variables, "temp_character_NA", "temp_integer_NA"), value = NULL)
+  set(input_dt, i = which_lines, j = c(all_to_character_variables, all_to_integer_variables, "temp_character_NA", "temp_integer_NA"), value = NULL)
 
 }
