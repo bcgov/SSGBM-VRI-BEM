@@ -67,3 +67,17 @@ vri_forest_age <- calc_forest_age_class(vri = bem_elev,
 #4c ----
 vri_std_crown <- add_std_crown_fields(vri = vri_forest_age)
 
+
+
+#4b /4d2 ----
+merge_unique_ecosystem_fields(ifc = vri_std_crown,
+                              unique_ecosystem_dt = unique_eco)
+
+
+#4d3 ----
+find_crown_area_dominant_values(vri = vri_std_crown,
+                                bem = bem)
+
+
+#5 ----
+
