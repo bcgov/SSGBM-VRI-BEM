@@ -2,31 +2,32 @@
 #'
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
+#' @param return_intersection_dt boolean, if TRUE will return a list that contains the sf object and the intesection data.table of VRI and BEM
 #' @return sf object that represent the original VRI with merged BEM attributes based on largest overlay
 #' @import sf
 #' @import data.table
 #' @import units
 #' @export
-merge_vri_on_bem <- function(vri, bem) {
+merge_vri_on_bem <- function(vri, bem, return_intersection_dt = F) {
 
   # check if teis_id seems already merged on vri
   if ("TEIS_ID" %in% names(vri)) {
-    # TODO message and exit
+    deleted_columns <- setdiff(names(bem), names(vri))
+    vri[, deleted_columns] <- NULL
+    warning(paste("BEM attributes were already merged on VRI, the following columns were deleted", deleted_columns))
   }
 
   # check if bem contains duplicate teis_id
   if (length(unique(bem$TEIS_ID)) < nrow(bem)) {
-    # TODO message and exit
+    stop("duplicate values in TEIS_ID")
   }
 
   # cast multipart polygon to singlepart
   vri <- st_cast(vri,"POLYGON", warn = F)
 
   # use data.table to optimise speed
-  classes_bem <- attr(bem, "class")
   classes_vri <- attr(vri, "class")
   setDT(vri)
-  setDT(bem)
 
 
   # remove feature with area below 1000
@@ -34,21 +35,36 @@ merge_vri_on_bem <- function(vri, bem) {
   vri <- vri[vri_area >= set_units(1000, "m^2")]
 
   # new unique id
-  set(vri, j = "VRI_OBJ_ID", value = seq.int(along.with = nrow(vri)))
+  set(vri, j = "VRI_OBJ_ID", value = seq.int(length.out = nrow(vri)))
 
-  # merge bem attributes on larger intersecting area with vri
+  # find bem larger intersecting area with vri
   intersections <- st_intersection(vri$Shape, bem$Shape)
   intersection_dt <- data.table(vri_index = attr(intersections, "idx")[, 1], bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
-  index_dt <- intersection_dt[, .SD$bem_index[which.max(area)], by = vri_index]
-  vri <- cbind(vri[index_dt$vri_index,-c("Shape")], bem[index_dt$V1, -c("Shape")], vri[index_dt$vri_index, "Shape"]) |> st_as_sf()
+  index_dt <- intersection_dt[, .SD$bem_index[which.max(area)], by = .(vri_index = as.integer(vri_index))]
+
+  # find geometry class column in bem
+  which_col_to_merge <- which(!sapply(bem , function(x) "sfc" %in% class(x)))
+  bem_names <- names(bem)
+
+  # merge bem column on vri
+  for (i in seq.int(along.with = which_col_to_merge)) {
+    if (which_col_to_merge[i]) {
+      set(vri, i = index_dt$vri_index, j = bem_names[i], value = bem[[bem_names[i]]][index_dt$V1])
+    }
+  }
 
   # check for vri that have no bem match
   if (length(which(is.na(vri$TEIS_ID))) > 0) {
-    # TODO message and do something
+    for (vri_id in  vri[is.na(TEIS_ID), VRI_OBJ_ID]) {
+      warning(paste("The following VRI_OBJ_ID had no overlaping bem : ", vri_id))
+    }
   }
 
-  # TODO we know this doesn't work because we don't return bem, do we really need to transform the bem in data.table for this function? it's only use to subet a column it could be done in class sf
-  attr(bem, "class") <- classes_bem
-
-  return(vri)
+  # return final result
+  if (return_intersection_dt) {
+    return(list(vri = st_as_sf(vri), intersection_dt = intersection_dt))
+  }
+  else {
+    return(st_as_sf(vri))
+  }
 }

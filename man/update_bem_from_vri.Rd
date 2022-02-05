@@ -4,7 +4,7 @@
 \alias{update_bem_from_vri}
 \title{Upadate BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes}
 \usage{
-update_bem_from_vri(ifc, rfc, clear_site_ma = TRUE)
+update_bem_from_vri(ifc, rfc, clear_site_ma = TRUE, beu_bec)
 }
 \arguments{
 \item{ifc}{sf object that represent the input polygon feature class}

@@ -9,25 +9,27 @@
 #'
 merge_elevation_raster_on_bem <- function(elev_raster, bem) {
 
-  classes_bem <- attr(bem, "class")
-  setDT(bem)
+  # compute slope and aspect
+  terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "radians")
 
-  terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "degrees")
-
-  add(terrain_raster) <- elev
+  # combine elevation slope and aspect into one layered raster
+  add(terrain_raster) <- elev_raster
 
   mean_raster_by_bem <- setDT(extract(terrain_raster, vect(bem)))[, .(mean_elev = mean(dem),
-                                                                      mean_slope = mean(slope/360),
-                                                                      mean_aspect = 360 * mean(aspect/360)), by = .(bem_index = ID)]
+                                                                      mean_slope = atan2(mean(sin(slope), na.rm = T), mean(cos(slope), na.rm = T)),
+                                                                      mean_aspect =  atan2(mean(sin(aspect), na.rm = T), mean(cos(aspect), na.rm = T))), by = .(bem_index = as.integer(ID))]
 
+
+  classes_bem <- attr(bem, "class")
+  setDT(bem)
 
   for (variable in c("mean_elev", "mean_slope", "mean_aspect")) {
     set(bem, i = mean_raster_by_bem[["bem_index"]], j = variable, value = mean_raster_by_bem[[variable]])
   }
 
-
+  # TO DO does not seem to work still return a data.table object
   attr(bem, "class") <- classes_bem
 
-  return(bem)
+  return(st_as_sf(bem))
 
 }

@@ -1,5 +1,4 @@
-ibrary(sf)
-library(data.table)
+devtools::load_all()
 
 vri <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/VEG_COMP_LYR_R1_POLY", layer = "VEG_R1_PLY_polygon", quiet = TRUE)
 bem <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/BEM_VRI", layer = "BEM", quiet = TRUE)
@@ -15,12 +14,19 @@ vri$Shape <- vri$geometry
 
 #make shape valid
 #TODO switch to use geometry
+
 bem$Shape <- sf::st_make_valid(bem$geometry)
 vri$Shape <- st_make_valid(vri$geometry) |> st_cast("MULTIPOLYGON")
+
+
+#3abc ----
+elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
+
+bem <- merge_elevation_raster_on_bem(elev_raster = elev_rast,
+                                          bem = bem)
+
 # 1a ----
 vri_bem <- merge_vri_on_bem(vri, bem)
-
-
 
 # 1b ----
 beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
@@ -29,7 +35,6 @@ vri_bem_updated <- update_bem_from_vri(ifc = vri_bem,
                                        rfc = rivers,
                                        clear_site_ma = TRUE,
                                        beu_bec = beu_bec_csv)
-
 
 
 #1c ----
@@ -48,12 +53,6 @@ unique_eco <- create_unique_ecosytem_dt(bem = updated_bem_from_wetland)
 fwrite(unique_eco, file = "../unique_ecosystem.csv")
 
 
-
-#3abc ----
-elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
-
-bem_elev <- merge_elevation_raster_on_bem(elev_raster = elev_rast,
-                                          bem = updated_bem_from_wetland)
 
 
 #4 ----
