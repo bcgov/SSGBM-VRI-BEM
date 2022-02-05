@@ -18,7 +18,7 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   # We already computed feature areas in the script where we merged the bem on the vri , can we just assumed that will have an attributes already
   # computed like "SHAPE_AREA" that we can use instead of recompute the area in this script?
   if (is.null(ifc[["SHAPE_AREA"]])) {
-    set(ifc , j = "SHAPE_AREA", value = st_area(ifc$geometry))
+    set(ifc, j = "SHAPE_AREA", value = st_area(ifc$geometry))
   }
 
   # validate inputs ----
@@ -52,25 +52,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   if (is.null(ifc[["SMPL_TYPE"]])) {
     set(ifc, j = "SMPL_TYPE", value = NA_character_)
   }
-
-
-  # read csv of acceptable combinations of BEC unit and BEU mapcodes ----
-  #TODO all this part
-
-  # are those legit variable names in R?
-  # required_variables <- c("BGC Subzone", "BEU_#", "Script rule", "Change to BEU =")
-  # missing_variables <- setdiff(required_variables, names(bec_beu))
-  # if (length(missing_variables) > 0) {
-  #   # TODO message and exit
-  # }
-
- # in python they read the csv line by line and
- # they create two dictionnaries, one for the allowed combinations and another for the combinations not allowed
- # the dictionnaries are essentially a list that has element or each BGC subzones and for each of the subzones the BEU #
- # I'll see what these are use for later , but I think in R, it ill be simpler to just work with the csv in a data.table
- # we could probably do something pretty simple like (we can of course optimise)
- # bec_beu[`Script rule` == "Error", .(`BGC subzone`, `BEU_#`)]
- # bec_beu[`Script rule` != "Error", .(`BGC subzone`, `BEU_#`)]
 
 
  # perform corrections ----
@@ -520,6 +501,7 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   # SITE_M3A becomes "a"
   # and lbl is updated to say the old value became "a"
 
+  #TODO
   # maybe reverse the geometry and the unique ( need to test)
   # just need to find the line that intersect with rivers
   which_lines <- sf:::CPL_geos_binop(
@@ -584,7 +566,11 @@ combine_duplicated_BEUMC <- function(ifc, eco_vars){
 
 remove_inadequate_wetlands <- function(ifc, eco_vars){
 
-  #TODO validate variables exists in ifc ?
+  #validate variables exists in ifc
+  validate_required_attributes(ifc,
+                               required_attributes = c("BEUMC_S1", "BEUMC_S2", "BEUMC_S3", "BCLCS_LV_4", "SDEC_1", "SDEC_2", "SDEC_3"))
+
+
 
   which_treed_WL_3 <-  which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_4"]] %in% c("TB", "TC", "TM") &
                                ifc[["BEUMC_S3"]] == "WL" & !ifc[["row_updated"]])

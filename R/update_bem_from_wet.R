@@ -106,7 +106,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
 
   # line 351
-  #TODO ensure there is no problem here reassigning the same values
   bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
       `:=`(SDEC_1 = SDEC_3,
            SDEC_3 = NA,
@@ -157,43 +156,62 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
              new_sdec_3 = (new_beu_code %% 100 - new_beu_code %% 10) /10,
              new_wl_zone = new_beu_code %% 10)]
 
-  #TODO :
-  #  - create function to reassign eco components
+  # Reassign ecosystems ----
+  #  - reassign eco components
   #  - make adjustment bellow when creating a WL component
-  #  - create labal specifying wich rows where updated (ref: pyhton line #618)
+  #  - create label specifying which rows where updated (ref: phyton line #618)
 
   #bfc[new_sdec_1 == 10, ]#Emplty eco_vars for 2 & 3]
   set_shifted_eco_variables(bfc, bfc[["new_sdec_1"]] == 10, list(c(1,2), c(NA,NA)))
 
   #bfc[new_wl_zone == curr_wl_zone, ] # No change assign all eco_vars to same as before
 
-  #bfc[new_wl_zone == 0 & curr_wl_zone == 1, ] # Remove WL from component 1, (2 & 3 move up toward 1)
-  set_shifted_eco_variables(bfc, bfc[["new_wl_zone"]] == 0 & bfc[["curr_wl_zone"]] == 1, list(c(1,2,3), c(2,3,NA)))
+  # Old 1 / New 0 :  Remove WL from component 1, (2 & 3 move up toward 1)
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 0, list(c(1,2,3), c(2,3,NA)))
+  # Old 2 / New 0 : Remove WL from component 2  (3 move up to 2)
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 0, list(c(2,3), c(3, NA)))
+  # Old 3 / New 0 : Remove WL from component 3
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 0, list(c(3), c(NA)))
 
-  bfc[new_wl_zone == 0 & curr_wl_zone == 2, ] # Remove WL from component 2  (3 move up to 2)
-  bfc[new_wl_zone == 0 & curr_wl_zone == 2, ] # Remove WL from component 3
-  bfc[new_wl_zone == 1 & curr_wl_zone == 0, ] # Add WL to component 1, (2 & 3 move down toward 3)
-  bfc[new_wl_zone == 1 & curr_wl_zone == 2, ] # invert eco_vars 1 & 2
-  bfc[new_wl_zone == 1 & curr_wl_zone == 3, ] # invert eco_vars 1 & 3
-  bfc[new_wl_zone == 2 & curr_wl_zone == 0, ] # Add WL to component 2, (2 move down to 3)
-  bfc[new_wl_zone == 2 & curr_wl_zone == 1, ] # invert eco_vars 1 & 2
-  bfc[new_wl_zone == 2 & curr_wl_zone == 3, ] # invert eco_vars 2 & 3
-  bfc[new_wl_zone == 3 & curr_wl_zone == 0, ] # Add WL to component 3
-  bfc[new_wl_zone == 3 & curr_wl_zone == 1, ] # move 1 to 3 (2 & 3 shift up towards 1)
-  bfc[new_wl_zone == 3 & curr_wl_zone == 2, ] # invert eco_vars 2 & 3
+  # When adding a new WL component, also make REALM_# = "W", GROUP_# = "W" and KIND_# = "U"
+  # Old 0 / New 1 : add WL to component 1, (2 & 3 move down toward 3)
+  cond_0_to_1 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1
+  set_shifted_eco_variables(bfc, which_0_to_1, list(c(2,3), c(1,2)))
+  bfc[(cond_0_to_1), `:=`(BEUMC_S1 = "WL", REALM_1 = "W", GROUP_1 = "W", KIND_1 = "U")]
+  # Old 0 / New 2 : Add WL to component 2, (2 move down to 3)
+  cond_0_to_2 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 2
+  set_shifted_eco_variables(bfc, which_0_to_2, list(c(3), c(2)))
+  bfc[(cond_0_to_2), `:=`(BEUMC_S2 = "WL", REALM_2 = "W", GROUP_2 = "W", KIND_2 = "U")]
+  # Old 0 / New 3 : add WL to component 3
+  cond_0_to_3 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 3
+  bfc[(cond_0_to_3), `:=`(BEUMC_S3 = "WL", REALM_3 = "W", GROUP_3 = "W", KIND_3 = "U")]
+
+  # Old 2 / New 1 : invert eco_vars 1 & 2
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 1, list(c(1,2), c(2,1)))
+  # Old 2 / New 3 : invert eco_vars 2 & 3
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 3, list(c(2,3), c(3,2)))
+
+  # Old 3 / New 1 : invert eco vars 1 & 3
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 1, list(c(1,3), c(3,1)))
+  # Old 3 / New 2 : invert eco_vars 2 & 3
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 2, list(c(2,3), c(3,2)))
 
 
-  #  # When adding a new WL component, also make REALM_# = "W",
-  # GROUP_# = "W" and KIND_# = "U"
-  # if eco_unit_string_field[:5] in ["REALM", "GROUP"]:
-  #   new_eco_unit["1"].append("W")
-  # elif eco_unit_string_field[:4] == "KIND":
-  #   new_eco_unit["1"].append("U")
-  # else:
-  #   new_eco_unit["1"].append("")
+  #Old 1 / New 2 : invert eco vars 1 & 2
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 2, list(c(1,2), c(2,1)))
+  #Old 1 / New 3 : move 1 to 3 (2 & 3 shift up towards 1)
+  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 3, list(c(1,2,3), c(3,1,2)))
+
+  # update Label
+  bfc[curr_beu_code!=new_beu_code,
+      Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3")]
+
+  bfc[curr_beu_code!=new_beu_code,
+      Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3",
+                          " (", new_beu_code, ")")]
 
 
-  #  Riparian Mapcode adjustments (line 681) -----
+  # Riparian Mapcode adjustments (line 681) -----
 
   non_veg  <- c("RI", "WL", "BB", "UR", "OW", "LS", "LL", "RE", "CL", "GB", "GL", "GP", "MI", "RO", "TA", "TC", "TR",
                "UV", "BG", "CB", "FE", "MR", "PB", "RS", "SH", "SK", "SW", "WG", "TF", "YB", "YS", "AU", "AV", "ES",
@@ -224,3 +242,4 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   bfc
 }
+

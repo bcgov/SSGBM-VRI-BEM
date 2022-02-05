@@ -23,7 +23,7 @@ vri$Shape <- st_make_valid(vri$geometry) |> st_cast("MULTIPOLYGON")
 elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
 
 bem <- merge_elevation_raster_on_bem(elev_raster = elev_rast,
-                                          bem = bem)
+                                     bem = bem)
 
 # 1a ----
 vri_bem <- merge_vri_on_bem(vri, bem)

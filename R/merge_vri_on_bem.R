@@ -8,7 +8,7 @@
 #' @import data.table
 #' @import units
 #' @export
-merge_vri_on_bem <- function(vri, bem, return_intersection_dt = F) {
+merge_vri_on_bem <- function(vri, bem, return_intersection_dt = FALSE) {
 
   # check if teis_id seems already merged on vri
   if ("TEIS_ID" %in% names(vri)) {
@@ -55,9 +55,7 @@ merge_vri_on_bem <- function(vri, bem, return_intersection_dt = F) {
 
   # check for vri that have no bem match
   if (length(which(is.na(vri$TEIS_ID))) > 0) {
-    for (vri_id in  vri[is.na(TEIS_ID), VRI_OBJ_ID]) {
-      warning(paste("The following VRI_OBJ_ID had no overlaping bem : ", vri_id))
-    }
+    warning("The following VRI_OBJ_ID had no overlaping bem : ", paste(vri[is.na(TEIS_ID), VRI_OBJ_ID], collapse = ", "))
   }
 
   # return final result
