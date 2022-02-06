@@ -16,6 +16,12 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
     stop(paste0("the filter boolean needs to be the same lenght as the number of row of the input dt which is ", nrow(input_dt)))
   }
 
+  # if the filter result in zero lines we simply exit the function
+  # we use !isTRUE so that it will also quit if the boolean_filter contains no TRUE value but some NA
+  if (!isTRUE(any(boolean_filter))) {
+    return()
+  }
+
   # replace NA by 0 so its easier to work with (later we don't want combination to end up being NA see line 35)
   shift_pattern[[1]][which(is.na(shift_pattern[[1]]))] <- 0
   shift_pattern[[2]][which(is.na(shift_pattern[[2]]))] <- 0
