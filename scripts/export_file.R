@@ -38,6 +38,36 @@ create_RRM_ecosystem <- function(bfc, lookup_csv, unique_ecosyst_dt){
  rbind(bem_1_dt, bem_2_dt, bem_3_dt)[, sum(area), by = id]
 
 
+ #####
+ bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
+        .(area = 0),
+        by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
+                               bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
+                               slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
+                               above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
+                               strct = STS_1_Age_0_3, stand = STAND_1_Age_0_15))]
+ bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
+        .(area = 0),
+        by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
+                               bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
+                               slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
+                               above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
+                               strct = STS_1_Age_4_10, stand = STAND_1_Age_0_15))]
+
+ bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
+        .(area = 0),
+        by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
+                               bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
+                               slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
+                               above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
+                               strct = STS_1_Age_4_10, stand = STAND_1_Age_0_15))]
+## do for all combination of STS and STAND in python script line 264 to 275
+ # repeat for S2 and S3
+
+ # combine with initial summary
+ # remove duplicate by id
+
+
 }
 
 
