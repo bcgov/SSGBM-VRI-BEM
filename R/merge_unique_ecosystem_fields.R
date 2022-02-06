@@ -131,6 +131,9 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                         FORESTED_1 == "N" | parkland_ind , STAND_CLIMAX_1,
                         default = "")]
 
+  #TODO temporarily change class
+  set(ifc, j = "STRCT_S1", value = as.character(ifc[["STRCT_S1"]]))
+  set(ifc, j = "STAND_A1", value = as.character(ifc[["STAND_A1"]]))
   ifc[is.na(STRCT_S1), STRCT_S1 := ""]
   ifc[is.na(STAND_A1), STAND_A1 := ""]
 
@@ -167,6 +170,9 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                         FORESTED_2 == "N" | parkland_ind , STAND_CLIMAX_2,
                         default = "")]
 
+  #TODO temporarily change class
+  set(ifc, j = "STRCT_S2", value = as.character(ifc[["STRCT_S2"]]))
+  set(ifc, j = "STAND_A2", value = as.character(ifc[["STAND_A2"]]))
   ifc[is.na(STRCT_S2), STRCT_S2 := ""]
   ifc[is.na(STAND_A2), STAND_A2 := ""]
 
@@ -203,6 +209,9 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                         FORESTED_3 == "N" | parkland_ind , as.character(STAND_CLIMAX_3), #TODO remove as.char ?
                         default = "")]
 
+  #TODO temporarily change class
+  set(ifc, j = "STRCT_S3", value = as.character(ifc[["STRCT_S3"]]))
+  set(ifc, j = "STAND_A3", value = as.character(ifc[["STAND_A3"]]))
   ifc[is.na(STRCT_S3), STRCT_S3 := ""]
   ifc[is.na(STAND_A3), STAND_A3 := ""]
 
