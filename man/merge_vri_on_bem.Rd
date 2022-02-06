@@ -4,7 +4,7 @@
 \alias{merge_vri_on_bem}
 \title{Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features}
 \usage{
-merge_vri_on_bem(vri, bem, return_intersection_dt = F)
+merge_vri_on_bem(vri, bem, return_intersection_dt = FALSE)
 }
 \arguments{
 \item{vri}{sf object that represent VRI (vegetation ressource inventory) features}

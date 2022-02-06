@@ -3,23 +3,20 @@ devtools::load_all()
 vri <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/VEG_COMP_LYR_R1_POLY", layer = "VEG_R1_PLY_polygon", quiet = TRUE)
 bem <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/BEM_VRI", layer = "BEM", quiet = TRUE)
 
-#Restructure bem while waiting for real info
-
-bem$Shape <- bem$geometry
-#bem$geometry <- NULL
 
 #Restructure bem while waiting for real info
-vri$Shape <- vri$geometry
-#vri$geometry <- NULL
+bem <- rename_geometry(bem, "Shape")
+
+#Restructure bem while waiting for real info
+vri <- rename_geometry(vri, "Shape")
 
 #make shape valid
 #TODO switch to use geometry
 
-bem$Shape <- sf::st_make_valid(bem$geometry)
-vri$Shape <- st_make_valid(vri$geometry) |> st_cast("MULTIPOLYGON")
+bem$Shape <- sf::st_make_valid(bem$Shape)
+vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 
-
-#3abc ----
+  #3abc ----
 elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
 
 bem <- merge_elevation_raster_on_bem(elev_raster = elev_rast,

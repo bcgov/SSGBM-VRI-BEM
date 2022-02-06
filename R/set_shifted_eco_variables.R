@@ -2,7 +2,7 @@
 #'
 #' @param input_dt data.table input data to be modified by reference
 #' @param boolean_filter boolean vector that identify which lines (true or false for each lines) of the data we want to apply the shifting
-#' @param shift_pattern list of two elements, first element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the second element
+#' @param shift_pattern list of two elements, second element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the first element
 #' @param integer_variables_1 character vector that represent the name of the variables of type integer with index number 1 we want to shift
 #' @param character_variables_1 character vector that represent the name of the variables of type character with index number 1 we want to shift
 #' @import data.table
@@ -46,8 +46,8 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
   # we cannot assign the new result in the loop, because we want to allow shift pattern such as list(c(1,2), c(2,1)) where the variables_1 and variables_2 are switch
   for (combination in shift_combination) {
     # separate created combination into from and to vectors
-    to_number <- combination %% 10
-    from_number <- (combination - to_number)/10
+    from_number <- combination %% 10
+    to_number <- (combination - to_number)/10
 
     # find which character variables to use
     from_character_variables <- fcase(from_number == 1, character_variables_1, from_number == 2, character_variables_2, from_number == 3, character_variables_3, default = "temp_character_NA")
@@ -68,7 +68,14 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
   final_integer_variables <- sapply(all_to_integer_variables, function(x) substr(x, 6, length(x)))
 
   # assign new computed value in variables
-  set(input_dt, i = which_lines, j = final_character_variables, value = input_dt[which_lines, all_to_character_variables])
+  for (i in seq.int(along.with = all_to_character_variables)) {
+    set(input_dt, i = which_lines, j = final_character_variables[i], value = input_dt[[all_to_character_variables[i]]][which_lines])
+  }
+  for (i in seq.int(along.with = final_integer_variables)) {
+    set(input_dt, i = which_lines, j = final_integer_variables[i], value = input_dt[[final_integer_variables[i]]][which_lines])
+  }
+
+
   set(input_dt, i = which_lines, j = final_integer_variables, value = input_dt[which_lines, all_to_integer_variables])
 
   # removed temp variables

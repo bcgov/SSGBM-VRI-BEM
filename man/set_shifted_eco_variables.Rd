@@ -20,7 +20,7 @@ set_shifted_eco_variables(
 
 \item{boolean_filter}{boolean vector that identify which lines (true or false for each lines) of the data we want to apply the shifting}
 
-\item{shift_pattern}{list of two elements, first element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the second element}
+\item{shift_pattern}{list of two elements, second element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the first element}
 
 \item{integer_variables_1}{character vector that represent the name of the variables of type integer with index number 1 we want to shift}
 

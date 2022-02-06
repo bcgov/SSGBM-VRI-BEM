@@ -17,8 +17,8 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   # when the gdb is created and ARCgis just acces it , or it's recomputed when refered to (the first option is more probable)
   # We already computed feature areas in the script where we merged the bem on the vri , can we just assumed that will have an attributes already
   # computed like "SHAPE_AREA" that we can use instead of recompute the area in this script?
-  if (is.null(ifc[["SHAPE_AREA"]])) {
-    set(ifc, j = "SHAPE_AREA", value = st_area(ifc$geometry))
+  if (is.null(ifc[["vri_area"]])) {
+    set(ifc, j = "vri_area", value = st_area(ifc$Shape))
   }
 
   # validate inputs ----
@@ -62,7 +62,7 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   }
 
   set(ifc , j = "Site_M3A", value = "") #M3A is always cleared
-  set(ifc , j = "Area_HA", value = round(ifc[["SHAPE_AREA"]]/10000, 2))
+  set(ifc , j = "Area_HA", value = round(ifc[["vri_area"]]/10000, 2))
 
 
 

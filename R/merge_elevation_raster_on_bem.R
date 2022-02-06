@@ -20,15 +20,11 @@ merge_elevation_raster_on_bem <- function(elev_raster, bem) {
                                                                       mean_aspect =  atan2(mean(sin(aspect), na.rm = T), mean(cos(aspect), na.rm = T))), by = .(bem_index = as.integer(ID))]
 
 
-  classes_bem <- attr(bem, "class")
   setDT(bem)
 
   for (variable in c("mean_elev", "mean_slope", "mean_aspect")) {
     set(bem, i = mean_raster_by_bem[["bem_index"]], j = variable, value = mean_raster_by_bem[[variable]])
   }
-
-  # TO DO does not seem to work still return a data.table object
-  attr(bem, "class") <- classes_bem
 
   return(st_as_sf(bem))
 
