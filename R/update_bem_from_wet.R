@@ -9,7 +9,6 @@
 #' @export
 update_bem_from_wet <- function(bfc, wfc, buc) {
 
-  classes_ifc <- attr(bfc, "class")
   setDT(bfc)
 
   # check if all required attributes are there
@@ -99,7 +98,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                             BEUMC_S3 == "WL", 3,
                             default = 0)]
 
-  bfc[, curr_beu_code:= paste0(SDEC1, SDEC2_num, SDEC3_num, curr_wl_zone)]
+  bfc[, curr_beu_code:= paste0(SDEC_1, SDEC_2_num, SDEC_3_num, curr_wl_zone)]
 
 
   bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", curr_beu_code, ")")]
@@ -116,7 +115,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"), c(eco_variables_integer_1, eco_variables_integer_2, eco_variables_integer_3) := NA_integer_]
 
   # Merge allowed BEU codes  -----
-  ifc[buc, on = list(curr_beu_code = Code_Orig),
+  bfc[buc, on = list(curr_beu_code = Code_Orig),
       `:=`(Code_WL0 = i.Code_WL0,
            Code_WL1 = i.Code_WL1,
            Code_WL2 = i.Code_WL2,
@@ -240,6 +239,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   bfc[site_m3a_eq_a , SITE_M3A := "a"]
 
 
-  bfc
+  return(st_as_sf(bfc))
 }
 

@@ -37,7 +37,7 @@ vri_bem_updated <- update_bem_from_vri(ifc = vri_bem,
 #1c ----
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
 wetlands <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb", layer = "FWA_WETLANDS_POLY", quiet = TRUE)
-wetlands$Shape <- wetlands$GEOMETRY
+wetlands <- rename_geometry(wetlands, "Shape")
 
 updated_bem_from_wetland <- update_bem_from_wet(bfc = vri_bem_updated,
                                                 wfc = wetlands,
