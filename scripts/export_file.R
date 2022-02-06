@@ -1,4 +1,4 @@
-create_RRM_ecosystem <- function(bfc, lookup_csv){
+create_RRM_ecosystem <- function(bfc, lookup_csv, unique_ecosyst_dt){
 
   #TODO : should it be a parameter?
   fields <-  c("TEIS_ID","BAPID","ECO_SEC","BGC_ZONE","BGC_SUBZON","BGC_VRT","BGC_PHASE",

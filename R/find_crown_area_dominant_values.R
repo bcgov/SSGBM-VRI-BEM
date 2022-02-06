@@ -34,18 +34,18 @@ find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
   most_covered_moose_by_bem <- area_by_bem_moose[ , .SD$CROWN_MOOSE[which.max(area)], by = bem_index]
 
   # merge the crown bear on vri
-  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_bear_by_bem[["bem_index"]]])
+  match_lines <- match(vri[["TEIS_ID"]][intersection_dt$vri_index],  bem$TEIS_ID[most_covered_bear_by_bem[["bem_index"]]])
   set(vri, i = intersection_dt$vri_index, j = paste0("CROWN_BEAR_", 1:3), value = most_covered_bear_by_bem[["V1"]][match_lines])
 
   # merge the crown moose on vri
-  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_moose_by_bem[["bem_index"]]])
+  match_lines <- match(vri[["TEIS_ID"]][intersection_dt$vri_index],  bem$TEIS_ID[most_covered_moose_by_bem[["bem_index"]]])
   set(vri, i = intersection_dt$vri_index, j = paste0("CROWN_MOOSE_", 1:3), value = most_covered_moose_by_bem[["V1"]][match_lines])
 
   # blank Crown moose and crown moose if not ecounter specific condition
 
   for (i in 1:3) {
-    set(vri, i = which(!(vri[[paste0("FORESTED_", i)]] == "Y" & substr(ifc[[paste0("STRCT_S", i)]], start = 1, stop = 1) %in% c("4", "5", "6", "7"))), j = paste0("CROWN_BEAR_", i) , value = NA)
-    set(vri, i = which(!(vri[[paste0("FORESTED_", i)]] == "Y" & substr(ifc[[paste0("STRCT_S", i)]], start = 1, stop = 1) %in% c("4", "5", "6", "7"))), j = paste0("CROWN_MOOSE_", i), value = NA)
+    set(vri, i = which(!(vri[[paste0("FORESTED_", i)]] == "Y" & substr(vri[[paste0("STRCT_S", i)]], start = 1, stop = 1) %in% c("4", "5", "6", "7"))), j = paste0("CROWN_BEAR_", i) , value = NA)
+    set(vri, i = which(!(vri[[paste0("FORESTED_", i)]] == "Y" & substr(vri[[paste0("STRCT_S", i)]], start = 1, stop = 1) %in% c("4", "5", "6", "7"))), j = paste0("CROWN_MOOSE_", i), value = NA)
 
   }
 
