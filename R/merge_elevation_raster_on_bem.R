@@ -4,7 +4,7 @@
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
 #' @return data.table
 #' @import data.table
-#' @import terra
+#' @importFrom terra extract terrain `add<-` vect
 #' @export
 #'
 merge_elevation_raster_on_bem <- function(elev_raster, bem) {
@@ -17,12 +17,19 @@ merge_elevation_raster_on_bem <- function(elev_raster, bem) {
 
   mean_raster_by_bem <- setDT(extract(terrain_raster, vect(bem)))[, .(ELEV = mean(dem),
                                                                       MEAN_SLOPE = atan2(mean(sin(slope), na.rm = T), mean(cos(slope), na.rm = T)) * 57.29578,
-                                                                      MEAN_ASP =  atan2(mean(sin(aspect), na.rm = T), mean(cos(aspect), na.rm = T)) * 57.29578), by = .(bem_index = as.integer(ID))]
+                                                                      MEAN_ASP =  atan2(mean(sin(aspect), na.rm = T), mean(cos(aspect), na.rm = T)) * 57.29578),
+                                                                  by = .(bem_index = as.integer(ID))]
 
 
   setDT(bem)
 
   for (variable in c("ELEV", "MEAN_SLOPE", "MEAN_ASP")) {
+    # remove variables if they already exist in bem
+    if (!is.null(bem[[variable]])){
+      set(bem, j = variable, value = NULL)
+    }
+
+    # Add variables to bem
     set(bem, i = mean_raster_by_bem[["bem_index"]], j = variable, value = mean_raster_by_bem[[variable]])
   }
 

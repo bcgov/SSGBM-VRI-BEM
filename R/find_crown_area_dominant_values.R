@@ -2,7 +2,7 @@
 #'
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
-#' @intersection_dt data.table  area and index of vri and bem intersections
+#' @param intersection_dt data.table  area and index of vri and bem intersections
 #' @return sf object
 #' @import data.table
 #' @import sf

@@ -19,7 +19,7 @@ create_RRM_ecosystem <- function(bfc, lookup_csv, unique_ecosyst_dt){
                                              above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
                                              strct = STRCT_S1, stand = STAND_A1))]
 
-  bem_2_dt <- bem_dt[SDEC_2 > 0 & ! is.na(BEUMC_S2),
+  bem_2_dt <- bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2),
                      .(area = sum(Shape_Area*SDEC_2/10)),
                      by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
                                             bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S2,
@@ -27,7 +27,7 @@ create_RRM_ecosystem <- function(bfc, lookup_csv, unique_ecosyst_dt){
                                             above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_2,
                                             strct = STRCT_S2, stand = STAND_A2))]
 
- bem_3_dt <-  bem_dt[SDEC_3 > 0 & ! is.na(BEUMC_S3),
+ bem_3_dt <-  bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3),
                      .(area = sum(Shape_Area*SDEC_3/10)),
                      by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
                                             bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S3,

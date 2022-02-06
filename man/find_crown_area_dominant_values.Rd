@@ -10,6 +10,8 @@ find_crown_area_dominant_values(vri, bem, intersection_dt = NULL)
 \item{vri}{sf object that represent VRI (vegetation ressource inventory) features}
 
 \item{bem}{sf object that represent BEM (broad ecosystem mapping) features}
+
+\item{intersection_dt}{data.table  area and index of vri and bem intersections}
 }
 \value{
 sf object
