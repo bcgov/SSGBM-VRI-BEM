@@ -53,7 +53,7 @@ fwrite(unique_eco, file = "../unique_ecosystem.csv")
 
 
 #4 ----
-vri_forest_age <- calc_forest_age_class(vri = bem_elev,
+vri_forest_age <- calc_forest_age_class(vri = updated_bem_from_wetland,
                                         most_recent_harvest_year = 2020)
 
 
