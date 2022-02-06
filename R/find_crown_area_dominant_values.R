@@ -12,17 +12,14 @@ find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
   # if no intersections object previoulsy calculated is passed , recompute the intersections
   if (is.null(intersection_dt)) {
     intersections <- st_intersection(vri$Shape, bem$Shape)
-    intersection_dt <- data.table(vri_index = attr(intersections, "idx")[, 1], bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
+    intersection_dt <- data.table(vri_index = as.integer(attr(intersections, "idx")[, 1]), bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
   }
 
   # use data.table for fast data manipulation
   classes_vri <- attr(vri, "class")
   setDT(vri)
 
-  #make sure variable index is integer for speed efficiency
-  set(intersection_dt, j = "vri_index", value = as.integer(intersection_dt$vri_index))
-
-  # merge CROWN BEAR and CROWN MOOSE info on intersection data
+    # merge CROWN BEAR and CROWN MOOSE info on intersection data
   intersection_dt[ , CROWN_BEAR := .subset2(vri, "CROWN_BEAR")[vri_index]]
   intersection_dt[ , CROWN_MOOSE := .subset2(vri, "CROWN_MOOSE")[vri_index]]
 

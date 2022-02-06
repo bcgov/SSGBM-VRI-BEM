@@ -39,8 +39,8 @@ merge_vri_on_bem <- function(vri, bem, return_intersection_dt = FALSE) {
 
   # find bem larger intersecting area with vri
   intersections <- st_intersection(vri$Shape, bem$Shape)
-  intersection_dt <- data.table(vri_index = attr(intersections, "idx")[, 1], bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
-  index_dt <- intersection_dt[, .SD$bem_index[which.max(area)], by = .(vri_index = as.integer(vri_index))]
+  intersection_dt <- data.table(vri_index = as.integer(attr(intersections, "idx")[, 1]), bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
+  index_dt <- intersection_dt[, .SD$bem_index[which.max(area)], by = .(vri_index)]
 
   # find geometry class column in bem
   which_col_to_merge <- which(!sapply(bem , function(x) "sfc" %in% class(x)))
