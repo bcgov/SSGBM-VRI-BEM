@@ -67,10 +67,10 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   index_dt <- intersection_dt[, .(wetland_area = sum(area)), by = bfc]
 
   bfc[index_dt[["bfc"]], wetland_area := index_dt[["wetland_area"]]]
-  bfc[, pct_area:= wetland_area/vri_area]
+  bfc[, wl_pct:= as.numeric(wetland_area/vri_area)]
 
   bfc[, Lbl_edit_wl := "No Wetland."]
-  bfc[!is.na(pct_area), Lbl_edit_wl := paste0(pct_area, "% of polygon occupied by wetland.")]
+  bfc[!is.na(wl_pct), Lbl_edit_wl := paste0(wl_pct, "% of polygon occupied by wetland.")]
 
   bfc[, Lbl_edit_wl := paste0(Lbl_edit_wl, " Current BEU: ", SDEC_1, " ", BEUMC_S1)]
 
@@ -98,7 +98,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                             BEUMC_S3 == "WL", 3,
                             default = 0)]
 
-  bfc[, curr_beu_code:= paste0(SDEC_1, SDEC_2_num, SDEC_3_num, curr_wl_zone)]
+  bfc[, curr_beu_code:= as.numeric(paste0(SDEC_1, SDEC_2_num, SDEC_3_num, curr_wl_zone))]
 
 
   bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", curr_beu_code, ")")]
@@ -123,8 +123,9 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
            Code_WL4 = i.Code_WL4,
            Code_WL5 = i.Code_WL5,
            Code_WL6 = i.Code_WL6,
+           Code_WL7 = i.Code_WL7,
            Code_WL8 = i.Code_WL8,
-           Code_WL10 = i.COde_WL10)]
+           Code_WL10 = i.Code_WL10)]
 
   # Allowed BEU codes adjustments (line 364) -----
   bfc[!(SDEC_1 >= 5 & BEUMC_S1 %in% c("BB", "CB", "CR", "ER", "RI", "PB", "PR", "RR", "RS", "SK", "SR", "TF",
@@ -164,7 +165,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   set_shifted_eco_variables(bfc, bfc[["new_sdec_1"]] == 10, list(c(1,2), c(NA,NA)))
 
   #bfc[new_wl_zone == curr_wl_zone, ] # No change assign all eco_vars to same as before
-
   # Old 1 / New 0 :  Remove WL from component 1, (2 & 3 move up toward 1)
   set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 0, list(c(1,2,3), c(2,3,NA)))
   # Old 2 / New 0 : Remove WL from component 2  (3 move up to 2)
@@ -175,11 +175,11 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # When adding a new WL component, also make REALM_# = "W", GROUP_# = "W" and KIND_# = "U"
   # Old 0 / New 1 : add WL to component 1, (2 & 3 move down toward 3)
   cond_0_to_1 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1
-  set_shifted_eco_variables(bfc, which_0_to_1, list(c(2,3), c(1,2)))
+  set_shifted_eco_variables(bfc, cond_0_to_1, list(c(2,3), c(1,2)))
   bfc[(cond_0_to_1), `:=`(BEUMC_S1 = "WL", REALM_1 = "W", GROUP_1 = "W", KIND_1 = "U")]
   # Old 0 / New 2 : Add WL to component 2, (2 move down to 3)
   cond_0_to_2 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 2
-  set_shifted_eco_variables(bfc, which_0_to_2, list(c(3), c(2)))
+  set_shifted_eco_variables(bfc, cond_0_to_2, list(c(3), c(2)))
   bfc[(cond_0_to_2), `:=`(BEUMC_S2 = "WL", REALM_2 = "W", GROUP_2 = "W", KIND_2 = "U")]
   # Old 0 / New 3 : add WL to component 3
   cond_0_to_3 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 3
@@ -220,7 +220,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                                     beumc_s1 = c("CR", "PR", "PR", "ER", "RR", "SR", "WR", "WR"))
 
 
-  riparian_update_lines <- which(site_m3a_eq_a & MEAN_SLOPE < 10 & !BEUMC_S1 %in% non_veg & BGC_ZONE %in% riparian_mapcode_dt[["bgc_zone"]])
+  riparian_update_lines <- which(site_m3a_eq_a & bfc[["MEAN_SLOPE"]] < 10 & !bfc[["BEUMC_S1"]] %in% non_veg & bfc[["BGC_ZONE"]] %in% riparian_mapcode_dt[["bgc_zone"]])
 
   set(bfc, i = riparian_update_lines, j = "SDEC_1", value = 10)
   set(bfc, i = riparian_update_lines, j = "SDEC_2", value = 0)
@@ -231,7 +231,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   set(bfc, i = riparian_update_lines, j = "BEUMC_S3", value = "")
   set(bfc, i = riparian_update_lines, j = c(eco_variables_string_2, eco_variables_string_3), value = "")
   set(bfc, i = riparian_update_lines, j = c(eco_variables_integer_2, eco_variables_integer_3), value = NA_integer_)
-  set(bfc, i = riparian_update_lines, j = "Lbl_edit_wl", value = paste0(updates))
 
   bfc[(riparian_update_lines),
       Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]

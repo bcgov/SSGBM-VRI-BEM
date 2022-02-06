@@ -35,8 +35,8 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
   shift_combination <- shift_pattern[[1]] * 10 + shift_pattern[[2]]
 
   # initialize all final character and integer variable names
-  all_to_character_variables <- character(length(character_variables_1) * length(unique(shift_pattern[[2]])))
-  all_to_integer_variables <- character(length(integer_variables_1) * length(unique(shift_pattern[[2]])))
+  all_to_character_variables <- character(0)
+  all_to_integer_variables <- character(0)
 
   # create NA temp variables to simplify the code
   set(input_dt, j = "temp_integer_NA", value = NA_integer_)
@@ -47,25 +47,55 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
   for (combination in shift_combination) {
     # separate created combination into from and to vectors
     from_number <- combination %% 10
-    to_number <- (combination - to_number)/10
+    to_number <- (combination - from_number)/10
 
-    # find which character variables to use
-    from_character_variables <- fcase(from_number == 1, character_variables_1, from_number == 2, character_variables_2, from_number == 3, character_variables_3, default = "temp_character_NA")
-    to_character_variables_temp <- paste0("temp_", fcase(to_number == 1, character_variables_1, to_number == 2, character_variables_2, to_number == 3, character_variables_3, default = "temp_character_NA"))
+    # find which character and integer variables to use
+    if (from_number == 1) {
+      from_character_variables <- character_variables_1
+      from_integer_variables <- integer_variables_1
+    } else {
+      if (from_number == 2) {
+        from_character_variables <- character_variables_2
+        from_integer_variables <- integer_variables_2
+      } else {
+        if (from_number == 3) {
+          from_character_variables <- character_variables_3
+          from_integer_variables <- integer_variables_3
+        } else {
+          from_character_variables <- rep("temp_character_NA", length(character_variables_1))
+          from_integer_variables <- rep("temp_integer_NA", length(integer_variables_1))
+        }
+      }
+    }
+
+    if (to_number == 1) {
+      to_character_variables_temp <- paste0("temp_", character_variables_1)
+      to_integer_variables_temp <- paste0("temp_", integer_variables_1)
+    } else {
+      if (to_number == 2) {
+        to_character_variables_temp <- paste0("temp_", character_variables_2)
+        to_integer_variables_temp <- paste0("temp_", integer_variables_2)
+      } else {
+        if (to_number == 3) {
+          to_character_variables_temp <- paste0("temp_", character_variables_3)
+          to_integer_variables_temp <- paste0("temp_", integer_variables_3)
+        } else {
+          to_character_variables_temp <- rep("temp_temp_character_NA", length(character_variables_1))
+          to_integer_variables_temp <- rep("temp_temp_integer_NA", length(integer_variables_1))
+        }
+      }
+    }
+
     all_to_character_variables <- c(all_to_character_variables, to_character_variables_temp)
 
-    # find which integer variables to use
-    from_integer_variables <- fcase(from_number == 1, integer_variables_1, from_number == 2, integer_variables_2, from_number == 3, integer_variables_3, default = "temp_integer_NA")
-    to_integer_variables_temp <- paste0("temp_", fcase(to_number == 1, integer_variables_1, to_number == 2, integer_variables_2, from_number == 3, integer_variables_3, default = "temp_integer_NA"))
     all_to_integer_variables <- c(all_to_integer_variables, to_integer_variables_temp)
 
-    set(input_dt, i = which_lines, j = to_character_variables_temp, value = input_dt[which_lines, from_character_variables])
-    set(input_dt, i = which_lines, j = to_integer_variables_temp, value = input_dt[which_lines, from_integer_variables])
+    set(input_dt, i = which_lines, j = c(to_character_variables_temp, to_integer_variables_temp), value = input_dt[which_lines, c(from_character_variables, from_integer_variables), with = FALSE])
   }
 
   # remove leading temp_ in created variables
-  final_character_variables <- sapply(all_to_character_variables, function(x) substr(x, 6, length(x)))
-  final_integer_variables <- sapply(all_to_integer_variables, function(x) substr(x, 6, length(x)))
+  final_character_variables <- sapply(all_to_character_variables, function(x) substr(x, 6, nchar(x)))
+  final_integer_variables <- sapply(all_to_integer_variables, function(x) substr(x, 6, nchar(x)))
 
   # assign new computed value in variables
   for (i in seq.int(along.with = all_to_character_variables)) {
@@ -75,10 +105,7 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
     set(input_dt, i = which_lines, j = final_integer_variables[i], value = input_dt[[final_integer_variables[i]]][which_lines])
   }
 
-
-  set(input_dt, i = which_lines, j = final_integer_variables, value = input_dt[which_lines, all_to_integer_variables])
-
   # removed temp variables
-  set(input_dt, i = which_lines, j = c(all_to_character_variables, all_to_integer_variables, "temp_character_NA", "temp_integer_NA"), value = NULL)
+  set(input_dt, j = c(all_to_character_variables, all_to_integer_variables, "temp_character_NA", "temp_integer_NA"), value = NULL)
 
 }

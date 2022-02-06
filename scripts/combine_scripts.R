@@ -16,7 +16,7 @@ vri <- rename_geometry(vri, "Shape")
 bem$Shape <- sf::st_make_valid(bem$Shape)
 vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 
-  #3abc ----
+#3abc ----
 elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
 
 bem <- merge_elevation_raster_on_bem(elev_raster = elev_rast,
