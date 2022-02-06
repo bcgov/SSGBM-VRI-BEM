@@ -21,12 +21,12 @@ add_std_crown_fields <- function(vri) {
 
   # maybe find a better variable name if we can figure out what b_species are
 
-  vri[ , pct_in_species_1 := (SPECIES_CD_1 %in% b_species) * SPECIES_PCT_1]
-  vri[ , pct_in_species_2 := (SPECIES_CD_2 %in% b_species) * SPECIES_PCT_2]
-  vri[ , pct_in_species_3 := (SPECIES_CD_3 %in% b_species) * SPECIES_PCT_3]
-  vri[ , pct_in_species_4 := (SPECIES_CD_4 %in% b_species) * SPECIES_PCT_4]
-  vri[ , pct_in_species_5 := (SPECIES_CD_5 %in% b_species) * SPECIES_PCT_5]
-  vri[ , pct_in_species_6 := (SPECIES_CD_6 %in% b_species) * SPECIES_PCT_6]
+  vri[ , pct_in_species_1 := (SPEC_CD_1 %in% b_species) * SPEC_PCT_1]
+  vri[ , pct_in_species_2 := (SPEC_CD_2 %in% b_species) * SPEC_PCT_2]
+  vri[ , pct_in_species_3 := (SPEC_CD_3 %in% b_species) * SPEC_PCT_3]
+  vri[ , pct_in_species_4 := (SPEC_CD_4 %in% b_species) * SPEC_PCT_4]
+  vri[ , pct_in_species_5 := (SPEC_CD_5 %in% b_species) * SPEC_PCT_5]
+  vri[ , pct_in_species_6 := (SPEC_CD_6 %in% b_species) * SPEC_PCT_6]
 
   vri[ , pct_in_species_tot := rowSums(.SD, na.rm = T), .SDcols = paste0("pct_in_species_", 1:6)]
 
@@ -39,19 +39,19 @@ add_std_crown_fields <- function(vri) {
 
   # create CROWN_BEAR based on CROWN_CLOSURE
 
-  vri[ , CROWN_BEAR := fcase(CROWN_CLOSURE <= 20, 1,
-                             CROWN_CLOSURE <= 40, 2,
-                             CROWN_CLOSURE <= 60, 3,
-                             CROWN_CLOSURE > 60, 4,
+  vri[ , CROWN_BEAR := fcase(CR_CLOSURE <= 20, 1,
+                             CR_CLOSURE <= 40, 2,
+                             CR_CLOSURE <= 60, 3,
+                             CR_CLOSURE > 60, 4,
                              default = NA)]
 
   # create CROWN_MOOSE based on CROWN_CLOSURE
 
-  vri[ , CROWN_MOOSE := fcase(CROWN_CLOSURE == 0, "N",
-                              CROWN_CLOSURE <= 9, "VL",
-                              CROWN_CLOSURE <= 25, "L",
-                              CROWN_CLOSURE <= 60, "M",
-                              CROWN_CLOSURE > 60, "H",
+  vri[ , CROWN_MOOSE := fcase(CR_CLOSURE == 0, "N",
+                              CR_CLOSURE <= 9, "VL",
+                              CR_CLOSURE <= 25, "L",
+                              CR_CLOSURE <= 60, "M",
+                              CR_CLOSURE > 60, "H",
                               default = "")]
 
 
