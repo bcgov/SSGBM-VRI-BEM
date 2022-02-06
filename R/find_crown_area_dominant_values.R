@@ -34,11 +34,11 @@ find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
   most_covered_moose_by_bem <- area_by_bem_moose[ , .SD$CROWN_MOOSE[which.max(area)], by = bem_index]
 
   # merge the crown bear on vri
-  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_bear_by_bem["bem_index"]])
+  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_bear_by_bem[["bem_index"]]])
   set(vri, i = intersection_dt$vri_index, j = paste0("CROWN_BEAR_", 1:3), value = most_covered_bear_by_bem[["V1"]][match_lines])
 
   # merge the crown moose on vri
-  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_moose_by_bem["bem_index"]])
+  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_moose_by_bem[["bem_index"]]])
   set(vri, i = intersection_dt$vri_index, j = paste0("CROWN_MOOSE_", 1:3), value = most_covered_moose_by_bem[["V1"]][match_lines])
 
   # blank Crown moose and crown moose if not ecounter specific condition
