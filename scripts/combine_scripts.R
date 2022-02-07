@@ -67,14 +67,15 @@ vri_std_crown <- add_std_crown_fields(vri = vri_forest_age)
 
 
 #4b /4d2 ----
-merge_unique_ecosystem_fields(ifc = vri_std_crown,
-                              unique_ecosystem_dt = unique_eco)
+vri_all_info <- merge_unique_ecosystem_fields(ifc = vri_std_crown,
+                                              unique_ecosystem_dt = unique_eco)
 
 
 #4d3 ----
-find_crown_area_dominant_values(vri = vri_std_crown,
-                                bem = bem)
+vri_all_info <- find_crown_area_dominant_values(vri = vri_all_info,
+                                                bem = bem)
 
 
 #5 ----
-unique_eco_info <- fread("../unique_ecosystem.csv")
+export_dt <- create_RRM_ecosystem(bfc = vri_all_info)
+fwrite(export_dt, file = "../RRM_Input_table.csv")
