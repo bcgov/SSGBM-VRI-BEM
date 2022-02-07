@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Nicolas", "Gauthier", email = "nicolas@boostao.ca", role = c("aut", "cre"),
        comment = c(ORCID = "0000-0003-0642-4130")),
-    person("François", "Bornais", email = "francois@boostao.ca", role = c("aut", "cre"),
+    person("François", "Bornais", email = "francois@boostao.ca", role = c("aut"),
        comment = c(ORCID = "0000-0002-8676-759X")),
     person("Bruno", "Tremblay", email = "bruno@boostao.ca", role = c("ctb"), ,
        comment = c(ORCID = "0000-0002-2945-356X")),
@@ -12,7 +12,7 @@ Authors@R: c(
 Description: This package is for the VRI-BEM
     (vegetation Resource Inventory & Broad Ecosystem Mapping)
     component of wildlife models.
-Import: 
+Imports: 
   data.table,
   sf,
   terra, 
