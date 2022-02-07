@@ -3,7 +3,6 @@ devtools::load_all()
 vri <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/VEG_COMP_LYR_R1_POLY", layer = "VEG_R1_PLY_polygon", quiet = TRUE)
 bem <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/BEM_VRI", layer = "BEM", quiet = TRUE)
 
-
 #Restructure bem while waiting for real info
 bem <- rename_geometry(bem, "Shape")
 
@@ -15,7 +14,6 @@ vri <- rename_geometry(vri, "Shape")
 
 bem$Shape <- sf::st_make_valid(bem$Shape)
 vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
-
 
 # 1a ----
 vri_bem <- merge_vri_on_bem(vri, bem)
@@ -31,7 +29,6 @@ vri_bem_updated <- update_bem_from_vri(ifc = vri_bem,
                                        clear_site_ma = TRUE,
                                        beu_bec = beu_bec_csv)
 
-
 #1c ----
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
 wetlands <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb", layer = "FWA_WETLANDS_POLY", quiet = TRUE)
@@ -41,12 +38,10 @@ updated_bem_from_wetland <- update_bem_from_wet(bfc = vri_bem_updated,
                                                 wfc = wetlands,
                                                 buc = beu_wetland_update_csv)
 
-
 #2 ----
 unique_eco <- create_unique_ecosytem_dt(bem = updated_bem_from_wetland)
 
 fwrite(unique_eco, file = "../unique_ecosystem.csv")
-
 
 #3abc ----
 elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
@@ -63,25 +58,17 @@ updated_bem_from_wetland <- merge_ccb_on_vri(ccb = ccb, vri = updated_bem_from_w
 vri_forest_age <- calc_forest_age_class(vri = updated_bem_from_wetland,
                                         most_recent_harvest_year = 2020)
 
-
-#4b ----
-
-
-
 #4c ----
 vri_std_crown <- add_std_crown_fields(vri = vri_forest_age)
-
 
 
 #4b /4d2 ----
 vri_all_info <- merge_unique_ecosystem_fields(ifc = vri_std_crown,
                                               unique_ecosystem_dt = unique_eco)
 
-
 #4d3 ----
 vri_all_info <- find_crown_area_dominant_values(vri = vri_all_info,
                                                 bem = bem)
-
 
 #5 ----
 export_dt <- create_RRM_ecosystem(bfc = vri_all_info)
