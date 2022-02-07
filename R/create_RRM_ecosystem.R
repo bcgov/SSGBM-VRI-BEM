@@ -1,5 +1,8 @@
 #' Create RRM Ecosystem information
 #'
+#' This function generates the unique list of ecosystems and determines all possible combinations of STS and STAND codes
+#' that could apply to the ecosystem at any age value, and expand to include all existing and "potential" unique ecosystems
+#'
 #' @param bfc bem feature class
 #'
 #' @return Summary of Area by unique ecosystem
