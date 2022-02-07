@@ -8,9 +8,7 @@
 #'
 calc_forest_age_class <- function(vri, most_recent_harvest_year) {
 
-  # TODO Might be useless if we can adapt the look up table
-
-  # use data.table for fast data manipulation
+    # use data.table for fast data manipulation
   classes_vri <- attr(vri, "class")
   setDT(vri)
 

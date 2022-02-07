@@ -98,8 +98,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                             BEUMC_S3 == "WL", 3,
                             default = 0)]
 
-  # TODO check warnings NA introduce by coercion
-  # all NA are created because there is NA in SDEC_1, is this normal, do we want curr_beu_code to be NA when this happen?
   bfc[, curr_beu_code:= as.numeric(paste0(SDEC_1, SDEC_2_num, SDEC_3_num, curr_wl_zone))]
 
 
