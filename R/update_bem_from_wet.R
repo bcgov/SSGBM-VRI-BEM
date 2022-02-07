@@ -36,23 +36,9 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
     set(bfc , j = "SMPL_TYPE", value = "")
   }
 
-  # create eco variables vectors so its easier to blank them
-  eco_variables_string_1 <- c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
-                              "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
-                              "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
-                              "SESUBCL_1", "COND_1", "VIAB_1")
-  eco_variables_string_2 <- sub("1", "2", eco_variables_string_1)
-  eco_variables_string_3 <- sub("1", "3", eco_variables_string_1)
-
-  eco_variables_integer_1 <- c("TREE_C1", "SHRUB_C1")
-  eco_variables_integer_2 <- sub("1", "2", eco_variables_integer_1)
-  eco_variables_integer_3 <- sub("1", "3", eco_variables_integer_1)
-
-
   # Make note of which polygons have SITE_M3A == 'a' for later (before the 'a' is potentially moved to
   # SITE_M1A or SITE_M2A)
   site_m3a_eq_a <- bfc[["SITE_M3A"]] == "a"
-
 
   # compute % of wetland area for each BEM ----
 
@@ -71,10 +57,8 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   # creation of condition variables that will be used multiple times to avoid having to compute them more than once
 
-
   bfc[SDEC_2 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
   bfc[SDEC_3 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
-
 
   # If curr_beu_code is 4 digits: 1 digit for each decile, with the 4th digit:
   #     0 if none of the 3 components is WL
@@ -106,8 +90,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
            BEUMC_S3 = "")]
 
   # line 355
-  bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"), c(eco_variables_string_1, eco_variables_string_2, eco_variables_string_3) := ""]
-  bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"), c(eco_variables_integer_1, eco_variables_integer_2, eco_variables_integer_3) := NA_integer_]
+  set_shifted_eco_variables(bfc, bfc[["SDEC_3"]] > 0 & bfc[["BEUMC_S3"]] == "WL", list(c(3), c(NA)))
 
   # Merge allowed BEU codes  -----
   bfc[buc, on = list(curr_beu_code = Code_Orig),
@@ -204,7 +187,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
       Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3",
                           " (", new_beu_code, ")")]
 
-
   # Riparian Mapcode adjustments (line 681) -----
 
   non_veg  <- c("RI", "WL", "BB", "UR", "OW", "LS", "LL", "RE", "CL", "GB", "GL", "GP", "MI", "RO", "TA", "TC", "TR",
@@ -231,7 +213,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
       Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]
 
   bfc[site_m3a_eq_a , SITE_M3A := "a"]
-
 
   return(st_as_sf(bfc))
 }
