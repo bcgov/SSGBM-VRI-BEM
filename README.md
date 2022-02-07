@@ -3,6 +3,16 @@ This repository is for a Python to R script conversion for the VRI-BEM (vegetati
 
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)]
 
+## Installation
+
+install the latest development version (on GitHub) via `{remotes}`:
+
+``` r
+remotes::install_github("bcgov/SSGBM-VRI-BEM")
+```
+
+## Contributing
+
 Copyright 2021 Province of British Columbia
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
