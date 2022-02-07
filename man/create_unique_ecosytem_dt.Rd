@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_unique_ecosystem_dt.R
 \name{create_unique_ecosytem_dt}
 \alias{create_unique_ecosytem_dt}
-\title{generates a data of unique BGC label and habitat combinations for the Look up Table starting point}
+\title{Create data of Unique ecosystem}
 \usage{
 create_unique_ecosytem_dt(bem)
 }

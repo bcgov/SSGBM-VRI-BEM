@@ -13,7 +13,7 @@ update_bem_from_vri(ifc, rfc, clear_site_ma = TRUE, beu_bec)
 
 \item{clear_site_ma}{boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared}
 
-\item{bec_bea}{data.table object of allowed BEC and BEM Code Combos}
+\item{beu_bec}{data.table object of allowed BEC and BEM Code Combos}
 }
 \value{
 sf object

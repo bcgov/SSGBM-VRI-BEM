@@ -2,7 +2,7 @@
 #'
 #' @param ifc sf object that represent the input polygon feature class
 #' @param rfc sf object that represent Rivers polygon feature class (FWA_Rivers)
-#' @param bec_bea data.table object of allowed BEC and BEM Code Combos
+#' @param beu_bec data.table object of allowed BEC and BEM Code Combos
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @return sf object
 #' @import sf
