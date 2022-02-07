@@ -40,7 +40,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                                                        "SPEC_PCT_1"))
 
 
-  #TODO lbl_edit changed from Lbl_edit see if there is any impact on their side
   if (is.null(ifc[["lbl_edit"]])) {
     set(ifc , j = "lbl_edit", value = "")
   }
