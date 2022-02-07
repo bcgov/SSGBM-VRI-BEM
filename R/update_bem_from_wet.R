@@ -206,8 +206,8 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                                                                                                  riparian_mapcode_dt$bgc_zone)])
   set(bfc, i = riparian_update_lines, j = "BEUMC_S2", value = "")
   set(bfc, i = riparian_update_lines, j = "BEUMC_S3", value = "")
-  set(bfc, i = riparian_update_lines, j = c(eco_variables_string_2, eco_variables_string_3), value = "")
-  set(bfc, i = riparian_update_lines, j = c(eco_variables_integer_2, eco_variables_integer_3), value = NA_integer_)
+
+  set_shifted_eco_variables(bfc, site_m3a_eq_a & bfc[["MEAN_SLOPE"]] < 10 & !bfc[["BEUMC_S1"]] %in% non_veg & bfc[["BGC_ZONE"]] %in% riparian_mapcode_dt[["bgc_zone"]], list(c(2,3), c(NA)))
 
   bfc[(riparian_update_lines),
       Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]
