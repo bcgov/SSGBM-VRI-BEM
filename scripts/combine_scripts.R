@@ -20,6 +20,9 @@ vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 # 1a ----
 vri_bem <- merge_vri_on_bem(vri, bem)
 
+# filter out vri that have no overlapping bem (usually you should make sure the BEM covers all VRI)
+vri_bem <-vri[which(!is.na(vri_bem$TEIS_ID)),]
+
 # 1b ----
 beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
 rivers <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb", layer = "FWA_RIVERS_POLY", quiet = TRUE)
