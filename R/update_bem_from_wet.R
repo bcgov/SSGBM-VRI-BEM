@@ -25,11 +25,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                                                        "SITE_M3A", "SITE_M3B", "STRCT_S3", "STRCT_M3", "STAND_A3", "SERAL_3", "TREE_C3", "SHRUB_C3",
                                                        "DISTCLS_3", "DISTSCLS_3", "DISSSCLS_3", "SECL_3", "SESUBCL_3", "COND_3", "VIAB_3", "BGC_ZONE",
                                                        "MEAN_SLOPE", "BCLCS_LV_4"))
-  # check if bem contains duplicate teis_id
-  if (length(unique(bfc$TEIS_ID)) < nrow(bfc)) {
-    warning("Duplicate TEIS_ID values found. Repopulating TEIS_ID field with unique values.")
-    set(bfc, j = "TEIS_ID", value = seq.int(length.out = nrow(bfc)))
-  }
 
   if (is.null(bfc[["Lbl_edit_wl"]])) {
     set(bfc , j = "Lbl_edit_wl", value = "")

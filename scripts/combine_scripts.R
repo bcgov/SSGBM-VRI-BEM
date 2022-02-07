@@ -21,7 +21,7 @@ vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 vri_bem <- merge_vri_on_bem(vri, bem)
 
 # filter out vri that have no overlapping bem (usually you should make sure the BEM covers all VRI)
-vri_bem <-vri[which(!is.na(vri_bem$TEIS_ID)),]
+vri_bem <-vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
 
 # 1b ----
 beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
@@ -54,6 +54,10 @@ elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
 updated_bem_from_wetland <- merge_elevation_raster_on_sf(elev_raster = elev_rast,
                                     ifc = updated_bem_from_wetland)
 
+# merge cutblock
+ccb <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb", layer = "CNS_CUT_BL_polygon", quiet = TRUE)
+
+updated_bem_from_wetland <- merge_ccb_on_vri(ccb = ccb, vri = updated_bem_from_wetland)
 
 #4 ----
 vri_forest_age <- calc_forest_age_class(vri = updated_bem_from_wetland,
