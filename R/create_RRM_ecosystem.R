@@ -1,3 +1,11 @@
+#' Create RRM Ecosystem information
+#'
+#' @param bfc bem feature class
+#'
+#' @return Summary of Area by unique ecosystem
+#' @import data.table
+#' @export
+
 create_RRM_ecosystem <- function(bfc){
 
   # TODO: switch to a data.table?
