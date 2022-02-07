@@ -77,4 +77,4 @@ find_crown_area_dominant_values(vri = vri_std_crown,
 
 
 #5 ----
-
+unique_eco_info <- fread("../unique_ecosystem.csv")

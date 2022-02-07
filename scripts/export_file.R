@@ -1,101 +1,172 @@
-create_RRM_ecosystem <- function(bfc, lookup_csv, unique_ecosyst_dt){
+create_RRM_ecosystem <- function(bfc){
 
-  #TODO : should it be a parameter?
-  fields <-  c("TEIS_ID","BAPID","ECO_SEC","BGC_ZONE","BGC_SUBZON","BGC_VRT","BGC_PHASE",
-               "SDEC_1","SDEC_2","SDEC_3","BEUMC_S1","BEUMC_S2","BEUMC_S3",
-               "SITEMC_S1","SITEMC_S2","SITEMC_S3","STRCT_S1","STRCT_S2","STRCT_S3",
-               "STAND_A1","STAND_A2","STAND_A3","CROWN_MOOSE_1","CROWN_MOOSE_2","CROWN_MOOSE_3",
-               "SLOPE_MOD","SITE_M3A","SNOW_CODE","ABOVE_ELEV_THOLD","Shape_Area")
-
-  # TODO: validate it is a data.table?
-  bem_dt <- bfc[, fields, with = FALSE]
+  # TODO: switch to a data.table?
+  bem_dt <- as.data.table(bfc)
 
 
-  bem_1_dt <- bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
-                     .(area = sum(Shape_Area*SDEC_1/10)),
-                      by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
-                                             bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
-                                             slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
-                                             above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
-                                             strct = STRCT_S1, stand = STAND_A1))]
 
-  bem_2_dt <- bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2),
-                     .(area = sum(Shape_Area*SDEC_2/10)),
-                     by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
-                                            bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S2,
-                                            slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
-                                            above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_2,
-                                            strct = STRCT_S2, stand = STAND_A2))]
+  summ_area <- rbind(
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = sum(Shape_Area*SDEC_1/10)),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STRCT_S1, STAND = STAND_A1, FORESTED = FORESTED_1)],
 
- bem_3_dt <-  bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3),
-                     .(area = sum(Shape_Area*SDEC_3/10)),
-                     by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
-                                            bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S3,
-                                            slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
-                                            above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_3,
-                                            strct = STRCT_S3, stand = STAND_A3))]
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = sum(Shape_Area*SDEC_2/10)),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STRCT_S2, STAND = STAND_A2, FORESTED = FORESTED_2)],
 
- rbind(bem_1_dt, bem_2_dt, bem_3_dt)[, sum(area), by = id]
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = sum(Shape_Area*SDEC_3/10)),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STRCT_S3, STAND = STAND_A3, FORESTED = FORESTED_3)],
 
 
- #####
- bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
-        .(area = 0),
-        by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
-                               bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
-                               slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
-                               above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
-                               strct = STS_1_Age_0_3, stand = STAND_1_Age_0_15))]
- bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
-        .(area = 0),
-        by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
-                               bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
-                               slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
-                               above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
-                               strct = STS_1_Age_4_10, stand = STAND_1_Age_0_15))]
+    #3yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_0_3, STAND = STAND_1_Age_0_15, FORESTED = FORESTED_1)],
+    #10yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_4_10, STAND = STAND_1_Age_0_15, FORESTED = FORESTED_1)],
+    #15 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_11_30, STAND = STAND_1_Age_0_15, FORESTED = FORESTED_1)],
+    #30 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_11_30, STAND = STAND_1_Age_16_30, FORESTED = FORESTED_1)],
+    #40 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_31_40, STAND = STAND_1_Age_31_50, FORESTED = FORESTED_1)],
+    #50 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_41_60, STAND = STAND_1_Age_31_50, FORESTED = FORESTED_1)],
+    #60 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_41_60, STAND = STAND_1_Age_51_80, FORESTED = FORESTED_1)],
+    #80 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_61_80, STAND = STAND_1_Age_51_80, FORESTED = FORESTED_1)],
+    #140 yrs (looks like 139)
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_81_139, STAND = STAND_1_Age_gt_80, FORESTED = FORESTED_1)],
+    #249 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_140_249, STAND = STAND_1_Age_gt_80, FORESTED = FORESTED_1)],
+    #9999 yrs
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_1, STRCT = STS_1_Age_gt_249, STAND = STAND_1_Age_gt_80, FORESTED = FORESTED_1)],
 
- bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1),
-        .(area = 0),
-        by = .(id = create_key(eco_sec = ECO_SEC, bgc_zone = BGC_ZONE, bgc_subzone = BGC_SUBZON,
-                               bgc_vrt = BGC_VRT, bgc_phase = BGC_PHASE, beumc = BEUMC_S1,
-                               slope_mod = SLOPE_MOD, site_m3a = SITE_M3A, snow_code = SNOW_CODE,
-                               above_eleve_thold = ABOVE_ELEV_THOLD, crown_moose = CROWN_MOOSE_1,
-                               strct = STS_1_Age_4_10, stand = STAND_1_Age_0_15))]
-## do for all combination of STS and STAND in python script line 264 to 275
- # repeat for S2 and S3
 
- # combine with initial summary
- # remove duplicate by id
+
+
+
+    #3yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_0_3, STAND = STAND_2_Age_0_15, FORESTED = FORESTED_2)],
+    #10yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_4_10, STAND = STAND_2_Age_0_15, FORESTED = FORESTED_2)],
+    #15 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_11_30, STAND = STAND_2_Age_0_15, FORESTED = FORESTED_2)],
+    #30 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_11_30, STAND = STAND_2_Age_16_30, FORESTED = FORESTED_2)],
+    #40 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_31_40, STAND = STAND_2_Age_31_50, FORESTED = FORESTED_2)],
+    #50 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_41_60, STAND = STAND_2_Age_31_50, FORESTED = FORESTED_2)],
+    #60 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_41_60, STAND = STAND_2_Age_51_80, FORESTED = FORESTED_2)],
+    #80 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_61_80, STAND = STAND_2_Age_51_80, FORESTED = FORESTED_2)],
+    #140 yrs (looks like 139)
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_81_139, STAND = STAND_2_Age_gt_80, FORESTED = FORESTED_2)],
+    #249 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_140_249, STAND = STAND_2_Age_gt_80, FORESTED = FORESTED_2)],
+    #9999 yrs
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_2, STRCT = STS_2_Age_gt_249, STAND = STAND_2_Age_gt_80, FORESTED = FORESTED_2)],
+
+
+
+    #3yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_0_3, STAND = STAND_3_Age_0_15, FORESTED = FORESTED_3)],
+    #10yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_4_10, STAND = STAND_3_Age_0_15, FORESTED = FORESTED_3)],
+    #15 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_11_30, STAND = STAND_3_Age_0_15, FORESTED = FORESTED_3)],
+    #30 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_11_30, STAND = STAND_3_Age_16_30, FORESTED = FORESTED_3)],
+    #40 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_31_40, STAND = STAND_3_Age_31_50, FORESTED = FORESTED_3)],
+    #50 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_41_60, STAND = STAND_3_Age_31_50, FORESTED = FORESTED_3)],
+    #60 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_41_60, STAND = STAND_3_Age_51_80, FORESTED = FORESTED_3)],
+    #80 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_61_80, STAND = STAND_3_Age_51_80, FORESTED = FORESTED_3)],
+    #140 yrs (looks like 139)
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_81_139, STAND = STAND_3_Age_gt_80, FORESTED = FORESTED_3)],
+    #249 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_140_249, STAND = STAND_3_Age_gt_80, FORESTED = FORESTED_3)],
+    #9999 yrs
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
+                     SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_gt_249, STAND = STAND_3_Age_gt_80, FORESTED = FORESTED_3)]
+    )
+
+  summ_area[STAND %in% c("B", "C", "M") & !STRCT %in% c("4", "5", "6", "7"), STAND := ""]
+
+  summ_area[, .(Hectares = sum(area_sum)),
+            by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC, SLOPE_MOD, SITE_M3A,
+                      SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE, STRCT, STAND, FORESTED)]
+
 
 
 }
-
-
-
-
-create_key <- function(eco_sec, bgc_zone, bgc_subzone, bgc_vrt, bgc_phase, beumc, slope_mod,
-                       site_m3a, snow_code, above_eleve_thold, crown_moose, strct, stand){
-
-  paste0(replace_missing(eco_sec), "~",
-         replace_missing(bgc_zone), "~",
-         replace_missing(bgc_subzone), "~",
-         replace_missing(as.character(bgc_vrt), regexp = "0"), "~",
-         replace_missing(bgc_phase), "~",
-         replace_missing(beumc), "~",
-         replace_missing(slope_mod), "~",
-         replace_missing(site_m3a), "~",
-         replace_missing(snow_code), "~",
-         replace_missing(above_eleve_thold), "~",
-         replace_missing(crown_moose), "~",
-         replace_missing(strct), "~",
-         replace_missing(stand)
-         )
-
-}
-
-replace_missing <- function(values, regexp = " "){
-  values[is.na(values)] <- ""
-  gsub(other_values_to_replace, "", values)
-}
-
-
