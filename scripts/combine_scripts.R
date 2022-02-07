@@ -16,11 +16,6 @@ vri <- rename_geometry(vri, "Shape")
 bem$Shape <- sf::st_make_valid(bem$Shape)
 vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 
-#3abc ----
-elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
-
-bem <- merge_elevation_raster_on_bem(elev_raster = elev_rast,
-                                     bem = bem)
 
 # 1a ----
 vri_bem <- merge_vri_on_bem(vri, bem)
@@ -50,6 +45,11 @@ unique_eco <- create_unique_ecosytem_dt(bem = updated_bem_from_wetland)
 fwrite(unique_eco, file = "../unique_ecosystem.csv")
 
 
+#3abc ----
+elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
+
+updated_bem_from_wetland <- merge_elevation_raster_on_sf(elev_raster = elev_rast,
+                                    ifc = updated_bem_from_wetland)
 
 
 #4 ----
