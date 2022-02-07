@@ -81,4 +81,4 @@ vri_all_info <- find_crown_area_dominant_values(vri = vri_all_info,
 
 #5 ----
 export_dt <- create_RRM_ecosystem(bfc = vri_all_info)
-fwrite(export_dt, file = "../RRM_Input_table.csv")
+fwrite(export_dt, file = "../RRM_input_table.csv")
