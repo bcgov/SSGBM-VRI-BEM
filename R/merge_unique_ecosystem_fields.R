@@ -106,7 +106,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                              VRI_AGE_CL_STD <= 50, STAND_1_Age_31_50,
                              VRI_AGE_CL_STD <= 80, STAND_1_Age_51_80,
                              VRI_AGE_CL_STD > 80, STAND_1_Age_gt_80,
-                             default = NA)]
+                             default = NA_character_)]
 
   ifc[, STS_AGE_1 := fcase(VRI_AGE_CL_STS <= 3, STS_1_Age_0_3,
                            VRI_AGE_CL_STS <= 10, STS_1_Age_4_10,
@@ -117,12 +117,12 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                            VRI_AGE_CL_STS <= 139, STS_1_Age_81_139,
                            VRI_AGE_CL_STS <= 249, STS_1_Age_140_249,
                            VRI_AGE_CL_STS > 249, STS_1_Age_gt_249,
-                           default = NA)]
+                           default = NA_character_)]
 
 
   ifc[, STRCT_S1 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_1,
                           FORESTED_1 == "N" | parkland_ind , STS_CLIMAX_1,
-                          default = NA)]
+                          default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   ifc[substr(STRCT_S1, start = 1, stop = 1) %in% c("4", "5", "6", "7") ,
@@ -132,8 +132,6 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                         default = "")]
 
   #TODO temporarily change class
-  set(ifc, j = "STRCT_S1", value = as.character(ifc[["STRCT_S1"]]))
-  set(ifc, j = "STAND_A1", value = as.character(ifc[["STAND_A1"]]))
   ifc[is.na(STRCT_S1), STRCT_S1 := ""]
   ifc[is.na(STAND_A1), STAND_A1 := ""]
 
@@ -145,7 +143,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                              VRI_AGE_CL_STD <= 50, STAND_2_Age_31_50,
                              VRI_AGE_CL_STD <= 80, STAND_2_Age_51_80,
                              VRI_AGE_CL_STD > 80, STAND_2_Age_gt_80,
-                             default = NA)]
+                             default = NA_character_)]
 
   ifc[, STS_AGE_2 := fcase(VRI_AGE_CL_STS <= 3, STS_2_Age_0_3,
                            VRI_AGE_CL_STS <= 10, STS_2_Age_4_10,
@@ -156,12 +154,12 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                            VRI_AGE_CL_STS <= 139, STS_2_Age_81_139,
                            VRI_AGE_CL_STS <= 249, STS_2_Age_140_249,
                            VRI_AGE_CL_STS > 249, STS_2_Age_gt_249,
-                           default = NA)]
+                           default = NA_character_)]
 
 
   ifc[, STRCT_S2 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_2,
                           FORESTED_2 == "N" | parkland_ind , STS_CLIMAX_2,
-                          default = NA)]
+                          default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   ifc[substr(STRCT_S2, start = 1, stop = 1) %in% c("4", "5", "6", "7") ,
@@ -171,8 +169,6 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                         default = "")]
 
   #TODO temporarily change class
-  set(ifc, j = "STRCT_S2", value = as.character(ifc[["STRCT_S2"]]))
-  set(ifc, j = "STAND_A2", value = as.character(ifc[["STAND_A2"]]))
   ifc[is.na(STRCT_S2), STRCT_S2 := ""]
   ifc[is.na(STAND_A2), STAND_A2 := ""]
 
@@ -184,7 +180,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                              VRI_AGE_CL_STD <= 50, STAND_3_Age_31_50,
                              VRI_AGE_CL_STD <= 80, STAND_3_Age_51_80,
                              VRI_AGE_CL_STD > 80, STAND_3_Age_gt_80,
-                             default = NA)]
+                             default = NA_character_)]
 
   ifc[, STS_AGE_3 := fcase(VRI_AGE_CL_STS <= 3, STS_3_Age_0_3,
                            VRI_AGE_CL_STS <= 10, STS_3_Age_4_10,
@@ -195,12 +191,12 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                            VRI_AGE_CL_STS <= 139, STS_3_Age_81_139,
                            VRI_AGE_CL_STS <= 249, STS_3_Age_140_249,
                            VRI_AGE_CL_STS > 249, STS_3_Age_gt_249,
-                           default = NA)]
+                           default = NA_character_)]
 
 
   ifc[, STRCT_S2 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_3,
                           FORESTED_3 == "N" | parkland_ind , STS_CLIMAX_3,
-                          default = NA)]
+                          default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   ifc[substr(STRCT_S3, start = 1, stop = 1) %in% c("4", "5", "6", "7") ,
@@ -210,8 +206,6 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
                         default = "")]
 
   #TODO temporarily change class
-  set(ifc, j = "STRCT_S3", value = as.character(ifc[["STRCT_S3"]]))
-  set(ifc, j = "STAND_A3", value = as.character(ifc[["STAND_A3"]]))
   ifc[is.na(STRCT_S3), STRCT_S3 := ""]
   ifc[is.na(STAND_A3), STAND_A3 := ""]
 

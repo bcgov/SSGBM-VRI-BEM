@@ -48,6 +48,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   index_dt <- intersection_dt[, .(wetland_area = sum(area)), by = bfc]
 
   bfc[index_dt[["bfc"]], wetland_area := index_dt[["wetland_area"]]]
+  # as.numeric to remove class units
   bfc[, wl_pct:= as.numeric(wetland_area/vri_area)]
 
   bfc[, Lbl_edit_wl := "No Wetland."]
@@ -70,28 +71,27 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   #     0 if the first and only component is not WL
   #     1 if the first and only component is WL
 
-  bfc[, SDEC_2_num := fifelse(is.na(SDEC_2), 0, SDEC_2)]
-  bfc[, SDEC_3_num := fifelse(is.na(SDEC_3), 0, SDEC_3)]
   bfc[, curr_wl_zone:=fcase(BEUMC_S1 == "WL", 1,
                             BEUMC_S2 == "WL", 2,
                             BEUMC_S3 == "WL", 3,
                             default = 0)]
 
-  bfc[, curr_beu_code:= as.numeric(paste0(SDEC_1, SDEC_2_num, SDEC_3_num, curr_wl_zone))]
+  bfc[, curr_beu_code:= as.numeric(paste0(SDEC_1, SDEC_2, SDEC_3, curr_wl_zone))]
 
 
   bfc[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", curr_beu_code, ")")]
 
 
-  # line 351
+  # Remove all 'WL' mapcodes from Dec3 - these were added during the BEM process and no longer apply at
+  # the VRI scale
   bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
-      `:=`(SDEC_1 = SDEC_3,
-           SDEC_3 = NA)]
+      `:=`(SDEC_1 = SDEC_1 + SDEC_3,
+           SDEC_3 = 0)]
 
-  # line 355
-  set_shifted_eco_variables(bfc, i = which(bfc[["SDEC_3"]] > 0 & bfc[["BEUMC_S3"]] == "WL"), list(c(3), c(NA)))
+  set_shifted_eco_variables(bfc, i = which(bfc[["SDEC_3"]] > 0 & bfc[["BEUMC_S3"]] == "WL"), list(3, NA))
 
   # Merge allowed BEU codes  -----
+  # no WL 9 but it's normal
   bfc[buc, on = list(curr_beu_code = Code_Orig),
       `:=`(Code_WL0 = i.Code_WL0,
            Code_WL1 = i.Code_WL1,
@@ -119,18 +119,12 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
                            wl_pct < 75, Code_WL7,
                            wl_pct < 80, Code_WL8,
                            wl_pct >= 80, Code_WL10)]
-  #Create new vars
-  bfc[, `:=`(new_sdec_1 = SDEC_1,
-             new_beumc_s1 = BEUMC_S1,
-             new_sdec_2 = SDEC_2,
-             new_beumc_s2 = BEUMC_S2,
-             new_sdec_3 = SDEC_3,
-             new_beumc_s3 = BEUMC_S3)]
 
+  # overwrite SDEC using new_beu_code
   bfc[curr_beu_code!=new_beu_code,
-        `:=`(new_sdec_1 = (new_beu_code - new_beu_code %% 1000) /1000,
-             new_sdec_2 = (new_beu_code %% 1000 - new_beu_code %% 100) /100,
-             new_sdec_3 = (new_beu_code %% 100 - new_beu_code %% 10) /10,
+        `:=`(SDEC_1 = (new_beu_code - new_beu_code %% 1000) /1000,
+             SDEC_2 = (new_beu_code %% 1000 - new_beu_code %% 100) /100,
+             SDEC_3 = (new_beu_code %% 100 - new_beu_code %% 10) /10,
              new_wl_zone = new_beu_code %% 10)]
 
   # Reassign ecosystems ----
@@ -143,7 +137,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # When new code says that is 100% wetland in unit 1 , blank all variables for unit 1 , 2 and 3
 
   # values for unit 1 will be created later when there was no current wetland and the new wetland is in zone 1
-  set_shifted_eco_variables(bfc, i = which(bfc[["new_sdec_1"]] == 10 & bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1), list(c(1,2,3), NA))
+  set_shifted_eco_variables(bfc, i = which(bfc[["SDEC_1"]] == 10 & bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1), list(c(1,2,3), NA))
   bfc[new_sdec_1 == 10 & curr_wl_zone == 0 & new_wl_zone == 1, `:=`(SDEC_1 = 10, SDEC_2 = 0, SDEC_3 = 0)]
 
 

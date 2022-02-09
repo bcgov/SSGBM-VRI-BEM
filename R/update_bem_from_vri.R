@@ -56,12 +56,11 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
  # perform corrections ----
 
   if (clear_site_ma) {
-    set(ifc , j = "Site_M1A", value = "")
-    set(ifc , j = "Site_M2A", value = "")
+    set(ifc , j = c("SITE_M1A", "SITE_M2A"), value = NA_character_)
   }
 
-  set(ifc , j = "Site_M3A", value = "") #M3A is always cleared
-  set(ifc , j = "Area_HA", value = round(ifc[["vri_area"]]/10000, 2))
+  set(ifc , j = "SITE_M3A", value = NA_character_) #M3A is always cleared
+  set(ifc , j = "Area_Ha", value = round(ifc[["vri_area"]]/10000, 2))
 
 
   set(ifc, j = "row_updated", value = FALSE)
@@ -367,25 +366,19 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
   #Blank Eco Fields (line 639) ----
   which_to_blank <- which(ifc[["blank_eco_variables"]])
 
-  set_shifted_eco_variables(ifc, which_to_blank, list(c(1,2,3), NA), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
+  set_shifted_eco_variables(ifc, i = which_to_blank, list(c(1,2,3), NA), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
                                                                                                "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITEAM_S1D",
                                                                                                "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
                                                                                                "TREE_C1", "SHRUB_C1", "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
                                                                                                "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
-  set(ifc, i = which_to_blank, j = c("SDEC_2", "SDEC_3"), value = NA)
+  set(ifc, i = which_to_blank, j = c("SDEC_2", "SDEC_3"), value = 0)
 
   # line 654
-
-  ifc[, SDEC_1_num:= fifelse(is.na(SDEC_1), 0, as.numeric(SDEC_1))]
-  ifc[, SDEC_2_num:= fifelse(is.na(SDEC_2), 0, as.numeric(SDEC_2))]
-  ifc[, SDEC_3_num:= fifelse(is.na(SDEC_3), 0, as.numeric(SDEC_3))]
-
-  ifc[is.na(SMPL_TYPE), DEC_Total:= SDEC_1_num + SDEC_2_num + SDEC_3_num]
-
+  ifc[is.na(SMPL_TYPE), DEC_Total:= SDEC_1 + SDEC_2 + SDEC_3]
 
   ifc[is.na(SMPL_TYPE) & DEC_Total != 10,
       `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "),
-                             "**** DECILE TOTAL ", SDEC_1_num, "+", SDEC_2_num, "+", SDEC_3_num, "=", DEC_Total),
+                             "**** DECILE TOTAL ", SDEC_1, "+", SDEC_2, "+", SDEC_3, "=", DEC_Total),
            row_updated = TRUE)]
 
   # bgc subzone and beu mapcode
@@ -398,13 +391,13 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
 
    ifc[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S1 = change_to_beu,
                                                                  lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " corrected to ", change_to_beu, " in decile 1"),
-                                                                 row_updated = 1)]
+                                                                 row_updated = TRUE)]
 
    ifc[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 is invalid combination (mapper needs to assess)"),
-                                                                 row_updated = 1)]
+                                                                 row_updated = TRUE)]
 
    ifc[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 combination is not listed"),
-                                                            row_updated = 1)]
+                                                            row_updated = TRUE)]
 
    # remove merged variables
    set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
@@ -416,13 +409,13 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
 
    ifc[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S2 = change_to_beu,
                                                                  lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " corrected to ", change_to_beu, " in decile 2"),
-                                                                 row_updated = 1)]
+                                                                 row_updated = TRUE)]
 
    ifc[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 is invalid combination (mapper needs to assess)"),
-                                                                 row_updated = 1)]
+                                                                 row_updated = TRUE)]
 
    ifc[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 combination is not listed"),
-                                                            row_updated = 1)]
+                                                            row_updated = TRUE)]
 
    set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
 
@@ -433,13 +426,13 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
 
    ifc[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S3 = change_to_beu,
                                                                  lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " corrected to ", change_to_beu, " in decile 3"),
-                                                                 row_updated = 1)]
+                                                                 row_updated = TRUE)]
 
    ifc[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 is invalid combination (mapper needs to assess)"),
-                                                                 row_updated = 1)]
+                                                                 row_updated = TRUE)]
 
    ifc[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 combination is not listed"),
-                                                            row_updated = 1)]
+                                                            row_updated = TRUE)]
 
    set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
 
@@ -479,17 +472,14 @@ combine_duplicated_BEUMC <- function(ifc, use_ifelse = TRUE){
 
   if (any(duplicated, na.rm = TRUE)){
 
-    #TODO could we simply use na,rm = TRUE and avoid condition ?
-    ifc[(duplicated) & SDEC_1 > 0 & SDEC_2 > 0,  SDEC_1:= SDEC_1+SDEC_2]
+    ifc[(duplicated),  SDEC_1:= SDEC_1+SDEC_2]
 
-    #Might be weird to do that if one of SDEC_1 or SDEC_2 is < 0 or NA
     which_dup <- which(duplicated)
 
     set(ifc , i = which_dup, j = "SDEC_2", value = ifc[["SDEC_3"]][which_dup])
-    # verify what type of NA and if None is equivalent to NA
-    set(ifc , i = which_dup, j = "SDEC_3", value = NA)
+    set(ifc , i = which_dup, j = "SDEC_3", value = 0)
 
-    set_shifted_eco_variables(ifc, which_dup, list(c(2,3), c(3, NA)))
+    set_shifted_eco_variables(ifc, i = which_dup, list(c(2,3), c(3, NA)))
 
     set(ifc, i = which_dup, j = "lbl_edit", value = "Combined components 1 and 2 with same BEUMC_S# code into single component 1")
     set(ifc, i = which_dup, j = "row_updated", value = use_ifelse)
@@ -512,8 +502,8 @@ remove_inadequate_wetlands <- function(ifc){
 
   #Replace wetland in 3rd component ----
   set(ifc, i = which_treed_WL_3, j = "SDEC_2", value = ifc[["SDEC_2"]][which_treed_WL_3] + ifc[["SDEC_3"]][which_treed_WL_3])
-  set(ifc, i = which_treed_WL_3, j = "SDEC_3", value = NA)
-  set_shifted_eco_variables(ifc, which_treed_WL_3, list(3, NA))
+  set(ifc, i = which_treed_WL_3, j = "SDEC_3", value = 0)
+  set_shifted_eco_variables(ifc, i = which_treed_WL_3, list(3, NA))
   set(ifc, i = which_treed_WL_3, j = "lbl_edit", value = "Removed WL in component 3 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_3, j = "row_updated", value = TRUE)
 
@@ -529,16 +519,16 @@ remove_inadequate_wetlands <- function(ifc){
 
 
   ## When there is a value in 3rd component update 2nd from 3rd ----
-  set_shifted_eco_variables(ifc, which_treed_WL_2_from_3, list(c(2,3), c(3,NA)))
+  set_shifted_eco_variables(ifc, i = which_treed_WL_2_from_3, list(c(2,3), c(3,NA)))
   set(ifc, i = which_treed_WL_2_from_3, j = "SDEC_2", value = ifc[["SDEC_2"]][which_treed_WL_2_from_3] + ifc[["SDEC_3"]][which_treed_WL_2_from_3])
-  set(ifc, i = which_treed_WL_2_from_3, j = "SDEC_3", value = NA)
+  set(ifc, i = which_treed_WL_2_from_3, j = "SDEC_3", value = 0)
   set(ifc, i = which_treed_WL_2_from_3, j = "lbl_edit", value = "Removed WL in component 2 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_2_from_3, j = "row_updated", value = TRUE)
 
   ## When there is no value in 3rd component update 1st from 2nd -----
   set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_1", value = ifc[["SDEC_1"]][which_treed_WL_2_to_1] + ifc[["SDEC_2"]][which_treed_WL_2_to_1])
-  set_shifted_eco_variables(ifc, which_treed_WL_2_to_1, list(2, NA))
-  set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_2", value = NA)
+  set_shifted_eco_variables(ifc, i = which_treed_WL_2_to_1, list(2, NA))
+  set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_2", value = 0)
   set(ifc, i = which_treed_WL_2_to_1, j = "lbl_edit", value = "Removed WL in component 2 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_2_to_1, j = "row_updated", value = TRUE)
 
@@ -548,7 +538,7 @@ remove_inadequate_wetlands <- function(ifc){
                                       ifc[["BEUMC_S1"]] == "WL" & ifc[["SDEC_2"]] > 0 & !ifc[["row_updated"]])
 
   set_shifted_eco_variables(ifc, which_treed_WL_1_from_2, list(c(1,2,3), c(2,3,NA)))
-  set(ifc, i = which_treed_WL_1_from_2, j = "SDEC_3", value = NA)
+  set(ifc, i = which_treed_WL_1_from_2, j = "SDEC_3", value = 0)
   set(ifc, i = which_treed_WL_1_from_2, j = "lbl_edit", value = "Removed WL in component 1 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_1_from_2, j = "row_updated", value = TRUE)
 
