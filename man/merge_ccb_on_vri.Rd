@@ -4,12 +4,12 @@
 \alias{merge_ccb_on_vri}
 \title{Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features}
 \usage{
-merge_ccb_on_vri(ccb, vri)
+merge_ccb_on_vri(vri, ccb)
 }
 \arguments{
-\item{ccb}{sf object that represent CCB (consolidated cutblock) features}
-
 \item{vri}{sf object that represent VRI (vegetation ressource inventory) features}
+
+\item{ccb}{sf object that represent CCB (consolidated cutblock) features}
 }
 \value{
 sf object that represent the intersections of ccb and vri

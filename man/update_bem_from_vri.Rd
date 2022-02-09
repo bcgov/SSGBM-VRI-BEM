@@ -4,7 +4,7 @@
 \alias{update_bem_from_vri}
 \title{Update BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes}
 \usage{
-update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE)
+update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE)
 }
 \arguments{
 \item{ifc}{sf object that represent the input polygon feature class}
@@ -14,6 +14,8 @@ update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE)
 \item{beu_bec}{data.table object of allowed BEC and BEM Code Combos}
 
 \item{clear_site_ma}{boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared}
+
+\item{use_ifelse}{boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC}
 }
 \value{
 sf object

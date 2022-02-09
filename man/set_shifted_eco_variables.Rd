@@ -6,19 +6,19 @@
 \usage{
 set_shifted_eco_variables(
   input_dt,
-  boolean_filter,
+  i,
   shift_pattern,
   integer_variables_1 = c("TREE_C1", "SHRUB_C1"),
-  character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1",
-    "SITEAM_S1A", "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A",
-    "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1", "DISTCLS_1", "DISTSCLS_1",
-    "DISSSCLS_1", "SECL_1", "SESUBCL_1", "COND_1", "VIAB_1")
+  character_variables_1 = c("BEUMC_S1", "REALM_1", "GROUP_1", "CLASS_1", "KIND_1",
+    "SITE_S1", "SITEAM_S1A", "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1",
+    "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1", "DISTCLS_1",
+    "DISTSCLS_1", "DISSSCLS_1", "SECL_1", "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1")
 )
 }
 \arguments{
 \item{input_dt}{data.table input data to be modified by reference}
 
-\item{boolean_filter}{boolean vector that identify which lines (true or false for each lines) of the data we want to apply the shifting}
+\item{i}{numeric vector that identify which lines of the data we want to apply the shifting}
 
 \item{shift_pattern}{list of two elements, second element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the first element}
 

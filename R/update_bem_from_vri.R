@@ -63,24 +63,10 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
   set(ifc , j = "Site_M3A", value = "") #M3A is always cleared
   set(ifc , j = "Area_HA", value = round(ifc[["vri_area"]]/10000, 2))
 
-<<<<<<< HEAD
-  # we create condition variables and vectors of variables that will help us optimise the corrections
-=======
-
->>>>>>> 4e8985541826cea4785991c08321574a89ec750b
 
   set(ifc, j = "row_updated", value = FALSE)
   set(ifc, j = "blank_eco_variables", value = FALSE)
 
-
-<<<<<<< HEAD
-  #TODO should we filter out those rows (SMPL_TYPE is NA) from the start in another data then combine them
-
-
-  # we get in all the condition that needs corrections
-
-=======
->>>>>>> 4e8985541826cea4785991c08321574a89ec750b
 
   ## Remove duplicate labels (line 259) ----
   # In BEM may have had two of the same forested unit; one associated with one set
