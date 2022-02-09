@@ -2,22 +2,22 @@
 % Please edit documentation in R/update_bem_from_vri.R
 \name{update_bem_from_vri}
 \alias{update_bem_from_vri}
-\title{Upadate BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes}
+\title{Update BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes}
 \usage{
-update_bem_from_vri(ifc, rfc, clear_site_ma = TRUE, beu_bec)
+update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE)
 }
 \arguments{
 \item{ifc}{sf object that represent the input polygon feature class}
 
 \item{rfc}{sf object that represent Rivers polygon feature class (FWA_Rivers)}
 
-\item{clear_site_ma}{boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared}
-
 \item{beu_bec}{data.table object of allowed BEC and BEM Code Combos}
+
+\item{clear_site_ma}{boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared}
 }
 \value{
 sf object
 }
 \description{
-Upadate BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes
+This script updates BEM attributes based on VRI attributes, according to the document "Corrections to the BEM map codes".
 }

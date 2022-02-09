@@ -1,29 +1,35 @@
 #' Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features
 #'
+#'This function copies all of the attributes in the specified BEM to each polygon in the specified VRI.
+#
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
 #' @param return_intersection_dt boolean, if TRUE will return a list that contains the sf object and the intesection data.table of VRI and BEM
-#' @return sf object that represent the original VRI with merged BEM attributes based on largest overlay
+#' @return sf object that represent the original VRI with merged BEM attributes based on largest overlay.
+#' The output will be a copy of the VRI polygons clipped to the BEM, then exploded to singlepart, and its slivers will be eliminated.
+#' Then its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.
+#' The BEI attribute fields will be populated by copying the BEI values of the majority area BEI polygon within each VRI polygon.
 #' @import sf
 #' @import data.table
-#' @import units
+#' @importFrom units set_units
 #' @export
 merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
 
   # check if teis_id seems already merged on vri
-  if ("TEIS_ID" %in% names(vri)) {
-    deleted_columns <- setdiff(names(bem), names(vri))
-    vri[, deleted_columns] <- NULL
-    warning(paste("BEM attributes were already merged on VRI, the following columns were deleted", deleted_columns))
+  if (!is.null(vri[["TEIS_ID"]])) {
+    duplicated_names <- setdiff(names(bem), names(vri))
+    vri[, duplicated_names] <- NULL
+    warning("BEM attributes were previously added into VRI. The following BEM attributes were removed from VRI: ",
+            paste(duplicated_names, collapse = ", "))
   }
 
   # check if bem contains duplicate teis_id
   if (length(unique(bem$TEIS_ID)) < nrow(bem)) {
-    stop("duplicate values in TEIS_ID")
+    stop("Duplicate values of TEIS_ID found in `bem`.")
   }
 
   # cast multipart polygon to singlepart
-  vri <- st_cast(vri,"POLYGON", warn = F)
+  vri <- st_cast(vri, "POLYGON", warn = F)
 
   # use data.table to optimise speed
   classes_vri <- attr(vri, "class")
