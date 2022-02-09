@@ -86,11 +86,10 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # line 351
   bfc[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
       `:=`(SDEC_1 = SDEC_3,
-           SDEC_3 = NA,
-           BEUMC_S3 = "")]
+           SDEC_3 = NA)]
 
   # line 355
-  set_shifted_eco_variables(bfc, bfc[["SDEC_3"]] > 0 & bfc[["BEUMC_S3"]] == "WL", list(c(3), c(NA)))
+  set_shifted_eco_variables(bfc, i = which(bfc[["SDEC_3"]] > 0 & bfc[["BEUMC_S3"]] == "WL"), list(c(3), c(NA)))
 
   # Merge allowed BEU codes  -----
   bfc[buc, on = list(curr_beu_code = Code_Orig),
@@ -111,7 +110,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
         !(SDEC_1 == 10 & BEUMC_S1 == "WL") & wl_pct >= 8 & !BCLCS_LV_4 %in% c("TB", "TC", "TM") &
         curr_beu_code %in% buc$Code_Orig,
 
-      new_beu_code:= fcase(wl_pct < 14, Code_WL1, # condition that wl_pct is above
+      new_beu_code:= fcase(wl_pct < 14, Code_WL1, # condition that wl_pct >= 8 is above
                            wl_pct < 25, Code_WL2,
                            wl_pct < 35, Code_WL3,
                            wl_pct < 45, Code_WL4,
@@ -139,45 +138,59 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   #  - make adjustment bellow when creating a WL component
   #  - create label specifying which rows where updated (ref: phyton line #618)
 
-  #bfc[new_sdec_1 == 10, ]#Emplty eco_vars for 2 & 3]
-  set_shifted_eco_variables(bfc, bfc[["new_sdec_1"]] == 10, list(c(1,2), c(NA,NA)))
 
-  #bfc[new_wl_zone == curr_wl_zone, ] # No change assign all eco_vars to same as before
+
+  # When new code says that is 100% wetland in unit 1 , blank all variables for unit 1 , 2 and 3
+
+  # values for unit 1 will be created later when there was no current wetland and the new wetland is in zone 1
+  set_shifted_eco_variables(bfc, i = which(bfc[["new_sdec_1"]] == 10 & bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1), list(c(1,2,3), NA))
+  bfc[new_sdec_1 == 10 & curr_wl_zone == 0 & new_wl_zone == 1, `:=`(SDEC_1 = 10, SDEC_2 = 0, SDEC_3 = 0)]
+
+
+
+  # When the new code says that there is no wetland at all, blank any wetland units
+
   # Old 1 / New 0 :  Remove WL from component 1, (2 & 3 move up toward 1)
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 0, list(c(1,2,3), c(2,3,NA)))
+  set_shifted_eco_variables(bfc, i = which(bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 0), list(c(1,2,3), c(2,3,NA)))
   # Old 2 / New 0 : Remove WL from component 2  (3 move up to 2)
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 0, list(c(2,3), c(3, NA)))
+  set_shifted_eco_variables(bfc, i = which(bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 0), list(c(2,3), c(3, NA)))
   # Old 3 / New 0 : Remove WL from component 3
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 0, list(c(3), c(NA)))
+  set_shifted_eco_variables(bfc, i = which(bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 0), list(c(3), c(NA)))
+
+
 
   # When adding a new WL component, also make REALM_# = "W", GROUP_# = "W" and KIND_# = "U"
+
   # Old 0 / New 1 : add WL to component 1, (2 & 3 move down toward 3)
-  cond_0_to_1 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1
-  set_shifted_eco_variables(bfc, cond_0_to_1, list(c(2,3), c(1,2)))
-  bfc[(cond_0_to_1), `:=`(BEUMC_S1 = "WL", REALM_1 = "W", GROUP_1 = "W", KIND_1 = "U")]
+  which_0_to_1 <- which(bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1)
+  set_shifted_eco_variables(bfc, i = which_0_to_1, list(c(2,3), c(1,2)))
+  bfc[which_0_to_1, `:=`(BEUMC_S1 = "WL", REALM_1 = "W", GROUP_1 = "W", KIND_1 = "U")]
+
   # Old 0 / New 2 : Add WL to component 2, (2 move down to 3)
-  cond_0_to_2 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 2
-  set_shifted_eco_variables(bfc, cond_0_to_2, list(c(3), c(2)))
-  bfc[(cond_0_to_2), `:=`(BEUMC_S2 = "WL", REALM_2 = "W", GROUP_2 = "W", KIND_2 = "U")]
+  which_0_to_2 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 2
+  set_shifted_eco_variables(bfc, i = which_0_to_2, list(c(3), c(2)))
+  bfc[which_0_to_2, `:=`(BEUMC_S2 = "WL", REALM_2 = "W", GROUP_2 = "W", KIND_2 = "U")]
+
   # Old 0 / New 3 : add WL to component 3
-  cond_0_to_3 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 3
-  bfc[(cond_0_to_3), `:=`(BEUMC_S3 = "WL", REALM_3 = "W", GROUP_3 = "W", KIND_3 = "U")]
-
-  # Old 2 / New 1 : invert eco_vars 1 & 2
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 1, list(c(1,2), c(2,1)))
-  # Old 2 / New 3 : invert eco_vars 2 & 3
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 3, list(c(2,3), c(3,2)))
-
-  # Old 3 / New 1 : invert eco vars 1 & 3
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 1, list(c(1,3), c(3,1)))
-  # Old 3 / New 2 : invert eco_vars 2 & 3
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 2, list(c(2,3), c(3,2)))
+  which_0_to_3 <- bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 3
+  set_shifted_eco_variables(bfc, i = which_0_to_3, list(3, NA))
+  bfc[which_0_to_3, `:=`(BEUMC_S3 = "WL", REALM_3 = "W", GROUP_3 = "W", KIND_3 = "U")]
 
 
-  #Old 1 / New 2 : invert eco vars 1 & 2
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 2, list(c(1,2), c(2,1)))
-  #Old 1 / New 3 : move 1 to 3 (2 & 3 shift up towards 1)
-  set_shifted_eco_variables(bfc, bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 3, list(c(1,2,3), c(3,1,2)))
+
+  # When there is already a wetland but in the wrong unit
+
+  # invert eco_vars 1 & 2
+  which_switch_1_2 <- which((bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 1) | (bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 2))
+  set_shifted_eco_variables(bfc, i = which_switch_1_2, list(c(1,2), c(2,1)))
+
+  # invert eco_vars 1 & 3
+  which_switch_1_3 <- which((bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 1) | (bfc[["curr_wl_zone"]] == 1 & bfc[["new_wl_zone"]] == 3))
+  set_shifted_eco_variables(bfc, i = which_switch_1_2, list(c(1,3), c(3,1)))
+
+  # invert eco_vars 2 & 3
+  which_switch_2_3 <- which((bfc[["curr_wl_zone"]] == 3 & bfc[["new_wl_zone"]] == 2) | (bfc[["curr_wl_zone"]] == 2 & bfc[["new_wl_zone"]] == 3))
+  set_shifted_eco_variables(bfc, i = which_switch_1_2, list(c(2,3), c(3,2)))
 
   # update Label
   bfc[curr_beu_code!=new_beu_code,
@@ -186,6 +199,8 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   bfc[curr_beu_code!=new_beu_code,
       Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3",
                           " (", new_beu_code, ")")]
+
+
 
   # Riparian Mapcode adjustments (line 681) -----
 
@@ -204,10 +219,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   set(bfc, i = riparian_update_lines, j = "SDEC_3", value = 0)
   set(bfc, i = riparian_update_lines, j = "BEUMC_S1", value = riparian_mapcode_dt$beumc_s1[match(bfc$BGC_ZONE[riparian_update_lines],
                                                                                                  riparian_mapcode_dt$bgc_zone)])
-  set(bfc, i = riparian_update_lines, j = "BEUMC_S2", value = "")
-  set(bfc, i = riparian_update_lines, j = "BEUMC_S3", value = "")
-
-  set_shifted_eco_variables(bfc, site_m3a_eq_a & bfc[["MEAN_SLOPE"]] < 10 & !bfc[["BEUMC_S1"]] %in% non_veg & bfc[["BGC_ZONE"]] %in% riparian_mapcode_dt[["bgc_zone"]], list(c(2,3), c(NA)))
+  set_shifted_eco_variables(bfc, i = riparian_update_lines, list(c(2,3), c(NA)))
 
   bfc[(riparian_update_lines),
       Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]

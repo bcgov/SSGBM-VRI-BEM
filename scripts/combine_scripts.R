@@ -16,7 +16,7 @@ bem$Shape <- sf::st_make_valid(bem$Shape)
 vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 
 # 1a ----
-vri_bem <- merge_vri_on_bem(vri, bem)
+vri_bem <- merge_bem_on_vri(vri, bem)
 
 # filter out vri that have no overlapping bem (usually you should make sure the BEM covers all VRI)
 vri_bem <-vri_bem[which(!is.na(vri_bem$TEIS_ID)),]

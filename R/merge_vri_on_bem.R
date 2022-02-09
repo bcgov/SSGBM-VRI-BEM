@@ -8,7 +8,7 @@
 #' @import data.table
 #' @import units
 #' @export
-merge_vri_on_bem <- function(vri, bem, return_intersection_dt = FALSE) {
+merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
 
   # check if teis_id seems already merged on vri
   if ("TEIS_ID" %in% names(vri)) {

@@ -1,24 +1,24 @@
 #' shift eco variables
 #'
 #' @param input_dt data.table input data to be modified by reference
-#' @param boolean_filter boolean vector that identify which lines (true or false for each lines) of the data we want to apply the shifting
+#' @param i numeric vector that identify which lines of the data we want to apply the shifting
 #' @param shift_pattern list of two elements, second element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the first element
 #' @param integer_variables_1 character vector that represent the name of the variables of type integer with index number 1 we want to shift
 #' @param character_variables_1 character vector that represent the name of the variables of type character with index number 1 we want to shift
 #' @import data.table
-set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, integer_variables_1 = c("TREE_C1", "SHRUB_C1"), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
+set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variables_1 = c("TREE_C1", "SHRUB_C1"), character_variables_1 = c("BEUMC_S1","REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
                                                                                                                                                          "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
                                                                                                                                                          "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
-                                                                                                                                                         "SESUBCL_1", "COND_1", "VIAB_1")) {
+                                                                                                                                                         "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1")) {
 
   # verify if length of filter is the same as number of rows of data
-  if (nrow(input_dt) != length(boolean_filter)) {
+  if (nrow(input_dt) != length(i)) {
     stop(paste0("the filter boolean needs to be the same lenght as the number of row of the input dt which is ", nrow(input_dt)))
   }
 
   # if the filter result in zero lines we simply exit the function
-  # we use !isTRUE so that it will also quit if the boolean_filter contains no TRUE value but some NA
-  if (!isTRUE(any(boolean_filter))) {
+  # we use !isTRUE so that it will also quit if the i contains no TRUE value but some NA
+  if (!isTRUE(any(i))) {
     return()
   }
 
@@ -26,8 +26,6 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
   shift_pattern[[1]][which(is.na(shift_pattern[[1]]))] <- 0
   shift_pattern[[2]][which(is.na(shift_pattern[[2]]))] <- 0
 
-  # compute which lines needs to be updated
-  which_lines <- which(boolean_filter)
 
   # create other variables names from arguments
   character_variables_2 <- sub("1", "2", character_variables_1)
@@ -96,7 +94,7 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
 
     all_to_integer_variables <- c(all_to_integer_variables, to_integer_variables_temp)
 
-    set(input_dt, i = which_lines, j = c(to_character_variables_temp, to_integer_variables_temp), value = input_dt[which_lines, c(from_character_variables, from_integer_variables), with = FALSE])
+    set(input_dt, i = i, j = c(to_character_variables_temp, to_integer_variables_temp), value = input_dt[i, c(from_character_variables, from_integer_variables), with = FALSE])
   }
 
   # remove leading temp_ in created variables
@@ -105,10 +103,10 @@ set_shifted_eco_variables <- function(input_dt, boolean_filter, shift_pattern, i
 
   # assign new computed value in variables
   for (i in seq.int(along.with = all_to_character_variables)) {
-    set(input_dt, i = which_lines, j = final_character_variables[i], value = input_dt[[all_to_character_variables[i]]][which_lines])
+    set(input_dt, i = i, j = final_character_variables[i], value = input_dt[[all_to_character_variables[i]]][i])
   }
   for (i in seq.int(along.with = final_integer_variables)) {
-    set(input_dt, i = which_lines, j = final_integer_variables[i], value = input_dt[[final_integer_variables[i]]][which_lines])
+    set(input_dt, i = i, j = final_integer_variables[i], value = input_dt[[final_integer_variables[i]]][i])
   }
 
   # removed temp variables

@@ -4,11 +4,14 @@
 #' @param rfc sf object that represent Rivers polygon feature class (FWA_Rivers)
 #' @param beu_bec data.table object of allowed BEC and BEM Code Combos
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
+#' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
 #' @return sf object
 #' @import sf
 #' @import data.table
 #' @export
-update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
+update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec, use_ifelse = TRUE) {
+
+  # TODO verify that FORESTED_1 and BEUMC_S1 are blank when needed
 
   classes_ifc <- attr(ifc, "class")
   setDT(ifc)
@@ -39,7 +42,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                                                        "COV_PCT_1", "LBL_VEGCOV", "Area_Ha", "BGC_ZONE", "BGC_SUBZON",
                                                        "SPEC_PCT_1"))
 
-
   if (is.null(ifc[["lbl_edit"]])) {
     set(ifc , j = "lbl_edit", value = "")
   }
@@ -52,7 +54,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
     set(ifc, j = "SMPL_TYPE", value = NA_character_)
   }
 
-
  # perform corrections ----
 
   if (clear_site_ma) {
@@ -63,29 +64,13 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   set(ifc , j = "Site_M3A", value = "") #M3A is always cleared
   set(ifc , j = "Area_HA", value = round(ifc[["vri_area"]]/10000, 2))
 
-
-
   # we create condition variables and vectors of variables that will help us optimise the corrections
 
   set(ifc, j = "row_updated", value = FALSE)
   set(ifc, j = "blank_eco_variables", value = FALSE)
 
-  eco_variables_1 <- c("BEUMC_S1", "REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
-                       "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B",
-                       "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1", "TREE_C1", "SHRUB_C1", "DISTCLS_1",
-                       "DISTSCLS_1", "DISSSCLS_1", "SECL_1", "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1")
-
-  eco_variables_2 <- sub("1", "2", eco_variables_1)
-  eco_variables_3 <- sub("1", "3", eco_variables_1)
-
-
-  seq_eco_variables <- seq.int(along.with = eco_variables_1)
-
-  fill_empty_ind <- substr(eco_variables_1, 1, 4) %in% c("TREE", "SHRU")
 
   #TODO should we filter out those rows (SMPL_TYPE is NA) from the start in another data then combine them
-
-
 
 
   # we get in all the condition that needs corrections
@@ -96,10 +81,7 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   # of site conditions and the other representing different conditions.
   # Site modifiers are NOT updated in this product. Therefore, duplicate labels were combined.
 
-  ifc <- combine_duplicated_BEUMC(ifc = ifc,
-                                  eco_vars = eco_variables_1)
-
-
+  ifc <- combine_duplicated_BEUMC(ifc = ifc, use_ifelse = use_ifelse)
 
   ## OW - Shallow Open Water (line 279) ----
   # -shallow open water typically associated with floating vegetation
@@ -115,7 +97,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                        blank_eco_variables = TRUE)]
 
 
-
   ## LS - Small Lake (line 291) ----
   which_LS <- which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_1"]] == "N" & ifc[["BCLCS_LV_5"]] == "LA" &
                       ifc[["Area_Ha"]] > 2 & ifc[["Area_Ha"]] <=60 & !ifc[["row_updated"]])
@@ -125,7 +106,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                        lbl_edit = "Updated to 10 LS because BCLCS_LV_1 = 'N', BCLCS_LV_5 = 'LA', Area <= 60 ha",
                        row_updated = TRUE,
                        blank_eco_variables = TRUE)]
-
 
 
   ## LL - Large Lake (line 303) ----
@@ -148,7 +128,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                        lbl_edit = "Updated to 10 RE because BCLCS_LV_1 = 'N', BCLCS_LV_5 = 'RE'",
                        row_updated = TRUE,
                        blank_eco_variables = TRUE)]
-
 
 
   ## RI - Rivers (line 331) ----
@@ -179,9 +158,7 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   ## Remove Wetland - Forested (line 380) ----
   # should not contain a wetland (WL) label component.
   # Remove WL decile component and update value in Decile
-  ifc <- remove_inadequate_wetlands(ifc = ifc,
-                                    eco_vars = eco_variables_1)
-
+  ifc <- remove_inadequate_wetlands(ifc = ifc)
 
 
   ## BB - Black Spruce Bog (line 448) ----
@@ -365,9 +342,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                         row_updated = TRUE)]
 
 
-
-
-
   # Update STAND_A1 ----
   # line 608 (no `else if` be careful! it's a simple if)
   which_stand_B <- which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["SPEC_CD_1"]] %in% c("AC", "ACB", "ACT", "AT", "EP") &
@@ -399,31 +373,15 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                             row_updated = TRUE)]
 
 
-
-
-
   #Blank Eco Fields (line 639) ----
   which_to_blank <- which(ifc[["blank_eco_variables"]])
 
-  for (i in seq_eco_variables) {
-
-    # var 3 are fill with empty values
-    # again we need to make sure we understand the equivalent of none vs empty
-
-    if (fill_empty_ind[i]) {
-      set(ifc, i = which_to_blank, j = c(eco_variables_1[i], eco_variables_2[i], eco_variables_3[i]), value = NA)
-    }
-    else {
-      if (!(eco_variables_1[i] %in% c("BEUMC_S1", "STRCT_S1"))) {
-        set(ifc, i = which_to_blank, j = c(eco_variables_1[i], eco_variables_2[i], eco_variables_3[i]), value = "")
-      }
-    }
-  }
+  set_shifted_eco_variables(ifc, which_to_blank, list(c(1,2,3), NA), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
+                                                                                               "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITEAM_S1D",
+                                                                                               "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
+                                                                                               "TREE_C1", "SHRUB_C1", "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
+                                                                                               "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
   set(ifc, i = which_to_blank, j = c("SDEC_2", "SDEC_3"), value = NA)
-
-
-
-
 
   # line 654
 
@@ -494,8 +452,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
 
    set(ifc, j = c("script_rule", "change_to_beu"), value = NULL)
 
-
-
   # for all feature that intersect with rivers
   # SITE_M3A becomes "a"
   # and lbl is updated to say the old value became "a"
@@ -527,7 +483,7 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
 }
 
 
-combine_duplicated_BEUMC <- function(ifc, eco_vars){
+combine_duplicated_BEUMC <- function(ifc, use_ifelse = TRUE){
 
   duplicated <- ifc[["BEUMC_S1"]] == ifc[["BEUMC_S2"]] & is.na(ifc[["SMPL_TYPE"]])
 
@@ -543,19 +499,10 @@ combine_duplicated_BEUMC <- function(ifc, eco_vars){
     # verify what type of NA and if None is equivalent to NA
     set(ifc , i = which_dup, j = "SDEC_3", value = NA)
 
-    eco_vars_2 <- sub("1", "2", eco_vars)
-    eco_vars_3 <- sub("1", "3", eco_vars)
-
-    for(i in seq.int(along.with = eco_vars)){
-
-      # var 2 are feed with value from var 3
-      set(ifc, i = which_dup, j = eco_vars_2[i], value = ifc[[eco_vars_3[i]]][which_dup])
-      set(ifc, i = which_dup, j = eco_vars_3[i], value = NA)
-
-    }
+    set_shifted_eco_variables(ifc, which_dup, list(c(2,3), c(3, NA)))
 
     set(ifc, i = which_dup, j = "lbl_edit", value = "Combined components 1 and 2 with same BEUMC_S# code into single component 1")
-    set(ifc, i = which_dup, j = "row_updated", value = TRUE)
+    set(ifc, i = which_dup, j = "row_updated", value = use_ifelse)
 
   }
 
@@ -563,25 +510,20 @@ combine_duplicated_BEUMC <- function(ifc, eco_vars){
 }
 
 
-remove_inadequate_wetlands <- function(ifc, eco_vars){
+remove_inadequate_wetlands <- function(ifc){
 
   #validate variables exists in ifc
   validate_required_attributes(ifc,
                                required_attributes = c("BEUMC_S1", "BEUMC_S2", "BEUMC_S3", "BCLCS_LV_4", "SDEC_1", "SDEC_2", "SDEC_3"))
 
 
-
   which_treed_WL_3 <-  which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_4"]] %in% c("TB", "TC", "TM") &
                                ifc[["BEUMC_S3"]] == "WL" & !ifc[["row_updated"]])
 
-  eco_vars_2 <- sub("1", "2", eco_vars)
-  eco_vars_3 <- sub("1", "3", eco_vars)
-
-
-
   #Replace wetland in 3rd component ----
   set(ifc, i = which_treed_WL_3, j = "SDEC_2", value = ifc[["SDEC_2"]][which_treed_WL_3] + ifc[["SDEC_3"]][which_treed_WL_3])
-  set(ifc, i = which_treed_WL_3, j = c("SDEC_3", eco_vars_3), value = NA)
+  set(ifc, i = which_treed_WL_3, j = "SDEC_3", value = NA)
+  set_shifted_eco_variables(ifc, which_treed_WL_3, list(3, NA))
   set(ifc, i = which_treed_WL_3, j = "lbl_edit", value = "Removed WL in component 3 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_3, j = "row_updated", value = TRUE)
 
@@ -597,42 +539,32 @@ remove_inadequate_wetlands <- function(ifc, eco_vars){
 
 
   ## When there is a value in 3rd component update 2nd from 3rd ----
-  for (i in seq_along(eco_vars)){
-    set(ifc, i = which_treed_WL_2_from_3, j = eco_vars_2[i], value = ifc[[eco_vars_3[i]]][which_treed_WL_2_from_3])
-  }
+  set_shifted_eco_variables(ifc, which_treed_WL_2_from_3, list(c(2,3), c(3,NA)))
   set(ifc, i = which_treed_WL_2_from_3, j = "SDEC_2", value = ifc[["SDEC_2"]][which_treed_WL_2_from_3] + ifc[["SDEC_3"]][which_treed_WL_2_from_3])
-  set(ifc, i = which_treed_WL_2_from_3, j = c("SDEC_3", eco_vars_3), value = NA)
+  set(ifc, i = which_treed_WL_2_from_3, j = "SDEC_3", value = NA)
   set(ifc, i = which_treed_WL_2_from_3, j = "lbl_edit", value = "Removed WL in component 2 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_2_from_3, j = "row_updated", value = TRUE)
 
-
   ## When there is no value in 3rd component update 1st from 2nd -----
   set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_1", value = ifc[["SDEC_1"]][which_treed_WL_2_to_1] + ifc[["SDEC_2"]][which_treed_WL_2_to_1])
-  set(ifc, i = which_treed_WL_2_to_1, j = c("SDEC_2", eco_vars_2), value = NA)
+  set_shifted_eco_variables(ifc, which_treed_WL_2_to_1, list(2, NA))
+  set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_2", value = NA)
   set(ifc, i = which_treed_WL_2_to_1, j = "lbl_edit", value = "Removed WL in component 2 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_2_to_1, j = "row_updated", value = TRUE)
-
-
 
 
   #Replace wetlands from 1st component -----
   which_treed_WL_1_from_2 <-  which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_4"]] %in% c("TB", "TC", "TM") &
                                       ifc[["BEUMC_S1"]] == "WL" & ifc[["SDEC_2"]] > 0 & !ifc[["row_updated"]])
 
-  for (i in seq_along(eco_vars)){
-    set(ifc, i = which_treed_WL_1_from_2, j = eco_vars[i], value = ifc[[eco_vars_2[i]]][which_treed_WL_1_from_2])
-    set(ifc, i = which_treed_WL_1_from_2, j = eco_vars_2[i], value = ifc[[eco_vars_3[i]]][which_treed_WL_1_from_2])
-  }
-  set(ifc, i = which_treed_WL_1_from_2, j = c("SDEC_3", eco_vars_3), value = NA)
+  set_shifted_eco_variables(ifc, which_treed_WL_1_from_2, list(c(1,2,3), c(2,3,NA)))
+  set(ifc, i = which_treed_WL_1_from_2, j = "SDEC_3", value = NA)
   set(ifc, i = which_treed_WL_1_from_2, j = "lbl_edit", value = "Removed WL in component 1 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_1_from_2, j = "row_updated", value = TRUE)
-
-
 
   #Warning if polyfgon is pule WL ----
   which_treed_pure_WL <- which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_4"]] %in% c("TB", "TC", "TM") &
                                  ifc[["BEUMC_S1"]] %in% c(0, NA_integer_))
-
 
   set(ifc, i = which_treed_pure_WL, j = "lbl_edit", value = "**** Warning: Polygon is pure WL, but BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_pure_WL, j = "row_updated", value = TRUE)
