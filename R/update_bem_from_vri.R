@@ -1,4 +1,6 @@
-#' Upadate BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes
+#' Update BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes
+#'
+#'This script updates BEM attributes based on VRI attributes, according to the document "Corrections to the BEM map codes".
 #'
 #' @param ifc sf object that represent the input polygon feature class
 #' @param rfc sf object that represent Rivers polygon feature class (FWA_Rivers)
@@ -8,15 +10,11 @@
 #' @import sf
 #' @import data.table
 #' @export
-update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
+update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE) {
 
   classes_ifc <- attr(ifc, "class")
   setDT(ifc)
 
-  # in python they refer a couple time to SHAPE@AREA, I don't know if this variable is already computed
-  # when the gdb is created and ARCgis just acces it , or it's recomputed when refered to (the first option is more probable)
-  # We already computed feature areas in the script where we merged the bem on the vri , can we just assumed that will have an attributes already
-  # computed like "SHAPE_AREA" that we can use instead of recompute the area in this script?
   if (is.null(ifc[["vri_area"]])) {
     set(ifc, j = "vri_area", value = st_area(ifc$Shape))
   }
@@ -65,8 +63,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
 
 
 
-  # we create condition variables and vectors of variables that will help us optimise the corrections
-
   set(ifc, j = "row_updated", value = FALSE)
   set(ifc, j = "blank_eco_variables", value = FALSE)
 
@@ -82,13 +78,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   seq_eco_variables <- seq.int(along.with = eco_variables_1)
 
   fill_empty_ind <- substr(eco_variables_1, 1, 4) %in% c("TREE", "SHRU")
-
-  #TODO should we filter out those rows (SMPL_TYPE is NA) from the start in another data then combine them
-
-
-
-
-  # we get in all the condition that needs corrections
 
 
   ## Remove duplicate labels (line 259) ----
@@ -262,7 +251,6 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
                        blank_eco_variables = TRUE)]
 
   ## LL - Landing (line 505) ----
-  #TODO really want LL ? same as Large Lake ?
   which_LL <- which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_5"]] == "LL" & !ifc[["row_updated"]])
 
   ifc[(which_LL), `:=`(SDEC_1 = 10,
@@ -503,13 +491,12 @@ update_bem_from_vri <- function(ifc, rfc, clear_site_ma = TRUE, beu_bec) {
   #TODO
   # maybe reverse the geometry and the unique ( need to test)
   # just need to find the line that intersect with rivers
-  which_lines <- sf:::CPL_geos_binop(
-                   rfc$GEOMETRY,
-                   ifc$Shape,
-                  "intersects",
-                   pattern = NA_character_,
-                   prepared = TRUE
-                  ) |> unlist() |> unique()
+
+  which_lines <- unique(unlist(sf:::CPL_geos_binop(rfc$GEOMETRY,
+                                                   ifc$Shape,
+                                                   "intersects",
+                                                   pattern = NA_character_,
+                                                   prepared = TRUE)))
 
   ifc[(which_lines),
       `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "),
