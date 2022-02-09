@@ -10,7 +10,7 @@ merge_ccb_on_vri <- function(vri, ccb) {
   # tell sf that attributes are constant throughout the geometries to avoid warning
   st_agr(ccb) <- "constant"
   st_agr(vri) <- "constant"
-
+  # TODO merge union
   return(st_intersection(vri, ccb))
 
 }

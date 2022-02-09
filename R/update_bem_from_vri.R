@@ -45,8 +45,8 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
     set(ifc , j = "lbl_edit", value = "")
   }
 
-  if (is.null(ifc[["Dec_Total"]])) {
-    set(ifc , j = "Dec_Total", value = 0L)
+  if (is.null(ifc[["DEC_Total"]])) {
+    set(ifc , j = "DEC_Total", value = 0L)
   }
 
   if (is.null(ifc[["SMPL_TYPE"]])) {
@@ -60,7 +60,7 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
   }
 
   set(ifc , j = "SITE_M3A", value = NA_character_) #M3A is always cleared
-  set(ifc , j = "Area_Ha", value = round(ifc[["vri_area"]]/10000, 2))
+  set(ifc , j = "Area_Ha", value = as.numeric(round(ifc[["vri_area"]]/10000, 2)))
 
 
   set(ifc, j = "row_updated", value = FALSE)
@@ -367,10 +367,9 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
   which_to_blank <- which(ifc[["blank_eco_variables"]])
 
   set_shifted_eco_variables(ifc, i = which_to_blank, list(c(1,2,3), NA), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
-                                                                                               "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITEAM_S1D",
-                                                                                               "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
-                                                                                               "TREE_C1", "SHRUB_C1", "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
-                                                                                               "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
+                                                                                                   "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
+                                                                                                   "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
+                                                                                                   "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
   set(ifc, i = which_to_blank, j = c("SDEC_2", "SDEC_3"), value = 0)
 
   # line 654
@@ -458,7 +457,7 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
 
   # remove temp variables
 
-  set(ifc, j = c("row_updated", "blank_eco_variables",  "SDEC_1_num", "SDEC_2_num", "SDEC_3_num"), value = NULL)
+  set(ifc, j = c("row_updated", "blank_eco_variables", "merge_key"), value = NULL)
 
   attr(ifc, "class") <- classes_ifc
   return(ifc)

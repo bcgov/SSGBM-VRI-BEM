@@ -45,14 +45,15 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # Find intersections between BEM and Wetlands
   intersections <- st_intersection(bfc$Shape, wfc$Shape)
   intersection_dt <- data.table(bfc = attr(intersections, "idx")[, 1], wfc = attr(intersections, "idx")[, 2], area = st_area(intersections))
-  index_dt <- intersection_dt[, .(wetland_area = sum(area)), by = bfc]
+  index_dt <- intersection_dt[, .(wetland_area = sum(area, na.rm = TRUE)), by = bfc]
 
   bfc[index_dt[["bfc"]], wetland_area := index_dt[["wetland_area"]]]
   # as.numeric to remove class units
   bfc[, wl_pct:= as.numeric(wetland_area/vri_area)]
+  bfc[is.na(wl_pct), `:=`(wl_pct = 0, wetland_area = set_units(0, "m^2"))]
 
   bfc[, Lbl_edit_wl := "No Wetland."]
-  bfc[!is.na(wl_pct), Lbl_edit_wl := paste0(wl_pct, "% of polygon occupied by wetland.")]
+  bfc[wl_pct > 0, Lbl_edit_wl := paste0(wl_pct, "% of polygon occupied by wetland.")]
 
   bfc[, Lbl_edit_wl := paste0(Lbl_edit_wl, " Current BEU: ", SDEC_1, " ", BEUMC_S1)]
 
@@ -138,7 +139,6 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   # values for unit 1 will be created later when there was no current wetland and the new wetland is in zone 1
   set_shifted_eco_variables(bfc, i = which(bfc[["SDEC_1"]] == 10 & bfc[["curr_wl_zone"]] == 0 & bfc[["new_wl_zone"]] == 1), list(c(1,2,3), NA))
-  bfc[new_sdec_1 == 10 & curr_wl_zone == 0 & new_wl_zone == 1, `:=`(SDEC_1 = 10, SDEC_2 = 0, SDEC_3 = 0)]
 
 
 
@@ -219,6 +219,11 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
       Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]
 
   bfc[site_m3a_eq_a , SITE_M3A := "a"]
+
+  # delete temp columns
+  set(bfc, j = c("curr_wl_zone", "curr_beu_code", "Code_WL0", "Code_WL1", "Code_WL2", "Code_WL3",
+                 "Code_WL4", "Code_WL5", "Code_WL6", "Code_WL7", "Code_WL8", "Code_WL10",
+                 "new_beu_code", "new_wl_zone"), value = NULL)
 
   return(st_as_sf(bfc))
 }

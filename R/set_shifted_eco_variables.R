@@ -11,11 +11,6 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
                                                                                                                                                          "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
                                                                                                                                                          "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1")) {
 
-  # verify if length of filter is the same as number of rows of data
-  if (nrow(input_dt) != length(i)) {
-    stop(paste0("the filter boolean needs to be the same lenght as the number of row of the input dt which is ", nrow(input_dt)))
-  }
-
   # if the filter result in zero lines we simply exit the function
   # we use !isTRUE so that it will also quit if the i contains no TRUE value but some NA
   if (!isTRUE(any(i))) {

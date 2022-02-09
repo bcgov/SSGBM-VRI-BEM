@@ -10,6 +10,7 @@
 find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
 
   # if no intersections object previoulsy calculated is passed , recompute the intersections
+  # TODO need vri_obj_id in intersection dt because polygon have changed because of intersection with ccb
   if (is.null(intersection_dt)) {
     intersections <- st_intersection(vri$Shape, bem$Shape)
     intersection_dt <- data.table(vri_index = as.integer(attr(intersections, "idx")[, 1]), bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
