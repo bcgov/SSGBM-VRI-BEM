@@ -1,4 +1,6 @@
-#' overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.
+#' Find Area-Dominant CROWN_BEAR and CROWN_MOOSE
+#'
+#' This function overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.
 #'
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features

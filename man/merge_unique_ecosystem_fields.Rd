@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_unique_ecosystem_fields.R
 \name{merge_unique_ecosystem_fields}
 \alias{merge_unique_ecosystem_fields}
-\title{populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table}
+\title{Assign values from unique ecosystems table}
 \usage{
 merge_unique_ecosystem_fields(ifc, unique_ecosystem_dt)
 }
@@ -13,5 +13,5 @@ merge_unique_ecosystem_fields(ifc, unique_ecosystem_dt)
 sf object
 }
 \description{
-populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table
+Populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table
 }

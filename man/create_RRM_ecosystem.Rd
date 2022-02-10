@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_RRM_ecosystem.R
 \name{create_RRM_ecosystem}
 \alias{create_RRM_ecosystem}
-\title{Create RRM Ecosystem information}
+\title{Create RRM ecosystem information}
 \usage{
 create_RRM_ecosystem(bfc)
 }

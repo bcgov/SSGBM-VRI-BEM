@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_crown_area_dominant_values.R
 \name{find_crown_area_dominant_values}
 \alias{find_crown_area_dominant_values}
-\title{overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.}
+\title{Find Area-Dominant CROWN_BEAR and CROWN_MOOSE}
 \usage{
 find_crown_area_dominant_values(vri, bem, intersection_dt = NULL)
 }
@@ -17,5 +17,5 @@ find_crown_area_dominant_values(vri, bem, intersection_dt = NULL)
 sf object
 }
 \description{
-overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.
+This function overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.
 }

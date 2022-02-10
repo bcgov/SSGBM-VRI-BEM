@@ -1,6 +1,7 @@
-#' Create data of Unique ecosystem
+#' Create summary data of unique ecosystem
 #'
 #' Generates a data of unique BGC label and habitat combinations for the Look up Table starting point
+#'
 #' @param ifc sf object that represent BEM (broad ecosystem mapping) features
 #' @return data.table
 #' @import data.table

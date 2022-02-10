@@ -1,7 +1,7 @@
-#' compute variable for structural stage look up and stand composition look up
+#' Compute variables for structural stage look up and stand composition look up
 #'
-#' @param vri sf object that represent VRI (vegetation ressource inventory) features
-#' @param most_recent_harvest_year integer that represent the most recent harvers year
+#' @param vri sf object that represent VRI (vegetation resource inventory) features
+#' @param most_recent_harvest_year integer that represent the most recent harvest year
 #' @return sf object vri
 #' @import data.table
 #' @export

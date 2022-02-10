@@ -1,4 +1,7 @@
-#' Compute slope and aspect from elevation and compute mean by ifc polygon
+#' Compute slope and aspect from elevation and their mean by polygon
+#'
+#' This function overlays the user-specified polygon feature class with slope and aspect raster to
+#' add mean aspect, mean slope and slope modifiers to the polygon attributes
 #'
 #' @param elev_raster SpatRaster object that represent the elevation
 #' @param ifc sf object

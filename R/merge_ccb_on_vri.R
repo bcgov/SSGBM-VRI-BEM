@@ -1,4 +1,6 @@
-#' Union merge between BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features
+#' Union merge between CCB attributes and VRI features
+#'
+#' Performs a Union merge between CCB (Consolidated Cutblocks) attributes on VRI (vegetation ressource inventory) features
 #'
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @param ccb sf object that represent CCB (consolidated cutblock) features

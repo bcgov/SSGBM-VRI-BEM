@@ -1,3 +1,5 @@
+#' Assign STD_VRI, CROWN_BEAR and CROWN_MOOSE
+#'
 #' This script takes an input VRI feature class and adds two new field, STD_VRI,
 #' CROWN_BEAR and CROWN_MOOSE. It populates the STD_VRI field "C", "B" or "M" based
 #' on the existing values in the SPECIES_CD_# and SPECIES_PCT_# fields, and populates

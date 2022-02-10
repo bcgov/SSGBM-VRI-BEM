@@ -14,5 +14,6 @@ reference:
   - '`create_RRM_ecosystem`'
 - title: Other Helper Functions
   contents:
+  - '`rename_geometry`'
   - '`set_shifted_eco_variables`'
   - '`validate_required_attributes`'

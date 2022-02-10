@@ -2,11 +2,7 @@
 % Please edit documentation in R/add_std_crown_fields.R
 \name{add_std_crown_fields}
 \alias{add_std_crown_fields}
-\title{This script takes an input VRI feature class and adds two new field, STD_VRI,
-CROWN_BEAR and CROWN_MOOSE. It populates the STD_VRI field "C", "B" or "M" based
-on the existing values in the SPECIES_CD_# and SPECIES_PCT_# fields, and populates
-the CROWN_BEAR field with codes 1 to 4, and CROWN_MOOSE with codes H, M, L, VL and N
-based on the existing values in the CROWN_CLOSURE field.}
+\title{Assign STD_VRI, CROWN_BEAR and CROWN_MOOSE}
 \usage{
 add_std_crown_fields(vri)
 }

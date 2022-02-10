@@ -2,7 +2,7 @@
 % Please edit documentation in R/update_bem_from_wet.R
 \name{update_bem_from_wet}
 \alias{update_bem_from_wet}
-\title{Upadate BEM (broad ecosystem mapping) attributes based on Wetland polygons attributes}
+\title{Update BEM  attributes based on Wetland polygons}
 \usage{
 update_bem_from_wet(bfc, wfc, buc)
 }
@@ -17,5 +17,5 @@ update_bem_from_wet(bfc, wfc, buc)
 sf object
 }
 \description{
-Upadate BEM (broad ecosystem mapping) attributes based on Wetland polygons attributes
+Updates BEM (bros ecosystem mapping) attributes based on intersections with wetland polygons
 }

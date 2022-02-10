@@ -2,18 +2,18 @@
 % Please edit documentation in R/calc_forest_age_class.R
 \name{calc_forest_age_class}
 \alias{calc_forest_age_class}
-\title{compute variable for structural stage look up and stand composition look up}
+\title{Compute variables for structural stage look up and stand composition look up}
 \usage{
 calc_forest_age_class(vri, most_recent_harvest_year)
 }
 \arguments{
-\item{vri}{sf object that represent VRI (vegetation ressource inventory) features}
+\item{vri}{sf object that represent VRI (vegetation resource inventory) features}
 
-\item{most_recent_harvest_year}{integer that represent the most recent harvers year}
+\item{most_recent_harvest_year}{integer that represent the most recent harvest year}
 }
 \value{
 sf object vri
 }
 \description{
-compute variable for structural stage look up and stand composition look up
+Compute variables for structural stage look up and stand composition look up
 }

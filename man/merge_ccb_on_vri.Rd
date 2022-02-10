@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_ccb_on_vri.R
 \name{merge_ccb_on_vri}
 \alias{merge_ccb_on_vri}
-\title{Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features}
+\title{Union merge between CCB attributes and VRI features}
 \usage{
 merge_ccb_on_vri(vri, ccb)
 }
@@ -15,5 +15,5 @@ merge_ccb_on_vri(vri, ccb)
 sf object that represent the intersections of ccb and vri
 }
 \description{
-Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features
+Performs a Union merge between CCB (Consolidated Cutblocks) attributes on VRI (vegetation ressource inventory) features
 }

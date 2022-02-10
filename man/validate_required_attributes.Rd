@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_required_attributes.R
 \name{validate_required_attributes}
 \alias{validate_required_attributes}
-\title{Validate that Required Attributes are in the object}
+\title{Validate that required attributes are in the object}
 \usage{
 validate_required_attributes(ifc, required_attributes)
 }
@@ -15,5 +15,5 @@ validate_required_attributes(ifc, required_attributes)
 error if attribute is missing
 }
 \description{
-Validate that Required Attributes are in the object
+Validate that required attributes are in the object
 }

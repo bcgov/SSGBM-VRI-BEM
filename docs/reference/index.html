@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SSGBM.VRI.BEM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
@@ -47,63 +47,63 @@
       </tr></tbody><tbody><tr><td>
           <p><code><a href="merge_bem_on_vri.html">merge_bem_on_vri()</a></code> </p>
         </td>
-        <td><p>Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features</p></td>
+        <td><p>Merge BEM attributes on VRI features</p></td>
       </tr><tr><td>
           <p><code><a href="update_bem_from_vri.html">update_bem_from_vri()</a></code> </p>
         </td>
-        <td><p>Update BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes</p></td>
+        <td><p>Update BEM attributes based on VRI attributes</p></td>
       </tr><tr><td>
           <p><code><a href="update_bem_from_wet.html">update_bem_from_wet()</a></code> </p>
         </td>
-        <td><p>Upadate BEM (broad ecosystem mapping) attributes based on Wetland polygons attributes</p></td>
+        <td><p>Update BEM  attributes based on Wetland polygons</p></td>
       </tr><tr><td>
           <p><code><a href="create_unique_ecosytem_dt.html">create_unique_ecosytem_dt()</a></code> </p>
         </td>
-        <td><p>Create data of Unique ecosystem</p></td>
+        <td><p>Create summary data of unique ecosystem</p></td>
       </tr><tr><td>
           <p><code><a href="merge_elevation_raster_on_sf.html">merge_elevation_raster_on_sf()</a></code> </p>
         </td>
-        <td><p>Compute slope and aspect from elevation and compute mean by ifc polygon</p></td>
+        <td><p>Compute slope and aspect from elevation and their mean by polygon</p></td>
       </tr><tr><td>
           <p><code><a href="merge_ccb_on_vri.html">merge_ccb_on_vri()</a></code> </p>
         </td>
-        <td><p>Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features</p></td>
+        <td><p>Union merge between CCB attributes and VRI features</p></td>
       </tr><tr><td>
           <p><code><a href="calc_forest_age_class.html">calc_forest_age_class()</a></code> </p>
         </td>
-        <td><p>compute variable for structural stage look up and stand composition look up</p></td>
+        <td><p>Compute variables for structural stage look up and stand composition look up</p></td>
       </tr><tr><td>
           <p><code><a href="add_std_crown_fields.html">add_std_crown_fields()</a></code> </p>
         </td>
-        <td><p>This script takes an input VRI feature class and adds two new field, STD_VRI,
-CROWN_BEAR and CROWN_MOOSE. It populates the STD_VRI field "C", "B" or "M" based
-on the existing values in the SPECIES_CD_# and SPECIES_PCT_# fields, and populates
-the CROWN_BEAR field with codes 1 to 4, and CROWN_MOOSE with codes H, M, L, VL and N
-based on the existing values in the CROWN_CLOSURE field.</p></td>
+        <td><p>Assign STD_VRI, CROWN_BEAR and CROWN_MOOSE</p></td>
       </tr><tr><td>
           <p><code><a href="merge_unique_ecosystem_fields.html">merge_unique_ecosystem_fields()</a></code> </p>
         </td>
-        <td><p>populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table</p></td>
+        <td><p>Assign values from unique ecosystems table</p></td>
       </tr><tr><td>
           <p><code><a href="find_crown_area_dominant_values.html">find_crown_area_dominant_values()</a></code> </p>
         </td>
-        <td><p>overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.</p></td>
+        <td><p>Find Area-Dominant CROWN_BEAR and CROWN_MOOSE</p></td>
       </tr><tr><td>
           <p><code><a href="create_RRM_ecosystem.html">create_RRM_ecosystem()</a></code> </p>
         </td>
-        <td><p>Create RRM Ecosystem information</p></td>
+        <td><p>Create RRM ecosystem information</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="other-helper-functions">Other Helper Functions <a href="#other-helper-functions" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
+          <p><code><a href="rename_geometry.html">rename_geometry()</a></code> </p>
+        </td>
+        <td><p>Rename geometry attribute in sf object</p></td>
+      </tr><tr><td>
           <p><code><a href="set_shifted_eco_variables.html">set_shifted_eco_variables()</a></code> </p>
         </td>
-        <td><p>shift eco variables</p></td>
+        <td><p>Shift eco variables</p></td>
       </tr><tr><td>
           <p><code><a href="validate_required_attributes.html">validate_required_attributes()</a></code> </p>
         </td>
-        <td><p>Validate that Required Attributes are in the object</p></td>
+        <td><p>Validate that required attributes are in the object</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
