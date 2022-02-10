@@ -2,7 +2,7 @@
 % Please edit documentation in R/rename_geometry.R
 \name{rename_geometry}
 \alias{rename_geometry}
-\title{rename sf column for sfc object}
+\title{Rename geometry attribute in sf object}
 \usage{
 rename_geometry(g, name)
 }
@@ -15,5 +15,5 @@ rename_geometry(g, name)
 sf object
 }
 \description{
-rename sf column for sfc object
+Rename geometry attribute in sf object
 }

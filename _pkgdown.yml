@@ -1,0 +1,19 @@
+reference:
+- title: Main Functions
+  contents:
+  - '`merge_bem_on_vri`'
+  - '`update_bem_from_vri`'
+  - '`update_bem_from_wet`'
+  - '`create_unique_ecosytem_dt`'
+  - '`merge_elevation_raster_on_sf`'
+  - '`merge_ccb_on_vri`'
+  - '`calc_forest_age_class`'
+  - '`add_std_crown_fields`'
+  - '`merge_unique_ecosystem_fields`'
+  - '`find_crown_area_dominant_values`'
+  - '`create_RRM_ecosystem`'
+- title: Other Helper Functions
+  contents:
+  - '`rename_geometry`'
+  - '`set_shifted_eco_variables`'
+  - '`validate_required_attributes`'

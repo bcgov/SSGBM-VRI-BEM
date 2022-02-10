@@ -1,4 +1,4 @@
-#' shift eco variables
+#' Shift eco variables
 #'
 #' @param input_dt data.table input data to be modified by reference
 #' @param i numeric vector that identify which lines of the data we want to apply the shifting

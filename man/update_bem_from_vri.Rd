@@ -2,7 +2,7 @@
 % Please edit documentation in R/update_bem_from_vri.R
 \name{update_bem_from_vri}
 \alias{update_bem_from_vri}
-\title{Update BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes}
+\title{Update BEM attributes based on VRI attributes}
 \usage{
 update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE)
 }
@@ -21,5 +21,5 @@ update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE)
 sf object
 }
 \description{
-This script updates BEM attributes based on VRI attributes, according to the document "Corrections to the BEM map codes".
+This script updates BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes, according to the document "Corrections to the BEM map codes".
 }

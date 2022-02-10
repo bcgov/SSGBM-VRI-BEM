@@ -1,4 +1,6 @@
-#' Upadate BEM (broad ecosystem mapping) attributes based on Wetland polygons attributes
+#' Update BEM  attributes based on Wetland polygons
+#'
+#' Updates BEM (bros ecosystem mapping) attributes based on intersections with wetland polygons
 #'
 #' @param bfc sf object that represents the BEM feature class
 #' @param wfc sf object that represents Wetlands polygon feature class

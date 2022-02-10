@@ -1,6 +1,6 @@
-#' Update BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes
+#' Update BEM attributes based on VRI attributes
 #'
-#'This script updates BEM attributes based on VRI attributes, according to the document "Corrections to the BEM map codes".
+#'This script updates BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes, according to the document "Corrections to the BEM map codes".
 #'
 #' @param ifc sf object that represent the input polygon feature class
 #' @param rfc sf object that represent Rivers polygon feature class (FWA_Rivers)

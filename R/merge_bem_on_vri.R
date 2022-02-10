@@ -1,6 +1,6 @@
-#' Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features
+#' Merge BEM attributes on VRI features
 #'
-#'This function copies all of the attributes in the specified BEM to each polygon in the specified VRI.
+#'This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
 #
 #' @param vri sf object that represent VRI (vegetation ressource inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features

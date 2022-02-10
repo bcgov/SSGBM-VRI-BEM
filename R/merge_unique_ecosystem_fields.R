@@ -1,4 +1,6 @@
-#' populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table
+#' Assign values from unique ecosystems table
+#'
+#' Populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table
 #'
 #' @param ifc sf object
 #' @return sf object

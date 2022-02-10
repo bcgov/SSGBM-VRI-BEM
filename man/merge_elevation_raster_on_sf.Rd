@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_elevation_raster_on_bem.R
 \name{merge_elevation_raster_on_sf}
 \alias{merge_elevation_raster_on_sf}
-\title{Compute slope and aspect from elevation and compute mean by ifc polygon}
+\title{Compute slope and aspect from elevation and their mean by polygon}
 \usage{
 merge_elevation_raster_on_sf(elev_raster, ifc, elevation_threshold = 1400)
 }
@@ -17,5 +17,6 @@ merge_elevation_raster_on_sf(elev_raster, ifc, elevation_threshold = 1400)
 data.table
 }
 \description{
-Compute slope and aspect from elevation and compute mean by ifc polygon
+This function overlays the user-specified polygon feature class with slope and aspect raster to
+add mean aspect, mean slope and slope modifiers to the polygon attributes
 }

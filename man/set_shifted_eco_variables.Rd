@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_shifted_eco_variables.R
 \name{set_shifted_eco_variables}
 \alias{set_shifted_eco_variables}
-\title{shift eco variables}
+\title{Shift eco variables}
 \usage{
 set_shifted_eco_variables(
   input_dt,
@@ -27,5 +27,5 @@ set_shifted_eco_variables(
 \item{character_variables_1}{character vector that represent the name of the variables of type character with index number 1 we want to shift}
 }
 \description{
-shift eco variables
+Shift eco variables
 }

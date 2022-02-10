@@ -1,5 +1,4 @@
-
-#' Validate that Required Attributes are in the object
+#' Validate that required attributes are in the object
 #'
 #' @param ifc input feature class
 #' @param required_attributes names of required attributes

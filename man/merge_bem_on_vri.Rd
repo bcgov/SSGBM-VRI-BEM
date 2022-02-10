@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_bem_on_vri.R
 \name{merge_bem_on_vri}
 \alias{merge_bem_on_vri}
-\title{Merge BEM (broad ecosystem mapping) attributes on VRI (vegetation ressource inventory) features}
+\title{Merge BEM attributes on VRI features}
 \usage{
 merge_bem_on_vri(vri, bem, return_intersection_dt = FALSE)
 }
@@ -20,5 +20,5 @@ Then its attribute table will have all of the BEM attribute fields added to the 
 The BEI attribute fields will be populated by copying the BEI values of the majority area BEI polygon within each VRI polygon.
 }
 \description{
-This function copies all of the attributes in the specified BEM to each polygon in the specified VRI.
+This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
 }
