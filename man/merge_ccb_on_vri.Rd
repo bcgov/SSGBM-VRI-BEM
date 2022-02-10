@@ -2,9 +2,7 @@
 % Please edit documentation in R/merge_ccb_on_vri.R
 \name{merge_ccb_on_vri}
 \alias{merge_ccb_on_vri}
-
 \title{Union merge between CCB attributes and VRI features}
-
 \usage{
 merge_ccb_on_vri(vri, ccb)
 }
