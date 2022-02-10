@@ -16,7 +16,9 @@ bem$Shape <- sf::st_make_valid(bem$Shape)
 vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 
 # 1a ----
-vri_bem <- merge_bem_on_vri(vri, bem)
+vri_bem <- merge_bem_on_vri(vri, bem, return_intersection_dt = TRUE)
+vri_bem_intersection_dt <- vri_bem$intersection_dt
+vri_bem <- vri_bem$vri
 
 # filter out vri that have no overlapping bem (usually you should make sure the BEM covers all VRI)
 vri_bem <- vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
@@ -58,17 +60,15 @@ updated_bem_from_wetland <- merge_ccb_on_vri(ccb = ccb, vri = updated_bem_from_w
 vri_forest_age <- calc_forest_age_class(vri = updated_bem_from_wetland,
                                         most_recent_harvest_year = 2020)
 
-#4c ----
-vri_std_crown <- add_std_crown_fields(vri = vri_forest_age)
-
-
 #4b /4d2 ----
-vri_all_info <- merge_unique_ecosystem_fields(ifc = vri_std_crown,
-                                              unique_ecosystem_dt = unique_eco)
+unique_eco_example <- read_unique_ecosystem_dt("csv/Skeena_VRIBEM_LUT.csv")
+vri_all_info <- merge_unique_ecosystem_fields(ifc = vri_forest_age,
+                                              unique_ecosystem_dt = unique_eco_example)
 
 #4d3 ----
 vri_all_info <- find_crown_area_dominant_values(vri = vri_all_info,
-                                                bem = bem)
+                                                bem = bem,
+                                                intersection_dt = vri_bem_intersection_dt)
 
 #5 ----
 export_dt <- create_RRM_ecosystem(bfc = vri_all_info)

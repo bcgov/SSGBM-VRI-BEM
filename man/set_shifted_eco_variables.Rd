@@ -20,7 +20,7 @@ set_shifted_eco_variables(
 
 \item{i}{numeric vector that identify which lines of the data we want to apply the shifting}
 
-\item{shift_pattern}{list of two elements, second element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the first element}
+\item{shift_pattern}{list of vectors , each vector represent a shift, the first element of the vector is which variable we want to change and the second is what to use to feed the first variable}
 
 \item{integer_variables_1}{character vector that represent the name of the variables of type integer with index number 1 we want to shift}
 

@@ -14,15 +14,18 @@ find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
   if (is.null(intersection_dt)) {
     intersections <- st_intersection(vri$Shape, bem$Shape)
     intersection_dt <- data.table(vri_index = as.integer(attr(intersections, "idx")[, 1]), bem_index = attr(intersections, "idx")[, 2], area = st_area(intersections))
+    set(intersection_dt, j = "VRI_OBJ_ID", value = vri[["VRI_OBJ_ID"]][intersection_dt[["vri_index"]]])
   }
 
   # use data.table for fast data manipulation
   classes_vri <- attr(vri, "class")
   setDT(vri)
 
-    # merge CROWN BEAR and CROWN MOOSE info on intersection data
-  intersection_dt[ , CROWN_BEAR := .subset2(vri, "CROWN_BEAR")[vri_index]]
-  intersection_dt[ , CROWN_MOOSE := .subset2(vri, "CROWN_MOOSE")[vri_index]]
+
+  # merge CROWN BEAR and CROWN MOOSE info on intersection data
+  match_lines <- match(intersection_dt[["VRI_OBJ_ID"]], vri[["VRI_OBJ_ID"]])
+  intersection_dt[ , CROWN_BEAR := .subset2(vri, "CROWN_BEAR")[match_lines]]
+  intersection_dt[ , CROWN_MOOSE := .subset2(vri, "CROWN_MOOSE")[match_lines]]
 
   # calculate the area covered by each type of bear for each bem
   area_by_bem_bear <- intersection_dt[ , .(area = sum(area)), by = .(bem_index, CROWN_BEAR)]
@@ -35,12 +38,12 @@ find_crown_area_dominant_values <- function(vri, bem, intersection_dt = NULL) {
   most_covered_moose_by_bem <- area_by_bem_moose[ , .SD$CROWN_MOOSE[which.max(area)], by = bem_index]
 
   # merge the crown bear on vri
-  match_lines <- match(vri[["TEIS_ID"]][intersection_dt$vri_index],  bem$TEIS_ID[most_covered_bear_by_bem[["bem_index"]]])
-  set(vri, i = intersection_dt$vri_index, j = paste0("CROWN_BEAR_", 1:3), value = most_covered_bear_by_bem[["V1"]][match_lines])
+  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_bear_by_bem[["bem_index"]]])
+  set(vri, j = paste0("CROWN_BEAR_", 1:3), value = most_covered_bear_by_bem[["V1"]][match_lines])
 
   # merge the crown moose on vri
-  match_lines <- match(vri[["TEIS_ID"]][intersection_dt$vri_index],  bem$TEIS_ID[most_covered_moose_by_bem[["bem_index"]]])
-  set(vri, i = intersection_dt$vri_index, j = paste0("CROWN_MOOSE_", 1:3), value = most_covered_moose_by_bem[["V1"]][match_lines])
+  match_lines <- match(vri[["TEIS_ID"]],  bem$TEIS_ID[most_covered_moose_by_bem[["bem_index"]]])
+  set(vri, j = paste0("CROWN_MOOSE_", 1:3), value = most_covered_moose_by_bem[["V1"]][match_lines])
 
   # blank Crown moose and crown moose if not ecounter specific condition
 

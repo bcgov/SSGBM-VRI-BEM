@@ -4,10 +4,10 @@
 \alias{create_unique_ecosytem_dt}
 \title{Create data of Unique ecosystem}
 \usage{
-create_unique_ecosytem_dt(bem)
+create_unique_ecosytem_dt(ifc)
 }
 \arguments{
-\item{bem}{sf object that represent BEM (broad ecosystem mapping) features}
+\item{ifc}{sf object that represent BEM (broad ecosystem mapping) features}
 }
 \value{
 data.table

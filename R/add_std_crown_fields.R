@@ -4,15 +4,13 @@
 #' the CROWN_BEAR field with codes 1 to 4, and CROWN_MOOSE with codes H, M, L, VL and N
 #' based on the existing values in the CROWN_CLOSURE field.
 #'
-#' @param vri sf object that represent VRI (vegetation ressource inventory) features
+#' @param vri data.table object that represent VRI (vegetation ressource inventory) features
 #' @return sf object
 #' @import data.table
 #' @export
 add_std_crown_fields <- function(vri) {
 
-  # use data.table for fast data manipulation
-  classes_vri <- attr(vri, "class")
-  setDT(vri)
+
 
   # compute total percentage of species in list
 
@@ -53,9 +51,6 @@ add_std_crown_fields <- function(vri) {
                               CR_CLOSURE <= 60, "M",
                               CR_CLOSURE > 60, "H",
                               default = "")]
-
-
-  attr(vri, "class") <- classes_vri
 
   return(vri)
 }

@@ -18,7 +18,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
 
   # TODO check if we can rename the non valid name , since we create the csv ourselve it should not be a problem
 
-  ifc[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S1 = BEUMC) , `:=`(REALM_1 = i.REALM,
+  ifc[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S1 = BEU_MC) , `:=`(REALM_1 = i.REALM,
                                                                                                     GROUP_1 = i.GROUP,
                                                                                                     CLASS_1 = i.CLASS,
                                                                                                     KIND_1 = i.KIND,
@@ -45,7 +45,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
 
   # merge REALM GROUP CLASS AND KIND for broad ecosystem unit major class 2
 
-  ifc[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S2 = BEUMC) , `:=`(REALM_2 = i.REALM,
+  ifc[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S2 = BEU_MC) , `:=`(REALM_2 = i.REALM,
                                                                                                     GROUP_2 = i.GROUP,
                                                                                                     CLASS_2 = i.CLASS,
                                                                                                     KIND_2 = i.KIND,
@@ -70,7 +70,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
 
   # merge REALM GROUP CLASS AND KIND for broad ecosystem unit major class 3
 
-  ifc[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S3 = BEUMC) , `:=`(REALM_3 = i.REALM,
+  ifc[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S3 = BEU_MC) , `:=`(REALM_3 = i.REALM,
                                                                                                     GROUP_3 = i.GROUP,
                                                                                                     CLASS_3 = i.CLASS,
                                                                                                     KIND_3 = i.KIND,
@@ -95,7 +95,7 @@ merge_unique_ecosystem_fields <- function(ifc, unique_ecosystem_dt) {
 
 
   # add std_crown fields
-  ifc <- setDT(add_std_crown_fields(ifc)) #TODO see if we should avoid the setDT by removing attr in function
+  ifc <- add_std_crown_fields(ifc)
 
   ifc[ , parkland_ind := substr(BGC_SUBZON, start = length(BGC_SUBZON), stop = length(BGC_SUBZON)) == "p"]
 

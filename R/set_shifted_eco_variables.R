@@ -38,7 +38,12 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
     # separate created combination into from and to vectors
     from_number <- combination[2]
     to_number <- combination[1]
-
+    if(is.na(from_number)) {
+      from_number <- 0
+    }
+    if(is.na(to_number)) {
+      to_number <- 0
+    }
     # find which character and integer variables to use
     if (from_number == 1) {
       from_character_variables <- character_variables_1
