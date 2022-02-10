@@ -19,15 +19,15 @@ vri$Shape <- st_make_valid(vri$Shape) |> st_cast("MULTIPOLYGON")
 vri_bem <- merge_bem_on_vri(vri, bem)
 
 # filter out vri that have no overlapping bem (usually you should make sure the BEM covers all VRI)
-vri_bem <-vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
+vri_bem <- vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
 
 # 1b ----
 beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
 rivers <- sf::st_read(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb", layer = "FWA_RIVERS_POLY", quiet = TRUE)
 vri_bem_updated <- update_bem_from_vri(ifc = vri_bem,
                                        rfc = rivers,
-                                       clear_site_ma = TRUE,
-                                       beu_bec = beu_bec_csv)
+                                       beu_bec = beu_bec_csv,
+                                       clear_site_ma = TRUE)
 
 #1c ----
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
@@ -39,7 +39,7 @@ updated_bem_from_wetland <- update_bem_from_wet(bfc = vri_bem_updated,
                                                 buc = beu_wetland_update_csv)
 
 #2 ----
-unique_eco <- create_unique_ecosytem_dt(bem = updated_bem_from_wetland)
+unique_eco <- create_unique_ecosytem_dt(ifc = updated_bem_from_wetland)
 
 fwrite(unique_eco, file = "../unique_ecosystem.csv")
 

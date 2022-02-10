@@ -45,8 +45,8 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
     set(ifc , j = "lbl_edit", value = "")
   }
 
-  if (is.null(ifc[["Dec_Total"]])) {
-    set(ifc , j = "Dec_Total", value = 0L)
+  if (is.null(ifc[["DEC_Total"]])) {
+    set(ifc , j = "DEC_Total", value = 0L)
   }
 
   if (is.null(ifc[["SMPL_TYPE"]])) {
@@ -60,7 +60,7 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
   }
 
   set(ifc , j = "SITE_M3A", value = NA_character_) #M3A is always cleared
-  set(ifc , j = "Area_Ha", value = round(ifc[["vri_area"]]/10000, 2))
+  set(ifc , j = "Area_Ha", value = as.numeric(round(ifc[["vri_area"]]/10000, 2)))
 
 
   set(ifc, j = "row_updated", value = FALSE)
@@ -366,11 +366,10 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
   #Blank Eco Fields (line 639) ----
   which_to_blank <- which(ifc[["blank_eco_variables"]])
 
-  set_shifted_eco_variables(ifc, i = which_to_blank, list(c(1,2,3), NA), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
-                                                                                               "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITEAM_S1D",
-                                                                                               "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
-                                                                                               "TREE_C1", "SHRUB_C1", "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
-                                                                                               "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
+  set_shifted_eco_variables(ifc, i = which_to_blank, list(c(1,NA), c(2,NA), c(3,NA)), character_variables_1 = c("REALM_1", "GROUP_1", "CLASS_1", "KIND_1", "SITE_S1", "SITEAM_S1A",
+                                                                                                   "SITEAM_S1B", "SITEAM_S1C", "SITEAM_S1D", "SITEMC_S1", "SITE_M1A", "SITE_M1B", "STRCT_S1", "STRCT_M1", "STAND_A1", "SERAL_1",
+                                                                                                   "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
+                                                                                                   "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
   set(ifc, i = which_to_blank, j = c("SDEC_2", "SDEC_3"), value = 0)
 
   # line 654
@@ -458,7 +457,7 @@ update_bem_from_vri <- function(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ife
 
   # remove temp variables
 
-  set(ifc, j = c("row_updated", "blank_eco_variables",  "SDEC_1_num", "SDEC_2_num", "SDEC_3_num"), value = NULL)
+  set(ifc, j = c("row_updated", "blank_eco_variables", "merge_key"), value = NULL)
 
   attr(ifc, "class") <- classes_ifc
   return(ifc)
@@ -479,7 +478,7 @@ combine_duplicated_BEUMC <- function(ifc, use_ifelse = TRUE){
     set(ifc , i = which_dup, j = "SDEC_2", value = ifc[["SDEC_3"]][which_dup])
     set(ifc , i = which_dup, j = "SDEC_3", value = 0)
 
-    set_shifted_eco_variables(ifc, i = which_dup, list(c(2,3), c(3, NA)))
+    set_shifted_eco_variables(ifc, i = which_dup, list(c(2,3), c(3,NA)))
 
     set(ifc, i = which_dup, j = "lbl_edit", value = "Combined components 1 and 2 with same BEUMC_S# code into single component 1")
     set(ifc, i = which_dup, j = "row_updated", value = use_ifelse)
@@ -503,7 +502,7 @@ remove_inadequate_wetlands <- function(ifc){
   #Replace wetland in 3rd component ----
   set(ifc, i = which_treed_WL_3, j = "SDEC_2", value = ifc[["SDEC_2"]][which_treed_WL_3] + ifc[["SDEC_3"]][which_treed_WL_3])
   set(ifc, i = which_treed_WL_3, j = "SDEC_3", value = 0)
-  set_shifted_eco_variables(ifc, i = which_treed_WL_3, list(3, NA))
+  set_shifted_eco_variables(ifc, i = which_treed_WL_3, list(c(3, NA)))
   set(ifc, i = which_treed_WL_3, j = "lbl_edit", value = "Removed WL in component 3 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_3, j = "row_updated", value = TRUE)
 
@@ -527,7 +526,7 @@ remove_inadequate_wetlands <- function(ifc){
 
   ## When there is no value in 3rd component update 1st from 2nd -----
   set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_1", value = ifc[["SDEC_1"]][which_treed_WL_2_to_1] + ifc[["SDEC_2"]][which_treed_WL_2_to_1])
-  set_shifted_eco_variables(ifc, i = which_treed_WL_2_to_1, list(2, NA))
+  set_shifted_eco_variables(ifc, i = which_treed_WL_2_to_1, list(c(2, NA)))
   set(ifc, i = which_treed_WL_2_to_1, j = "SDEC_2", value = 0)
   set(ifc, i = which_treed_WL_2_to_1, j = "lbl_edit", value = "Removed WL in component 2 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_2_to_1, j = "row_updated", value = TRUE)
@@ -537,7 +536,7 @@ remove_inadequate_wetlands <- function(ifc){
   which_treed_WL_1_from_2 <-  which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_4"]] %in% c("TB", "TC", "TM") &
                                       ifc[["BEUMC_S1"]] == "WL" & ifc[["SDEC_2"]] > 0 & !ifc[["row_updated"]])
 
-  set_shifted_eco_variables(ifc, which_treed_WL_1_from_2, list(c(1,2,3), c(2,3,NA)))
+  set_shifted_eco_variables(ifc, which_treed_WL_1_from_2, list(c(1,2), c(2,3), c(3,NA)))
   set(ifc, i = which_treed_WL_1_from_2, j = "SDEC_3", value = 0)
   set(ifc, i = which_treed_WL_1_from_2, j = "lbl_edit", value = "Removed WL in component 1 because BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_WL_1_from_2, j = "row_updated", value = TRUE)

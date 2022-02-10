@@ -2,7 +2,7 @@
 #'
 #' @param input_dt data.table input data to be modified by reference
 #' @param i numeric vector that identify which lines of the data we want to apply the shifting
-#' @param shift_pattern list of two elements, second element is a vector that represent the number of the eco variables that are going to replace the number in the vector of the first element
+#' @param shift_pattern list of vectors , each vector represent a shift, the first element of the vector is which variable we want to change and the second is what to use to feed the first variable
 #' @param integer_variables_1 character vector that represent the name of the variables of type integer with index number 1 we want to shift
 #' @param character_variables_1 character vector that represent the name of the variables of type character with index number 1 we want to shift
 #' @import data.table
@@ -11,21 +11,11 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
                                                                                                                                                          "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
                                                                                                                                                          "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1")) {
 
-  # verify if length of filter is the same as number of rows of data
-  if (nrow(input_dt) != length(i)) {
-    stop(paste0("the filter boolean needs to be the same lenght as the number of row of the input dt which is ", nrow(input_dt)))
-  }
-
   # if the filter result in zero lines we simply exit the function
   # we use !isTRUE so that it will also quit if the i contains no TRUE value but some NA
   if (!isTRUE(any(i))) {
     return()
   }
-
-  # replace NA by 0 so its easier to work with (later we don't want combination to end up being NA see line 35)
-  shift_pattern[[1]][which(is.na(shift_pattern[[1]]))] <- 0
-  shift_pattern[[2]][which(is.na(shift_pattern[[2]]))] <- 0
-
 
   # create other variables names from arguments
   character_variables_2 <- sub("1", "2", character_variables_1)
@@ -33,10 +23,6 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
 
   integer_variables_2 <- sub("1", "2", integer_variables_1)
   integer_variables_3 <- sub("1", "3", integer_variables_1)
-
-  # create combination, it works because we have less than 10 variables (right now it only goes to 3)
-  # and we make use of the natural recycling in the + function to create all the shift combination
-  shift_combination <- shift_pattern[[1]] * 10 + shift_pattern[[2]]
 
   # initialize all final character and integer variable names
   all_to_character_variables <- character(0)
@@ -48,10 +34,10 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
 
   # compute temp variables for all combinations
   # we cannot assign the new result in the loop, because we want to allow shift pattern such as list(c(1,2), c(2,1)) where the variables_1 and variables_2 are switch
-  for (combination in shift_combination) {
+  for (combination in shift_pattern) {
     # separate created combination into from and to vectors
-    from_number <- combination %% 10
-    to_number <- (combination - from_number)/10
+    from_number <- combination[2]
+    to_number <- combination[1]
 
     # find which character and integer variables to use
     if (from_number == 1) {
