@@ -1,3 +1,9 @@
+# library(data.table)
+# library(sf)
+# library(terra)
+# library(units)
+#invisible(lapply(list.files("R", full.names = TRUE), source))
+
 devtools::load_all()
 
 # read vri and bem layers
