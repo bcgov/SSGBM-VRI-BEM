@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_layers.R
 \name{read_rivers}
 \alias{read_rivers}
-\title{Read rivers sf object}
+\title{Read rivers polygons}
 \usage{
 read_rivers(dsn, layer = "FWA_RIVERS_POLY")
 }
@@ -15,5 +15,5 @@ read_rivers(dsn, layer = "FWA_RIVERS_POLY")
 sf object
 }
 \description{
-read the rivers layer
+Read the rivers layer
 }

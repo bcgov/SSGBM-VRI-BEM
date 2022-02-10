@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_layers.R
 \name{read_wetlands}
 \alias{read_wetlands}
-\title{Read wetlands sf object}
+\title{Read Wetlands polygons}
 \usage{
 read_wetlands(dsn, layer = "FWA_WETLANDS_POLY")
 }
@@ -15,5 +15,5 @@ read_wetlands(dsn, layer = "FWA_WETLANDS_POLY")
 sf object
 }
 \description{
-read the wetlands layer
+Read the wetlands polygons layer
 }

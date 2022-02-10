@@ -12,8 +12,17 @@ reference:
   - '`merge_unique_ecosystem_fields`'
   - '`find_crown_area_dominant_values`'
   - '`create_RRM_ecosystem`'
+- title: Read Functions
+  contents:
+  - '`read_bem`'
+  - '`read_ccb`'
+  - '`read_rivers`'
+  - '`read_unique_ecosystem_dt`'
+  - '`read_vri`'
+  - '`read_wetlands`'
 - title: Other Helper Functions
   contents:
+  - '`format_unique_ecosystem_dt`'
   - '`rename_geometry`'
   - '`set_shifted_eco_variables`'
   - '`validate_required_attributes`'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_layers.R
 \name{read_bem}
 \alias{read_bem}
-\title{Read bem sf object}
+\title{Read BEM spatial dataset}
 \usage{
 read_bem(dsn, layer = "BEM")
 }
@@ -15,5 +15,5 @@ read_bem(dsn, layer = "BEM")
 sf object
 }
 \description{
-read the broad ecosytem mapping layer
+Read the broad ecosystem mapping (BEM) layer
 }

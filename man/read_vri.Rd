@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_layers.R
 \name{read_vri}
 \alias{read_vri}
-\title{Read vri sf object}
+\title{Read VRI spatial dataset}
 \usage{
 read_vri(dsn, layer = "VEG_R1_PLY_polygon")
 }
@@ -15,5 +15,5 @@ read_vri(dsn, layer = "VEG_R1_PLY_polygon")
 sf object
 }
 \description{
-read the vegetation ressource inventory layer
+Read the vegetation resources inventory  (VRI) layer
 }

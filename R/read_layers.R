@@ -1,6 +1,6 @@
-#' Read vri sf object
+#' Read VRI spatial dataset
 #'
-#' read the vegetation ressource inventory layer
+#' Read the vegetation resources inventory  (VRI) layer
 #'
 #' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
 #' @param layer layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.
@@ -16,12 +16,11 @@ read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon") {
   return(vri)
 }
 
-#' Read bem sf object
+#' Read BEM spatial dataset
 #'
-#' read the broad ecosytem mapping layer
+#' Read the broad ecosystem mapping (BEM) layer
 #'
-#' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
-#' @param layer layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.
+#' @inheritParams read_vri
 #' @return sf object
 #' @import sf
 #' @export
@@ -36,12 +35,11 @@ read_bem <- function(dsn, layer = "BEM") {
 
 
 
-#' Read wetlands sf object
+#' Read Wetlands polygons
 #'
-#' read the wetlands layer
+#' Read the wetlands polygons layer
 #'
-#' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
-#' @param layer layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.
+#' @inheritParams read_vri
 #' @return sf object
 #' @import sf
 #' @export
@@ -55,12 +53,11 @@ read_wetlands <- function(dsn, layer = "FWA_WETLANDS_POLY") {
 }
 
 
-#' Read rivers sf object
+#' Read rivers polygons
 #'
-#' read the rivers layer
+#' Read the rivers layer
 #'
-#' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
-#' @param layer layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.
+#' @inheritParams read_vri
 #' @return sf object
 #' @import sf
 #' @export
@@ -71,12 +68,11 @@ read_rivers <- function(dsn, layer = "FWA_RIVERS_POLY") {
   return(rivers)
 }
 
-#' Read ccb sf object
+#' Read CCB polygons
 #'
-#' read the consolidated cutblocks layer
+#' Read the consolidated cutblocks (CCB) layer
 #'
-#' @param dsn data source name (interpretation varies by driver - for some dccb, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
-#' @param layer layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.
+#' @inheritParams read_vri
 #' @return sf object
 #' @import sf
 #' @export

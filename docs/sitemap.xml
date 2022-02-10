@@ -40,6 +40,9 @@
     <loc>/reference/find_crown_area_dominant_values.html</loc>
   </url>
   <url>
+    <loc>/reference/format_unique_ecosystem_dt.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -56,6 +59,24 @@
   </url>
   <url>
     <loc>/reference/merge_vri_on_bem.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_bem.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_ccb.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_rivers.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_unique_ecosystem_dt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_vri.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_wetlands.html</loc>
   </url>
   <url>
     <loc>/reference/rename_geometry.html</loc>
