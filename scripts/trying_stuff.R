@@ -23,3 +23,9 @@ rbind(fc[SDEC_1 > 0, .N , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC
       fc[SDEC_2 > 0, .N , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S2)],
       fc[SDEC_3 > 0, .N , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3)])[ , sum(N) , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1)]
 
+
+
+
+aoi <- st_read(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb", layer = "code_with_us_aoi", quiet = TRUE)
+plot(aoi$SHAPE)
+plot(vri_bem[which(is.na(vri_bem$TEIS_ID)), "Shape"], add = T)
