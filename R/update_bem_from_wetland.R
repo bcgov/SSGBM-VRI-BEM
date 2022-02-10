@@ -24,7 +24,7 @@
 #' @import sf
 #' @import data.table
 #' @export
-update_bem_from_wet <- function(bfc, wfc, buc) {
+update_bem_from_wetland <- function(bfc, wfc, buc) {
 
   setDT(bfc)
 

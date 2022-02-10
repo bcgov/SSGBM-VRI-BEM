@@ -3,7 +3,7 @@ reference:
   contents:
   - '`merge_bem_on_vri`'
   - '`update_bem_from_vri`'
-  - '`update_bem_from_wet`'
+  - '`update_bem_from_wetland`'
   - '`create_unique_ecosytem_dt`'
   - '`merge_elevation_raster_on_sf`'
   - '`merge_ccb_on_vri`'

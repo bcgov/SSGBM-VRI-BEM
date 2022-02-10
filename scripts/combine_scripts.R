@@ -25,9 +25,9 @@ vri_bem <- update_bem_from_vri(ifc = vri_bem,
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
 wetlands <- read_wetlands("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 
-vri_bem <- update_bem_from_wet(bfc = vri_bem,
-                               wfc = wetlands,
-                               buc = beu_wetland_update_csv)
+vri_bem <- update_bem_from_wetland(bfc = vri_bem,
+                                   wfc = wetlands,
+                                   buc = beu_wetland_update_csv)
 
 #2 ----
 unique_eco <- create_unique_ecosytem_dt(ifc = vri_bem)
