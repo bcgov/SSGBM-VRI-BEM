@@ -7,7 +7,14 @@
 #' @param beu_bec data.table object of allowed BEC and BEM Code Combos
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
-#' @return sf object
+#' @details
+#' This function performs some adjustments to BEM attributes based on VRI attributes :
+#'   * Combine together components with duplicated BEUMC
+#'   * Perform corrections based on BC Land Cover Classification Scheme (BCLCS) and land : assign related SDEC_1 to 10
+#'   * Remove inadequate wetlands
+#'   * Update STAND_... based on species
+#'
+#' @return sf object which contains adjusted map codes
 #' @import sf
 #' @import data.table
 #' @export

@@ -75,8 +75,15 @@
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>sf object</p>
+    <p>sf object which contains adjusted map codes</p>
     </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>This function performs some adjustments to BEM attributes based on VRI attributes :</p><ul><li><p>Combine together components with duplicated BEUMC</p></li>
+<li><p>Perform corrections based on BC Land Cover Classification Scheme (BCLCS) and land : assign related SDEC_1 to 10</p></li>
+<li><p>Remove inadequate wetlands</p></li>
+<li><p>Update STAND_... based on species</p></li>
+</ul></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

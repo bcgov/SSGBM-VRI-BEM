@@ -6,9 +6,10 @@
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
 #' @param return_intersection_dt boolean, if TRUE will return a list that contains the sf object and the intesection data.table of VRI and BEM
 #' @return sf object that represent the original VRI with merged BEM attributes based on largest overlay.
-#' The output will be a copy of the VRI polygons clipped to the BEM, then exploded to singlepart, and its slivers will be eliminated.
-#' Then its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.
-#' The BEI attribute fields will be populated by copying the BEI values of the majority area BEI polygon within each VRI polygon.
+#' @details
+#' This function output will be a copy of the VRI polygons clipped to the BEM, then exploded to singlepart, and its slivers will be eliminated.
+#' Its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.
+#' The BEM attribute fields will be populated by copying the BEM values of the majority area BEM polygon within each VRI polygon.
 #' @import sf
 #' @import data.table
 #' @importFrom units set_units
