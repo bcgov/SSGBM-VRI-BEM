@@ -8,3 +8,4 @@ Contributor_Code_of_Conduct\.md
 ^Supporting_Docs
 ^\.Rhistory
 ^data-raw$
+^vignettes/articles$

@@ -1,0 +1,21 @@
+---
+title: "How to update documentation"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+Here is a quick recap of how to update the documentation in this repo:
+
+1. Update Function documentation 
+    - run `devtools::document()` or RStudio Shortcut (CTRL + SHIFT + D)
+    
+2. Update website (pkgdown) documentation 
+    - run `pkgdown::build_site()`
+
+3. Commit and push all those changes to GitHub and let GitHub do its magic to deploy the package documentation website

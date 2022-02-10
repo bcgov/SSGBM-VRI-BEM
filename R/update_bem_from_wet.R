@@ -1,11 +1,26 @@
 #' Update BEM  attributes based on Wetland polygons
 #'
-#' Updates BEM (bros ecosystem mapping) attributes based on intersections with wetland polygons
+#' Updates BEM (broad ecosystem mapping) attributes based on intersections with wetland polygons
 #'
 #' @param bfc sf object that represents the BEM feature class
 #' @param wfc sf object that represents Wetlands polygon feature class
 #' @param buc data.table object that represents BEU wetland update table
-#' @return sf object
+#' @details
+#' This function intersects the VBRI-BEM and the wetlands, compute the percentage of wetland area for each BEM and then performs the corrections below.
+#'
+#'  * Remove all wetland from 3rd component. They were added during the BEM process and no longer apply at the VRI scale
+#'  * Merge all allowed BEU codes from `buc`.
+#'  * Reassign ecosystem based on new allowed codes:
+#'     - Add new Wetland when there is none in VRI-BEM and one should exists
+#'     - Remove wetland when there is one in VRI-BEM but none should exists
+#'     - Shift ecosystems variables from component when there is one in VRI-BEM but in the wrong component
+#'  * Perform riparian mapcode adjustment. Assign 10 WL when all the conditions below are met :
+#'     - SITE_M3A = 'a',
+#'     - MEAN_SLOP < 10,
+#'     - BEUMC_S1 is vegetated,  and
+#'     - BGC_ZONE is one of the following : "CDF", "BWBS", "SWB", "ESSF", "ICH", "CWH", "SBPS", "SBS"
+#'
+#' @return sf object with corrections from wetlands
 #' @import sf
 #' @import data.table
 #' @export
@@ -59,7 +74,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
 
   bfc[, Lbl_edit_wl := paste0(Lbl_edit_wl, " Current BEU: ", SDEC_1, " ", BEUMC_S1)]
 
-  # creation of condition variables that will be used multiple times to avoid having to compute them more than once
+
 
   bfc[SDEC_2 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
   bfc[SDEC_3 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
@@ -133,8 +148,7 @@ update_bem_from_wet <- function(bfc, wfc, buc) {
   # Reassign ecosystems ----
   #  - reassign eco components
   #  - make adjustment bellow when creating a WL component
-  #  - create label specifying which rows where updated (ref: phyton line #618)
-
+  #  - create label specifying which rows where updated
 
 
   # When new code says that is 100% wetland in unit 1 , blank all variables for unit 1 , 2 and 3

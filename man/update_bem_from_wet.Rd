@@ -14,8 +14,28 @@ update_bem_from_wet(bfc, wfc, buc)
 \item{buc}{data.table object that represents BEU wetland update table}
 }
 \value{
-sf object
+sf object with corrections from wetlands
 }
 \description{
-Updates BEM (bros ecosystem mapping) attributes based on intersections with wetland polygons
+Updates BEM (broad ecosystem mapping) attributes based on intersections with wetland polygons
+}
+\details{
+This function intersects the VBRI-BEM and the wetlands, compute the percentage of wetland area for each BEM and then performs the corrections below.
+\itemize{
+\item Remove all wetland from 3rd component. They were added during the BEM process and no longer apply at the VRI scale
+\item Merge all allowed BEU codes from \code{buc}.
+\item Reassign ecosystem based on new allowed codes:
+\itemize{
+\item Add new Wetland when there is none in VRI-BEM and one should exists
+\item Remove wetland when there is one in VRI-BEM but none should exists
+\item Shift ecosystems variables from component when there is one in VRI-BEM but in the wrong component
+}
+\item Perform riparian mapcode adjustment. Assign 10 WL when all the conditions below are met :
+\itemize{
+\item SITE_M3A = 'a',
+\item MEAN_SLOP < 10,
+\item BEUMC_S1 is vegetated,  and
+\item BGC_ZONE is one of the following : "CDF", "BWBS", "SWB", "ESSF", "ICH", "CWH", "SBPS", "SBS"
+}
+}
 }

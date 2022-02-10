@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_unique_ecosystem_dt.R
 \name{format_unique_ecosystem_dt}
 \alias{format_unique_ecosystem_dt}
-\title{format unique ecosystem data}
+\title{Format unique ecosystem data}
 \usage{
 format_unique_ecosystem_dt(unique_ecosystem_dt)
 }

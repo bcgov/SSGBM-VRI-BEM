@@ -1,4 +1,4 @@
-#' format unique ecosystem data
+#' Format unique ecosystem data
 #'
 #' Format the unique ecosystem data, to make sure that any conversion that happened when reading the csv did not affect the expected class of each fields
 #'
