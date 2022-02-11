@@ -22,15 +22,18 @@ vri_bem <- vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
 beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
 rivers <- read_rivers("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 
+# ifc is input feature class, so vri_bem at this point
 vri_bem <- update_bem_from_vri(ifc = vri_bem,
                                rfc = rivers,
                                beu_bec = beu_bec_csv,
-                               clear_site_ma = TRUE)
+                               clear_site_ma = TRUE,
+                               use_ifelse = TRUE)
 
 #1c ----
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
 wetlands <- read_wetlands("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 
+# ifc is input feature class, so vri_bem at this point
 vri_bem <- update_bem_from_wetland(bfc = vri_bem,
                                    wfc = wetlands,
                                    buc = beu_wetland_update_csv)
