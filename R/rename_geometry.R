@@ -1,4 +1,4 @@
-#' Rename geometry attribute in sf object
+#' Rename geometry attribute for sf object
 #'
 #' @param g sf object
 #' @param name name of new sf column

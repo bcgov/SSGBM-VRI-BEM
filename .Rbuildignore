@@ -9,3 +9,7 @@ Contributor_Code_of_Conduct\.md
 ^\.Rhistory
 ^data-raw$
 ^vignettes/articles$
+^_pkgdown\.yml$
+^csv/
+^scripts/
+^docs/
