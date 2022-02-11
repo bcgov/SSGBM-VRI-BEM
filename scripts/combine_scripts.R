@@ -1,3 +1,9 @@
+# library(data.table)
+# library(sf)
+# library(terra)
+# library(units)
+#invisible(lapply(list.files("R", full.names = TRUE), source))
+
 devtools::load_all()
 
 # read vri and bem layers
@@ -22,7 +28,8 @@ rivers <- read_rivers("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 vri_bem <- update_bem_from_vri(vri_bem = vri_bem,
                                rivers = rivers,
                                beu_bec = beu_bec_csv,
-                               clear_site_ma = TRUE)
+                               clear_site_ma = TRUE,
+                               use_ifelse = TRUE)
 
 #1c ----
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
