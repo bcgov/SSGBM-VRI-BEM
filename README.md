@@ -1,7 +1,18 @@
 # SSGBM-VRI-BEM
+
+![](https://img.shields.io/badge/Lifecycle-Experimental-339999) 
+
 This repository is for a Python to R script conversion for the VRI-BEM (vegetation Resource Inventory &amp; Broad Ecosystem Mapping) component of wildlife models
 
-[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)]
+## Installation
+
+Install the latest development version (on GitHub) via `{remotes}`:
+
+``` r
+remotes::install_github("bcgov/SSGBM-VRI-BEM")
+```
+
+## Contributing
 
 Copyright 2021 Province of British Columbia
 

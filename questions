@@ -1,0 +1,53 @@
+Questions
+
+# script 1
+
+Q: (If BEUMC not present in the BEM coming from BC side as well) How to add the BEUMC attributes?
+
+A:
+----------------------------------------
+
+Q: Can we have a copy of the csv files
+
+A:
+----------------------------------------
+
+Q: Are allowed to change the structure of the csv if it makes the code easier?
+
+A:
+
+# script 01b
+
+Q: Are ifelse statements intentional in BEM correction script
+
+A:
+
+# script 3
+
+Q : .gbd Raster can only be read by ArcGis, no other application can read them or convert them, is it possible to have the raster in a compatible format with R?
+
+A:
+
+# script 04
+
+Q: The merge for consolidated cutblocks and VRI is not in the script , it says it's in a separate script, can we have acces to this script as well?
+
+A: 
+----------------------------------------
+
+Q: The attributes FID_Consolidated_Cutblock_Clip is not in the consolidated cutblocks feature class , is that normal?
+
+A:
+----------------------------------------
+
+Q: The vri sample does not have the "PROJ_AGE_CLASS_CD_1" attributes is that normal, however it seems useless in the script (maybe something chaned overtime)?
+
+A:
+----------------------------------------
+Q: The vri sample does not have the "PROJ_AGE_1" attributes is that normal
+
+A:
+----------------------------------------
+Q: In the documentation of VRI online the domain of values for "PROJ_AGE_CLASS_CD_1" is 
+
+A:
