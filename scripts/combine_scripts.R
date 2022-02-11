@@ -5,7 +5,10 @@ vri <- read_vri("../SSGBM-VRI-BEM-data/VEG_COMP_LYR_R1_POLY")
 bem <- read_bem("../SSGBM-VRI-BEM-data/BEM_VRI")
 
 # 1a ----
-vri_bem <- merge_bem_on_vri(vri, bem, return_intersection_dt = TRUE)
+vri_bem <- merge_bem_on_vri(vri = vri,
+                            bem = bem,
+                            return_intersection_dt = TRUE)
+
 vri_bem_intersection_dt <- vri_bem$intersection_dt
 vri_bem <- vri_bem$vri
 
@@ -16,8 +19,8 @@ vri_bem <- vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
 beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
 rivers <- read_rivers("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 
-vri_bem <- update_bem_from_vri(ifc = vri_bem,
-                               rfc = rivers,
+vri_bem <- update_bem_from_vri(vri_bem = vri_bem,
+                               rivers = rivers,
                                beu_bec = beu_bec_csv,
                                clear_site_ma = TRUE)
 
@@ -25,9 +28,9 @@ vri_bem <- update_bem_from_vri(ifc = vri_bem,
 beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
 wetlands <- read_wetlands("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 
-vri_bem <- update_bem_from_wetland(bfc = vri_bem,
-                                   wfc = wetlands,
-                                   buc = beu_wetland_update_csv)
+vri_bem <- update_bem_from_wetlands(vri_bem = vri_bem,
+                                    wetlands = wetlands,
+                                    buc = beu_wetland_update_csv)
 
 #2 ----
 unique_eco <- create_unique_ecosytem_dt(ifc = vri_bem)

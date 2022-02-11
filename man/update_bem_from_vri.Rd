@@ -4,24 +4,30 @@
 \alias{update_bem_from_vri}
 \title{Update BEM attributes based on VRI attributes}
 \usage{
-update_bem_from_vri(ifc, rfc, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE)
+update_bem_from_vri(
+  vri_bem,
+  rfc,
+  beu_bec,
+  clear_site_ma = TRUE,
+  use_ifelse = TRUE
+)
 }
 \arguments{
-\item{ifc}{sf object that represent the input polygon feature class}
-
-\item{rfc}{sf object that represent Rivers polygon feature class (FWA_Rivers)}
+\item{vri_bem}{sf object that represent the combined vri & bem polygon feature class}
 
 \item{beu_bec}{data.table object of allowed BEC and BEM Code Combos}
 
 \item{clear_site_ma}{boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared}
 
 \item{use_ifelse}{boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC}
+
+\item{rivers}{sf object that represent Rivers polygon feature class (FWA_Rivers)}
 }
 \value{
 sf object which contains adjusted map codes
 }
 \description{
-This script updates BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes, according to the document "Corrections to the BEM map codes".
+This function updates BEM (broad ecosystem mapping) attributes based on VRI (vegetation resource inventory) attributes, according to the document "Corrections to the BEM map codes".
 }
 \details{
 This function performs some adjustments to BEM attributes based on VRI attributes :
