@@ -4,12 +4,12 @@
 \alias{merge_elevation_raster_on_sf}
 \title{Compute slope and aspect from elevation and their mean by polygon}
 \usage{
-merge_elevation_raster_on_sf(elev_raster, ifc, elevation_threshold = 1400)
+merge_elevation_raster_on_sf(elev_raster, vri_bem, elevation_threshold = 1400)
 }
 \arguments{
 \item{elev_raster}{SpatRaster object that represent the elevation}
 
-\item{ifc}{sf object}
+\item{vri_bem}{sf object containing VRI-BEM}
 
 \item{elevation_threshold}{numeric elevation threshold use to create above elevation indicator}
 }

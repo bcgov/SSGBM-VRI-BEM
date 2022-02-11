@@ -4,10 +4,10 @@
 \alias{merge_unique_ecosystem_fields}
 \title{Assign values from unique ecosystems table}
 \usage{
-merge_unique_ecosystem_fields(ifc, unique_ecosystem_dt)
+merge_unique_ecosystem_fields(vri_bem, unique_ecosystem_dt)
 }
 \arguments{
-\item{ifc}{sf object}
+\item{vri_bem}{sf object}
 }
 \value{
 sf object

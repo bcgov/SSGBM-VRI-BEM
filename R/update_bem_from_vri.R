@@ -19,7 +19,7 @@
 #' @import data.table
 #' @export
 
-update_bem_from_vri <- function(vri_bem, rfc, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE) {
+update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE) {
 
   # TODO verify that FORESTED_1 and BEUMC_S1 are blank when needed
 
@@ -48,30 +48,30 @@ update_bem_from_vri <- function(vri_bem, rfc, beu_bec, clear_site_ma = TRUE, use
                                                        "COV_PCT_1", "LBL_VEGCOV", "Area_Ha", "BGC_ZONE", "BGC_SUBZON",
                                                        "SPEC_PCT_1"))
 
-  if (is.null(vri_vem[["lbl_edit"]])) {
-    set(vri_vem , j = "lbl_edit", value = "")
+  if (is.null(vri_bem[["lbl_edit"]])) {
+    set(vri_bem , j = "lbl_edit", value = "")
   }
 
-  if (is.null(vri_vem[["DEC_Total"]])) {
-    set(vri_vem , j = "DEC_Total", value = 0L)
+  if (is.null(vri_bem[["DEC_Total"]])) {
+    set(vri_bem , j = "DEC_Total", value = 0L)
   }
 
-  if (is.null(vri_vem[["SMPL_TYPE"]])) {
-    set(vri_vem, j = "SMPL_TYPE", value = NA_character_)
+  if (is.null(vri_bem[["SMPL_TYPE"]])) {
+    set(vri_bem, j = "SMPL_TYPE", value = NA_character_)
   }
 
  # perform corrections ----
 
   if (clear_site_ma) {
-    set(vri_vem , j = c("SITE_M1A", "SITE_M2A"), value = NA_character_)
+    set(vri_bem , j = c("SITE_M1A", "SITE_M2A"), value = NA_character_)
   }
 
-  set(vri_vem , j = "SITE_M3A", value = NA_character_) #M3A is always cleared
-  set(vri_vem , j = "Area_Ha", value = as.numeric(round(vri_vem[["vri_area"]]/10000, 2)))
+  set(vri_bem , j = "SITE_M3A", value = NA_character_) #M3A is always cleared
+  set(vri_bem , j = "Area_Ha", value = as.numeric(round(vri_bem[["vri_area"]]/10000, 2)))
 
 
-  set(vri_vem, j = "row_updated", value = FALSE)
-  set(vri_vem, j = "blank_eco_variables", value = FALSE)
+  set(vri_bem, j = "row_updated", value = FALSE)
+  set(vri_bem, j = "blank_eco_variables", value = FALSE)
 
 
   ## Remove duplicate labels (line 259) ----
@@ -79,7 +79,7 @@ update_bem_from_vri <- function(vri_bem, rfc, beu_bec, clear_site_ma = TRUE, use
   # of site conditions and the other representing different conditions.
   # Site modifiers are NOT updated in this product. Therefore, duplicate labels were combined.
 
-  vri_vem <- combine_duplicated_BEUMC(ifc = vri_vem, use_ifelse = use_ifelse)
+  vri_bem <- combine_duplicated_BEUMC(ifc = vri_bem, use_ifelse = use_ifelse)
 
   ## OW - Shallow Open Water (line 279) ----
   # -shallow open water typically associated with floating vegetation
@@ -450,7 +450,7 @@ update_bem_from_vri <- function(vri_bem, rfc, beu_bec, clear_site_ma = TRUE, use
   # maybe reverse the geometry and the unique ( need to test)
   # just need to find the line that intersect with rivers
 
-  which_lines <- unique(unlist(sf:::CPL_geos_binop(rfc$GEOMETRY,
+  which_lines <- unique(unlist(sf:::CPL_geos_binop(rivers$GEOMETRY,
                                                    vri_bem$Shape,
                                                    "intersects",
                                                    pattern = NA_character_,

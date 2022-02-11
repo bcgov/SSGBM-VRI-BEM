@@ -40,6 +40,9 @@
     <loc>/reference/create_RRM_ecosystem.html</loc>
   </url>
   <url>
+    <loc>/reference/create_unique_ecosystem_dt.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_unique_ecosytem_dt.html</loc>
   </url>
   <url>
@@ -98,6 +101,9 @@
   </url>
   <url>
     <loc>/reference/update_bem_from_wetland.html</loc>
+  </url>
+  <url>
+    <loc>/reference/update_bem_from_wetlands.html</loc>
   </url>
   <url>
     <loc>/reference/validate_required_attributes.html</loc>

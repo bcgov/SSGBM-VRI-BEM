@@ -4,10 +4,10 @@
 \alias{calc_forest_age_class}
 \title{Compute variables for structural stage look up and stand composition look up}
 \usage{
-calc_forest_age_class(vri, most_recent_harvest_year)
+calc_forest_age_class(vri_bem, most_recent_harvest_year)
 }
 \arguments{
-\item{vri}{sf object that represent VRI (vegetation resource inventory) features}
+\item{vri_bem}{sf object that represent VRI (vegetation resource inventory) features}
 
 \item{most_recent_harvest_year}{integer that represent the most recent harvest year}
 }

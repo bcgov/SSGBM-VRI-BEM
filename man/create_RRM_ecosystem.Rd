@@ -4,10 +4,10 @@
 \alias{create_RRM_ecosystem}
 \title{Create RRM ecosystem information}
 \usage{
-create_RRM_ecosystem(bfc)
+create_RRM_ecosystem(vri_bem)
 }
 \arguments{
-\item{bfc}{bem feature class}
+\item{vri_bem}{VRI-BEM feature class}
 }
 \value{
 Summary of Area by unique ecosystem

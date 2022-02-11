@@ -33,7 +33,7 @@ vri_bem <- update_bem_from_wetlands(vri_bem = vri_bem,
                                     buc = beu_wetland_update_csv)
 
 #2 ----
-unique_eco <- create_unique_ecosytem_dt(ifc = vri_bem)
+unique_eco <- create_unique_ecosystem_dt(vri_bem = vri_bem)
 
 fwrite(unique_eco, file = "../unique_ecosystem.csv")
 
@@ -42,28 +42,29 @@ fwrite(unique_eco, file = "../unique_ecosystem.csv")
 elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
 
 vri_bem <- merge_elevation_raster_on_sf(elev_raster = elev_rast,
-                                        ifc = vri_bem)
+                                        vri_bem = vri_bem)
 
 # merge cutblock
 ccb <- read_ccb("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
 
-vri_bem <- merge_ccb_on_vri(vri = vri_bem, ccb = ccb)
+vri_bem <- merge_ccb_on_vri(vri_bem = vri_bem,
+                            ccb = ccb)
 
 #4 ----
-vri_bem <- calc_forest_age_class(vri = vri_bem,
+vri_bem <- calc_forest_age_class(vri_bem = vri_bem,
                                  most_recent_harvest_year = 2020)
 
 
 #4b /4d2 ----
 unique_eco_example <- read_unique_ecosystem_dt("csv/Skeena_VRIBEM_LUT.csv")
-vri_bem <- merge_unique_ecosystem_fields(ifc = vri_bem,
+vri_bem <- merge_unique_ecosystem_fields(vri_bem = vri_bem,
                                          unique_ecosystem_dt = unique_eco_example)
 
 #4d3 ----
 vri_bem <- find_crown_area_dominant_values(vri = vri_bem,
-                                                bem = bem,
-                                                intersection_dt = vri_bem_intersection_dt)
+                                           bem = bem,
+                                           intersection_dt = vri_bem_intersection_dt)
 
 #5 ----
-export_dt <- create_RRM_ecosystem(bfc = vri_bem)
+export_dt <- create_RRM_ecosystem(vri_bem = vri_bem)
 fwrite(export_dt, file = "../RRM_input_table.csv")

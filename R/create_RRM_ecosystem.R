@@ -3,16 +3,16 @@
 #' This function generates the unique list of ecosystems and determines all possible combinations of STS and STAND codes
 #' that could apply to the ecosystem at any age value, and expand to include all existing and "potential" unique ecosystems
 #'
-#' @param bfc bem feature class
+#' @param vri_bem VRI-BEM feature class
 #'
 #' @return Summary of Area by unique ecosystem
 #' @import data.table
 #' @export
 
-create_RRM_ecosystem <- function(bfc){
+create_RRM_ecosystem <- function(vri_bem){
 
   # TODO: switch to a data.table?
-  bem_dt <- as.data.table(bfc)
+  bem_dt <- as.data.table(vri_bem)
 
 
 

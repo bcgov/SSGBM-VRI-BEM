@@ -59,15 +59,15 @@ add mean aspect, mean slope and slope modifiers to the polygon attributes</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">merge_elevation_raster_on_sf</span><span class="op">(</span><span class="va">elev_raster</span>, <span class="va">ifc</span>, elevation_threshold <span class="op">=</span> <span class="fl">1400</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">merge_elevation_raster_on_sf</span><span class="op">(</span><span class="va">elev_raster</span>, <span class="va">vri_bem</span>, elevation_threshold <span class="op">=</span> <span class="fl">1400</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>elev_raster</dt>
 <dd><p>SpatRaster object that represent the elevation</p></dd>
-<dt>ifc</dt>
-<dd><p>sf object</p></dd>
+<dt>vri_bem</dt>
+<dd><p>sf object containing VRI-BEM</p></dd>
 <dt>elevation_threshold</dt>
 <dd><p>numeric elevation threshold use to create above elevation indicator</p></dd>
 </dl></div>
