@@ -7,11 +7,21 @@
 merge_unique_ecosystem_fields(vri_bem, unique_ecosystem_dt)
 }
 \arguments{
-\item{vri_bem}{sf object}
+\item{vri_bem}{sf object representing VRI-BEM}
 }
 \value{
-sf object
+VRI-BEM with the following information from unique ecosystem data:
+\itemize{
+\item REALM
+\item GROUP
+\item KIND
+\item SNOW_CODE
+\item FORESTED
+\item STS_CLIMAX
+\item STAND
+}
 }
 \description{
-Populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table
+Populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table.
+This is performed for each of the 3 components ("Deciles") and will create a variable for each of those component with the exception of the snow code.
 }

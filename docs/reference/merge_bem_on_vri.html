@@ -63,11 +63,11 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>vri</dt>
-<dd><p>sf object that represent VRI (vegetation ressource inventory) features</p></dd>
+<dd><p>sf object that represent VRI (vegetation resources inventory) features</p></dd>
 <dt>bem</dt>
 <dd><p>sf object that represent BEM (broad ecosystem mapping) features</p></dd>
 <dt>return_intersection_dt</dt>
-<dd><p>boolean, if TRUE will return a list that contains the sf object and the intesection data.table of VRI and BEM</p></dd>
+<dd><p>Boolean, if TRUE will return a list that contains the sf object and the intersection data.table of VRI and BEM</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -75,7 +75,7 @@
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function output will be a copy of the VRI polygons clipped to the BEM, then exploded to singlepart, and its slivers will be eliminated.
+    <p>This function output will be a copy of the VRI polygons clipped to the BEM, then exploded to single part, and its slivers will be eliminated.
 Its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.
 The BEM attribute fields will be populated by copying the BEM values of the majority area BEM polygon within each VRI polygon.</p>
     </div>

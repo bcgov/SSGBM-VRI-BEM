@@ -1,9 +1,20 @@
 #' Assign values from unique ecosystems table
 #'
-#' Populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table
+#' Populates the TEIS fields, REALM, GROUP, CLASS, and KIND as well as SNOW_CODE from the data provided by the unique ecosystem data table.
+#' This is performed for each of the 3 components ("Deciles") and will create a variable for each of those component with the exception of the snow code.
 #'
-#' @param vri_bem sf object
-#' @return sf object
+#' @param vri_bem sf object representing VRI-BEM
+#' @param unique_ecosystem_dt data.table of the containing information for each unique ecosystems
+#' @return VRI-BEM with the following information from unique ecosystem data:
+#'
+#'  * REALM
+#'  * GROUP
+#'  * KIND
+#'  * SNOW_CODE
+#'  * FORESTED
+#'  * STS_CLIMAX
+#'  * STAND
+#'
 #' @import data.table
 #' @export
 
@@ -18,7 +29,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
   # We also merge the SNOW, it doesn't depend on the BEUMC and we assume that all the lines in the ecosystem table for a given BEUMC have the same snow code
 
 
-  # TODO check if we can rename the non valid name , since we create the csv ourselve it should not be a problem
+  # TODO check if we can rename the non valid name , since we create the csv ourselves it should not be a problem
 
   vri_bem[unique_ecosystem_dt,
           on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC_S1 = BEU_MC) ,
@@ -102,12 +113,12 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
 
 
 
-  # add std_crown fields
+  # add std_crown fields ----
   vri_bem <- add_std_crown_fields(vri_bem)
 
   vri_bem[ , parkland_ind := substr(BGC_SUBZON, start = length(BGC_SUBZON), stop = length(BGC_SUBZON)) == "p"]
 
-  # calculate for 1
+  # calculate for 1 ----
 
   vri_bem[, STAND_AGE_1 := fcase(VRI_AGE_CL_STD <= 15, STAND_1_Age_0_15,
                                  VRI_AGE_CL_STD <= 30, STAND_1_Age_16_30,
@@ -144,7 +155,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
   vri_bem[is.na(STAND_A1), STAND_A1 := ""]
 
 
-  # calculate for 2
+  # calculate for 2 ----
 
   vri_bem[, STAND_AGE_2 := fcase(VRI_AGE_CL_STD <= 15, STAND_2_Age_0_15,
                                  VRI_AGE_CL_STD <= 30, STAND_2_Age_16_30,
@@ -181,7 +192,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
   vri_bem[is.na(STAND_A2), STAND_A2 := ""]
 
 
-  # calculate for 3
+  # calculate for 3 ----
 
   vri_bem[, STAND_AGE_3 := fcase(VRI_AGE_CL_STD <= 15, STAND_3_Age_0_15,
                                  VRI_AGE_CL_STD <= 30, STAND_3_Age_16_30,
@@ -213,7 +224,6 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
                             FORESTED_3 == "N" | parkland_ind , as.character(STAND_CLIMAX_3), #TODO remove as.char ?
                             default = "")]
 
-  #TODO temporarily change class
   vri_bem[is.na(STRCT_S3), STRCT_S3 := ""]
   vri_bem[is.na(STAND_A3), STAND_A3 := ""]
 

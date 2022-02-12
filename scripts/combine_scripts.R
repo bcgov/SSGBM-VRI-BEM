@@ -1,8 +1,11 @@
+## The frew lines in comment below are equivalent to `devtools::load_all()` went working in an RStudio Project.
+## They could also be replaced by `library(SSGBM.VRI.BEM)` is this package is installed.
+
 # library(data.table)
 # library(sf)
 # library(terra)
 # library(units)
-#invisible(lapply(list.files("R", full.names = TRUE), source))
+# invisible(lapply(list.files("R", full.names = TRUE), source))
 
 devtools::load_all()
 

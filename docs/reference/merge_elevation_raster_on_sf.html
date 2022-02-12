@@ -69,12 +69,21 @@ add mean aspect, mean slope and slope modifiers to the polygon attributes</p>
 <dt>vri_bem</dt>
 <dd><p>sf object containing VRI-BEM</p></dd>
 <dt>elevation_threshold</dt>
-<dd><p>numeric elevation threshold use to create above elevation indicator</p></dd>
+<dd><p>numeric elevation threshold used to create above elevation indicator (<code>ABOVE_ELEV_THOLD</code>)</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.table</p>
+    <p>VRI-BEM augmented of the following variables : MEAN_ASP, MEAN_SLOPE, SLOPE_MOD and ABOVE_ELEV_THOLD.</p>
     </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Aspect and slope are calculated by extracting the information from the elevation raster.</p>
+<p>Based on whether the the elevation is above the selected threshold then ABOLVE_ELEV_THOLD is created with either "Y" or "N".</p>
+<p>The SLOPE_MOD is then defined using the following logic:</p><ul><li><p>k - <em>cool aspect</em>:  if aspect is 285-359 or 0-134 AND slope is 25%-100% (except in CWH and MH zones, it's 35%-100%)</p></li>
+<li><p>q - <em>very steep cool aspect</em>:  if aspect is 285-359 or 0-134 AND slope &gt; 100%</p></li>
+<li><p>w - <em>warm aspect</em>:  if aspect is 135-284 AND slope is 25%-100% (except in CWH and MH zones, it's 35%-100%)</p></li>
+<li><p>z - <em>very steep warm aspect</em>: if aspect is 135-284 AND slope &gt; 100%</p></li>
+</ul></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

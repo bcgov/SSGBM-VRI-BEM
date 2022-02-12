@@ -173,7 +173,7 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   # Old 0 / New 1 : add WL to component 1, (2 & 3 move down toward 3)
   which_0_to_1 <- which(vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 1)
-  set_shifted_eco_variables(vri_bem, i = which_0_to_1, list(c(2,1), C(3,2)))
+  set_shifted_eco_variables(vri_bem, i = which_0_to_1, list(c(2,1), c(3,2)))
   vri_bem[which_0_to_1, `:=`(BEUMC_S1 = "WL", REALM_1 = "W", GROUP_1 = "W", KIND_1 = "U")]
 
   # Old 0 / New 2 : Add WL to component 2, (2 move down to 3)
