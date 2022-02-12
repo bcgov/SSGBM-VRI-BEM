@@ -12,8 +12,35 @@ calc_forest_age_class(vri_bem, most_recent_harvest_year)
 \item{most_recent_harvest_year}{integer that represent the most recent harvest year}
 }
 \value{
-sf object vri
+sf object VRI-BEM with new attributes: PROJ_AGE_1, VRI_AGE_CL_STS and VRI_AGE_CL_STD
 }
 \description{
 Compute variables for structural stage look up and stand composition look up
+}
+\details{
+PROJ_AGE_1 is calculated as the difference in years between the harvest date and the most recent harvest year
+Based on the the age the VRI_AGE_CL_STS are defined as below:\tabular{cr}{
+   PROJ_AGE_1 \tab VRI_AGE_CL_STS \cr
+   < 0 \tab -1 \cr
+   0-3 \tab 2 \cr
+   4-10 \tab 7 \cr
+   11-30 \tab 20 \cr
+   31-40 \tab 35 \cr
+   41-60 \tab 50 \cr
+   61-80 \tab 70 \cr
+   81-140 \tab 125 \cr
+   141-249 \tab 195 \cr
+   > 249 \tab 301 \cr
+}
+
+
+Based on the the age the VRI_AGE_CL_STD are defined as below:\tabular{cr}{
+   PROJ_AGE_1 \tab VRI_AGE_CL_STD \cr
+   < 0 \tab -1 \cr
+   0-15 \tab 15 \cr
+   16-30 \tab 30 \cr
+   31-50 \tab 50 \cr
+   51-80 \tab 80 \cr
+   > 80 \tab 9999 \cr
+}
 }

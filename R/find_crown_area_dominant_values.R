@@ -2,10 +2,10 @@
 #'
 #' This function overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.
 #'
-#' @param vri sf object that represent VRI (vegetation ressource inventory) features
+#' @param vri sf object that represent VRI (vegetation resources inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
-#' @param intersection_dt data.table  area and index of vri and bem intersections
-#' @return sf object
+#' @param intersection_dt data.table  area and index of vri and bem intersections (optional for speed efficiency)
+#' @return sf object containing VRI-BEM
 #' @import data.table
 #' @import sf
 #' @export

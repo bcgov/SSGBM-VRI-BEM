@@ -4,6 +4,24 @@
 #' that could apply to the ecosystem at any age value, and expand to include all existing and "potential" unique ecosystems
 #'
 #' @param vri_bem VRI-BEM feature class
+#' @details
+#' For each of the following combination compute the sum of the area
+#'   * ECO_SEC
+#'   * BGC_ZONE
+#'   * BGC_SUBZON
+#'   * BGC_VRT
+#'   * BGC_PHASE
+#'   * BEUMC  (BEUMC_S1, BEUMC_S2, BEUMC_S3)
+#'   * SLOPE_MOD
+#'   * SITE_M3A
+#'   * SNOW_CODE
+#'   * ABOVE_ELEV
+#'   * CROWN_MOOSE (CROWN_MOOSE_1, CROWN_MOOSE_2, CROWN_MOOSE_3)
+#'   * STRCT (STRCT_S1, STRCT_S2, STRCT_S3)
+#'   * STAND (STAND_A1, STAND_A2, STAND_A3)
+#'   * FORESTED (FORESTED_1, FORESTED_2, FORESTED_3)
+#'
+#' For STRCT and STAND every combination is also made with the projected age values.
 #'
 #' @return Summary of Area by unique ecosystem
 #' @import data.table

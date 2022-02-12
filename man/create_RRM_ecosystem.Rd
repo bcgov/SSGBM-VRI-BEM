@@ -16,3 +16,24 @@ Summary of Area by unique ecosystem
 This function generates the unique list of ecosystems and determines all possible combinations of STS and STAND codes
 that could apply to the ecosystem at any age value, and expand to include all existing and "potential" unique ecosystems
 }
+\details{
+For each of the following combination compute the sum of the area
+\itemize{
+\item ECO_SEC
+\item BGC_ZONE
+\item BGC_SUBZON
+\item BGC_VRT
+\item BGC_PHASE
+\item BEUMC  (BEUMC_S1, BEUMC_S2, BEUMC_S3)
+\item SLOPE_MOD
+\item SITE_M3A
+\item SNOW_CODE
+\item ABOVE_ELEV
+\item CROWN_MOOSE (CROWN_MOOSE_1, CROWN_MOOSE_2, CROWN_MOOSE_3)
+\item STRCT (STRCT_S1, STRCT_S2, STRCT_S3)
+\item STAND (STAND_A1, STAND_A2, STAND_A3)
+\item FORESTED (FORESTED_1, FORESTED_2, FORESTED_3)
+}
+
+For STRCT and STAND every combination is also made with the projected age values.
+}
