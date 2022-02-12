@@ -14,6 +14,7 @@
 merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1400) {
 
   # compute slope and aspect
+  # TODO check if terra is able to compute this even when the raster is to big to me loaded in RAM at once
   terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "radians")
 
   # combine elevation slope and aspect into one layered raster
