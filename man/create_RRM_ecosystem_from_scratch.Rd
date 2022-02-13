@@ -20,6 +20,7 @@ create_RRM_ecosystem_from_scratch(
   clear_site_ma = TRUE,
   use_ifelse = TRUE,
   most_recent_harvest_year,
+  elevation_threshold = 1400,
   wkt_filter = character(0),
   n_iterations = 1,
   verbose = TRUE
@@ -53,6 +54,8 @@ create_RRM_ecosystem_from_scratch(
 \item{use_ifelse}{boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC}
 
 \item{most_recent_harvest_year}{integer that represent the most recent harvest year}
+
+\item{elevation_threshold}{numeric elevation threshold used to create above elevation indicator (\code{ABOVE_ELEV_THOLD})}
 
 \item{wkt_filter}{character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)}
 

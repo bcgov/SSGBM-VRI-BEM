@@ -23,6 +23,7 @@ reference:
 - title: Other Helper Functions
   contents:
   - '`create_empty_forest_structure_variables`'
+  - '`create_updated_vri_bem`'
   - '`format_unique_ecosystem_dt`'
   - '`rename_geometry`'
   - '`set_shifted_eco_variables`'

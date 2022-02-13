@@ -65,7 +65,7 @@
   vri_dsn <span class="op">=</span> <span class="va">dsn</span>,
   bem_dsn <span class="op">=</span> <span class="va">dsn</span>,
   rivers_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  wetlands_dsn <span class="op">=</span> <span class="va">dns</span>,
+  wetlands_dsn <span class="op">=</span> <span class="va">dsn</span>,
   ccb_dsn <span class="op">=</span> <span class="va">dsn</span>,
   <span class="va">elevation_dsn</span>,
   layers_names_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vri <span class="op">=</span> <span class="st">"VEG_R1_PLY_polygon"</span>, bem <span class="op">=</span> <span class="st">"BEM"</span>, rivers <span class="op">=</span>
@@ -76,8 +76,10 @@
   clear_site_ma <span class="op">=</span> <span class="cn">TRUE</span>,
   use_ifelse <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">most_recent_harvest_year</span>,
+  elevation_threshold <span class="op">=</span> <span class="fl">1400</span>,
   wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,
-  n_iterations <span class="op">=</span> <span class="fl">1</span>
+  n_iterations <span class="op">=</span> <span class="fl">1</span>,
+  verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -111,10 +113,14 @@
 <dd><p>boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC</p></dd>
 <dt>most_recent_harvest_year</dt>
 <dd><p>integer that represent the most recent harvest year</p></dd>
+<dt>elevation_threshold</dt>
+<dd><p>numeric elevation threshold used to create above elevation indicator (<code>ABOVE_ELEV_THOLD</code>)</p></dd>
 <dt>wkt_filter</dt>
 <dd><p>character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)</p></dd>
 <dt>n_iterations</dt>
 <dd><p>integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time</p></dd>
+<dt>verbose</dt>
+<dd><p>boolean , if TRUE function will return message to indicate progress throughout the function execution</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
