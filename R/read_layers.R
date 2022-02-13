@@ -8,15 +8,16 @@
 #' @return sf object
 #' @import sf
 #' @export
-read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = character(0)) {
-  vri <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = wkt_filter)
+read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL) {
+
+  vri <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = if(is.null(wkt_filter)){character(0)} else{wkt_filter})
   #Restructure bem while waiting for real info
   vri <- rename_geometry(vri, "Shape")
   #make shape valid because ARCGIS draw polygon differently than sf
   vri$Shape <- st_cast(st_make_valid(vri$Shape),"MULTIPOLYGON")
 
   # if we have a filter cut all the shapes that are outside of the aoi area
-  if (wkt_filter != character(0)) {
+  if (!is.null(wkt_filter)) {
     vri <- st_intersection(vri, st_as_sfc(wkt_filter, crs = st_crs(vri)))
   }
   return(vri)
