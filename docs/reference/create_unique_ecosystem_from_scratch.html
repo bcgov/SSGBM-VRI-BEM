@@ -65,7 +65,7 @@
   vri_dsn <span class="op">=</span> <span class="va">dsn</span>,
   bem_dsn <span class="op">=</span> <span class="va">dsn</span>,
   rivers_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  wetlands_dsn <span class="op">=</span> <span class="va">dns</span>,
+  wetlands_dsn <span class="op">=</span> <span class="va">dsn</span>,
   layers_names_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vri <span class="op">=</span> <span class="st">"VEG_R1_PLY_polygon"</span>, bem <span class="op">=</span> <span class="st">"BEM"</span>, rivers <span class="op">=</span>
     <span class="st">"FWA_RIVERS_POLY"</span>, wetlands <span class="op">=</span> <span class="st">"FWA_WETLANDS_POLY"</span><span class="op">)</span>,
   beu_bec_csv <span class="op">=</span> <span class="st">"csv/Allowed_BEC_BEUs_NE_ALL.csv"</span>,
@@ -73,7 +73,8 @@
   clear_site_ma <span class="op">=</span> <span class="cn">TRUE</span>,
   use_ifelse <span class="op">=</span> <span class="cn">TRUE</span>,
   wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,
-  n_iterations <span class="op">=</span> <span class="fl">1</span>
+  n_iterations <span class="op">=</span> <span class="fl">1</span>,
+  verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -103,6 +104,8 @@
 <dd><p>character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)</p></dd>
 <dt>n_iterations</dt>
 <dd><p>integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time</p></dd>
+<dt>verbose</dt>
+<dd><p>boolean , if TRUE function will return message to indicate progress throughout the function execution</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

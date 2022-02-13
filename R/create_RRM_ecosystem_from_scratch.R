@@ -15,6 +15,7 @@
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
 #' @param most_recent_harvest_year integer that represent the most recent harvest year
+#' @param elevation_threshold numeric elevation threshold used to create above elevation indicator (`ABOVE_ELEV_THOLD`)
 #' @param wkt_filter character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)
 #' @param n_iterations integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time
 #' @param verbose boolean , if TRUE function will return message to indicate progress throughout the function execution
@@ -46,7 +47,7 @@
 create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dsn, ccb_dsn = dsn, elevation_dsn,
                                               layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers = "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY", ccb = "CNS_CUT_BL_polygon"),
                                               beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv", unique_ecosystem = "csv/Skeena_VRIBEM_LUT.csv",
-                                              clear_site_ma = TRUE, use_ifelse = TRUE, most_recent_harvest_year, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
+                                              clear_site_ma = TRUE, use_ifelse = TRUE, most_recent_harvest_year, elevation_threshold = 1400, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
 
   # TODO add default wkt_filter when no filter is passed but number of iterations is greater than 1 (maybe default to the whole skeena region, store it as part of the package)
   # TODO check what appends when wkt_filter cover an area where there is no polygon
@@ -110,7 +111,8 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
 
     vri_bem <- merge_elevation_raster_on_sf(elev_raster = elevation,
                                             vri_bem = vri_bem,
-                                            terrain_raster = terrain_raster)
+                                            terrain_raster = terrain_raster,
+                                            elevation_threshold = elevation_threshold)
 
     # merge consolidated cutblocks info
     if (verbose) {
