@@ -2,7 +2,7 @@ devtools::load_all()
 path <- "C:/Users/nicol/OneDrive/Documents/boostao/Python to R spatial script conversion/CodeWithUs.gdb/"
 layers <- st_layers(dsn =  paste0(path, "CodeWithUs.gdb"))
 
-vri <- st_read(dsn = paste0(path, "CodeWithUs.gdb"), layer = layers$name[layers$name == "VEG_COMP_POLY"])
+vri <- st_read(dsn = paste0(path, "CodeWithUs.gdb"), layer = layers$name[layers$name == "code_with_us_aoi"])
 #bem <- st_read(dsn = "paste0(path, "CodeWithUs.gdb"), layer = layers$name[21])
 bem <- st_read(dsn = "C:/Users/nicol/OneDrive/Documents/boostao/Python to R spatial script conversion/tei_long_tbl_aoi")
 rivers <- st_read(dsn = paste0(path, "CodeWithUs.gdb"), layer = layers$name[layers$name == "FWA_RIVERS_POLY"])

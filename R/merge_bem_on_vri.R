@@ -76,3 +76,41 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
     return(st_as_sf(vri))
   }
 }
+
+
+
+#' Merge BEM attributes on VRI features
+#'
+#'This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
+#
+#' @param vri data.table object that represent VRI (vegetation resources inventory) features
+#' @param bem data.table object that represent BEM (broad ecosystem mapping) features
+#' @return data.table object that represent the original VRI with merged BEM attributes.
+#' @details
+#' Its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.
+#' The BEM attribute fields will be populated by copying the BEM values.
+#' @import data.table
+#' @export
+merge_bem_on_vri.data.table <- function(vri, bem) {
+
+  # check if teis_id seems already merged on vri
+  if (!is.null(vri[["TEIS_ID"]])) {
+    duplicated_names <- setdiff(names(bem), names(vri))
+    vri[, duplicated_names] <- NULL
+    warning("BEM attributes were previously added into VRI. The following BEM attributes were removed from VRI: ",
+            paste(duplicated_names, collapse = ", "))
+  }
+
+  # merge bem column on vri
+  col_to_merge <- names(bem)[which(!sapply(bem , function(x) x %in% c("cell", "x")))]
+
+  set(vri, j = col_to_merge, value = bem[, col_to_merge, with = F])
+
+  # check for VRI that have no BEM match
+  if (length(which(is.na(vri$TEIS_ID))) > 0) {
+    warning("The following cell had no overlaping bem : ", paste(vri[is.na(TEIS_ID), cell], collapse = ", "))
+  }
+
+  # return final result
+  return(vri)
+}
