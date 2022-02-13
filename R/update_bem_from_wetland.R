@@ -90,9 +90,9 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   #     1 if the first and only component is WL
 
   vri_bem[, curr_wl_zone:=fcase(BEUMC_S1 == "WL", 1,
-                            BEUMC_S2 == "WL", 2,
-                            BEUMC_S3 == "WL", 3,
-                            default = 0)]
+                                BEUMC_S2 == "WL", 2,
+                                BEUMC_S3 == "WL", 3,
+                                default = 0)]
 
   vri_bem[, curr_beu_code:= as.numeric(paste0(SDEC_1, SDEC_2, SDEC_3, curr_wl_zone))]
 
@@ -103,47 +103,47 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   # Remove all 'WL' mapcodes from Dec3 - these were added during the BEM process and no longer apply at
   # the VRI scale
   vri_bem[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
-      `:=`(SDEC_1 = SDEC_1 + SDEC_3,
-           SDEC_3 = 0)]
+          `:=`(SDEC_1 = SDEC_1 + SDEC_3,
+               SDEC_3 = 0)]
 
   set_shifted_eco_variables(vri_bem, i = which(vri_bem[["SDEC_3"]] > 0 & vri_bem[["BEUMC_S3"]] == "WL"), list(c(3, NA)))
 
   # Merge allowed BEU codes  -----
   # no WL 9 but it's normal
   vri_bem[buc, on = list(curr_beu_code = Code_Orig),
-      `:=`(Code_WL0 = i.Code_WL0,
-           Code_WL1 = i.Code_WL1,
-           Code_WL2 = i.Code_WL2,
-           Code_WL3 = i.Code_WL3,
-           Code_WL4 = i.Code_WL4,
-           Code_WL5 = i.Code_WL5,
-           Code_WL6 = i.Code_WL6,
-           Code_WL7 = i.Code_WL7,
-           Code_WL8 = i.Code_WL8,
-           Code_WL10 = i.Code_WL10)]
+          `:=`(Code_WL0 = i.Code_WL0,
+               Code_WL1 = i.Code_WL1,
+               Code_WL2 = i.Code_WL2,
+               Code_WL3 = i.Code_WL3,
+               Code_WL4 = i.Code_WL4,
+               Code_WL5 = i.Code_WL5,
+               Code_WL6 = i.Code_WL6,
+               Code_WL7 = i.Code_WL7,
+               Code_WL8 = i.Code_WL8,
+               Code_WL10 = i.Code_WL10)]
 
   # Allowed BEU codes adjustments (line 364) -----
   vri_bem[!(SDEC_1 >= 5 & BEUMC_S1 %in% c("BB", "CB", "CR", "ER", "RI", "PB", "PR", "RR", "RS", "SK", "SR", "TF",
-                                      "WG", "WR", "YB", "YS", "BG", "FE", "MR", "OW", "SH", "SW", "BA", "LS", "LL")) &
-        !(SDEC_1 == 10 & BEUMC_S1 == "WL") & wl_pct >= 8 & !BCLCS_LV_4 %in% c("TB", "TC", "TM") &
-        curr_beu_code %in% buc$Code_Orig,
+                                          "WG", "WR", "YB", "YS", "BG", "FE", "MR", "OW", "SH", "SW", "BA", "LS", "LL")) &
+            !(SDEC_1 == 10 & BEUMC_S1 == "WL") & wl_pct >= 8 & !BCLCS_LV_4 %in% c("TB", "TC", "TM") &
+            curr_beu_code %in% buc$Code_Orig,
 
-      new_beu_code:= fcase(wl_pct < 14, Code_WL1, # condition that wl_pct >= 8 is above
-                           wl_pct < 25, Code_WL2,
-                           wl_pct < 35, Code_WL3,
-                           wl_pct < 45, Code_WL4,
-                           wl_pct < 55, Code_WL5,
-                           wl_pct < 65, Code_WL6,
-                           wl_pct < 75, Code_WL7,
-                           wl_pct < 80, Code_WL8,
-                           wl_pct >= 80, Code_WL10)]
+          new_beu_code:= fcase(wl_pct < 14, Code_WL1, # condition that wl_pct >= 8 is above
+                               wl_pct < 25, Code_WL2,
+                               wl_pct < 35, Code_WL3,
+                               wl_pct < 45, Code_WL4,
+                               wl_pct < 55, Code_WL5,
+                               wl_pct < 65, Code_WL6,
+                               wl_pct < 75, Code_WL7,
+                               wl_pct < 80, Code_WL8,
+                               wl_pct >= 80, Code_WL10)]
 
   # overwrite SDEC using new_beu_code
   vri_bem[curr_beu_code!=new_beu_code,
-        `:=`(SDEC_1 = (new_beu_code - new_beu_code %% 1000) /1000,
-             SDEC_2 = (new_beu_code %% 1000 - new_beu_code %% 100) /100,
-             SDEC_3 = (new_beu_code %% 100 - new_beu_code %% 10) /10,
-             new_wl_zone = new_beu_code %% 10)]
+          `:=`(SDEC_1 = (new_beu_code - new_beu_code %% 1000) /1000,
+               SDEC_2 = (new_beu_code %% 1000 - new_beu_code %% 100) /100,
+               SDEC_3 = (new_beu_code %% 100 - new_beu_code %% 10) /10,
+               new_wl_zone = new_beu_code %% 10)]
 
   # Reassign ecosystems ----
   #  - reassign eco components
@@ -204,19 +204,19 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   # update Label
   vri_bem[curr_beu_code!=new_beu_code,
-      Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3")]
+          Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3")]
 
   vri_bem[curr_beu_code!=new_beu_code,
-      Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3",
-                          " (", new_beu_code, ")")]
+          Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3",
+                              " (", new_beu_code, ")")]
 
 
 
   # Riparian Mapcode adjustments (line 681) -----
 
   non_veg  <- c("RI", "WL", "BB", "UR", "OW", "LS", "LL", "RE", "CL", "GB", "GL", "GP", "MI", "RO", "TA", "TC", "TR",
-               "UV", "BG", "CB", "FE", "MR", "PB", "RS", "SH", "SK", "SW", "WG", "TF", "YB", "YS", "AU", "AV", "ES",
-               "IM", "ME", "OV", "RM", "SC", "SM", "ST")
+                "UV", "BG", "CB", "FE", "MR", "PB", "RS", "SH", "SK", "SW", "WG", "TF", "YB", "YS", "AU", "AV", "ES",
+                "IM", "ME", "OV", "RM", "SC", "SM", "ST")
 
   riparian_mapcode_dt <- data.table(bgc_zone = c("CDF", "BWBS", "SWB", "ESSF", "ICH", "CWH", "SBPS", "SBS"),
                                     beumc_s1 = c("CR", "PR", "PR", "ER", "RR", "SR", "WR", "WR"))
@@ -228,18 +228,18 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   set(vri_bem, i = riparian_update_lines, j = "SDEC_2", value = 0)
   set(vri_bem, i = riparian_update_lines, j = "SDEC_3", value = 0)
   set(vri_bem, i = riparian_update_lines, j = "BEUMC_S1", value = riparian_mapcode_dt$beumc_s1[match(vri_bem$BGC_ZONE[riparian_update_lines],
-                                                                                                 riparian_mapcode_dt$bgc_zone)])
+                                                                                                     riparian_mapcode_dt$bgc_zone)])
   set_shifted_eco_variables(vri_bem, i = riparian_update_lines, list(c(2,NA), c(3,NA)))
 
   vri_bem[(riparian_update_lines),
-      Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]
+          Lbl_edit_wl:= paste0("Updated to 10 ", BEUMC_S1, " because SITE_M3A = 'a', Slope < 10, and BGC_ZONE = '", BGC_ZONE, ".")]
 
   vri_bem[site_m3a_eq_a , SITE_M3A := "a"]
 
   # delete temp columns
   set(vri_bem, j = c("curr_wl_zone", "curr_beu_code", "Code_WL0", "Code_WL1", "Code_WL2", "Code_WL3",
-                 "Code_WL4", "Code_WL5", "Code_WL6", "Code_WL7", "Code_WL8", "Code_WL10",
-                 "new_beu_code", "new_wl_zone"), value = NULL)
+                     "Code_WL4", "Code_WL5", "Code_WL6", "Code_WL7", "Code_WL8", "Code_WL10",
+                     "new_beu_code", "new_wl_zone"), value = NULL)
 
   return(st_as_sf(vri_bem))
 }

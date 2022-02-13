@@ -1,4 +1,4 @@
-#' create all the unique ecosystem from sratch
+#' Create all the unique ecosystem from sratch
 #'
 #' This function create all the unique ecosystem derived
 #'
@@ -58,10 +58,17 @@ create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = d
     beu_wetland_update_csv <- fread(csv/beu_wetland_updates.csv)
 
     # create the vri-bem with bem attributes updated based on vri, wetlands and rivers
-    vri_bem <- create_updated_vri_bem(vri = vri, bem = bem, rivers = rivers, wetlands = wetlands, beu_bec_csv = beu_bec_csv, beu_wetland_update_csv = beu_wetland_update_csv,  clear_site_ma = TRUE, use_ifelse = TRUE)
+    vri_bem <- create_updated_vri_bem(vri = vri,
+                                      bem = bem,
+                                      rivers = rivers,
+                                      wetlands = wetlands,
+                                      beu_bec_csv = beu_bec_csv,
+                                      beu_wetland_update_csv = beu_wetland_update_csv,
+                                      clear_site_ma = TRUE,
+                                      use_ifelse = TRUE)
 
     # create unique ecosystem
-    unique_ecosystem_dt_list[[iteration]] <- summarize_unique_ecosystem(vri_bem = vri_bem)
+    unique_ecosystem_dt_list[[iteration]] <- summarize_unique_ecosystem(vri_bem_dt = vri_bem)
   }
 
   # combine all iteration together, sum the frequency for same ecosystems and create empty forest structure variables

@@ -22,7 +22,13 @@ reference:
   - '`read_wetlands`'
 - title: Other Helper Functions
   contents:
+  - '`create_empty_forest_structure_variables`'
   - '`format_unique_ecosystem_dt`'
   - '`rename_geometry`'
   - '`set_shifted_eco_variables`'
+  - '`summarize_unique_ecosystem`'
   - '`validate_required_attributes`'
+- title: Global Functions
+  contents:
+  - '`create_RRM_ecosystem_from_scratch`'
+  - '`create_unique_ecosystem_from_scratch`'

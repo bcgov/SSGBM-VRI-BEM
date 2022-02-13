@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_RRM_ecosystem_from_scratch.R
 \name{create_RRM_ecosystem_from_scratch}
 \alias{create_RRM_ecosystem_from_scratch}
-\title{creates the RRM ecosystem outpout for skeena bear and moose model}
+\title{Creates the RRM ecosystem outpout for skeena bear and moose model}
 \usage{
 create_RRM_ecosystem_from_scratch(
   dsn,
@@ -61,7 +61,7 @@ create_RRM_ecosystem_from_scratch(
 Summary of Area by unique ecosystem
 }
 \description{
-creates the RRM ecosystem outpout for skeena bear and moose model
+Creates the RRM ecosystem outpout for skeena bear and moose model
 }
 \details{
 For each of the following combination compute the sum of the area

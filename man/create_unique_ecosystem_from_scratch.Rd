@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_unique_ecosystem_from_scratch.R
 \name{create_unique_ecosystem_from_scratch}
 \alias{create_unique_ecosystem_from_scratch}
-\title{create all the unique ecosystem from sratch}
+\title{Create all the unique ecosystem from sratch}
 \usage{
 create_unique_ecosystem_from_scratch(
   dsn,

@@ -37,10 +37,19 @@
     <loc>/reference/calc_forest_age_class.html</loc>
   </url>
   <url>
+    <loc>/reference/create_empty_forest_structure_variables.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_RRM_ecosystem.html</loc>
   </url>
   <url>
+    <loc>/reference/create_RRM_ecosystem_from_scratch.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_unique_ecosystem_dt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_unique_ecosystem_from_scratch.html</loc>
   </url>
   <url>
     <loc>/reference/create_unique_ecosytem_dt.html</loc>
@@ -92,6 +101,9 @@
   </url>
   <url>
     <loc>/reference/set_shifted_eco_variables.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summarize_unique_ecosystem.html</loc>
   </url>
   <url>
     <loc>/reference/update_bem_from_vri.html</loc>

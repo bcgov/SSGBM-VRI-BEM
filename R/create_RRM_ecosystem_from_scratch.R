@@ -1,4 +1,4 @@
-#' creates the RRM ecosystem outpout for skeena bear and moose model
+#' Creates the RRM ecosystem outpout for skeena bear and moose model
 #'
 #'
 #' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
@@ -39,7 +39,7 @@
 #' @return Summary of Area by unique ecosystem
 #' @import data.table
 #' @import sf
-#' @import terra
+#' @importFrom terra terrain rast
 #' @export
 #'
 create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dns, ccb_dsn = dsn, elevation_dsn,
@@ -77,7 +77,7 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
     elevation <- terra::rast(elevation_dsn)
 
     beu_bec_csv <- fread(beu_bec_csv)
-    beu_wetland_update_csv <- fread(csv/beu_wetland_updates.csv)
+    beu_wetland_update_csv <- fread(beu_wetland_update_csv)
     unique_ecosystem_dt <- read_unique_ecosystem_dt(unique_ecosystem)
 
     # create the vri-bem with bem attributes updated based on vri, wetlands and rivers

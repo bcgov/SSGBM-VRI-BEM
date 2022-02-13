@@ -188,7 +188,7 @@ create_RRM_ecosystem <- function(vri_bem){
     bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
            by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
                      SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_gt_249, STAND = STAND_3_Age_gt_80, FORESTED = FORESTED_3)]
-    )
+  )
 
   summ_area[STAND %in% c("B", "C", "M") & !STRCT %in% c("4", "5", "6", "7"), STAND := ""]
 
