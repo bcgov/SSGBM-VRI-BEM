@@ -1,3 +1,33 @@
+#' create all the unique ecosystem from sratch
+#'
+#' This function create all the unique ecosystem derived
+#'
+#' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
+#' @param vri_dsn dsn for vri layer, default to dsn if empty
+#' @param bem_dsn dsn for bem layer, default to dsn if empty
+#' @param rivers_dsn dsn for rivers layer, default to dsn if empty
+#' @param wetlands_dsn dsn for wetlands layer, default to dsn if empty
+#' @param layers_names_list named list that contains the layer name for the vri, bem, rivers and wetlands layers
+#' @param beu_bec_csv dsn for beu bec csv
+#' @param beu_wetland_update_csv dsn for wetlands correction csv
+#' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
+#' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
+#' @param wkt_filter character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)
+#' @param n_iterations integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time
+#' @return data.table that contains the frequency of each unique ecosystem and generates the following empty column to be feed later on:
+#'
+#'   * Forested (Y/N),
+#'   * Strict_Climax,
+#'   * Stand_Climax,
+#'   * Stand_Age_0-15, Stand_Age_16-30, Stand_Age_31-50, Stand_Age_51-80, Stand_Age_80+,
+#'   * Struct_Age_0-3, Struct_Age_4-10, Struct_Age_11-30, Struct_Age_31-40, Struct_Age_41-60, Struct_Age_61-80, Struct_Age_81-139, Struct_Age_140_249, Struct_Age_250+,
+#'   * Snow_code
+#'
+#'
+#' @import data.table
+#' @import sf
+#' @export
+#'
 create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dns,
                                                  layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers = "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY"),
                                                  beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
@@ -8,6 +38,10 @@ create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = d
   # then maybe add a if in the loop to check if the vri is empty just go to the next iteration
 
   # make grid with wkt filter based on number of iterations
+  if (n_iterations %% 1 != 0) {
+    n_iterations <- round(n_iterations)
+    warning(paste0("n_iterations must be an integer, n_iterations was rounder to ", n_iterations))
+  }
   grid <- create_grid_from_iteration_number(n_iterations, wkt_filter, as.text = TRUE)
 
   # initialize an empty list for result of each iterations

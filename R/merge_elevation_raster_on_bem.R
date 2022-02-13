@@ -6,6 +6,7 @@
 #' @param elev_raster SpatRaster object that represent the elevation
 #' @param vri_bem sf object containing VRI-BEM
 #' @param elevation_threshold numeric elevation threshold used to create above elevation indicator (`ABOVE_ELEV_THOLD`)
+#' @param terrain_raster SpatRaster that contains slope and aspect computed in radiants
 #' @return VRI-BEM augmented of the following variables : MEAN_ASP, MEAN_SLOPE, SLOPE_MOD and ABOVE_ELEV_THOLD.
 #' @details
 #' Aspect and slope are calculated by extracting the information from the elevation raster.
@@ -22,26 +23,28 @@
 #' @importFrom terra extract terrain `add<-` vect
 #' @export
 #'
-merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1400) {
+merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1400, terrain_raster = NA) {
 
   # TODO check if terra is able to compute this even when the raster is to big to me loaded in RAM at once
   # Compute slope and aspect ----
 
-  terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "radians")
+  if (is.na(terrain_raster)) {
+    terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "radians")
+  }
 
   # Combine elevation slope and aspect into one layered raster
   add(terrain_raster) <- elev_raster
 
   # Extract raster values for each of vri_bem polygons ----
-  # adjustment because ARCGIS default aspect for flat slope is -1 (not exactly north) degree (we use radians for sin and cos so 6.265732 radiants)  whereas in terra it's 90 degree (east)
+  # ARCGIS default aspect for flat slope is -1 (not exactly north) degree (we use radians for sin and cos so 6.265732 radiants)  whereas in terra it's 90 degree (east)
+  # we excluded all points that had a slope of 0 when computing the mean aspect to avoid creating bias towards the default value when the slope is 0 (in rivers for example)
   # compute mean slope in pct (0 degree is 0% and 90 degree is 100%) by vri_bem
   # compute mean aspect using circular mean by vri_bem and converting to positive degrees ( to 360)
   mean_raster_by_vri_bem <- setDT(extract(terrain_raster,
-                                          vect(vri_bem)))[slope == 0,
-                                                          aspect := 6.265732][, .(ELEV = mean(dem),
-                                                                                  MEAN_SLOPE = mean(slope, na.rm = T) * 57.29578/90,
-                                                                                  MEAN_ASP = ((atan2(mean(sin(aspect), na.rm = T), mean(cos(aspect), na.rm = T)) * 57.29578) + 360) %% 360),
-                                                                              by = .(vri_bem_index = as.integer(ID))]
+                                          vect(vri_bem)))[, .(ELEV = mean(dem),
+                                                              MEAN_SLOPE = mean(slope, na.rm = T) * 57.29578/90,
+                                                              MEAN_ASP = ((atan2(sum(sin(aspect) * (slope > 0), na.rm = T)/sum(slope > 0, na.rm = T), sum(cos(aspect) * (slope > 0), na.rm = T)/sum(slope > 0 , na.rm = T)) * 57.29578) + 360) %% 360),
+                                                              by = .(vri_bem_index = as.integer(ID))]
 
 
 

@@ -4,7 +4,12 @@
 \alias{merge_elevation_raster_on_sf}
 \title{Compute slope and aspect from elevation and their mean by polygon}
 \usage{
-merge_elevation_raster_on_sf(elev_raster, vri_bem, elevation_threshold = 1400)
+merge_elevation_raster_on_sf(
+  elev_raster,
+  vri_bem,
+  elevation_threshold = 1400,
+  terrain_raster = NA
+)
 }
 \arguments{
 \item{elev_raster}{SpatRaster object that represent the elevation}
@@ -12,6 +17,8 @@ merge_elevation_raster_on_sf(elev_raster, vri_bem, elevation_threshold = 1400)
 \item{vri_bem}{sf object containing VRI-BEM}
 
 \item{elevation_threshold}{numeric elevation threshold used to create above elevation indicator (\code{ABOVE_ELEV_THOLD})}
+
+\item{terrain_raster}{SpatRaster that contains slope and aspect computed in radiants}
 }
 \value{
 VRI-BEM augmented of the following variables : MEAN_ASP, MEAN_SLOPE, SLOPE_MOD and ABOVE_ELEV_THOLD.

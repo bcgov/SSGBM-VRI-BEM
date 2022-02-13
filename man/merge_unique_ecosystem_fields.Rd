@@ -8,6 +8,8 @@ merge_unique_ecosystem_fields(vri_bem, unique_ecosystem_dt)
 }
 \arguments{
 \item{vri_bem}{sf object representing VRI-BEM}
+
+\item{unique_ecosystem_dt}{data.table of the containing information for each unique ecosystems}
 }
 \value{
 VRI-BEM with the following information from unique ecosystem data:

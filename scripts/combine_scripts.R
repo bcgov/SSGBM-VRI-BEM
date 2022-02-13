@@ -52,7 +52,8 @@ fwrite(unique_eco, file = "../unique_ecosystem.csv")
 elev_rast <- terra::rast("../SSGBM-VRI-BEM-data/DEM_tif/dem.tif")
 
 vri_bem <- merge_elevation_raster_on_sf(elev_raster = elev_rast,
-                                        vri_bem = vri_bem)
+                                        vri_bem = vri_bem,
+                                        elevation_threshold = 1400)
 
 # merge cutblock
 ccb <- read_ccb("../SSGBM-VRI-BEM-data/CodeWithUs.gdb")
