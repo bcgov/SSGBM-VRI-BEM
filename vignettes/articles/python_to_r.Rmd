@@ -1,0 +1,53 @@
+---
+title: "Python to R - Reference Table"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The purpose of this article is to make it easier for someone who knew the Python Scripts to find the related R functions.
+
+### Scripts to R Function Reference Table
+
++-------------------------------------------------------------------+---------------------------------+
+| Python Script                                                     | R Function                      |
++:==================================================================+:================================+
+| 01a_Step1_CopyBEIAttributesToVRI_VRIxBEM                          | merge_bem_on_vri                |
++-------------------------------------------------------------------+---------------------------------+
+| 01b_Step1_BEM_Corrections_BEC_Combo_Check_CSV_Output              | update_bem_from_vri             |
++-------------------------------------------------------------------+---------------------------------+
+| 01c_Step1_Wetland_and_Riparian_Corrections_VRIxBEM                | update_bem_from_wetlands        |
++-------------------------------------------------------------------+---------------------------------+
+| 02_Create_LookupTableTemplate\_\_VRIxBEM                          | create_unique_ecosystem_dt      |
++-------------------------------------------------------------------+---------------------------------+
+| 03ab_Step3_Add_AspectandSlope_VRIxBEM                             | merge_elevation_raster_on_sf    |
+|                                                                   |                                 |
+| 03c_Step3_Add_ELEV_Attributes_VRIxBEM                             |                                 |
++-------------------------------------------------------------------+---------------------------------+
+| ...                                                               | merge_ccb_on_vri                |
++-------------------------------------------------------------------+---------------------------------+
+| 04_Add_LUT_age_classes_to_VRI_with_Consolidated_Cutblocks_VRIxBEM | calc_forest_age_class           |
++-------------------------------------------------------------------+---------------------------------+
+| 04b_Populate_REALM_GROUP_CLASS_KIND_SNOW_from_LUT_VRIxBEM         | merge_unique_ecosystem_fields   |
++-------------------------------------------------------------------+---------------------------------+
+| 04c_Add_STD_CROWN_Fields_To_VRI_VRIxBEM                           | merge_unique_ecosystem_fields\  |
+|                                                                   | (add_std_crown_fields)          |
++-------------------------------------------------------------------+---------------------------------+
+| 04d2_Populate_STS_STAND_from_LUT_BEM_VRIxBEM                      | merge_unique_ecosystem_fields   |
++-------------------------------------------------------------------+---------------------------------+
+| 04d3_Add_CROWN_Fields_To_BEM_VRIxBEM                              | find_crown_area_dominant_values |
++-------------------------------------------------------------------+---------------------------------+
+| 05_CreateEcosystemTablesForRRM_VRIxBEM                            | create_RRM_ecosystem            |
++-------------------------------------------------------------------+---------------------------------+
+
+
+### Awesome Functions 
+
+There are also 2 R "master" function that can be used instead of calling each of the functions above individually.
+
+ * `create_unique_ecosystem_from_scratch` : Run everything from 1a) to 2). 
+ * `create_RRM_ecosystem_from_scratch` : Runs everything from 1a) to 5).

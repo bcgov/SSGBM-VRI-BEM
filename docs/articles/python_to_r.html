@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to update documentation • SSGBM.VRI.BEM</title>
+<title>Python to R - Reference Table • SSGBM.VRI.BEM</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="How to update documentation">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Python to R - Reference Table">
 <meta property="og:description" content="SSGBM.VRI.BEM">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -74,32 +74,97 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>How to update documentation</h1>
+      <h1 data-toc-skip>Python to R - Reference Table</h1>
             
       
       
-      <div class="hidden name"><code>update-doc.Rmd</code></div>
+      <div class="hidden name"><code>python_to_r.Rmd</code></div>
 
     </div>
 
     
     
-<p>Here is a quick recap of how to update the documentation in this repo:</p>
-<ol style="list-style-type: decimal">
-<li>Update Function documentation
-<ul>
-<li>run <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code> or RStudio Shortcut (CTRL + SHIFT + D)</li>
-</ul>
-</li>
-<li>Update website (pkgdown) documentation
-<ul>
-<li>run <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code>
-</li>
-</ul>
-</li>
-<li>Commit and push all those changes to GitHub and let GitHub do its magic to deploy the package documentation website</li>
-</ol>
+<p>The purpose of this article is to make it easier for someone who knew the Python Scripts to find the related R functions.</p>
+<div class="section level3">
+<h3 id="scripts-to-r-function-reference-table">Scripts to R Function Reference Table<a class="anchor" aria-label="anchor" href="#scripts-to-r-function-reference-table"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="66%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Python Script</th>
+<th align="left">R Function</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">01a_Step1_CopyBEIAttributesToVRI_VRIxBEM</td>
+<td align="left">merge_bem_on_vri</td>
+</tr>
+<tr class="even">
+<td align="left">01b_Step1_BEM_Corrections_BEC_Combo_Check_CSV_Output</td>
+<td align="left">update_bem_from_vri</td>
+</tr>
+<tr class="odd">
+<td align="left">01c_Step1_Wetland_and_Riparian_Corrections_VRIxBEM</td>
+<td align="left">update_bem_from_wetlands</td>
+</tr>
+<tr class="even">
+<td align="left">02_Create_LookupTableTemplate__VRIxBEM</td>
+<td align="left">create_unique_ecosystem_dt</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<p>03ab_Step3_Add_AspectandSlope_VRIxBEM</p>
+<p>03c_Step3_Add_ELEV_Attributes_VRIxBEM</p>
+</td>
+<td align="left">merge_elevation_raster_on_sf</td>
+</tr>
+<tr class="even">
+<td align="left">…</td>
+<td align="left">merge_ccb_on_vri</td>
+</tr>
+<tr class="odd">
+<td align="left">04_Add_LUT_age_classes_to_VRI_with_Consolidated_Cutblocks_VRIxBEM</td>
+<td align="left">calc_forest_age_class</td>
+</tr>
+<tr class="even">
+<td align="left">04b_Populate_REALM_GROUP_CLASS_KIND_SNOW_from_LUT_VRIxBEM</td>
+<td align="left">merge_unique_ecosystem_fields</td>
+</tr>
+<tr class="odd">
+<td align="left">04c_Add_STD_CROWN_Fields_To_VRI_VRIxBEM</td>
+<td align="left">merge_unique_ecosystem_fields<br>
+(add_std_crown_fields)</td>
+</tr>
+<tr class="even">
+<td align="left">04d2_Populate_STS_STAND_from_LUT_BEM_VRIxBEM</td>
+<td align="left">merge_unique_ecosystem_fields</td>
+</tr>
+<tr class="odd">
+<td align="left">04d3_Add_CROWN_Fields_To_BEM_VRIxBEM</td>
+<td align="left">find_crown_area_dominant_values</td>
+</tr>
+<tr class="even">
+<td align="left">05_CreateEcosystemTablesForRRM_VRIxBEM</td>
+<td align="left">create_RRM_ecosystem</td>
+</tr>
+</tbody>
+</table>
 </div>
+<div class="section level3">
+<h3 id="awesome-functions">Awesome Functions<a class="anchor" aria-label="anchor" href="#awesome-functions"></a>
+</h3>
+<p>There are also 2 R “master” function that can be used instead of calling each of the functions above individually.</p>
+<ul>
+<li>
+<code>create_unique_ecosystem_from_scratch</code> : Run everything from 1a) to 2).</li>
+<li>
+<code>create_RRM_ecosystem_from_scratch</code> : Runs everything from 1a) to 5).</li>
+</ul>
+</div>
+  </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
