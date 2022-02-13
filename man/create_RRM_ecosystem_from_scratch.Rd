@@ -9,7 +9,7 @@ create_RRM_ecosystem_from_scratch(
   vri_dsn = dsn,
   bem_dsn = dsn,
   rivers_dsn = dsn,
-  wetlands_dsn = dns,
+  wetlands_dsn = dsn,
   ccb_dsn = dsn,
   elevation_dsn,
   layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers =
@@ -21,7 +21,8 @@ create_RRM_ecosystem_from_scratch(
   use_ifelse = TRUE,
   most_recent_harvest_year,
   wkt_filter = character(0),
-  n_iterations = 1
+  n_iterations = 1,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -56,6 +57,8 @@ create_RRM_ecosystem_from_scratch(
 \item{wkt_filter}{character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)}
 
 \item{n_iterations}{integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time}
+
+\item{verbose}{boolean , if TRUE function will return message to indicate progress throughout the function execution}
 }
 \value{
 Summary of Area by unique ecosystem

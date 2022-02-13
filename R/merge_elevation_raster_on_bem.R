@@ -23,12 +23,12 @@
 #' @importFrom terra extract terrain `add<-` vect
 #' @export
 #'
-merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1400, terrain_raster = NA) {
+merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1400, terrain_raster = NULL) {
 
   # TODO check if terra is able to compute this even when the raster is to big to me loaded in RAM at once
   # Compute slope and aspect ----
 
-  if (is.na(terrain_raster)) {
+  if (is.null(terrain_raster)) {
     terrain_raster <- terrain(elev_raster, v = c("slope", "aspect"), unit = "radians")
   }
 

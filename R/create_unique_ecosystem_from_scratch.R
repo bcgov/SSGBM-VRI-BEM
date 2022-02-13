@@ -14,6 +14,7 @@
 #' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
 #' @param wkt_filter character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)
 #' @param n_iterations integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time
+#' @param verbose boolean , if TRUE function will return message to indicate progress throughout the function execution
 #' @return data.table that contains the frequency of each unique ecosystem and generates the following empty column to be feed later on:
 #'
 #'   * Forested (Y/N),
@@ -28,10 +29,10 @@
 #' @import sf
 #' @export
 #'
-create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dns,
+create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dsn,
                                                  layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers = "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY"),
                                                  beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
-                                                 clear_site_ma = TRUE, use_ifelse = TRUE, wkt_filter = character(0), n_iterations = 1) {
+                                                 clear_site_ma = TRUE, use_ifelse = TRUE, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
 
   # TODO add default wkt_filter when no filter is passed but number of iterations is greater than 1 (maybe default to the whole skeena region, store it as part of the package)
   # TODO check what appends when wkt_filter cover an area where there is no polygon
@@ -44,18 +45,29 @@ create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = d
   }
   grid <- create_grid_from_iteration_number(n_iterations, wkt_filter, as.text = TRUE)
 
+  # reading csv once before the loop
+  beu_bec_csv <- fread(beu_bec_csv)
+  beu_wetland_update_csv <- fread(beu_wetland_update_csv)
+
   # initialize an empty list for result of each iterations
   unique_ecosystem_dt_list <- list()
 
-  for (iteration in n_interactions) {
-    # read sf objects and csv files
+  for (iteration in seq.int(length.out = n_iterations)) {
+
+    if (verbose) {
+      message(paste0("iteration ", iteration, " out of ", n_iterations))
+    }
+
+    # read layers into sf objects
+    if (verbose) {
+      message("reading layers into sf objects")
+    }
     filter <- grid[iteration]
     vri <- read_vri(vri_dsn, layer = layers_names_list$vri, wkt_filter = filter)
     bem <- read_bem(bem_dsn, layer = layers_names_list$bem, wkt_filter = filter)
     rivers <- read_rivers(rivers_dsn, layer = layers_names_list$rivers, wkt_filter = filter)
     wetlands <- read_wetlands(wetlands_dsn, layer = layers_names_list$wetlands, wkt_filter = filter)
-    beu_bec_csv <- fread(beu_bec_csv)
-    beu_wetland_update_csv <- fread(csv/beu_wetland_updates.csv)
+
 
     # create the vri-bem with bem attributes updated based on vri, wetlands and rivers
     vri_bem <- create_updated_vri_bem(vri = vri,
@@ -65,13 +77,25 @@ create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = d
                                       beu_bec_csv = beu_bec_csv,
                                       beu_wetland_update_csv = beu_wetland_update_csv,
                                       clear_site_ma = TRUE,
-                                      use_ifelse = TRUE)
+                                      use_ifelse = TRUE,
+                                      verbose = verbose)
 
     # create unique ecosystem
-    unique_ecosystem_dt_list[[iteration]] <- summarize_unique_ecosystem(vri_bem_dt = vri_bem)
+    if (verbose) {
+      message(paste0("Creating unique ecosystem output for iteration ", iteration))
+    }
+    unique_ecosystem_dt_list[[iteration]] <- summarize_unique_ecosystem(vri_bem_dt = setDT(vri_bem))
   }
 
   # combine all iteration together, sum the frequency for same ecosystems and create empty forest structure variables
-  return(create_empty_forest_structure_variables(rbindlist(unique_ecosystem_dt_list)[ , .(FREQ = sum(FREQ)) , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_MC)]))
+  if (verbose) {
+    message("Combining all unique ecosystem output together to create final ouput")
+  }
 
+  if (n_iterations == 1) {
+    return(unique_ecosystem_dt_list[[1]])
+  }
+  else {
+    return(create_empty_forest_structure_variables(rbindlist(unique_ecosystem_dt_list)[ , .(FREQ = sum(FREQ)) , by = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_MC)]))
+  }
 }

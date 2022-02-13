@@ -8,7 +8,7 @@ merge_elevation_raster_on_sf(
   elev_raster,
   vri_bem,
   elevation_threshold = 1400,
-  terrain_raster = NA
+  terrain_raster = NULL
 )
 }
 \arguments{

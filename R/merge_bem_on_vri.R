@@ -42,6 +42,7 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
   vri <- vri[vri_area >= set_units(1000, "m^2")]
 
   # new unique id
+  # TODO add argument so that when looping the id we create each loop are diffrent (maybe add a starting vri_obj_id in the arguments)
   set(vri, j = "VRI_OBJ_ID", value = seq.int(length.out = nrow(vri)))
 
   # find bem largest intersecting area with vri

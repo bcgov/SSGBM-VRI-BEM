@@ -18,7 +18,9 @@ read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL) {
 
   # if we have a filter cut all the shapes that are outside of the aoi area
   if (!is.null(wkt_filter)) {
-    vri <- st_intersection(vri, st_as_sfc(wkt_filter, crs = st_crs(vri)))
+    st_agr(vri) <- "constant"
+    vri <-  st_intersection(vri, st_as_sfc(wkt_filter, crs = st_crs(vri)))
+    vri$Shape <- st_cast(vri$Shape,"MULTIPOLYGON")
   }
   return(vri)
 }
