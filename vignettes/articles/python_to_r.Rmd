@@ -45,7 +45,7 @@ The purpose of this article is to make it easier for someone who knew the Python
 +-------------------------------------------------------------------+---------------------------------+
 
 
-### Master Functions 
+### Awesome Functions 
 
 There are also 2 R "master" function that can be used instead of calling each of the functions above individually.
 
