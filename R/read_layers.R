@@ -11,6 +11,7 @@
 read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL) {
 
   vri <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = if(is.null(wkt_filter)){character(0)} else{wkt_filter})
+
   #Restructure bem while waiting for real info
   vri <- rename_geometry(vri, "Shape")
   #make shape valid because ARCGIS draw polygon differently than sf
@@ -22,6 +23,7 @@ read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL) {
     vri <-  st_intersection(vri, st_as_sfc(wkt_filter, crs = st_crs(vri)))
     vri$Shape <- st_cast(vri$Shape,"MULTIPOLYGON")
   }
+
   return(vri)
 }
 

@@ -55,9 +55,6 @@
     <loc>/reference/create_unique_ecosystem_from_scratch.html</loc>
   </url>
   <url>
-    <loc>/reference/create_unique_ecosytem_dt.html</loc>
-  </url>
-  <url>
     <loc>/reference/create_updated_vri_bem.html</loc>
   </url>
   <url>
@@ -70,6 +67,9 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/merge_bem_on_vri.data.table.html</loc>
+  </url>
+  <url>
     <loc>/reference/merge_bem_on_vri.html</loc>
   </url>
   <url>
@@ -80,9 +80,6 @@
   </url>
   <url>
     <loc>/reference/merge_unique_ecosystem_fields.html</loc>
-  </url>
-  <url>
-    <loc>/reference/merge_vri_on_bem.html</loc>
   </url>
   <url>
     <loc>/reference/read_bem.html</loc>
@@ -113,12 +110,6 @@
   </url>
   <url>
     <loc>/reference/update_bem_from_vri.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_bem_from_wet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_bem_from_wetland.html</loc>
   </url>
   <url>
     <loc>/reference/update_bem_from_wetlands.html</loc>

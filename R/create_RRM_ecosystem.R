@@ -33,7 +33,6 @@ create_RRM_ecosystem <- function(vri_bem){
   bem_dt <- as.data.table(vri_bem)
 
 
-
   summ_area <- rbind(
     bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = sum(Shape_Area*SDEC_1/10)),
            by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S1, SLOPE_MOD, SITE_M3A,

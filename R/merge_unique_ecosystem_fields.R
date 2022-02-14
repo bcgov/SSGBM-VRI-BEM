@@ -229,7 +229,6 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
 
 
 
-
   attr(vri_bem, "class") <- classes_vri_bem
 
   return(vri_bem)

@@ -70,5 +70,6 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
   attr(vri_bem, "class") <- classes_vri
 
   return(vri_bem)
+
 }
 
