@@ -4,12 +4,14 @@
 \alias{read_vri}
 \title{Read VRI spatial dataset}
 \usage{
-read_vri(dsn, layer = "VEG_R1_PLY_polygon")
+read_vri(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL)
 }
 \arguments{
 \item{dsn}{data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.}
 
 \item{layer}{layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.}
+
+\item{wkt_filter}{character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)}
 }
 \value{
 sf object

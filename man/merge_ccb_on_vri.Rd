@@ -4,10 +4,10 @@
 \alias{merge_ccb_on_vri}
 \title{Union merge between CCB attributes and VRI features}
 \usage{
-merge_ccb_on_vri(vri, ccb)
+merge_ccb_on_vri(vri_bem, ccb)
 }
 \arguments{
-\item{vri}{sf object that represent VRI (vegetation ressource inventory) features}
+\item{vri_bem}{sf object that represent VRI (vegetation ressource inventory) features}
 
 \item{ccb}{sf object that represent CCB (consolidated cutblock) features}
 }

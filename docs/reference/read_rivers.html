@@ -32,6 +32,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/python_to_r.html">Python to R - Reference Table</a>
+    </li>
+    <li>
       <a href="../articles/update-doc.html">How to update documentation</a>
     </li>
   </ul></li>
@@ -57,7 +60,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_rivers</span><span class="op">(</span><span class="va">dsn</span>, layer <span class="op">=</span> <span class="st">"FWA_RIVERS_POLY"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_rivers</span><span class="op">(</span><span class="va">dsn</span>, layer <span class="op">=</span> <span class="st">"FWA_RIVERS_POLY"</span>, wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,6 +69,8 @@
 <dd><p>data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.</p></dd>
 <dt>layer</dt>
 <dd><p>layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.</p></dd>
+<dt>wkt_filter</dt>
+<dd><p>character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

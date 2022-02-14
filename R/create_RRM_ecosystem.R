@@ -3,17 +3,34 @@
 #' This function generates the unique list of ecosystems and determines all possible combinations of STS and STAND codes
 #' that could apply to the ecosystem at any age value, and expand to include all existing and "potential" unique ecosystems
 #'
-#' @param bfc bem feature class
+#' @param vri_bem VRI-BEM feature class
+#' @details
+#' For each of the following combination compute the sum of the area
+#'   * ECO_SEC
+#'   * BGC_ZONE
+#'   * BGC_SUBZON
+#'   * BGC_VRT
+#'   * BGC_PHASE
+#'   * BEUMC  (BEUMC_S1, BEUMC_S2, BEUMC_S3)
+#'   * SLOPE_MOD
+#'   * SITE_M3A
+#'   * SNOW_CODE
+#'   * ABOVE_ELEV
+#'   * CROWN_MOOSE (CROWN_MOOSE_1, CROWN_MOOSE_2, CROWN_MOOSE_3)
+#'   * STRCT (STRCT_S1, STRCT_S2, STRCT_S3)
+#'   * STAND (STAND_A1, STAND_A2, STAND_A3)
+#'   * FORESTED (FORESTED_1, FORESTED_2, FORESTED_3)
+#'
+#' For STRCT and STAND every combination is also made with the projected age values.
 #'
 #' @return Summary of Area by unique ecosystem
 #' @import data.table
 #' @export
 
-create_RRM_ecosystem <- function(bfc){
+create_RRM_ecosystem <- function(vri_bem){
 
   # TODO: switch to a data.table?
-  bem_dt <- as.data.table(bfc)
-
+  bem_dt <- as.data.table(vri_bem)
 
 
   summ_area <- rbind(
@@ -170,7 +187,7 @@ create_RRM_ecosystem <- function(bfc){
     bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = 0),
            by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEUMC_S3, SLOPE_MOD, SITE_M3A,
                      SNOW_CODE, ABOVE_ELEV, CROWN_MOOSE = CROWN_MOOSE_3, STRCT = STS_3_Age_gt_249, STAND = STAND_3_Age_gt_80, FORESTED = FORESTED_3)]
-    )
+  )
 
   summ_area[STAND %in% c("B", "C", "M") & !STRCT %in% c("4", "5", "6", "7"), STAND := ""]
 

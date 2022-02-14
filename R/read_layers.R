@@ -4,15 +4,26 @@
 #'
 #' @param dsn data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
 #' @param layer layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.
+#' @param wkt_filter character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)
 #' @return sf object
 #' @import sf
 #' @export
-read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon") {
-  vri <- st_read(dsn = dsn, layer = layer, quiet = TRUE)
+read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL) {
+
+  vri <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = if(is.null(wkt_filter)){character(0)} else{wkt_filter})
+
   #Restructure bem while waiting for real info
   vri <- rename_geometry(vri, "Shape")
   #make shape valid because ARCGIS draw polygon differently than sf
   vri$Shape <- st_cast(st_make_valid(vri$Shape),"MULTIPOLYGON")
+
+  # if we have a filter cut all the shapes that are outside of the aoi area
+  if (!is.null(wkt_filter)) {
+    st_agr(vri) <- "constant"
+    vri <-  st_intersection(vri, st_as_sfc(wkt_filter, crs = st_crs(vri)))
+    vri$Shape <- st_cast(vri$Shape,"MULTIPOLYGON")
+  }
+
   return(vri)
 }
 
@@ -24,8 +35,8 @@ read_vri <- function(dsn, layer = "VEG_R1_PLY_polygon") {
 #' @return sf object
 #' @import sf
 #' @export
-read_bem <- function(dsn, layer = "BEM") {
-  bem <- st_read(dsn = dsn, layer = layer, quiet = TRUE)
+read_bem <- function(dsn, layer = "BEM", wkt_filter = character(0)) {
+  bem <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = wkt_filter)
   #Restructure bem while waiting for real info
   bem <- rename_geometry(bem, "Shape")
   #make shape valid because ARCGIS draw polygon differently than sf
@@ -43,8 +54,8 @@ read_bem <- function(dsn, layer = "BEM") {
 #' @return sf object
 #' @import sf
 #' @export
-read_wetlands <- function(dsn, layer = "FWA_WETLANDS_POLY") {
-  wetlands <- st_read(dsn = dsn, layer = layer, quiet = TRUE)
+read_wetlands <- function(dsn, layer = "FWA_WETLANDS_POLY",  wkt_filter = character(0)) {
+  wetlands <- st_read(dsn = dsn, layer = layer, quiet = TRUE,  wkt_filter = wkt_filter)
   #Restructure bem while waiting for real info
   wetlands <- rename_geometry(wetlands, "Shape")
   #make shape valid because ARCGIS draw polygon differently than sf
@@ -61,8 +72,8 @@ read_wetlands <- function(dsn, layer = "FWA_WETLANDS_POLY") {
 #' @return sf object
 #' @import sf
 #' @export
-read_rivers <- function(dsn, layer = "FWA_RIVERS_POLY") {
-  rivers <- st_read(dsn = dsn, layer = layer, quiet = TRUE)
+read_rivers <- function(dsn, layer = "FWA_RIVERS_POLY",  wkt_filter = character(0)) {
+  rivers <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = wkt_filter)
   #make shape valid because ARCGIS draw polygon differently than sf
   rivers$GEOMETRY <- sf::st_make_valid(rivers$GEOMETRY)
   return(rivers)
@@ -76,8 +87,8 @@ read_rivers <- function(dsn, layer = "FWA_RIVERS_POLY") {
 #' @return sf object
 #' @import sf
 #' @export
-read_ccb <- function(dsn, layer = "CNS_CUT_BL_polygon") {
-  ccb <- st_read(dsn = dsn, layer = layer, quiet = TRUE)
+read_ccb <- function(dsn, layer = "CNS_CUT_BL_polygon",  wkt_filter = character(0)) {
+  ccb <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = wkt_filter)
   #make shape valid because ARCGIS draw polygon differently than sf
   ccb$Shape <- sf::st_make_valid(ccb$Shape)
   return(ccb)

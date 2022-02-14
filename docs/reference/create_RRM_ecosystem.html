@@ -33,6 +33,9 @@ that could apply to the ecosystem at any age value, and expand to include all ex
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/python_to_r.html">Python to R - Reference Table</a>
+    </li>
+    <li>
       <a href="../articles/update-doc.html">How to update documentation</a>
     </li>
   </ul></li>
@@ -59,17 +62,35 @@ that could apply to the ecosystem at any age value, and expand to include all ex
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_RRM_ecosystem</span><span class="op">(</span><span class="va">bfc</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_RRM_ecosystem</span><span class="op">(</span><span class="va">vri_bem</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>bfc</dt>
-<dd><p>bem feature class</p></dd>
+    <dl><dt>vri_bem</dt>
+<dd><p>VRI-BEM feature class</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>Summary of Area by unique ecosystem</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>For each of the following combination compute the sum of the area</p><ul><li><p>ECO_SEC</p></li>
+<li><p>BGC_ZONE</p></li>
+<li><p>BGC_SUBZON</p></li>
+<li><p>BGC_VRT</p></li>
+<li><p>BGC_PHASE</p></li>
+<li><p>BEUMC  (BEUMC_S1, BEUMC_S2, BEUMC_S3)</p></li>
+<li><p>SLOPE_MOD</p></li>
+<li><p>SITE_M3A</p></li>
+<li><p>SNOW_CODE</p></li>
+<li><p>ABOVE_ELEV</p></li>
+<li><p>CROWN_MOOSE (CROWN_MOOSE_1, CROWN_MOOSE_2, CROWN_MOOSE_3)</p></li>
+<li><p>STRCT (STRCT_S1, STRCT_S2, STRCT_S3)</p></li>
+<li><p>STAND (STAND_A1, STAND_A2, STAND_A3)</p></li>
+<li><p>FORESTED (FORESTED_1, FORESTED_2, FORESTED_3)</p></li>
+</ul><p>For STRCT and STAND every combination is also made with the projected age values.</p>
     </div>
 
   </div>

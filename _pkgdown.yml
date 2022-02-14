@@ -3,8 +3,8 @@ reference:
   contents:
   - '`merge_bem_on_vri`'
   - '`update_bem_from_vri`'
-  - '`update_bem_from_wetland`'
-  - '`create_unique_ecosytem_dt`'
+  - '`update_bem_from_wetlands`'
+  - '`create_unique_ecosystem_dt`'
   - '`merge_elevation_raster_on_sf`'
   - '`merge_ccb_on_vri`'
   - '`calc_forest_age_class`'
@@ -22,7 +22,14 @@ reference:
   - '`read_wetlands`'
 - title: Other Helper Functions
   contents:
+  - '`create_empty_forest_structure_variables`'
+  - '`create_updated_vri_bem`'
   - '`format_unique_ecosystem_dt`'
   - '`rename_geometry`'
   - '`set_shifted_eco_variables`'
+  - '`summarize_unique_ecosystem`'
   - '`validate_required_attributes`'
+- title: Global Functions
+  contents:
+  - '`create_RRM_ecosystem_from_scratch`'
+  - '`create_unique_ecosystem_from_scratch`'

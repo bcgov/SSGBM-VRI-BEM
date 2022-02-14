@@ -7,14 +7,14 @@
 find_crown_area_dominant_values(vri, bem, intersection_dt = NULL)
 }
 \arguments{
-\item{vri}{sf object that represent VRI (vegetation ressource inventory) features}
+\item{vri}{sf object that represent VRI (vegetation resources inventory) features}
 
 \item{bem}{sf object that represent BEM (broad ecosystem mapping) features}
 
-\item{intersection_dt}{data.table  area and index of vri and bem intersections}
+\item{intersection_dt}{data.table  area and index of vri and bem intersections (optional for speed efficiency)}
 }
 \value{
-sf object
+sf object containing VRI-BEM
 }
 \description{
 This function overlays a BEM and VRI feature classes and determines the area-dominant CROWN_BEAR and CROWN_MOOSE values for each BEM polygon.

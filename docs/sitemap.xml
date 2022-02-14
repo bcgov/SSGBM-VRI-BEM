@@ -7,6 +7,9 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
+    <loc>/articles/python_to_r.html</loc>
+  </url>
+  <url>
     <loc>/articles/update-doc.html</loc>
   </url>
   <url>
@@ -37,10 +40,22 @@
     <loc>/reference/calc_forest_age_class.html</loc>
   </url>
   <url>
+    <loc>/reference/create_empty_forest_structure_variables.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_RRM_ecosystem.html</loc>
   </url>
   <url>
-    <loc>/reference/create_unique_ecosytem_dt.html</loc>
+    <loc>/reference/create_RRM_ecosystem_from_scratch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_unique_ecosystem_dt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_unique_ecosystem_from_scratch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_updated_vri_bem.html</loc>
   </url>
   <url>
     <loc>/reference/find_crown_area_dominant_values.html</loc>
@@ -50,6 +65,9 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/merge_bem_on_vri.data.table.html</loc>
   </url>
   <url>
     <loc>/reference/merge_bem_on_vri.html</loc>
@@ -62,9 +80,6 @@
   </url>
   <url>
     <loc>/reference/merge_unique_ecosystem_fields.html</loc>
-  </url>
-  <url>
-    <loc>/reference/merge_vri_on_bem.html</loc>
   </url>
   <url>
     <loc>/reference/read_bem.html</loc>
@@ -91,13 +106,13 @@
     <loc>/reference/set_shifted_eco_variables.html</loc>
   </url>
   <url>
+    <loc>/reference/summarize_unique_ecosystem.html</loc>
+  </url>
+  <url>
     <loc>/reference/update_bem_from_vri.html</loc>
   </url>
   <url>
-    <loc>/reference/update_bem_from_wet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_bem_from_wetland.html</loc>
+    <loc>/reference/update_bem_from_wetlands.html</loc>
   </url>
   <url>
     <loc>/reference/validate_required_attributes.html</loc>
