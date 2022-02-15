@@ -16,7 +16,8 @@ Imports:
   data.table,
   sf,
   terra, 
-  units
+  units,
+  bcdata
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

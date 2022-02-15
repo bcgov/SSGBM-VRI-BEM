@@ -9,6 +9,7 @@
 #' @param beu_wetland_update_csv data.table of wetlands correction csv
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
+#' @param return_intersection_dt Boolean, if TRUE will return a list that contains the sf object and the intersection data.table of VRI and BEM
 #' @param verbose boolean , if TRUE function will return message to indicate progress throughout the function execution
 #' @return sf object updated vri-bem
 #' @export
