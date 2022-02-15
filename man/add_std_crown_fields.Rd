@@ -7,7 +7,7 @@
 add_std_crown_fields(vri)
 }
 \arguments{
-\item{vri}{data.table object that represent VRI (vegetation ressource inventory) features}
+\item{vri}{data.table object that represent VRI (vegetation resources inventory) features}
 }
 \value{
 sf object

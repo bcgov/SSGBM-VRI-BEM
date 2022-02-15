@@ -6,7 +6,7 @@
 #' the CROWN_BEAR field with codes 1 to 4, and CROWN_MOOSE with codes H, M, L, VL and N
 #' based on the existing values in the CROWN_CLOSURE field.
 #'
-#' @param vri data.table object that represent VRI (vegetation ressource inventory) features
+#' @param vri data.table object that represent VRI (vegetation resources inventory) features
 #' @return sf object
 #' @import data.table
 #' @export
@@ -20,13 +20,13 @@ add_std_crown_fields <- function(vri) {
                  "GP", "MB", "MB", "MV", "Q", "QG", "XH", "V", "VB", "VP", "W", "WS", "WA", "WB", "WD", "WP", "WT")
 
   # maybe find a better variable name if we can figure out what b_species are
-
-  vri[ , pct_in_species_1 := (SPEC_CD_1 %in% b_species) * SPEC_PCT_1]
-  vri[ , pct_in_species_2 := (SPEC_CD_2 %in% b_species) * SPEC_PCT_2]
-  vri[ , pct_in_species_3 := (SPEC_CD_3 %in% b_species) * SPEC_PCT_3]
-  vri[ , pct_in_species_4 := (SPEC_CD_4 %in% b_species) * SPEC_PCT_4]
-  vri[ , pct_in_species_5 := (SPEC_CD_5 %in% b_species) * SPEC_PCT_5]
-  vri[ , pct_in_species_6 := (SPEC_CD_6 %in% b_species) * SPEC_PCT_6]
+  #TODO : make sure that SPEC_PCT_ ... are numeric when loading the VRIs
+  vri[ , pct_in_species_1 := (SPEC_CD_1 %in% b_species) * as.numeric(SPEC_PCT_1)]
+  vri[ , pct_in_species_2 := (SPEC_CD_2 %in% b_species) * as.numeric(SPEC_PCT_2)]
+  vri[ , pct_in_species_3 := (SPEC_CD_3 %in% b_species) * as.numeric(SPEC_PCT_3)]
+  vri[ , pct_in_species_4 := (SPEC_CD_4 %in% b_species) * as.numeric(SPEC_PCT_4)]
+  vri[ , pct_in_species_5 := (SPEC_CD_5 %in% b_species) * as.numeric(SPEC_PCT_5)]
+  vri[ , pct_in_species_6 := (SPEC_CD_6 %in% b_species) * as.numeric(SPEC_PCT_6)]
 
   vri[ , pct_in_species_tot := rowSums(.SD, na.rm = T), .SDcols = paste0("pct_in_species_", 1:6)]
 
