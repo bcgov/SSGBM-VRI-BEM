@@ -34,6 +34,8 @@ create_updated_vri_bem(
 
 \item{use_ifelse}{boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC}
 
+\item{return_intersection_dt}{Boolean, if TRUE will return a list that contains the sf object and the intersection data.table of VRI and BEM}
+
 \item{verbose}{boolean , if TRUE function will return message to indicate progress throughout the function execution}
 }
 \value{
