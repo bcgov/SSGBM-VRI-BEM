@@ -1,0 +1,4 @@
+script 2 has that message at the end and creates a csv with the BRU_MC attribute
+creates the blank BEU_MC attribute in 02 -  to be filled in by biologist
+
+cript 04b uses the STS LUT
