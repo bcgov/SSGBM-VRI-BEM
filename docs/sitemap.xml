@@ -4,6 +4,18 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>/Contributor_Code_of_Conduct.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>/Modifications.html</loc>
+  </url>
+  <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
@@ -16,19 +28,7 @@
     <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/Contributor_Code_of_Conduct.html</loc>
-  </url>
-  <url>
     <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/Modifications.html</loc>
   </url>
   <url>
     <loc>/news/index.html</loc>
@@ -40,13 +40,19 @@
     <loc>/reference/calc_forest_age_class.html</loc>
   </url>
   <url>
-    <loc>/reference/create_empty_forest_structure_variables.html</loc>
+    <loc>/reference/compare_pct_of_species_in_list.html</loc>
+  </url>
+  <url>
+    <loc>/reference/convert_rule_list_to_string_vector.html</loc>
   </url>
   <url>
     <loc>/reference/create_RRM_ecosystem.html</loc>
   </url>
   <url>
     <loc>/reference/create_RRM_ecosystem_from_scratch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_empty_forest_structure_variables.html</loc>
   </url>
   <url>
     <loc>/reference/create_unique_ecosystem_dt.html</loc>
@@ -106,6 +112,12 @@
     <loc>/reference/set_shifted_eco_variables.html</loc>
   </url>
   <url>
+    <loc>/reference/sum_pct_for_species_in_list.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sum_pct_of_species_in_list_is_within_range.html</loc>
+  </url>
+  <url>
     <loc>/reference/summarize_unique_ecosystem.html</loc>
   </url>
   <url>
@@ -115,6 +127,21 @@
     <loc>/reference/update_bem_from_wetlands.html</loc>
   </url>
   <url>
+    <loc>/reference/update_beu_from_rule_dt.html</loc>
+  </url>
+  <url>
     <loc>/reference/validate_required_attributes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/var_contains.html</loc>
+  </url>
+  <url>
+    <loc>/reference/var_does_not_contains.html</loc>
+  </url>
+  <url>
+    <loc>/reference/var_equal_value.html</loc>
+  </url>
+  <url>
+    <loc>/reference/var_in_list.html</loc>
   </url>
 </urlset>

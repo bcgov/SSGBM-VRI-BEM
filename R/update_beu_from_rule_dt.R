@@ -85,16 +85,39 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
   return(st_as_sf(vri_bem))
 }
 
+#' var_contains
+#'
+#' create string expression to check if variable contains the rule
+#'
+#' @param var_name string name of variable
+#' @param rule string of rule
+#' @return string
+#' @keywords internal
 var_contains <- function(var_name, rule) {
   n_char_rule <- nchar(rule)
   paste0("grepl('",substr(rule, 10, n_char_rule),"', ", var_name, ")")
 }
 
+#' var_does_not_contains
+#'
+#' create string expression to check if variable does not contains the rule
+#'
+#' @param var_name string name of variable
+#' @param rule string of rule
+#' @return string
+#' @keywords internal
 var_does_not_contains <-  function(var_name, rule) {
   n_char_rule <- nchar(rule)
   paste0("!grepl('",substr(rule, 18, n_char_rule),"', ", var_name, ")")
 }
 
+#' convert_rule_list_to_string_vector
+#'
+#' create string expression that convert list separate by commas to vector
+#'
+#' @param rule_list string list of values
+#' @return string
+#' @keywords internal
 convert_rule_list_to_string_vector <- function(rule_list) {
   which_na <- which(is.na(rule_list))
   res <- paste0("c('", sapply(strsplit(gsub(" ", "", rule_list), split = ",|>|<"), function(x) paste0(x, collapse = "','")), "')")
@@ -102,14 +125,40 @@ convert_rule_list_to_string_vector <- function(rule_list) {
   return(res)
 }
 
+#' var_in_list
+#'
+#' create string expression that check if the variable is in the list
+#'
+#' @param var_name string name of variable
+#' @param rule_list string list of values
+#' @return string
+#' @keywords internal
 var_in_list <- function(var_name, rule_list) {
   paste0(var_name, " %in% ", convert_rule_list_to_string_vector(rule_list))
 }
 
+#' var_equal_value
+#'
+#' create string expression that check if the variable equal a value
+#'
+#' @param var_name string name of variable
+#' @param rule_value string value to match
+#' @return string
+#' @keywords internal
 var_equal_value <- function(var_name, rule_value) {
   paste0(var_name," == '", rule_value, "'")
 }
 
+#' sum_pct_for_species_in_list
+#'
+#' create string expression that sum the percentage of the species in the list across all pairs of species/pct variables
+#'
+#' @param tree_list string list of trees
+#' @param vri_bem sf object of vri-bem, optional
+#' @param species_var character vector of names of species variables to use in vri bem
+#' @param pct_var character vector of names of percentage variables to use in vri bem
+#' @return string
+#' @keywords internal
 sum_pct_for_species_in_list <-  function(tree_list, vri_bem = NULL, species_var = NULL, pct_var = NULL) {
   if (is.null(species_var)) {
     species_var <- grep("^SPEC_CD_", names(vri_bem), value = T)
@@ -131,6 +180,17 @@ sum_pct_for_species_in_list <-  function(tree_list, vri_bem = NULL, species_var 
   return(string_expression)
 }
 
+#' sum_pct_of_species_in_list_is_within_range
+#'
+#' create string expression that check if the sum of the percentage of the species in the list across all pairs of species/pct variables is within a range
+#'
+#' @param tree_list string list of trees
+#' @param tree_range string range
+#' @param vri_bem sf object of vri-bem, optional
+#' @param species_var character vector of names of species variables to use in vri bem
+#' @param pct_var character vector of names of percentage variables to use in vri bem
+#' @return string
+#' @keywords internal
 sum_pct_of_species_in_list_is_within_range <-  function(tree_list, tree_range, vri_bem = NULL , species_var = NULL, pct_var = NULL) {
   sum_pct_string_expression <-  sum_pct_for_species_in_list(tree_list = tree_list, vri_bem = vri_bem, species_var = species_var, pct_var = pct_var)
   range_pct <- strsplit(tree_range, split = "-")
@@ -143,6 +203,16 @@ sum_pct_of_species_in_list_is_within_range <-  function(tree_list, tree_range, v
   return(string_expression)
 }
 
+#' compare_pct_of_species_in_list
+#'
+#' create string expression that check if the sum of the percentage of the species in the list across all pairs of species/pct variables is greater or less than the percentage of the other species in the list
+#'
+#' @param tree_list string list of trees
+#' @param vri_bem sf object of vri-bem, optional
+#' @param species_var character vector of names of species variables to use in vri bem
+#' @param pct_var character vector of names of percentage variables to use in vri bem
+#' @return string
+#' @keywords internal
 compare_pct_of_species_in_list <- function(tree_list, vri_bem = NULL, species_var = NULL, pct_var = NULL) {
   tree_list_groups <- strsplit(tree_list, split = "<|>")
   tree_list_group_a <- sapply(tree_list_groups, function(x) x[1])

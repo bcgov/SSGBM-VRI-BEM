@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SSGBM.VRI.BEM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -60,7 +60,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_rivers</span><span class="op">(</span>dsn <span class="op">=</span> <span class="cn">NULL</span>, layer <span class="op">=</span> <span class="st">"FWA_RIVERS_POLY"</span>, wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_rivers</span><span class="op">(</span>dsn <span class="op">=</span> <span class="cn">NULL</span>, layer <span class="op">=</span> <span class="st">"FWA_RIVERS_POLY"</span>, wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -68,14 +68,21 @@
     <dl><dt>dsn</dt>
 <dd><p>data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
 When dsn is left empty/NULL the polygons will be fetched from the BC Data Catalog.</p></dd>
+
+
 <dt>layer</dt>
 <dd><p>layer name (varies by driver, may be a file name without extension); in case layer is missing, st_read will read the first layer of dsn, give a warning and (unless quiet = TRUE) print a message when there are multiple layers, or give an error if there are no layers in dsn. If dsn is a database connection, then layer can be a table name or a database identifier (see Id). It is also possible to omit layer and rather use the query argument.</p></dd>
+
+
 <dt>wkt_filter</dt>
 <dd><p>character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>sf object</p>
+    
+
+<p>sf object</p>
     </div>
 
   </div>
@@ -90,7 +97,7 @@ When dsn is left empty/NULL the polygons will be fetched from the BC Data Catalo
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

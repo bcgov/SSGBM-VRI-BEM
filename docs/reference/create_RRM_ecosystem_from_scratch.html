@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SSGBM.VRI.BEM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -60,71 +60,113 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_RRM_ecosystem_from_scratch</span><span class="op">(</span>
-  <span class="va">dsn</span>,
-  vri_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  bem_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  rivers_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  wetlands_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  ccb_dsn <span class="op">=</span> <span class="va">dsn</span>,
-  <span class="va">elevation_dsn</span>,
-  layers_names_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vri <span class="op">=</span> <span class="st">"VEG_R1_PLY_polygon"</span>, bem <span class="op">=</span> <span class="st">"BEM"</span>, rivers <span class="op">=</span>
-    <span class="st">"FWA_RIVERS_POLY"</span>, wetlands <span class="op">=</span> <span class="st">"FWA_WETLANDS_POLY"</span>, ccb <span class="op">=</span> <span class="st">"CNS_CUT_BL_polygon"</span><span class="op">)</span>,
-  beu_bec_csv <span class="op">=</span> <span class="st">"csv/Allowed_BEC_BEUs_NE_ALL.csv"</span>,
-  beu_wetland_update_csv <span class="op">=</span> <span class="st">"csv/beu_wetland_updates.csv"</span>,
-  unique_ecosystem <span class="op">=</span> <span class="st">"csv/Skeena_VRIBEM_LUT.csv"</span>,
-  clear_site_ma <span class="op">=</span> <span class="cn">TRUE</span>,
-  use_ifelse <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">most_recent_harvest_year</span>,
-  elevation_threshold <span class="op">=</span> <span class="fl">1400</span>,
-  wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,
-  n_iterations <span class="op">=</span> <span class="fl">1</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_RRM_ecosystem_from_scratch</span><span class="op">(</span></span>
+<span>  <span class="va">dsn</span>,</span>
+<span>  vri_dsn <span class="op">=</span> <span class="va">dsn</span>,</span>
+<span>  bem_dsn <span class="op">=</span> <span class="va">dsn</span>,</span>
+<span>  rivers_dsn <span class="op">=</span> <span class="va">dsn</span>,</span>
+<span>  wetlands_dsn <span class="op">=</span> <span class="va">dsn</span>,</span>
+<span>  ccb_dsn <span class="op">=</span> <span class="va">dsn</span>,</span>
+<span>  <span class="va">elevation_dsn</span>,</span>
+<span>  layers_names_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vri <span class="op">=</span> <span class="st">"VEG_R1_PLY_polygon"</span>, bem <span class="op">=</span> <span class="st">"BEM"</span>, rivers <span class="op">=</span></span>
+<span>    <span class="st">"FWA_RIVERS_POLY"</span>, wetlands <span class="op">=</span> <span class="st">"FWA_WETLANDS_POLY"</span>, ccb <span class="op">=</span> <span class="st">"CNS_CUT_BL_polygon"</span><span class="op">)</span>,</span>
+<span>  beu_bec_csv <span class="op">=</span> <span class="st">"csv/Allowed_BEC_BEUs_NE_ALL.csv"</span>,</span>
+<span>  beu_wetland_update_csv <span class="op">=</span> <span class="st">"csv/beu_wetland_updates.csv"</span>,</span>
+<span>  <span class="va">rules_xl</span>,</span>
+<span>  unique_ecosystem <span class="op">=</span> <span class="st">"csv/Skeena_VRIBEM_LUT.csv"</span>,</span>
+<span>  clear_site_ma <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_ifelse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">most_recent_harvest_year</span>,</span>
+<span>  elevation_threshold <span class="op">=</span> <span class="fl">1400</span>,</span>
+<span>  wkt_filter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  n_iterations <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dsn</dt>
 <dd><p>data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.</p></dd>
+
+
 <dt>vri_dsn</dt>
 <dd><p>dsn for vri layer, default to dsn if empty</p></dd>
+
+
 <dt>bem_dsn</dt>
 <dd><p>dsn for bem layer, default to dsn if empty</p></dd>
+
+
 <dt>rivers_dsn</dt>
 <dd><p>dsn for rivers layer, default to dsn if empty</p></dd>
+
+
 <dt>wetlands_dsn</dt>
 <dd><p>dsn for wetlands layer, default to dsn if empty</p></dd>
+
+
 <dt>ccb_dsn</dt>
 <dd><p>dsn for ccb layer, default to dsn if empty</p></dd>
+
+
 <dt>elevation_dsn</dt>
 <dd><p>dsn for elevation raster, must be provided because cannot be part of a .gbd , needs to be .tif</p></dd>
+
+
 <dt>layers_names_list</dt>
 <dd><p>named list that contains the layer name for the vri, bem, rivers, wetlands and ccb layers</p></dd>
+
+
 <dt>beu_bec_csv</dt>
 <dd><p>dsn for beu bec csv</p></dd>
+
+
 <dt>beu_wetland_update_csv</dt>
 <dd><p>dsn for wetlands correction csv</p></dd>
+
+
+<dt>rules_xl</dt>
+<dd><p>dsn  for excel file of rules for improvement of beu</p></dd>
+
+
 <dt>unique_ecosystem</dt>
 <dd><p>dsn for unique ecosystem csv filled with values</p></dd>
+
+
 <dt>clear_site_ma</dt>
 <dd><p>boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared</p></dd>
+
+
 <dt>use_ifelse</dt>
 <dd><p>boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC</p></dd>
+
+
 <dt>most_recent_harvest_year</dt>
 <dd><p>integer that represent the most recent harvest year</p></dd>
+
+
 <dt>elevation_threshold</dt>
 <dd><p>numeric elevation threshold used to create above elevation indicator (<code>ABOVE_ELEV_THOLD</code>)</p></dd>
+
+
 <dt>wkt_filter</dt>
 <dd><p>character; WKT representation of a spatial filter (may be used as bounding box, selecting overlapping geometries)</p></dd>
+
+
 <dt>n_iterations</dt>
 <dd><p>integer number of iterations, usefull when running out of RAM to load smaller areas and iterate over them one at a time</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>boolean , if TRUE function will return message to indicate progress throughout the function execution</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Summary of Area by unique ecosystem</p>
+    
+
+<p>Summary of Area by unique ecosystem</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -157,7 +199,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
