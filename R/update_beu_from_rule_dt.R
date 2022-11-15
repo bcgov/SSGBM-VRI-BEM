@@ -11,9 +11,10 @@
 update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
 
   setDT(vri_bem)
+  rules_dt <- copy(rules_dt)
 
   # find rule columns except tree rules
-  rules_dt_names <- names(rules_dt)
+  rules_dt_names <- copy(names(rules_dt))
   length_rules_dt_names <- length(rules_dt_names)
   which_name_input <- which(rules_dt_names == "INPUTS")
   which_name_output <- which(rules_dt_names == "OUTPUTS")
@@ -70,7 +71,14 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     which_lines <- vri_bem[, which(eval(rules_dt[["total_expr"]][[rule]]))]
     for (output_col in (which_name_output + 1):length_rules_dt_names) {
       # TODO find out which BEUMC to replace between the 3 deciles
-      set(vri_bem, i = which_lines, j = rules_dt_names[output_col], value = rules_dt[[rules_dt_names[output_col]]][rule])
+      # I assume we update all decile
+      if (rules_dt_names[output_col] == "BEUMC") {
+        for (i in 1:3) {
+          set(vri_bem, i = which_lines, j = paste0(rules_dt_names[output_col], "_S", i), value = rules_dt[[rules_dt_names[output_col]]][rule])
+        }
+      } else {
+        set(vri_bem, i = which_lines, j = rules_dt_names[output_col], value = rules_dt[[rules_dt_names[output_col]]][rule])
+      }
     }
   }
 
