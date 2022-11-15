@@ -30,38 +30,7 @@ rules_dt[,  paste0("string_vector_", tree_species_var) :=  lapply(.SD, convert_r
 vri_bem_species_var <- grep("^SPEC_CD_", names(vri_bem), value = T)
 vri_bem_pct_var <- grep("^SPEC_PCT_", names(vri_bem), value = T)
 
-sum_pct_for_species_in_list <-  function(tree_list, vri_bem = NULL, species_var = NULL, pct_var = NULL) {
-  if (is.null(species_var)) {
-   species_var <- grep("^SPEC_CD_", names(vri_bem), value = T)
-  }
-  if (is.null(pct_var)) {
-   pct_var <- grep("^SPEC_PCT_", names(vri_bem), value = T)
-  }
 
-  species_list <- convert_rule_list_to_string_vector(tree_list)
-
-  for (i in seq_along(vri_bem_species_var)) {
-    if (i == 1) {
-      string_expression <- paste0("(", species_var[i], " %in% ", species_list, ") * ", pct_var[i], " ")
-    } else {
-      string_expression <- paste0(string_expression, " + ", paste0("(", species_var[i], " %in% ", species_list, ") * ", pct_var[i], " "))
-    }
-  }
-
-  return(string_expression)
-}
-
-sum_pct_of_species_in_list_is_within_range <-  function(tree_list, tree_range, species_var = NULL, pct_var = NULL) {
-  sum_pct_string_expression <-  sum_pct_for_species_in_list(tree_list = tree_list, species_var = species_var, pct_var = pct_var)
-  range_pct <- strsplit(tree_range, split = "-")
-
-  string_expression <- character(length(range_pct))
-  for (i in seq_along(range_pct)) {
-    string_expression[i] <- paste0("between(", sum_pct_string_expression[i], ",", range_pct[[i]][1], ",", range_pct[[i]][2], ")")
-  }
-
-  return(string_expression)
-}
 
 rules_dt[, sum_pct_of_species_in_list_is_within_range(tree_list = TREE_RL_SP_CD_1, tree_range = TREE_RL_SP_PCT_1, species_var = vri_bem_species_var,
                                                       pct_var = vri_bem_pct_var)]

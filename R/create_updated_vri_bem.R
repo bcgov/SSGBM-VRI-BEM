@@ -7,6 +7,7 @@
 #' @param wetlands sf object of wetlands
 #' @param beu_bec_csv data.table of beu_bec_csv
 #' @param beu_wetland_update_csv data.table of wetlands correction csv
+#' @param rules_dt data.table of rules for improvement of beu
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
 #' @param return_intersection_dt Boolean, if TRUE will return a list that contains the sf object and the intersection data.table of VRI and BEM
@@ -14,7 +15,7 @@
 #' @return sf object updated vri-bem
 #' @export
 #'
-create_updated_vri_bem <- function(vri, bem, rivers, wetlands, beu_bec_csv, beu_wetland_update_csv,
+create_updated_vri_bem <- function(vri, bem, rivers, wetlands, beu_bec_csv, beu_wetland_update_csv, rules_dt,
                                    clear_site_ma = TRUE, use_ifelse = TRUE, return_intersection_dt = FALSE, verbose = TRUE) {
 
   # merge bem attributes on vri
@@ -50,6 +51,9 @@ create_updated_vri_bem <- function(vri, bem, rivers, wetlands, beu_bec_csv, beu_
   vri_bem <- update_bem_from_wetlands(vri_bem = vri_bem,
                                       wetlands = wetlands,
                                       buc = beu_wetland_update_csv)
+
+  vri_bem <-  update_beu_from_rule_dt(vri_bem = vri_bem,
+                                       rules_dt = rules_dt)
 
   if (return_intersection_dt) {
     return(list(vri_bem = vri_bem, intersection_dt = vri_bem_intersection_dt))

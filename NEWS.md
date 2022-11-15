@@ -1,6 +1,6 @@
 # SSGBM.VRI.BEM 0.1.0
 
-* added `improve_beu_from_rule_dt` function
+* added `update_beu_from_rule_dt` function
 
 # SSGBM.VRI.BEM 0.0.2
 
