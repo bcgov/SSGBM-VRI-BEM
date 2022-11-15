@@ -11,6 +11,7 @@ create_updated_vri_bem(
   wetlands,
   beu_bec_csv,
   beu_wetland_update_csv,
+  rules_dt,
   clear_site_ma = TRUE,
   use_ifelse = TRUE,
   return_intersection_dt = FALSE,
@@ -29,6 +30,8 @@ create_updated_vri_bem(
 \item{beu_bec_csv}{data.table of beu_bec_csv}
 
 \item{beu_wetland_update_csv}{data.table of wetlands correction csv}
+
+\item{rules_dt}{data.table of rules for improvement of beu}
 
 \item{clear_site_ma}{boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared}
 

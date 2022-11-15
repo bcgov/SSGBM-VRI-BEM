@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SSGBM.VRI.BEM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -60,46 +60,72 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_updated_vri_bem</span><span class="op">(</span>
-  <span class="va">vri</span>,
-  <span class="va">bem</span>,
-  <span class="va">rivers</span>,
-  <span class="va">wetlands</span>,
-  <span class="va">beu_bec_csv</span>,
-  <span class="va">beu_wetland_update_csv</span>,
-  clear_site_ma <span class="op">=</span> <span class="cn">TRUE</span>,
-  use_ifelse <span class="op">=</span> <span class="cn">TRUE</span>,
-  return_intersection_dt <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_updated_vri_bem</span><span class="op">(</span></span>
+<span>  <span class="va">vri</span>,</span>
+<span>  <span class="va">bem</span>,</span>
+<span>  <span class="va">rivers</span>,</span>
+<span>  <span class="va">wetlands</span>,</span>
+<span>  <span class="va">beu_bec_csv</span>,</span>
+<span>  <span class="va">beu_wetland_update_csv</span>,</span>
+<span>  <span class="va">rules_dt</span>,</span>
+<span>  clear_site_ma <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_ifelse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  return_intersection_dt <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>vri</dt>
 <dd><p>sf object of vri</p></dd>
+
+
 <dt>bem</dt>
 <dd><p>sf objects of bem</p></dd>
+
+
 <dt>rivers</dt>
 <dd><p>sf object of rivers</p></dd>
+
+
 <dt>wetlands</dt>
 <dd><p>sf object of wetlands</p></dd>
+
+
 <dt>beu_bec_csv</dt>
 <dd><p>data.table of beu_bec_csv</p></dd>
+
+
 <dt>beu_wetland_update_csv</dt>
 <dd><p>data.table of wetlands correction csv</p></dd>
+
+
+<dt>rules_dt</dt>
+<dd><p>data.table of rules for improvement of beu</p></dd>
+
+
 <dt>clear_site_ma</dt>
 <dd><p>boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared</p></dd>
+
+
 <dt>use_ifelse</dt>
 <dd><p>boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC</p></dd>
+
+
 <dt>return_intersection_dt</dt>
 <dd><p>Boolean, if TRUE will return a list that contains the sf object and the intersection data.table of VRI and BEM</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>boolean , if TRUE function will return message to indicate progress throughout the function execution</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>sf object updated vri-bem</p>
+    
+
+<p>sf object updated vri-bem</p>
     </div>
 
   </div>
@@ -114,7 +140,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

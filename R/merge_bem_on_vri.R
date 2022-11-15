@@ -91,6 +91,7 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
 #' The BEM attribute fields will be populated by copying the BEM values.
 #' @import data.table
 #' @export
+#' @keywords internal
 merge_bem_on_vri.data.table <- function(vri, bem) {
 
   # check if teis_id seems already merged on vri

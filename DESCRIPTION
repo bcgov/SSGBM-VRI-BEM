@@ -1,6 +1,6 @@
 Package: SSGBM.VRI.BEM
 Title: Vegetation Resource Inventory & Broad Ecosystem Mapping
-Version: 0.0.2
+Version: 0.1.0
 Authors@R: c(
     person("Nicolas", "Gauthier", email = "nicolas@boostao.ca", role = c("aut", "cre"),
        comment = c(ORCID = "0000-0003-0642-4130")),
@@ -17,10 +17,12 @@ Imports:
   sf,
   terra, 
   units,
-  bcdata
+  bcdata,
+  rlang
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests: 
-    rmarkdown
+    rmarkdown,
+    readxl

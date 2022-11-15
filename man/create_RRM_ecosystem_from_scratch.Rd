@@ -16,6 +16,7 @@ create_RRM_ecosystem_from_scratch(
     "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY", ccb = "CNS_CUT_BL_polygon"),
   beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv",
   beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
+  rules_xl,
   unique_ecosystem = "csv/Skeena_VRIBEM_LUT.csv",
   clear_site_ma = TRUE,
   use_ifelse = TRUE,
@@ -46,6 +47,8 @@ create_RRM_ecosystem_from_scratch(
 \item{beu_bec_csv}{dsn for beu bec csv}
 
 \item{beu_wetland_update_csv}{dsn for wetlands correction csv}
+
+\item{rules_xl}{dsn  for excel file of rules for improvement of beu}
 
 \item{unique_ecosystem}{dsn for unique ecosystem csv filled with values}
 

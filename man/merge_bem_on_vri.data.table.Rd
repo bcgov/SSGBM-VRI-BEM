@@ -21,3 +21,4 @@ This function copies all of the attributes in the specified BEM (broad ecosystem
 Its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.
 The BEM attribute fields will be populated by copying the BEM values.
 }
+\keyword{internal}

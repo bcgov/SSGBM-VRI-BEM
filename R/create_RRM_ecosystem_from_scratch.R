@@ -11,6 +11,7 @@
 #' @param layers_names_list named list that contains the layer name for the vri, bem, rivers, wetlands and ccb layers
 #' @param beu_bec_csv dsn for beu bec csv
 #' @param beu_wetland_update_csv dsn for wetlands correction csv
+#' @param rules_xl dsn  for excel file of rules for improvement of beu
 #' @param unique_ecosystem dsn for unique ecosystem csv filled with values
 #' @param clear_site_ma boolean, if TRUE variable SITE_M1A, SITE_M2A will be cleared
 #' @param use_ifelse boolean, if TRUE correction done after the combine_duplicated_BEUMC will only be applied on rows that were not affected by the correction of duplicated BEUMC
@@ -46,7 +47,7 @@
 #'
 create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dsn, ccb_dsn = dsn, elevation_dsn,
                                               layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers = "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY", ccb = "CNS_CUT_BL_polygon"),
-                                              beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv", unique_ecosystem = "csv/Skeena_VRIBEM_LUT.csv",
+                                              beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv", rules_xl, unique_ecosystem = "csv/Skeena_VRIBEM_LUT.csv",
                                               clear_site_ma = TRUE, use_ifelse = TRUE, most_recent_harvest_year, elevation_threshold = 1400, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
 
   # TODO add default wkt_filter when no filter is passed but number of iterations is greater than 1 (maybe default to the whole skeena region, store it as part of the package)
@@ -70,6 +71,7 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
   beu_bec_csv <- fread(beu_bec_csv)
   beu_wetland_update_csv <- fread(beu_wetland_update_csv)
   unique_ecosystem_dt <- read_unique_ecosystem_dt(unique_ecosystem)
+  rules_dt <- setDT(read_excel(rules_xl, sheet = "Combined_Rules_for_Script"))
 
   # compute slope and aspect only once before the loop
   if (verbose) {
@@ -98,7 +100,7 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
     ccb <- read_ccb(ccb_dsn, layer = layers_names_list$ccb, wkt_filter = filter)
 
     # create the vri-bem with bem attributes updated based on vri, wetlands and rivers
-    vri_bem <- create_updated_vri_bem(vri = vri, bem = bem, rivers = rivers, wetlands = wetlands, beu_bec_csv = beu_bec_csv, beu_wetland_update_csv = beu_wetland_update_csv,
+    vri_bem <- create_updated_vri_bem(vri = vri, bem = bem, rivers = rivers, wetlands = wetlands, beu_bec_csv = beu_bec_csv, beu_wetland_update_csv = beu_wetland_update_csv, rules_dt = rules_dt,
                                       clear_site_ma = clear_site_ma, use_ifelse = use_ifelse, return_intersection_dt = TRUE, verbose = verbose)
 
     vri_bem_intersection_dt <- vri_bem$intersection_dt

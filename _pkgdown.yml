@@ -4,6 +4,7 @@ reference:
   - '`merge_bem_on_vri`'
   - '`update_bem_from_vri`'
   - '`update_bem_from_wetlands`'
+  - '`update_beu_from_rule_dt`'
   - '`create_unique_ecosystem_dt`'
   - '`merge_elevation_raster_on_sf`'
   - '`merge_ccb_on_vri`'
