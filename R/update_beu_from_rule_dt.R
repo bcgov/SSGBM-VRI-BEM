@@ -7,6 +7,7 @@
 #' @return sf object
 #' @import rlang
 #' @import data.table
+#' @import sf
 #' @export
 update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
 
