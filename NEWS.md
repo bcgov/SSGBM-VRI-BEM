@@ -1,3 +1,7 @@
+# SSGBM.VRI.BEM 0.2.0
+
+* added `merge_rrm_on_vri` function
+
 # SSGBM.VRI.BEM 0.1.0
 
 * added `update_beu_from_rule_dt` function

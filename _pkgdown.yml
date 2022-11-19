@@ -13,6 +13,7 @@ reference:
   - '`merge_unique_ecosystem_fields`'
   - '`find_crown_area_dominant_values`'
   - '`create_RRM_ecosystem`'
+  - '`merge_rrm_on_vri`'
 - title: Read Functions
   contents:
   - '`read_bem`'
@@ -30,6 +31,8 @@ reference:
   - '`set_shifted_eco_variables`'
   - '`summarize_unique_ecosystem`'
   - '`validate_required_attributes`'
+  - '`format_rrm_dt`'
+  - '`calc_capability_rating`'
 - title: Global Functions
   contents:
   - '`create_RRM_ecosystem_from_scratch`'
