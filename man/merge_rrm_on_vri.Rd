@@ -4,12 +4,14 @@
 \alias{merge_rrm_on_vri}
 \title{merge_rrm_on_vri}
 \usage{
-merge_rrm_on_vri(vri_bem, rrm_dt)
+merge_rrm_on_vri(vri_bem, rrm_dt, return_sf = TRUE)
 }
 \arguments{
 \item{vri_bem}{sf object that represent VRI (vegetation ressource inventory) features}
 
 \item{rrm_dt}{data.table object that contains the rrm}
+
+\item{return_sf}{logical, if TRUE  return sf object , if FALSE return data.table object and update by reference}
 }
 \value{
 sf  vri-bem object with new columns for rating

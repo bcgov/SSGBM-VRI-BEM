@@ -22,6 +22,8 @@ The purpose of this article is to make it easier for someone who knew the Python
 +-------------------------------------------------------------------+---------------------------------+
 | 01c_Step1_Wetland_and_Riparian_Corrections_VRIxBEM                | update_bem_from_wetlands        |
 +-------------------------------------------------------------------+---------------------------------+
+| 01d_Step1_Improve_Forested_BEU                                    | update_beu_from_rule_dt         |
++-------------------------------------------------------------------+---------------------------------+
 | 02_Create_LookupTableTemplate\_\_VRIxBEM                          | create_unique_ecosystem_dt      |
 +-------------------------------------------------------------------+---------------------------------+
 | 03ab_Step3_Add_AspectandSlope_VRIxBEM                             | merge_elevation_raster_on_sf    |
@@ -42,6 +44,8 @@ The purpose of this article is to make it easier for someone who knew the Python
 | 04d3_Add_CROWN_Fields_To_BEM_VRIxBEM                              | find_crown_area_dominant_values |
 +-------------------------------------------------------------------+---------------------------------+
 | 05_CreateEcosystemTablesForRRM_VRIxBEM                            | create_RRM_ecosystem            |
++-------------------------------------------------------------------+---------------------------------+
+| 06_AttachRRMOutputToVRIBEM_2020                                   | merge_rrm_on_vri                |
 +-------------------------------------------------------------------+---------------------------------+
 
 
