@@ -32,7 +32,6 @@ reference:
   - '`summarize_unique_ecosystem`'
   - '`validate_required_attributes`'
   - '`format_rrm_dt`'
-  - '`calc_capability_rating`'
 - title: Global Functions
   contents:
   - '`create_RRM_ecosystem_from_scratch`'

@@ -14,5 +14,8 @@ format_rrm_dt <- function(rrm_dt) {
 
   rrm_dt[Site_m3a == "", Site_m3a := NA_character_]
 
+  setorder(rrm_dt, Eco_sec, Bgc_zone, Bgc_subzon, Bgc_vrt, Bgc_phase, Beumc,
+           Slope_mod, Site_m3a, Snow_code, Above_Elev_Thold, Crown_Bear, MURAR_PEFD_6C)
+
   return(rrm_dt)
 }
