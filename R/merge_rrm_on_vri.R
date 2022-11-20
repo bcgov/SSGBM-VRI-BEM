@@ -125,6 +125,10 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, return_sf = TRUE) {
   set(vri_bem, i = which_cap_2_is_na, j = "MURAR_PEFD_CAP_2", value = NA)
   set(vri_bem, i = which_cap_3_is_na, j = "MURAR_PEFD_CAP_3", value = NA)
 
+  set(vri_bem , j = "STAND_A1_temp", value = NULL)
+  set(vri_bem , j = "STAND_A2_temp", value = NULL)
+  set(vri_bem , j = "STAND_A3_temp", value = NULL)
+
   if (return_sf) {
     return(st_as_sf(vri_bem))
   } else {
