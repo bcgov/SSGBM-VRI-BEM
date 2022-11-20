@@ -18,12 +18,23 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
   rules_dt_names <- copy(names(rules_dt))
   length_rules_dt_names <- length(rules_dt_names)
   which_name_input <- which(rules_dt_names == "INPUTS")
+  if (length(which_name_input) != 1) {
+    stop("One empty column named 'INPUTS' is expected in the rule file to mark the beginning of the columns use to create rules")
+  }
   which_name_output <- which(rules_dt_names == "OUTPUTS")
+  if (length(which_name_input) != 1) {
+    stop("One empty column named 'OUTPUTS' is expected in the rule file to mark the end of the columns use to create rules and the beginning of the columns use to create outputs")
+  }
 
   tree_list_var <- grep("^TREE_RL_SP_CD_[0-9]$", names(rules_dt))
   tree_pct_var <- grep("^TREE_RL_SP_PCT_[0-9]$", names(rules_dt))
   rule_columns <- setdiff((which_name_input + 1):(which_name_output - 1), c(tree_list_var, tree_pct_var))
 
+  # all rule column must appear in the vri_bem
+  rule_not_in_vri <- setdiff(rules_dt_names[rule_columns], names(vri_bem))
+  if (length(rule_not_in_vri) > 0) {
+    stop(paste0("Following rules are not a feature in vri-bem : ", rule_not_in_vri))
+  }
   # create expession for all rule column except for tree rules
 
   # for non tree rules there is 4 possibilities

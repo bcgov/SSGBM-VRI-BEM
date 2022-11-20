@@ -1,6 +1,7 @@
 # SSGBM.VRI.BEM 0.2.0
 
 * added `merge_rrm_on_vri` function
+* added error message for incorrect input in rule file
 
 # SSGBM.VRI.BEM 0.1.0
 
