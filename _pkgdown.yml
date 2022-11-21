@@ -13,6 +13,8 @@ reference:
   - '`merge_unique_ecosystem_fields`'
   - '`find_crown_area_dominant_values`'
   - '`create_RRM_ecosystem`'
+  - '`create_RRM_ecosystem_moose`'
+  - '`create_RRM_ecosystem_bear`'
   - '`merge_rrm_on_vri`'
 - title: Read Functions
   contents:
