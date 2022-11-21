@@ -1,4 +1,4 @@
-#' merge_rrm_on_vri
+#' merge_rrm_on_vri_bear
 #'
 #' merge suitability and capability rating from rrm onto vri-bem
 #' and calculate highest value and weighted average for each scores
@@ -9,7 +9,7 @@
 #' @return sf  vri-bem object with new columns for rating
 #' @import data.table
 #' @export
-merge_rrm_on_vri <- function(vri_bem, rrm_dt, return_sf = TRUE) {
+merge_rrm_on_vri_bear <- function(vri_bem, rrm_dt, return_sf = TRUE) {
 
   setDT(vri_bem)
 
@@ -143,4 +143,21 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, return_sf = TRUE) {
     return(vri_bem)
   }
 
+}
+
+
+
+#' merge_rrm_on_vri_moose
+#'
+#' merge suitability and capability rating from rrm onto vri-bem
+#' and calculate highest value and weighted average for each scores
+#'
+#' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
+#' @param rrm_dt data.table object that contains the rrm
+#' @param return_sf logical, if TRUE  return sf object , if FALSE return data.table object and update by reference
+#' @return sf  vri-bem object with new columns for rating
+#' @import data.table
+#' @export
+merge_rrm_on_vri_moose <- function(vri_bem, rrm_dt, return_sf = TRUE) {
+  return(vri_bem)
 }

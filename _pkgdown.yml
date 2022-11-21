@@ -15,7 +15,8 @@ reference:
   - '`create_RRM_ecosystem`'
   - '`create_RRM_ecosystem_moose`'
   - '`create_RRM_ecosystem_bear`'
-  - '`merge_rrm_on_vri`'
+  - '`merge_rrm_on_vri_moose`'
+  - '`merge_rrm_on_vri_bear`'
 - title: Read Functions
   contents:
   - '`read_bem`'
