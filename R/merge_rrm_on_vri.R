@@ -19,14 +19,16 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, return_sf = TRUE) {
 
   # Create temp Stand variable to match variable used in the creation of the rrm
   vri_bem[ , STAND_A1_temp := STAND_A1]
-  vri_bem[STAND_A1 %in% c("B", "C", "M") & !STRCT_S1 %in% c("4", "5", "6", "7"), STAND_A1_temp := ""]
+  which_not_in_rrm_1 <- which(vri_bem[["STAND_A1"]] %in% c("B", "C", "M") & !vri_bem[["STRCT_S1"]] %in% c("4", "5", "6", "7"))
+  set(vri_bem, i = which_not_in_rrm_1, j = "STAND_A1_temp", value = "")
 
   vri_bem[ , STAND_A2_temp := STAND_A2]
-  vri_bem[STAND_A2 %in% c("B", "C", "M") & !STRCT_S2 %in% c("4", "5", "6", "7"), STAND_A2_temp := ""]
+  which_not_in_rrm_2 <- which(vri_bem[["STAND_A2"]] %in% c("B", "C", "M") & !vri_bem[["STRCT_S2"]] %in% c("4", "5", "6", "7"))
+  set(vri_bem, i = which_not_in_rrm_2, j = "STAND_A2_temp", value = "")
 
   vri_bem[ , STAND_A3_temp := STAND_A3]
-  vri_bem[STAND_A3 %in% c("B", "C", "M") & !STRCT_S3 %in% c("4", "5", "6", "7"), STAND_A3_temp := ""]
-
+  which_not_in_rrm_3 <- which(vri_bem[["STAND_A3"]] %in% c("B", "C", "M") & !vri_bem[["STRCT_S3"]] %in% c("4", "5", "6", "7"))
+  set(vri_bem, i = which_not_in_rrm_3, j = "STAND_A3_temp", value = "")
 
   # merge on decile 1 ----
   vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
@@ -35,12 +37,15 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, return_sf = TRUE) {
                          CROWN_BEAR_1 = Crown_Bear, STRCT_S1 = Strct_d, STAND_A1_temp = Stand_d),
           c("MURAR_PEFD_SU_1", "MURAR_PEFD_CAP_1") := .(i.MURAR_PEFD_6C, i.MURAR_PEFD_CAP)]
 
+  set(vri_bem, i = which_not_in_rrm_1, j = "MURAR_PEFD_SU_1", value = NA)
   # merge on decile 2 ----
   vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S2 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
                          CROWN_BEAR_2 = Crown_Bear, STRCT_S2 = Strct_d, STAND_A2_temp = Stand_d),
           c("MURAR_PEFD_SU_2", "MURAR_PEFD_CAP_2") := .(i.MURAR_PEFD_6C, i.MURAR_PEFD_CAP)]
+
+  set(vri_bem, i = which_not_in_rrm_2, j = "MURAR_PEFD_SU_2", value = NA)
 
   # merge on decile 3 ----
   vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
@@ -49,12 +54,15 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, return_sf = TRUE) {
                          CROWN_BEAR_3 = Crown_Bear, STRCT_S3 = Strct_d, STAND_A3_temp = Stand_d),
           c("MURAR_PEFD_SU_3", "MURAR_PEFD_CAP_3") := .(i.MURAR_PEFD_6C, i.MURAR_PEFD_CAP)]
 
+  set(vri_bem, i = which_not_in_rrm_3, j = "MURAR_PEFD_SU_3", value = NA)
+
   # calc highest suitability value ----
 
   # assign temporary worst rating  to rating NA to make calculation of best rating easier
-  set(vri_bem, i = which(!(vri_bem[["FORESTED_1"]] == "Y" & vri_bem[["STRCT_S1"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) & !(vri_bem[["FORESTED_1"]] == "N" & vri_bem[["STRCT_S1"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = "MURAR_PEFD_SU_1", value = NA)
-  set(vri_bem, i = which(!(vri_bem[["FORESTED_2"]] == "Y" & vri_bem[["STRCT_S2"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) & !(vri_bem[["FORESTED_2"]] == "N" & vri_bem[["STRCT_S2"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = "MURAR_PEFD_SU_2", value = NA)
-  set(vri_bem, i = which(!(vri_bem[["FORESTED_3"]] == "Y" & vri_bem[["STRCT_S3"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) & !(vri_bem[["FORESTED_3"]] == "N" & vri_bem[["STRCT_S3"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = "MURAR_PEFD_SU_3", value = NA)
+
+  set(vri_bem, i = which((vri_bem[["FORESTED_1"]] == "Y" & vri_bem[["STRCT_S1"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_1"]] == "N" & vri_bem[["STRCT_S1"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = "MURAR_PEFD_SU_1", value = NA)
+  set(vri_bem, i = which((vri_bem[["FORESTED_2"]] == "Y" & vri_bem[["STRCT_S2"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_2"]] == "N" & vri_bem[["STRCT_S2"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = "MURAR_PEFD_SU_2", value = NA)
+  set(vri_bem, i = which((vri_bem[["FORESTED_3"]] == "Y" & vri_bem[["STRCT_S3"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_3"]] == "N" & vri_bem[["STRCT_S3"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = "MURAR_PEFD_SU_3", value = NA)
 
   set(vri_bem, i = which(vri_bem[["MURAR_PEFD_SU_1"]] > 6), j = "MURAR_PEFD_SU_1", value = NA)
   set(vri_bem, i = which(vri_bem[["MURAR_PEFD_SU_2"]] > 6), j = "MURAR_PEFD_SU_2", value = NA)
