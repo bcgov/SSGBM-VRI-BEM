@@ -28,19 +28,6 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
   second_decile_variables <- c(paste0(rating_variables_no_suffix, "_SU_2"), paste0(cap_rating_variables, "_2"))
   third_decile_variables <- c(paste0(rating_variables_no_suffix, "_SU_3"), paste0(cap_rating_variables, "_3"))
 
-  # Create temp Stand variable to match variable used in the creation of the rrm
-  vri_bem[ , STAND_A1_temp := STAND_A1]
-  which_not_in_rrm_1 <- which(vri_bem[["STAND_A1"]] %in% c("B", "C", "M") & !vri_bem[["STRCT_S1"]] %in% c("4", "5", "6", "7"))
-  set(vri_bem, i = which_not_in_rrm_1, j = "STAND_A1_temp", value = "")
-
-  vri_bem[ , STAND_A2_temp := STAND_A2]
-  which_not_in_rrm_2 <- which(vri_bem[["STAND_A2"]] %in% c("B", "C", "M") & !vri_bem[["STRCT_S2"]] %in% c("4", "5", "6", "7"))
-  set(vri_bem, i = which_not_in_rrm_2, j = "STAND_A2_temp", value = "")
-
-  vri_bem[ , STAND_A3_temp := STAND_A3]
-  which_not_in_rrm_3 <- which(vri_bem[["STAND_A3"]] %in% c("B", "C", "M") & !vri_bem[["STRCT_S3"]] %in% c("4", "5", "6", "7"))
-  set(vri_bem, i = which_not_in_rrm_3, j = "STAND_A3_temp", value = "")
-
   if (animal == "bear") {
     merge_rating_bear(vri_bem = vri_bem,
                       rrm_dt = rrm_dt,
@@ -58,10 +45,6 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
                                               third_decile_variables),
                       rating_variables_expr = variables_merge_expr)
   }
-
-  set(vri_bem, i = which_not_in_rrm_1, j = paste0(rating_variables_no_suffix, "_SU_1"), value = NA)
-  set(vri_bem, i = which_not_in_rrm_2, j = paste0(rating_variables_no_suffix, "_SU_2"), value = NA)
-  set(vri_bem, i = which_not_in_rrm_3, j = paste0(rating_variables_no_suffix, "_SU_3"), value = NA)
 
   # calc highest suitability value ----
 
@@ -166,10 +149,6 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
     set(vri_bem, i = which_na_list[[rating_variable]], j = rating_variable, value = NA)
   }
 
-  set(vri_bem , j = "STAND_A1_temp", value = NULL)
-  set(vri_bem , j = "STAND_A2_temp", value = NULL)
-  set(vri_bem , j = "STAND_A3_temp", value = NULL)
-
   if (return_sf) {
     return(st_as_sf(vri_bem))
   } else {
@@ -197,14 +176,14 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S1 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
-                         CROWN_BEAR_1 = Crown_Bear, STRCT_S1 = Strct_d, STAND_A1_temp = Stand_d),
+                         CROWN_BEAR_1 = Crown_Bear, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
           c(", paste0("'", paste(rating_variables[[1]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   # merge on decile 2 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S2 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
-                         CROWN_BEAR_2 = Crown_Bear, STRCT_S2 = Strct_d, STAND_A2_temp = Stand_d),
+                         CROWN_BEAR_2 = Crown_Bear, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
           c(", paste0("'", paste(rating_variables[[2]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
 
@@ -213,7 +192,7 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S3 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
-                         CROWN_BEAR_3 = Crown_Bear, STRCT_S3 = Strct_d, STAND_A3_temp = Stand_d),
+                         CROWN_BEAR_3 = Crown_Bear, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
           c(", paste0("'", paste(rating_variables[[3]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
 
@@ -238,14 +217,14 @@ merge_rating_moose <- function(vri_bem, rrm_dt, rating_variables, rating_variabl
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S1 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
-                         CROWN_MOOSE_1 = Crown_Moose, STRCT_S1 = Strct_d, STAND_A1_temp = Stand_d),
+                         CROWN_MOOSE_1 = Crown_Moose, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
           c(", paste0("'", paste(rating_variables[[1]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   # merge on decile 2 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S2 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
-                         CROWN_MOOSE_2 = Crown_Moose, STRCT_S2 = Strct_d, STAND_A2_temp = Stand_d),
+                         CROWN_MOOSE_2 = Crown_Moose, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
           c(", paste0("'", paste(rating_variables[[2]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
 
@@ -254,7 +233,7 @@ merge_rating_moose <- function(vri_bem, rrm_dt, rating_variables, rating_variabl
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S3 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
-                         CROWN_MOOSE_3 = Crown_Moose, STRCT_S3 = Strct_d, STAND_A3_temp = Stand_d),
+                         CROWN_MOOSE_3 = Crown_Moose, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
           c(", paste0("'", paste(rating_variables[[3]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   return(vri_bem)
