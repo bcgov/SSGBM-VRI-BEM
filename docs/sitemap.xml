@@ -37,6 +37,9 @@
     <loc>/reference/add_std_crown_fields.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_capability_rating.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_forest_age_class.html</loc>
   </url>
   <url>
@@ -49,7 +52,13 @@
     <loc>/reference/create_RRM_ecosystem.html</loc>
   </url>
   <url>
+    <loc>/reference/create_RRM_ecosystem_bear.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_RRM_ecosystem_from_scratch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_RRM_ecosystem_moose.html</loc>
   </url>
   <url>
     <loc>/reference/create_empty_forest_structure_variables.html</loc>
@@ -65,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/find_crown_area_dominant_values.html</loc>
+  </url>
+  <url>
+    <loc>/reference/format_rrm_dt.html</loc>
   </url>
   <url>
     <loc>/reference/format_unique_ecosystem_dt.html</loc>
@@ -83,6 +95,21 @@
   </url>
   <url>
     <loc>/reference/merge_elevation_raster_on_sf.html</loc>
+  </url>
+  <url>
+    <loc>/reference/merge_rating_bear.html</loc>
+  </url>
+  <url>
+    <loc>/reference/merge_rating_moose.html</loc>
+  </url>
+  <url>
+    <loc>/reference/merge_rrm_on_vri.html</loc>
+  </url>
+  <url>
+    <loc>/reference/merge_rrm_on_vri_bear.html</loc>
+  </url>
+  <url>
+    <loc>/reference/merge_rrm_on_vri_moose.html</loc>
   </url>
   <url>
     <loc>/reference/merge_unique_ecosystem_fields.html</loc>
