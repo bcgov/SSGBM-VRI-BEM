@@ -1,6 +1,6 @@
 # SSGBM.VRI.BEM 0.2.0
 
-* added `merge_rrm_on_vri_moose` and `merge_rrm_on_vri_bear` functions
+* added `merge_rrm_on_vri` function
 * added error message for incorrect input in rule file
 * added `create_RRM_ecosystem_bear` function
 * fix bug in creation of RRM so that we don't filter ecosystem that are not projections

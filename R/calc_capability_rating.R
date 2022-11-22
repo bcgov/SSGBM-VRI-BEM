@@ -8,7 +8,9 @@
 #' @export
 calc_capability_rating <- function(rrm_dt) {
   setDT(rrm_dt)
-  rrm_dt[ , MURAR_PEFD_CAP := min(MURAR_PEFD_6C), by = .(Eco_sec, Bgc_zone, Bgc_subzon, Bgc_vrt, Bgc_phase, Beumc, Slope_mod, Site_m3a,
-                                                         Snow_code, Above_Elev_Thold, Crown_Bear)]
+  rating_variables <- grep("_6C$", names(rrm_dt), value = T)
+  cap_rating_variables <- paste0(substr(rating_variables, 1, nchar(rating_variables) - 3), "_CAP")
+  rrm_dt[ , (cap_rating_variables) := lapply(.SD, min), by = .(Eco_sec, Bgc_zone, Bgc_subzon, Bgc_vrt, Bgc_phase, Beumc, Slope_mod, Site_m3a,
+                                                         Snow_code, Above_Elev_Thold, Crown_Bear), .SDcols = (rating_variables)]
   return(rrm_dt)
 }

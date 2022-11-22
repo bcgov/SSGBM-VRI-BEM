@@ -15,8 +15,7 @@ reference:
   - '`create_RRM_ecosystem`'
   - '`create_RRM_ecosystem_moose`'
   - '`create_RRM_ecosystem_bear`'
-  - '`merge_rrm_on_vri_moose`'
-  - '`merge_rrm_on_vri_bear`'
+  - '`merge_rrm_on_vri`'
 - title: Read Functions
   contents:
   - '`read_bem`'
@@ -36,6 +35,8 @@ reference:
   - '`validate_required_attributes`'
   - '`format_rrm_dt`'
   - '`calc_capability_rating`'
+  - "`merge_rating_bear`"
+  - "`merge_rating_moose`"
 - title: Global Functions
   contents:
   - '`create_RRM_ecosystem_from_scratch`'
