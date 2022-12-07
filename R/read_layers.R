@@ -19,7 +19,7 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
              SPECIES_CD_1, SPECIES_CD_2, SPECIES_CD_3, SPECIES_CD_4, SPECIES_CD_5, SPECIES_CD_6,
              SPECIES_PCT_1, SPECIES_PCT_2, SPECIES_PCT_3, SPECIES_PCT_4, SPECIES_PCT_5, SPECIES_PCT_6,
              CROWN_CLOSURE, LAND_COVER_CLASS_CD_1, EST_COVERAGE_PCT_1, LINE_5_VEGETATION_COVER,
-             HARVEST_DATE, PROJ_AGE_1)
+             HARVEST_DATE, PROJ_AGE_1, SOIL_MOISTURE_REGIME_1)
 
     if(length(wkt_filter) > 0 ){
       vri_query <- vri_query %>% filter(INTERSECTS(sf::st_as_sfc(wkt_filter)))

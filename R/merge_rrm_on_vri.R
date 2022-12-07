@@ -175,14 +175,14 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
   # merge on decile 1 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S1 = Beumc, SLOPE_MOD = Slope_mod,
-                         SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
+                         SITE_M3A = Site_m3a, Salmon = Salmon, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
                          CROWN_BEAR_1 = Crown_Bear, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
           c(", paste0("'", paste(rating_variables[[1]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   # merge on decile 2 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S2 = Beumc, SLOPE_MOD = Slope_mod,
-                         SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
+                         SITE_M3A = Site_m3a, Salmon = Salmon, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
                          CROWN_BEAR_2 = Crown_Bear, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
           c(", paste0("'", paste(rating_variables[[2]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
@@ -191,7 +191,7 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
   # merge on decile 3 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S3 = Beumc, SLOPE_MOD = Slope_mod,
-                         SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
+                         SITE_M3A = Site_m3a, Salmon = Salmon, SNOW_CODE = Snow_code, ABOVE_ELEV = Above_Elev_Thold,
                          CROWN_BEAR_3 = Crown_Bear, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
           c(", paste0("'", paste(rating_variables[[3]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
