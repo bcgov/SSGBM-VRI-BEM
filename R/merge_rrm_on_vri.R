@@ -15,18 +15,17 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
   setDT(vri_bem)
 
   # calc capability rating and format rrm table
-  calc_capability_rating(rrm_dt = rrm_dt)
+  calc_capability_rating(rrm_dt = rrm_dt, animal = animal)
   format_rrm_dt(rrm_dt = rrm_dt)
 
   rating_variables <- grep("_6C$", names(rrm_dt), value = T)
-  rating_variables_no_suffix <- substr(rating_variables, 1, nchar(rating_variables) - 3)
-  cap_rating_variables <- paste0(rating_variables_no_suffix, "_CAP")
+  cap_rating_variables <- paste0(rating_variables, "_CAP")
 
   variables_merge_expr <- paste0("list(", paste(paste0("", c(rating_variables, cap_rating_variables)), collapse = ","), ")")
 
-  first_decile_variables <- c(paste0(rating_variables_no_suffix, "_SU_1"), paste0(cap_rating_variables, "_1"))
-  second_decile_variables <- c(paste0(rating_variables_no_suffix, "_SU_2"), paste0(cap_rating_variables, "_2"))
-  third_decile_variables <- c(paste0(rating_variables_no_suffix, "_SU_3"), paste0(cap_rating_variables, "_3"))
+  first_decile_variables <- c(paste0(rating_variables, "_SU_1"), paste0(cap_rating_variables, "_1"))
+  second_decile_variables <- c(paste0(rating_variables, "_SU_2"), paste0(cap_rating_variables, "_2"))
+  third_decile_variables <- c(paste0(rating_variables, "_SU_3"), paste0(cap_rating_variables, "_3"))
 
   if (animal == "bear") {
     merge_rating_bear(vri_bem = vri_bem,
@@ -49,7 +48,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
   # calc highest suitability value ----
 
   which_na_list <- list()
-  for (suitability_variable in rating_variables_no_suffix) {
+  for (suitability_variable in rating_variables) {
 
     first_suit_var <- paste0(suitability_variable, "_SU_1")
     second_suit_var <- paste0(suitability_variable, "_SU_2")
@@ -58,9 +57,9 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
     weighted_average_suit_var <- paste0(suitability_variable, "_SU_WA")
 
     # assign temporary worst rating  to rating NA to make calculation of best rating easier
-    set(vri_bem, i = which((vri_bem[["FORESTED_1"]] == "Y" & vri_bem[["STRCT_S1"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_1"]] == "N" & vri_bem[["STRCT_S1"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = first_suit_var, value = NA)
-    set(vri_bem, i = which((vri_bem[["FORESTED_2"]] == "Y" & vri_bem[["STRCT_S2"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_2"]] == "N" & vri_bem[["STRCT_S2"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = second_suit_var, value = NA)
-    set(vri_bem, i = which((vri_bem[["FORESTED_3"]] == "Y" & vri_bem[["STRCT_S3"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_3"]] == "N" & vri_bem[["STRCT_S3"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N")), j = third_suit_var, value = NA)
+    set(vri_bem, i = which((vri_bem[["FORESTED_1"]] == "Y" & vri_bem[["STRCT_S1"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_1"]] == "N" & vri_bem[["STRCT_S1"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N") & vri_bem[["STS_CLIMAX_1"]] != ""), j = first_suit_var, value = NA)
+    set(vri_bem, i = which((vri_bem[["FORESTED_2"]] == "Y" & vri_bem[["STRCT_S2"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_2"]] == "N" & vri_bem[["STRCT_S2"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N") & vri_bem[["STS_CLIMAX_2"]] != ""), j = second_suit_var, value = NA)
+    set(vri_bem, i = which((vri_bem[["FORESTED_3"]] == "Y" & vri_bem[["STRCT_S3"]] == "7a" & vri_bem[["VRI_AGE_CL_STS"]] == -1) | (vri_bem[["FORESTED_3"]] == "N" & vri_bem[["STRCT_S3"]] == "" & vri_bem[["ABOVE_ELEV"]] == "N") & vri_bem[["STS_CLIMAX_3"]] != ""), j = third_suit_var, value = NA)
 
     set(vri_bem, i = which(vri_bem[[first_suit_var]] > 6), j = first_suit_var, value = NA)
     set(vri_bem, i = which(vri_bem[[second_suit_var]] > 6), j = second_suit_var, value = NA)
@@ -90,7 +89,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
     set(vri_bem, i = which_na_list[[second_suit_var]], j = second_suit_var, value = 0)
     set(vri_bem, i = which_na_list[[third_suit_var]], j = third_suit_var, value = 0)
 
-    wa_expr <- parse_expr(paste0("round(((", first_suit_var, " * SDEC_1) + (", second_suit_var, " * SDEC_2) + (", third_suit_var, "* SDEC_3))/(SDEC_1 * !is.na(", first_suit_var, ") + SDEC_2 * !is.na(", second_suit_var, ") + SDEC_3 * !is.na(", third_suit_var, ")))"))
+    wa_expr <- parse_expr(paste0("round(((", first_suit_var, " * SDEC_1) + (", second_suit_var, " * SDEC_2) + (", third_suit_var, "* SDEC_3))/(SDEC_1 * (", first_suit_var, " != 0) + SDEC_2 * (", second_suit_var, " != 0) + SDEC_3 * (", third_suit_var, " != 0) ))"))
     vri_bem[, (weighted_average_suit_var) := eval(wa_expr)]
     set(vri_bem, i = which(vri_bem[[weighted_average_suit_var]] > 6 | vri_bem[[weighted_average_suit_var]] == 0 | is.nan(vri_bem[[weighted_average_suit_var]])), j = weighted_average_suit_var, value = NA)
 
