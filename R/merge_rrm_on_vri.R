@@ -16,7 +16,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
 
   # calc capability rating and format rrm table
   calc_capability_rating(rrm_dt = rrm_dt)
-  format_rrm_dt(rrm_dt = rrm_dt)
+  format_rrm_dt(rrm_dt = rrm_dt, animal = animal) #updated to format in a species-specific way
 
   rating_variables <- grep("_6C$", names(rrm_dt), value = T)
   rating_variables_no_suffix <- substr(rating_variables, 1, nchar(rating_variables) - 3)

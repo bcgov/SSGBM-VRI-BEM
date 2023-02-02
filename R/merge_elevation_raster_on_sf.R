@@ -23,7 +23,7 @@
 #' @importFrom terra extract terrain `add<-` vect
 #' @export
 #'
-merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1400, terrain_raster = NULL) {
+merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1500, terrain_raster = NULL) { #elevation_threshold should be 1500 for moose
 
   # TODO check if terra is able to compute this even when the raster is to big to me loaded in RAM at once
   # Compute slope and aspect ----
