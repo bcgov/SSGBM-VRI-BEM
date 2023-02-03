@@ -27,6 +27,7 @@ For each of the following combination compute the sum of the area
 \item BEUMC  (BEUMC_S1, BEUMC_S2, BEUMC_S3)
 \item SLOPE_MOD
 \item SITE_M3A
+\item SALMON (added RW 23Nov2022)
 \item SNOW_CODE
 \item ABOVE_ELEV
 \item CROWN_BEAR (CROWN_BEAR_1, CROWN_BEAR_2, CROWN_BEAR_3)
