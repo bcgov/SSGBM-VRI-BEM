@@ -21,11 +21,11 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
   rating_variables <- grep("_6C$", names(rrm_dt), value = T)
   cap_rating_variables <- paste0(rating_variables, "_CAP")
 
-  variables_merge_expr <- paste0("list(", paste(paste0("", c(rating_variables, cap_rating_variables)), collapse = ","), ")")
+  variables_merge_expr <- paste0("list(", paste(paste0("", c(rating_variables, cap_rating_variables , "Hectares")), collapse = ","), ")")
 
-  first_decile_variables <- c(paste0(rating_variables, "_SU_1"), paste0(cap_rating_variables, "_1"))
-  second_decile_variables <- c(paste0(rating_variables, "_SU_2"), paste0(cap_rating_variables, "_2"))
-  third_decile_variables <- c(paste0(rating_variables, "_SU_3"), paste0(cap_rating_variables, "_3"))
+  first_decile_variables <- c(paste0(rating_variables, "_SU_1"), paste0(cap_rating_variables, "_1"), "Hectares_1")
+  second_decile_variables <- c(paste0(rating_variables, "_SU_2"), paste0(cap_rating_variables, "_2"), "Hectares_2")
+  third_decile_variables <- c(paste0(rating_variables, "_SU_3"), paste0(cap_rating_variables, "_3"), "Hectares_3")
 
   if (animal == "bear") {
     merge_rating_bear(vri_bem = vri_bem,
@@ -44,6 +44,8 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
                                               third_decile_variables),
                       rating_variables_expr = variables_merge_expr)
   }
+
+  vri_bem[ , rrm_merge_ind := !is.na(fcoalesce(Hectares_1, Hectares_2, Hectares_3))]
 
   # calc highest suitability value ----
 
@@ -147,6 +149,8 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
   for (rating_variable in names(which_na_list)) {
     set(vri_bem, i = which_na_list[[rating_variable]], j = rating_variable, value = NA)
   }
+
+  set(vri_bem, j = c("Hectares_1", "Hectares_2", "Hectares_3"), value = NULL)
 
   if (return_sf) {
     return(st_as_sf(vri_bem))

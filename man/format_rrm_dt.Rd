@@ -4,10 +4,12 @@
 \alias{format_rrm_dt}
 \title{format_rrm_dt}
 \usage{
-format_rrm_dt(rrm_dt)
+format_rrm_dt(rrm_dt, animal)
 }
 \arguments{
 \item{rrm_dt}{data.table object that contains the rrm}
+
+\item{animal}{character, "bear" or "moose"}
 }
 \value{
 data.table  formatted rrm_dt

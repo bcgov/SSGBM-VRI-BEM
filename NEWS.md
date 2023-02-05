@@ -1,3 +1,10 @@
+# SSGBM.VRI.BEM 0.2.2
+
+* added new argument `animal` to  `format_rrm_output` to handle moose data
+* added change to rrm data in  `format_rrm_output` to handle moose data
+* fix mean_slope calculation so that the result is in percentage (x100)
+
+
 # SSGBM.VRI.BEM 0.2.1
 
 * Added suffixes for rating variables

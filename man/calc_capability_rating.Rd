@@ -4,10 +4,12 @@
 \alias{calc_capability_rating}
 \title{calc_capability_rating}
 \usage{
-calc_capability_rating(rrm_dt)
+calc_capability_rating(rrm_dt, animal)
 }
 \arguments{
 \item{rrm_dt}{data.table object that contains the rrm}
+
+\item{animal}{character, "bear" or "moose"}
 }
 \value{
 data.table rrm with new column capability_rating

@@ -42,7 +42,7 @@ merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_thresho
   # compute mean aspect using circular mean by vri_bem and converting to positive degrees ( to 360)
   mean_raster_by_vri_bem <- setDT(extract(terrain_raster,
                                           vect(vri_bem)))[, .(ELEV = mean(dem),
-                                                              MEAN_SLOPE = mean(slope, na.rm = T) * 57.29578/90,
+                                                              MEAN_SLOPE = mean(slope, na.rm = T) * 57.29578/90 * 100,
                                                               MEAN_ASP = ((atan2(sum(sin(aspect) * (slope > 0), na.rm = T)/sum(slope > 0, na.rm = T), sum(cos(aspect) * (slope > 0), na.rm = T)/sum(slope > 0 , na.rm = T)) * 57.29578) + 360) %% 360),
                                                               by = .(vri_bem_index = as.integer(ID))]
 
