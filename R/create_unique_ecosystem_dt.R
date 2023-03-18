@@ -3,6 +3,7 @@
 #' Generates a data of unique BGC label and habitat combinations for the Look up Table starting point
 #'
 #' @param vri_bem sf object that represent BEM (broad ecosystem mapping) features
+#' @param current_unique_ecosystem_csv string, file path of current unique ecosystem csv. Defaults to NULL
 #' @return data.table that contains the frequency of each unique ecosystem and generates the following empty column to be feed later on:
 #'
 #'   * Forested (Y/N),
@@ -15,12 +16,25 @@
 #'
 #' @import data.table
 #' @export
-create_unique_ecosystem_dt <- function(vri_bem) {
+create_unique_ecosystem_dt <- function(vri_bem, current_unique_ecosyteme_csv = NULL) {
 
   vri_bem <- as.data.table(vri_bem)
 
   unique_ecosystem_dt <- summarize_unique_ecosystem(vri_bem)
 
-  return(create_empty_forest_structure_variables(unique_ecosystem_dt))
+  if (!is.null(current_unique_ecosyteme_csv)) {
+    current_unique_ecosyteme_dt <- fread(current_unique_ecosyteme_csv)
+    unique_ecosystem_dt[, merge_ind := 1]
+    new_unique_ecosystem_dt <- current_unique_ecosyteme_dt[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_MC)]
+    if (sum(is.na(new_unique_ecosystem_dt$merge_ind)) > 0) {
+      warning("Some ecoystem are not present in the current unique ecosystem csv. \n Use fwrite to export the result of this function to csv and fill in the missing values")
+      return(new_unique_ecosystem_dt[order(merge_ind)])
+    } else {
+     message("current unique ecosystem csv covers all case")
+      return(new_unique_ecosystem_dt)
+    }
+  } else {
+    return(create_empty_forest_structure_variables(unique_ecosystem_dt))
+  }
 }
 
