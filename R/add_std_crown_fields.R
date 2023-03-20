@@ -37,6 +37,9 @@ add_std_crown_fields <- function(vri) {
                           pct_in_species_tot < 75, "M",
                           default = "B")]
 
+  #RW edit: Make sure that CR_CLOSURE is numeric
+  vri[, CR_CLOSURE := as.numeric(CR_CLOSURE)]
+
   # create CROWN_BEAR based on CROWN_CLOSURE
 
   vri[ , CROWN_BEAR := fcase(CR_CLOSURE <= 20, 1,

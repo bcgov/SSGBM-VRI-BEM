@@ -236,14 +236,14 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
                        row_updated = TRUE,
                        blank_eco_variables = TRUE)]
 
-  ## LL - Landing (line 505) ----
-  which_LL <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] == "LL" & !vri_bem[["row_updated"]])
+  ## LL - Landing (line 505) ---- #RW removed below code--BEUMC_S1 of 'LL' is already Large Lake. Moved Landing (BCLCS_LV_5 == "LL") to UV
+  # which_LL <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] == "LL" & !vri_bem[["row_updated"]])
 
-  vri_bem[(which_LL), `:=`(SDEC_1 = 10,
-                       BEUMC_S1 = "LL",
-                       lbl_edit = "Updated to 10 LL because BCLCS_LV_5 = 'LL'",
-                       row_updated = TRUE,
-                       blank_eco_variables = TRUE)]
+  #vri_bem[(which_LL), `:=`(SDEC_1 = 10,
+  #                     BEUMC_S1 = "LL",
+  #                     lbl_edit = "Updated to 10 LL because BCLCS_LV_5 = 'LL'",
+  #                     row_updated = TRUE,
+  #                     blank_eco_variables = TRUE)]
 
   ## MI - Mine (line 512) ----
   which_MI <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] %in% c("MI", "TZ", "MZ") & !vri_bem[["row_updated"]])
@@ -293,13 +293,13 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
 
 
   ## UV - Unvegetated (line 547) ----
-  which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") & !vri_bem[["row_updated"]])
+  which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM","LL") & !vri_bem[["row_updated"]]) #edited to add LL ("landing")
 
   vri_bem[(which_UV), `:=`(SDEC_1 = 10,
-                       BEUMC_S1 = "UV",
-                       lbl_edit = "Updated to 10 UV because BCLCS_LV_5 = 'UV', 'RS', 'MU', 'ES', 'CB', 'MN' or 'RM'",
-                       row_updated = TRUE,
-                       blank_eco_variables = TRUE)]
+                           BEUMC_S1 = "UV",
+                           lbl_edit = "Updated to 10 UV because BCLCS_LV_5 = 'UV', 'RS', 'MU', 'ES', 'CB', 'MN','LL', or 'RM'", #edited to add LL ("landing")
+                           row_updated = TRUE,
+                           blank_eco_variables = TRUE)]
 
   which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["LAND_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") &
                       vri_bem[["COV_PCT_1"]] >= 95 & !vri_bem[["row_updated"]])

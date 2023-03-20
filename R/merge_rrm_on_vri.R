@@ -135,7 +135,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
     set(vri_bem, i = which_na_list[[second_cap_var]], j = second_cap_var, value = 0)
     set(vri_bem, i = which_na_list[[third_cap_var]], j = third_cap_var, value = 0)
 
-    wa_expr <- parse_expr(paste0("round(((", first_cap_var, " * SDEC_1) + (", second_cap_var, " * SDEC_2) + (", third_cap_var, "* SDEC_3))/(SDEC_1 + SDEC_2 + SDEC_3))"))
+    wa_expr <- parse_expr(paste0("round(((", first_cap_var, " * SDEC_1) + (", second_cap_var, " * SDEC_2) + (", third_cap_var, "* SDEC_3))/(SDEC_1 * (", first_cap_var, " != 0) + SDEC_2 * (", second_cap_var, " != 0) + SDEC_3 * (", third_cap_var, " != 0) ))")) #otherwise not calculating CAP properly (moose)
     vri_bem[, (weighted_average_cap_var) := eval(wa_expr)]
     set(vri_bem, i = which(vri_bem[[weighted_average_cap_var]] > 6), j = weighted_average_cap_var, value = NA)
 

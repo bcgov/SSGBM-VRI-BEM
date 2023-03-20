@@ -144,7 +144,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
                               default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
-  vri_bem[substr(STRCT_S1, start = 1, stop = 1) %in% c("4", "5", "6", "7") ,
+  vri_bem[substr(STRCT_S1, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b
           STAND_A1 := fcase(STD_VRI != "", STD_VRI,
                             VRI_AGE_CL_STD > 0, STAND_AGE_1,
                             FORESTED_1 == "N" | parkland_ind , STAND_CLIMAX_1,
@@ -181,7 +181,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
                               default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
-  vri_bem[substr(STRCT_S2, start = 1, stop = 1) %in% c("4", "5", "6", "7") ,
+  vri_bem[substr(STRCT_S2, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b
           STAND_A2 := fcase(STD_VRI != "", STD_VRI,
                             VRI_AGE_CL_STD > 0, STAND_AGE_2,
                             FORESTED_2 == "N" | parkland_ind , STAND_CLIMAX_2,
@@ -218,7 +218,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
                               default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
-  vri_bem[substr(STRCT_S3, start = 1, stop = 1) %in% c("4", "5", "6", "7") ,
+  vri_bem[substr(STRCT_S3, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b
           STAND_A3 := fcase(STD_VRI != "", STD_VRI,
                             VRI_AGE_CL_STD > 0, as.character(STAND_AGE_3),
                             FORESTED_3 == "N" | parkland_ind , as.character(STAND_CLIMAX_3), #TODO remove as.char ?
