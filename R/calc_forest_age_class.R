@@ -43,6 +43,7 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
   # if proj_age_1 is empty the year of harvest date and most_recent_harvest_year to compute the projected age
   # the VRI layer (PROJ_AGE_1) is more out-of-date than the CCB (HARVEST_YEAR), so in all cases where HARVEST_YEAR is not NA, it should be used to calculate polygon age. When HARVEST_YEAR is NA, PROJ_AGE_1 should retain its initial value
   vri_bem[!is.na(HARVEST_YEAR), PROJ_AGE_1 := most_recent_harvest_year - HARVEST_YEAR]
+  vri_bem[, PROJ_AGE_1 := as.numeric(PROJ_AGE_1)] #RW edit: make sure PROJ_AGE is numeric
 
   # create variable for structural stage look up
   vri_bem[ , VRI_AGE_CL_STS := fcase(PROJ_AGE_1 < 0, -1,
@@ -57,6 +58,8 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
                                      PROJ_AGE_1 > 249, 301,
                                      default = -1)]
 
+  vri_bem[, VRI_AGE_CL_STS := as.numeric(VRI_AGE_CL_STS)] #RW edit: make sure VRI_AGE_CL_STS is numeric
+
   # create variable for stand composition look up
   vri_bem[ , VRI_AGE_CL_STD := fcase(PROJ_AGE_1 < 0, -1,
                                      PROJ_AGE_1 <= 15, 15,
@@ -65,6 +68,8 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
                                      PROJ_AGE_1 <= 80, 80,
                                      PROJ_AGE_1 > 80, 9999,
                                      default = -1)]
+
+  vri_bem[, VRI_AGE_CL_STD := as.numeric(VRI_AGE_CL_STD)] #RW edit: make sure VRI_AGE_CL_STD is numeric
 
 
   # change object back to sf and return
