@@ -24,13 +24,24 @@ create_unique_ecosystem_dt <- function(vri_bem, current_unique_ecosyteme_csv = N
 
   if (!is.null(current_unique_ecosyteme_csv)) {
     current_unique_ecosyteme_dt <- fread(current_unique_ecosyteme_csv)
+    format_unique_ecosystem_dt(current_unique_ecosyteme_dt)
     unique_ecosystem_dt[, merge_ind := 1]
-    new_unique_ecosystem_dt <- current_unique_ecosyteme_dt[unique_ecosystem_dt, on = .(BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_MC)]
-    if (sum(is.na(new_unique_ecosystem_dt$merge_ind)) > 0) {
-      warning("Some ecoystem are not present in the current unique ecosystem csv. \n Use fwrite to export the result of this function to csv and fill in the missing values")
-      return(new_unique_ecosystem_dt[order(merge_ind)])
+    current_unique_ecosyteme_dt[, merge_ind := 1]
+    new_unique_ecosystem_dt <- merge(current_unique_ecosyteme_dt, unique_ecosystem_dt, by = c("BGC_ZONE", "BGC_SUBZON", "BGC_VRT", "BGC_PHASE", "BEU_MC"), all = TRUE)
+    nbr_missing <- sum(is.na(new_unique_ecosystem_dt$merge_ind.x) & new_unique_ecosystem_dt$merge_ind.y == 1)
+    if (nbr_missing > 0) {
+      warning(paste0("Some ecoystem are not present in the current unique ecosystem csv. \n Use fwrite to export the result of this function to csv and fill in the missing values \n line 1 to ", nbr_missing, " need to be filled in"))
+      new_unique_ecosystem_dt[, merge_ind.x := NULL]
+      new_unique_ecosystem_dt[, FREQ := fifelse(!is.na(FREQ.y), FREQ.y, FREQ.x)]
+      new_unique_ecosystem_dt[, FREQ.x := NULL]
+      new_unique_ecosystem_dt[, FREQ.y := NULL]
+      return(new_unique_ecosystem_dt[order(merge_ind.y)][ , merge_ind.y := NULL])
     } else {
      message("current unique ecosystem csv covers all case")
+      new_unique_ecosystem_dt[, merge_ind.y := NULL]
+      new_unique_ecosystem_dt[, merge_ind.x := NULL]
+      new_unique_ecosystem_dt[, FREQ.x := NULL]
+      new_unique_ecosystem_dt[, FREQ.y := NULL]
       return(new_unique_ecosystem_dt)
     }
   } else {
