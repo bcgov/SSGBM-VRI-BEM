@@ -1,3 +1,7 @@
+# SSGBM.VRI.BEM (development version)
+
+* Address misassigned BEUs and structural stage 
+
 # SSGBM.VRI.BEM 0.2.2
 
 * added new argument `animal` to  `format_rrm_output` to handle moose data

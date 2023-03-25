@@ -555,6 +555,31 @@ remove_inadequate_wetlands <- function(ifc){
   set(ifc, i = which_treed_pure_WL, j = "lbl_edit", value = "**** Warning: Polygon is pure WL, but BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_pure_WL, j = "row_updated", value = TRUE)
 
+  # Remove BEU for lakes ----
+  # In cases for small lakes (LS), large lakes (LL), and open water (OW) where BCLCS_LV_5 AND LAND_CD_1 DO NOT equal LA,
+  # remove BEU label for lakes -- will need to be manually assigned. Otherwise, if BCLCS_LV_5 OR LAND_CD_1 = LA, leave BEU as-is.
+  # include "OT" with "LA". Sometimes lakes are assigned BCLCS = "OT"
+  which_lakes_w_BEU <- which(ifc[["BEUMC_S1"]] %in% c("LS", "LL", "OW") & !ifc[["BCLCS_LV_5"]] %in% c("LA","OT") & !ifc[["LAND_CD_1"]] %in% c("LA","OT"))
+  set(ifc, i = which_lakes_w_BEU, j = "BEUMC_S1", value = "")
+
+  #If the BEU was correctly assigned to an ecosystem which should not have a structural stage (as identified in the lookup table)
+  # remove associated structure/stand information so it correctly populates suitability
+
+  which_BEU_1_in_list <- which(ifc[["BEUMC_S1"]] %in% c("LS", "LL", "OW","MI","GL","TC","UR","RE","RI","ES","ST","UR"))
+  which_BEU_2_in_list <- which(ifc[["BEUMC_S2"]] %in% c("LS", "LL", "OW","MI","GL","TC","UR","RE","RI","ES","ST","UR"))
+  which_BEU_3_in_list <- which(ifc[["BEUMC_S3"]] %in% c("LS", "LL", "OW","MI","GL","TC","UR","RE","RI","ES","ST","UR"))
+
+  set(ifc, i = which_BEU_1_in_list, j = c("STRCT_S1", "STAND_A1"), value = "")
+  set(ifc, i = which_BEU_2_in_list, j = c("STRCT_S2", "STAND_A2"), value = "")
+  set(ifc, i = which_BEU_3_in_list, j = c("STRCT_S3", "STAND_A3"), value = "")
+
+  #make non-forested features are not indicated as forested
+  set(ifc, i = which_BEU_1_in_list, j = "FORESTED_1", value = "N")
+  set(ifc, i = which_BEU_2_in_list, j = "FORESTED_2", value = "N")
+  set(ifc, i = which_BEU_3_in_list, j = "FORESTED_3", value = "N")
+
   ifc
 
 }
+
+
