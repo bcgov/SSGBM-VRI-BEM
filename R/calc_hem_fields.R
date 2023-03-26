@@ -10,7 +10,7 @@
 #' @import sf
 #' @import data.table
 #' @export
-calc_hem_fields <- function(vri_bem, fire, hem_fields, current_year = year(Sys.Date())) {
+calc_hem_fields <- function(vri_bem, fire, hem_fields = SSGBM.VRI.BEM::hem_fields, current_year = year(Sys.Date())) {
 
   # Compute percentage of vri with fire
   st_agr(fire) <- "constant"
@@ -36,7 +36,7 @@ calc_hem_fields <- function(vri_bem, fire, hem_fields, current_year = year(Sys.D
   vri_bem[, Static_Upland := fcase(BCLCS_LV_1 == "V" & BCLCS_LV_2 == "N" & BCLCS_LV_3 == "U" & BCLCS_LV_4 %in% c("ST","HE") & BCLCS_LV_5 %in% c("OP", "DE"), 1,
                                    BCLCS_LV_1 == "V" & BCLCS_LV_2 == "N" & BCLCS_LV_3 == "U" & BCLCS_LV_4 == "SL" & BCLCS_LV_5 == "OP", 1,
                                    BCLCS_LV_1 == "V" & BCLCS_LV_2 == "N" & BCLCS_LV_3 == "U" & BCLCS_LV_4 == "BY" & BCLCS_LV_5 == "CL", 1,
-                                   BCLCS_LV_1 == "V" & BCLCS_LV_2 == "T" & BCLCS_LV_3 == "U" & BCLCS_LV_4 == "TC" & BCLCS_LV_5 %in% c("SP", "OP"),
+                                   BCLCS_LV_1 == "V" & BCLCS_LV_2 == "T" & BCLCS_LV_3 == "U" & BCLCS_LV_4 == "TC" & BCLCS_LV_5 %in% c("SP", "OP"), 1,
                                    default = 0)]
 
   vri_bem[, Static_Willow := fifelse(SPEC_CD_1 %in% c("W", "WS") | SPEC_CD_2 %in% c("W", "WS"), 1, 0)]
@@ -85,7 +85,7 @@ calc_hem_fields <- function(vri_bem, fire, hem_fields, current_year = year(Sys.D
 
   vri_bem[, Slope_Limit := fifelse(MEAN_SLOPE < 81, 1, 0)]
 
-  vri_bem[, W_Site_Conditions_Met := fifelse(Waterbody == 1 & Elev_Threshold == 1 & Slope_Limit == 1)]
+  vri_bem[, W_Site_Conditions_Met := fifelse(Waterbody == 1 & Elev_Threshold == 1 & Slope_Limit == 1, 1, 0)]
 
   vri_bem[, Age_Class8_9 := fifelse(PROJ_AGE_1 %in% c("8", "9"), 1, 0)]
 
