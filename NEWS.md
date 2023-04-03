@@ -1,6 +1,11 @@
-# SSGBM.VRI.BEM (development version)
+# SSGBM.VRI.BEM 0.2.3
 
 * Address misassigned BEUs and structural stage 
+* Added `calc_hem_fields`
+* Added `create_hem_rasters`
+* `create_unique_ecosystem_dt` now accept an existing csv to verify if it already covers all cases
+* `merge_ccb_on_vri` now return intersection + difference
+* Added `merge_salmon_on_vri`
 
 # SSGBM.VRI.BEM 0.2.2
 
