@@ -79,7 +79,7 @@ calc_hem_fields <- function(vri_bem, fire, hem_fields = SSGBM.VRI.BEM::hem_field
 
   vri_bem[, Static_Riparian := fifelse(LBL_VEGCOV %in% riparian_values, 1, 0)]
 
-  vri_bem[, Waterbody := fifelse(BCLCS_LV_5 == "LA", 1, 0)]
+  vri_bem[, Waterbody := fifelse(BCLCS_LV_5 == "LA", 0, 1)]
 
   vri_bem[ , Elev_Threshold := fifelse(ELEV < 1501, 1, 0)]
 
