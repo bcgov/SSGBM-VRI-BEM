@@ -4,10 +4,12 @@
 \alias{create_unique_ecosystem_dt}
 \title{Create summary data of unique ecosystem}
 \usage{
-create_unique_ecosystem_dt(vri_bem)
+create_unique_ecosystem_dt(vri_bem, current_unique_ecosyteme_csv = NULL)
 }
 \arguments{
 \item{vri_bem}{sf object that represent BEM (broad ecosystem mapping) features}
+
+\item{current_unique_ecosystem_csv}{string, file path of current unique ecosystem csv. Defaults to NULL}
 }
 \value{
 data.table that contains the frequency of each unique ecosystem and generates the following empty column to be feed later on:

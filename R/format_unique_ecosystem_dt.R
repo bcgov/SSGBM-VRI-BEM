@@ -9,6 +9,7 @@
 format_unique_ecosystem_dt <- function(unique_ecosystem_dt) {
 
   unique_ecosystem_dt[is.na(BGC_VRT), BGC_VRT := 0]
+  unique_ecosystem_dt[ , BGC_VRT := as.character(BGC_VRT)]
   unique_ecosystem_dt[BGC_PHASE == "", BGC_PHASE := NA_character_]
 
 }

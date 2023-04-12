@@ -67,7 +67,7 @@ vri_bem <- calc_forest_age_class(vri_bem = vri_bem,
 
 #4b /4d2 ----
 unique_eco_example <- read_unique_ecosystem_dt("csv/Skeena_VRIBEM_LUT.csv")
-vri_bem <- merge_unique_ecosystem_fields(vri_bem = vri_bem,
+  vri_bem <- merge_unique_ecosystem_fields(vri_bem = vri_bem,
                                          unique_ecosystem_dt = unique_eco_example)
 
 #4d3 ----

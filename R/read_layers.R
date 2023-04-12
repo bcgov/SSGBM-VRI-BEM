@@ -177,3 +177,35 @@ read_ccb <- function(dsn = NULL, layer = "CNS_CUT_BL_polygon",  wkt_filter = cha
   return(ccb)
 }
 
+#' Read fire polygons
+#'
+#' Read the forest fire severity (fire) layer
+#'
+#' @inheritParams read_vri
+#' @return sf object
+#' @import sf
+#' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select  `%>%`
+#' @export
+read_fire <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVERITY_SP",  wkt_filter = character(0)) {
+
+  #If dsn is null read information from bcdata
+  if (is.null(dsn)){
+    wl_query <- bcdc_query_geodata(record =  "22c7cb44-1463-48f7-8e47-88857f207702") %>%
+      select(SHAPE)
+
+    if(length(wkt_filter) > 0 ){
+      wl_query <- wl_query %>% filter(INTERSECTS(sf::st_as_sfc(wkt_filter)))
+    }
+    fire <- collect(wl_query)
+
+  } else {
+    fire <- st_read(dsn = dsn, layer = layer, quiet = TRUE,  wkt_filter = wkt_filter)
+  }
+
+
+  #Restructure bem while waiting for real info
+  fire <- rename_geometry(fire, "Shape")
+  #make shape valid because ARCGIS draw polygon differently than sf
+  fire$Shape <- sf::st_make_valid(fire$Shape)
+  return(fire)
+}
