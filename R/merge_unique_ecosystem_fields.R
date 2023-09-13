@@ -145,14 +145,19 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   vri_bem[substr(STRCT_S1, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b
-          STAND_A1 := fcase(STD_VRI != "", STD_VRI,
+          STAND_A1 := fcase(!is.na(STD_VRI), STD_VRI,
                             VRI_AGE_CL_STD > 0, STAND_AGE_1,
                             FORESTED_1 == "N" | parkland_ind , STAND_CLIMAX_1,
-                            default = "")]
+                            default = NA)]
+# Correct stand vars in STRCT_S1 < 4
+  vri_bem[substr(STRCT_S1, start = 1, stop = 1) %in% c(NA,"1", "1a", "1b", "1c", "2", "2a", "2b", "2c", "2d", "3", "3a", "3b", "3c"),
+          STAND_A1 := fcase(VRI_AGE_CL_STD > 0, STAND_AGE_1,
+                            FORESTED_1 == "N" | parkland_ind , STAND_CLIMAX_1,
+                            default = NA)]
 
   #TODO temporarily change class
-  vri_bem[is.na(STRCT_S1), STRCT_S1 := ""]
-  vri_bem[is.na(STAND_A1), STAND_A1 := ""]
+  vri_bem[is.na(STRCT_S1), STRCT_S1 := NA_character_]
+  vri_bem[is.na(STAND_A1), STAND_A1 := NA_character_]
 
 
   # calculate for 2 ----
@@ -182,14 +187,19 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   vri_bem[substr(STRCT_S2, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b
-          STAND_A2 := fcase(STD_VRI != "", STD_VRI,
+          STAND_A2 := fcase(!is.na(STD_VRI), STD_VRI,
                             VRI_AGE_CL_STD > 0, STAND_AGE_2,
                             FORESTED_2 == "N" | parkland_ind , STAND_CLIMAX_2,
-                            default = "")]
+                            default = NA_character_)]
+  # Correct stand vars in STRCT_S2 < 4
+  vri_bem[substr(STRCT_S2, start = 1, stop = 1) %in% c(NA,"1", "1a", "1b", "1c", "2", "2a", "2b", "2c", "2d", "3", "3a", "3b", "3c"),
+          STAND_A2 := fcase(VRI_AGE_CL_STD > 0, STAND_AGE_2,
+                            FORESTED_2 == "N" | parkland_ind , STAND_CLIMAX_2,
+                            default = NA_character_)]
 
   #TODO temporarily change class
-  vri_bem[is.na(STRCT_S2), STRCT_S2 := ""]
-  vri_bem[is.na(STAND_A2), STAND_A2 := ""]
+  vri_bem[is.na(STRCT_S2), STRCT_S2 := NA_character_]
+  vri_bem[is.na(STAND_A2), STAND_A2 := NA_character_]
 
 
   # calculate for 3 ----
@@ -213,21 +223,25 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
                                default = NA_character_)]
 
 
-  vri_bem[, STRCT_S2 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_3, #should be STRCT_S3, not STRCT_S2
+  vri_bem[, STRCT_S3 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_3, #should be STRCT_S3, not STRCT_S2
                               FORESTED_3 == "N" | parkland_ind , STS_CLIMAX_3,
                               default = NA_character_)]
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   vri_bem[substr(STRCT_S3, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b
-          STAND_A3 := fcase(STD_VRI != "", STD_VRI,
-                            VRI_AGE_CL_STD > 0, as.character(STAND_AGE_3),
-                            FORESTED_3 == "N" | parkland_ind , as.character(STAND_CLIMAX_3), #TODO remove as.char ?
-                            default = "")]
+          STAND_A3 := fcase(!is.na(STD_VRI), STD_VRI,
+                            VRI_AGE_CL_STD > 0, STAND_AGE_3,
+                            FORESTED_3 == "N" | parkland_ind, STAND_CLIMAX_3, #TODO remove as.char ?
+                            default = NA_character_)]
 
-  vri_bem[is.na(STRCT_S3), STRCT_S3 := ""]
-  vri_bem[is.na(STAND_A3), STAND_A3 := ""]
+  #Correct stand vars in strct_s3 < 4
+  vri_bem[substr(STRCT_S3, start = 1, stop = 1) %in% c(NA,"1", "1a", "1b", "1c", "2", "2a", "2b", "2c", "2d", "3", "3a", "3b", "3c"),
+          STAND_A3 := fcase(VRI_AGE_CL_STD > 0, STAND_AGE_3,
+                            FORESTED_3 == "N" | parkland_ind, STAND_CLIMAX_3,
+                            default = NA_character_)]
 
-
+  vri_bem[is.na(STRCT_S3), STRCT_S3 := NA_character_]
+  vri_bem[is.na(STAND_A3), STAND_A3 := NA_character_]
 
   attr(vri_bem, "class") <- classes_vri_bem
 
