@@ -84,8 +84,9 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     for (output_col in (which_name_output + 1):length_rules_dt_names) {
       # TODO find out which BEUMC to replace between the 3 deciles
       # I assume we update all decile
+      # Apr 2023 update: only update first decile
       if (rules_dt_names[output_col] == "BEUMC") {
-        for (i in 1:3) {
+        for (i in 1) {
           set(vri_bem, i = which_lines, j = paste0(rules_dt_names[output_col], "_S", i), value = rules_dt[[rules_dt_names[output_col]]][rule])
         }
       } else {

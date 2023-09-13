@@ -213,7 +213,7 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
                                default = NA_character_)]
 
 
-  vri_bem[, STRCT_S2 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_3,
+  vri_bem[, STRCT_S2 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_3, #should be STRCT_S3, not STRCT_S2
                               FORESTED_3 == "N" | parkland_ind , STS_CLIMAX_3,
                               default = NA_character_)]
 

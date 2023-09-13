@@ -32,7 +32,7 @@ add_std_crown_fields <- function(vri) {
 
   # create STD_VRI based on percentage
 
-  vri[ , STD_VRI := fcase(pct_in_species_tot == 0, "",
+  vri[ , STD_VRI := fcase(pct_in_species_tot == 0, NA_character_,
                           pct_in_species_tot < 25, "C",
                           pct_in_species_tot < 75, "M",
                           default = "B")]
@@ -55,7 +55,7 @@ add_std_crown_fields <- function(vri) {
                               CR_CLOSURE <= 25, "L",
                               CR_CLOSURE <= 60, "M",
                               CR_CLOSURE > 60, "H",
-                              default = "")]
+                              default = NA_character_)]
 
   return(vri)
 }

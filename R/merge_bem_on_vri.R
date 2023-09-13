@@ -1,6 +1,6 @@
 #' Merge BEM attributes on VRI features
 #'
-#'This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
+#'This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation resource inventory).
 #
 #' @param vri sf object that represent VRI (vegetation resources inventory) features
 #' @param bem sf object that represent BEM (broad ecosystem mapping) features
@@ -67,6 +67,13 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
     warning("The following VRI_OBJ_ID had no overlaping bem : ", paste(vri[is.na(TEIS_ID), VRI_OBJ_ID], collapse = ", "))
   }
 
+  #replace BEM biogeoclimatic attributes with VRI
+  vri <- vri |> dplyr::mutate(BGC_ZONE = VRI_BEC_ZONE, BGC_SUBZON = VRI_BEC_SUBZON, BGC_VRT = VRI_BEC_VRT, BGC_PHASE = VRI_BEC_PHASE) |> dplyr::select(-c(VRI_BEC_ZONE,VRI_BEC_SUBZON,VRI_BEC_VRT,VRI_BEC_PHASE))
+
+  #ensure vri-bem attributes are consistently NA if value absent
+  for(j in seq_along(vri)){
+    set(vri,i=which(vri[[j]]==""),j=j,value=NA)
+
   # return final result
   if (return_intersection_dt) {
     return(list(vri = st_as_sf(vri),
@@ -76,12 +83,12 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
     return(st_as_sf(vri))
   }
 }
-
+}
 
 
 #' Merge BEM attributes on VRI features
 #'
-#'This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
+#'This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation resource inventory).
 #
 #' @param vri data.table object that represent VRI (vegetation resources inventory) features
 #' @param bem data.table object that represent BEM (broad ecosystem mapping) features
