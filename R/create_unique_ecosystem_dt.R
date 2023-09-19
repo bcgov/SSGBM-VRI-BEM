@@ -28,20 +28,25 @@ create_unique_ecosystem_dt <- function(vri_bem, current_unique_ecosyteme_csv = N
     unique_ecosystem_dt[, merge_ind := 1]
     current_unique_ecosyteme_dt[, merge_ind := 1]
     new_unique_ecosystem_dt <- merge(current_unique_ecosyteme_dt, unique_ecosystem_dt, by = c("BGC_ZONE", "BGC_SUBZON", "BGC_VRT", "BGC_PHASE", "BEU_MC"), all = TRUE)
+
+    #cases of missing variables should be NA, not ""
+    for(j in seq_along(new_unique_ecosystem_dt)){
+      set(new_unique_ecosystem_dt,i=which(new_unique_ecosystem_dt[[j]]==""),j=j,value=NA)
+    }
+
     nbr_missing <- sum(is.na(new_unique_ecosystem_dt$merge_ind.x) & new_unique_ecosystem_dt$merge_ind.y == 1)
     if (nbr_missing > 0) {
       warning(paste0("Some ecoystem are not present in the current unique ecosystem csv. \n Use fwrite to export the result of this function to csv and fill in the missing values \n line 1 to ", nbr_missing, " need to be filled in"))
       new_unique_ecosystem_dt[, merge_ind.x := NULL]
-      new_unique_ecosystem_dt[, FREQ := fifelse(!is.na(FREQ.y), FREQ.y, FREQ.x)]
-      new_unique_ecosystem_dt[, FREQ.x := NULL]
-      new_unique_ecosystem_dt[, FREQ.y := NULL]
+      #only include instances of ecosystems in the aoi
+      new_unique_ecosystem_dt <- dplyr::filter(new_unique_ecosystem_dt,!is.na(FREQ))
       return(new_unique_ecosystem_dt[order(merge_ind.y)][ , merge_ind.y := NULL])
     } else {
      message("current unique ecosystem csv covers all case")
       new_unique_ecosystem_dt[, merge_ind.y := NULL]
       new_unique_ecosystem_dt[, merge_ind.x := NULL]
-      new_unique_ecosystem_dt[, FREQ.x := NULL]
-      new_unique_ecosystem_dt[, FREQ.y := NULL]
+      #only include instances of ecosystems in the aoi
+      new_unique_ecosystem_dt <- dplyr::filter(new_unique_ecosystem_dt,!is.na(FREQ))
       return(new_unique_ecosystem_dt)
     }
   } else {

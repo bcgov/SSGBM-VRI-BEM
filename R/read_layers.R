@@ -19,7 +19,8 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
              SPECIES_CD_1, SPECIES_CD_2, SPECIES_CD_3, SPECIES_CD_4, SPECIES_CD_5, SPECIES_CD_6,
              SPECIES_PCT_1, SPECIES_PCT_2, SPECIES_PCT_3, SPECIES_PCT_4, SPECIES_PCT_5, SPECIES_PCT_6,
              CROWN_CLOSURE, LAND_COVER_CLASS_CD_1, EST_COVERAGE_PCT_1, LINE_5_VEGETATION_COVER,
-             HARVEST_DATE, PROJ_AGE_1, SOIL_MOISTURE_REGIME_1)
+             HARVEST_DATE, PROJ_AGE_1, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME,INVENTORY_STANDARD_CD,
+             BEC_ZONE_CODE,BEC_SUBZONE, BEC_VARIANT,BEC_PHASE)
 
     if(length(wkt_filter) > 0 ){
       vri_query <- vri_query %>% filter(INTERSECTS(sf::st_as_sfc(wkt_filter)))
@@ -36,13 +37,16 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
 
            old = c("BCLCS_LEVEL_1", "BCLCS_LEVEL_2", "BCLCS_LEVEL_3", "BCLCS_LEVEL_4", "BCLCS_LEVEL_5",
                    "SPECIES_CD_1", "SPECIES_CD_2", "SPECIES_CD_3", "SPECIES_CD_4", "SPECIES_CD_5", "SPECIES_CD_6",
-                   "SPECIES_PCT_1", "SPECIES_PCT_2", "SPECIES_PCT_3", "SPECIES_PCT_4", "SPECIES_PCT_5", "SPECIES_PCT_6",
-                   "CROWN_CLOSURE", "LAND_COVER_CLASS_CD_1", "EST_COVERAGE_PCT_1", "LINE_5_VEGETATION_COVER", "HARVEST_DATE"),
+                   "SPECIES_PCT_1", "SPECIES_PCT_2", "SPECIES_PCT_3", "SPECIES_PCT_4", "SPECIES_PCT_5"
+                   ,"SPECIES_PCT_6","CROWN_CLOSURE", "LAND_COVER_CLASS_CD_1", "EST_COVERAGE_PCT_1",
+                   "LINE_5_VEGETATION_COVER","HARVEST_DATE","BEC_ZONE_CODE","BEC_SUBZONE",
+                   "BEC_VARIANT","BEC_PHASE"),
 
            new = c("BCLCS_LV_1", "BCLCS_LV_2", "BCLCS_LV_3", "BCLCS_LV_4", "BCLCS_LV_5",
                    "SPEC_CD_1", "SPEC_CD_2", "SPEC_CD_3", "SPEC_CD_4", "SPEC_CD_5", "SPEC_CD_6",
                    "SPEC_PCT_1", "SPEC_PCT_2", "SPEC_PCT_3", "SPEC_PCT_4", "SPEC_PCT_5", "SPEC_PCT_6",
-                   "CR_CLOSURE", "LAND_CD_1", "COV_PCT_1", "LBL_VEGCOV", "HRVSTDT"),
+                   "CR_CLOSURE", "LAND_CD_1", "COV_PCT_1", "LBL_VEGCOV", "HRVSTDT",
+                   "VRI_BEC_ZONE","VRI_BEC_SUBZON","VRI_BEC_VRT","VRI_BEC_PHASE"),
 
            skip_absent = TRUE
            )
@@ -69,11 +73,16 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
 #' @return sf object
 #' @import sf
 #' @export
-read_bem <- function(dsn, layer = "BEM", wkt_filter = character(0)) {
-  bem <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = wkt_filter)
+read_bem <- function(dsn, layer = "BEM", wkt_filter = NULL) {
+  bem <- st_read(dsn = dsn, layer = layer, quiet = TRUE, wkt_filter = if(is.null(wkt_filter)){character(0)} else{st_as_text(st_as_sfc(wkt_filter))})
+  if(length(wkt_filter) > 0 ){
+    bem <- st_intersection(bem,wkt_filter)
+  }
   #Restructure bem while waiting for real info
   bem <- rename_geometry(bem, "Shape")
-  #make shape valid because ARCGIS draw polygon differently than sf
+  #make sure all missing BEM values = NA
+  bem <- bem |> mutate_if(is.character,function(x) ifelse(x %in% c(""," "),NA,x))
+    #make shape valid because ARCGIS draw polygon differently than sf
   bem$Shape <- sf::st_make_valid(bem$Shape)
   return(bem)
 }
@@ -144,6 +153,75 @@ read_rivers <- function(dsn = NULL, layer = "FWA_RIVERS_POLY",  wkt_filter = cha
   rivers$GEOMETRY <- sf::st_make_valid(rivers$GEOMETRY)
   return(rivers)
 }
+
+
+
+#' Read lakes polygons
+#'
+#' @inheritParams read_vri
+#' @return sf object
+#' @import sf
+#' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select  `%>%`
+#' @export
+read_lakes <- function(dsn = NULL, layer = "FWA_LAKES_POLY",  wkt_filter = character(0)) {
+
+  #If dsn is null read information from bcdata
+  if (is.null(dsn)){
+    lakes_query <- bcdc_query_geodata(record =  "cb1e3aba-d3fe-4de1-a2d4-b8b6650fb1f6") %>%
+      select(GEOMETRY)
+
+    if(length(wkt_filter) > 0 ){
+      lakes_query <- lakes_query %>% filter(INTERSECTS(sf::st_as_sfc(wkt_filter)))
+    }
+    lakes <- collect(lakes_query)
+
+  } else {
+    lakes <- st_read(dsn = dsn, layer = layer, quiet = TRUE,  wkt_filter = wkt_filter)
+  }
+
+
+  #Restructure bem while waiting for real info
+  lakes <- rename_geometry(lakes, "Shape")
+  #make shape valid because ARCGIS draw polygon differently than sf
+  lakes$Shape <- sf::st_make_valid(lakes$Shape)
+  return(lakes)
+}
+
+
+#' Read glaciers and snow polygons
+#'
+#' @inheritParams read_vri
+#' @return sf object
+#' @import sf
+#' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select  `%>%`
+#' @export
+#' from WHSE_BASEMAPPING.BTM_PRESENT_LAND_USE_V1_SVW, which CEF Human Disturbance 2021 BTM glaciers and snow is based on
+#'
+read_glaciers <- function(dsn = NULL, layer = "BTM_PLU_V1",  wkt_filter = character(0)) {
+
+  #If dsn is null read information from bcdata
+  if (is.null(dsn)){
+    glaciers_query <- bcdc_query_geodata(record =  "134fdc69-7b0c-4c50-b77c-e8f2553a1d40") %>%
+      filter(PRESENT_LAND_USE_LABEL == "Glaciers and Snow") %>%
+      select(GEOMETRY)
+
+    if(length(wkt_filter) > 0 ){
+      glaciers_query <- glaciers_query %>% filter(INTERSECTS(sf::st_as_sfc(wkt_filter)))
+    }
+    glaciers <- collect(glaciers_query)
+
+  } else {
+    glaciers <- st_read(dsn = dsn, layer = layer, quiet = TRUE,  wkt_filter = wkt_filter)
+  }
+
+
+  #Restructure bem while waiting for real info
+  glaciers <- rename_geometry(glaciers, "Shape")
+  #make shape valid because ARCGIS draw polygon differently than sf
+  glaciers$Shape <- sf::st_make_valid(glaciers$Shape)
+  return(glaciers)
+}
+
 
 #' Read CCB polygons
 #'

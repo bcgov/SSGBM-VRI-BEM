@@ -15,5 +15,5 @@ merge_salmon_on_vri <- function(vri_bem, salmon) {
   vri_salmon_intersection <- st_intersection(vri_bem, salmon) |> st_make_valid() |> st_collection_extract() |> st_cast("POLYGON") |> st_make_valid()
   vri_salmon_diff <- st_difference(vri_bem, st_union(st_geometry(salmon))) |> st_make_valid() |> st_collection_extract() |> st_cast("POLYGON", warn = FALSE) |> st_make_valid()
 
-  return(rbind(vri_salmon_intersection, vri_salmon_diff))
+  return(dplyr::bind_rows(vri_salmon_intersection, vri_salmon_diff))
 }
