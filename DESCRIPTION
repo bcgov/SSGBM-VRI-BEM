@@ -14,11 +14,14 @@ Description: This package is for the VRI-BEM
     component of wildlife models.
 Imports: 
   data.table,
+  dplyr,
   sf,
   terra, 
   units,
   bcdata,
-  rlang
+  rlang,
+  tibble,
+  tidyr
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -27,5 +30,5 @@ Suggests:
     rmarkdown,
     readxl
 Depends: 
-    R (>= 2.10)
+    R (>= 4.2)
 LazyData: true
