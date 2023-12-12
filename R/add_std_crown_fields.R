@@ -40,22 +40,12 @@ add_std_crown_fields <- function(vri) {
   #RW edit: Make sure that CR_CLOSURE is numeric
   vri[, CR_CLOSURE := as.numeric(CR_CLOSURE)]
 
-  # create CROWN_BEAR based on CROWN_CLOSURE
-
-  vri[ , CROWN_BEAR := fcase(CR_CLOSURE <= 20, 1,
-                             CR_CLOSURE <= 40, 2,
-                             CR_CLOSURE <= 60, 3,
-                             CR_CLOSURE > 60, 4,
+  #Consolidated CROWN_BEAR and CROWN_MOOSE into one category, CROWN_ALL
+  vri[ , CROWN_ALL := fcase(CR_CLOSURE <= 25, "VL-L",
+                             CR_CLOSURE <= 40, "M",
+                             CR_CLOSURE <= 60, "H",
+                             CR_CLOSURE > 60, "VH",
                              default = NA)]
-
-  # create CROWN_MOOSE based on CROWN_CLOSURE
-
-  vri[ , CROWN_MOOSE := fcase(CR_CLOSURE == 0, "N",
-                              CR_CLOSURE <= 9, "VL",
-                              CR_CLOSURE <= 25, "L",
-                              CR_CLOSURE <= 60, "M",
-                              CR_CLOSURE > 60, "H",
-                              default = NA_character_)]
 
   return(vri)
 }

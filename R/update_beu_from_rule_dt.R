@@ -95,6 +95,35 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     }
   }
 
+  #correct for cases where BEUMC_S1 now equals BEUMC_S2 (or BEUMC_S3)
+  vri_bem <- vri_bem |>
+    mutate_at(c('SDEC_1','SDEC_2','SDEC_3'), ~replace_na(.,0)) |>
+
+    mutate(SDEC_1 = case_when(
+      BEUMC_S1 == BEUMC_S2 ~ rowSums(across(c("SDEC_1","SDEC_2"))),
+      BEUMC_S1 == BEUMC_S3 ~ rowSums(across(c("SDEC_1","SDEC_3"))),
+     .default = SDEC_1),
+
+    BEUMC_S2 = case_when(
+        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ BEUMC_S3,
+        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ NA_character_,
+        .default = BEUMC_S2),
+
+    SDEC_2 = case_when(
+        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ SDEC_3,
+        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ 0,
+        .default = SDEC_2),
+
+    BEUMC_S3 = case_when(
+        BEUMC_S1 == BEUMC_S2 ~ NA_character_,
+        BEUMC_S1 == BEUMC_S3 ~ NA_character_,
+        .default = BEUMC_S3),
+
+    SDEC_3 = case_when(
+          BEUMC_S1 == BEUMC_S2 ~ 0,
+          BEUMC_S1 == BEUMC_S3 ~ 0,
+          .default = SDEC_3))
+
   return(st_as_sf(vri_bem))
 }
 

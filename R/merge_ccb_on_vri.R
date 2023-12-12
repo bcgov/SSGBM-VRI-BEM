@@ -16,5 +16,5 @@ merge_ccb_on_vri <- function(vri_bem, ccb) {
   vri_ccb_intersection <- st_intersection(vri_bem, ccb) |> st_make_valid() |> st_collection_extract() |> st_cast("POLYGON") |> st_make_valid()
   vri_ccb_diff <- st_difference(vri_bem, st_union(st_geometry(ccb))) |> st_make_valid() |> st_collection_extract() |> st_cast("POLYGON", warn = FALSE) |> st_make_valid()
 
-  return(dplyr::bind_rows(vri_ccb_intersection, vri_ccb_diff))
+  return(dplyr::bind_rows(vri_ccb_intersection, vri_ccb_diff) |> transform_bc_albers())
 }

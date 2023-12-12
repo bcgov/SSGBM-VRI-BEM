@@ -8,7 +8,7 @@
 #' @export
 #'
 
-clean_vri_bem_output <- function(vri_bem, animal) {
+clean_vri_bem_output <- function(vri_bem) {
 
   #Exclude polygon fragments smaller than 1 m^2 (can make this larger if needed)
   #Possible future update: dissolve fragments into nearby polygons
@@ -23,7 +23,7 @@ clean_vri_bem_output <- function(vri_bem, animal) {
 
   #Keep only necessary variables
   vri_bem_dt <- vri_bem_dt |>
-    select(FEATURE_ID, BCLCS_LV_1:BCLCS_LV_5,LAND_CD_1,COV_PCT_1,LBL_VEGCOV, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, CR_CLOSURE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6,PROJ_AGE_1, POLY_COMM, TEIS_ID,ECO_SEC,BGC_ZONE:BGC_PHASE,SDEC_1:KIND_1,STRCT_S1,STAND_A1,SDEC_2:KIND_2,STRCT_S2,STAND_A2,SDEC_3:KIND_3,SITE_M3A,STRCT_S3,STAND_A3,AGE_CL_STS,AGE_CL_STD,FORESTED_1:FORESTED_3,ABOVE_ELEV_THOLD,VEG_CONSOLIDATED_CUT_BLOCK_ID,HARVEST_YEAR,VRI_AGE_CL_STS,VRI_AGE_CL_STD,CROWN_MOOSE_1:CROWN_MOOSE_3,CROWN_BEAR_1:CROWN_BEAR_3,Salmon,SLOPE_MOD,ELEV,MEAN_SLOPE,MEAN_ASP,STS_CLIMAX_1:STAND_CLIMAX_1,STS_CLIMAX_2:STAND_CLIMAX_2,STS_CLIMAX_3:STAND_CLIMAX_3,MALAN_WFD_6C_SU_1:MALAN_WST_6C_CAP_WA,MURAR_PEFD_6C_SU_1:MURAR_HI_6C_CAP_WA,Shape_Area,Shape) |> select(-(rrm_merge_ind))
+    select(FEATURE_ID, BCLCS_LV_1:BCLCS_LV_5,LAND_CD_1,COV_PCT_1,LBL_VEGCOV, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, CR_CLOSURE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6,PROJ_AGE_1, POLY_COMM, TEIS_ID,ECO_SEC,BGC_ZONE:BGC_PHASE,SDEC_1:KIND_1,STRCT_S1,STAND_A1,SDEC_2:KIND_2,STRCT_S2,STAND_A2,SDEC_3:KIND_3,SITE_M3A,STRCT_S3,STAND_A3,AGE_CL_STS,AGE_CL_STD,FORESTED_1:FORESTED_3,ABOVE_ELEV_THOLD,VEG_CONSOLIDATED_CUT_BLOCK_ID,HARVEST_YEAR,VRI_SURVEY_YEAR, VRI_AGE_CL_STS,VRI_AGE_CL_STD,CROWN_ALL_1:CROWN_ALL_3,Salmon,SLOPE_MOD,ELEV,MEAN_SLOPE,MEAN_ASP,STS_CLIMAX_1:STAND_CLIMAX_1,STS_CLIMAX_2:STAND_CLIMAX_2,STS_CLIMAX_3:STAND_CLIMAX_3,MALAN_WFD_6C_SU_1:MALAN_WST_6C_CAP_WA,MURAR_PEFD_6C_SU_1:MURAR_HI_6C_CAP_WA,Shape_Area,Shape) |> select(-(rrm_merge_ind))
 
   #Create unique ID
   vri_bem_dt[,PolyID := paste(FEATURE_ID,"_",TEIS_ID,sep = "")]
@@ -34,8 +34,8 @@ clean_vri_bem_output <- function(vri_bem, animal) {
   #update polyid with duplicate values
   vri_bem_dt[,PolyID := paste(PolyID,"_",dupID,sep = "")][, dupID := NULL]
 
-  #Concatenate BGC vars into "BEU_BEC"
-  vri_bem_dt <- vri_bem_dt %>% unite("BEU_BEC", BGC_ZONE:BGC_PHASE, na.rm = TRUE, remove = FALSE, sep = "")
+  #Concatenate BGC vars into "BGC_label" and combine with BEU for "BEU_BEC"
+  vri_bem_dt <- vri_bem_dt %>% unite("BGC_label", BGC_ZONE:BGC_PHASE, na.rm = TRUE, remove = FALSE, sep = "") %>% mutate(BEU_BEC = paste0(BEUMC_S1,"_",BGC_label))
 
   #Establish dominant tree for SPEC_CD_1 (may need to revisit these definitions and update missing tree codes)
   #unique(vri_bem_dt[,SPEC_CD_1])
@@ -47,22 +47,19 @@ clean_vri_bem_output <- function(vri_bem, animal) {
       SPEC_CD_1 == "PA" ~ "Whitebark",
       SPEC_CD_1 %in% c("AT","ACT","AC") ~ "Populus",
       SPEC_CD_1 %in% c("HW","HM","H") ~ "Hemlock",
-      SPEC_CD_1 %in% c("E","EP") ~ "Birch",
+      SPEC_CD_1 %in% c("E","EP","EA") ~ "Birch",
       SPEC_CD_1 %in% c("F","FD","FDI") ~ "Douglas-fir",
       SPEC_CD_1 %in% c("CW","C") ~ "Cedar",
-      SPEC_CD_1 %in% c("DR","DG") ~ "Alder",
-      SPEC_CD_1 %in% c("YC") ~ "Yellow Cypress",
-      !SPEC_CD_1 %in% c("S","SE","SB","SXS","SW","SX","SS","BL","BA","B","P","BG","PLI","PL","PLC","PA","AT","ACT","AC","HW","HM","H","E","EP","F","FD","FDI","CW","C","DR","DG","YC") ~ SPEC_CD_1)) |>
+      SPEC_CD_1 %in% c("DR","DG","DM") ~ "Alder",
+      SPEC_CD_1 %in% c("YC","Y") ~ "Cypress",
+      SPEC_CD_1 %in% c("LT","LA","LW","L") ~ "Larch",
+      SPEC_CD_1 %in% c("M","MB") ~ "Maple",
+      .default = SPEC_CD_1)) |>
     mutate(STRCT_mod = case_when(
       STRCT_S1 %in% c("6","7a") ~ "7",
-      !STRCT_S1  %in% c("6","7a") ~ STRCT_S1)) #I kept it the same as the site selection script, but why change 6 to 7?
+      .default = STRCT_S1)) #I kept it the same as the site selection script, but why change 6 to 7?
 
-  if(animal == "bear") {
-    vri_bem_dt <- vri_bem_dt |> mutate(ECO_TYPE = paste0(BEU_BEC,"_",STAND_A1,"_",STRCT_mod,"_",CROWN_BEAR_1,"_",DOM_TREE))
-  }
-  if(animal == "moose") { #CROWN_MOOSE is very different from CROWN_BEAR--recommend sticking with bear for "official" VRI_BEM. In the future should have similar approach for both species
-    vri_bem_dt <- vri_bem_dt |> mutate(ECO_TYPE = paste0(BEU_BEC,"_",STAND_A1,"_",STRCT_mod,"_",CROWN_MOOSE_1,"_",DOM_TREE))
-  }
+  vri_bem_dt <- vri_bem_dt |> mutate(ECO_TYPE = paste0(BEU_BEC,"_",STAND_A1,"_",STRCT_mod,"_",CROWN_ALL_1,"_",DOM_TREE))
 
   vri_bem <- st_as_sf(vri_bem_dt)
 
@@ -84,11 +81,11 @@ clean_vri_bem_output <- function(vri_bem, animal) {
 simplify_vri_bem_output <- function(vri_bem) {
 
   if("DOM_TREE" %in% colnames(vri_bem)){
-    vri_bem <- vri_bem |> select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_BEAR_1, CROWN_MOOSE_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA,   MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
+    vri_bem <- vri_bem |> select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_ALL_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA, MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
 
   if(!"DOM_TREE" %in% colnames(vri_bem)){
     vri_bem <- clean_vri_bem_output(vri_bem)|>
-      select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_BEAR_1, CROWN_MOOSE_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA,   MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
+      select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_ALL_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_WFD_6C_CAP_WA, MALAN_GFD_6C_SU_WA,MALAN_GFD_6C_CAP_WA, MALAN_WST_6C_SU_WA, MALAN_WST_6C_CAP_WA, MURAR_PEFD_6C_SU_WA, MURAR_PEFD_6C_CAP_WA,MURAR_PLFD_6C_SU_WA, MURAR_PLFD_6C_CAP_WA, MURAR_SFD_6C_SU_WA, MURAR_SFD_6C_CAP_WA, MURAR_FFD_6C_SU_WA, MURAR_FFD_6C_CAP_WA, MURAR_HI_6C_SU_WA,MURAR_HI_6C_CAP_WA, Shape)}
 
     return(vri_bem)
 }

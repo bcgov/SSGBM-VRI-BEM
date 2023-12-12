@@ -20,7 +20,7 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
              SPECIES_PCT_1, SPECIES_PCT_2, SPECIES_PCT_3, SPECIES_PCT_4, SPECIES_PCT_5, SPECIES_PCT_6,
              CROWN_CLOSURE, LAND_COVER_CLASS_CD_1, EST_COVERAGE_PCT_1, LINE_5_VEGETATION_COVER,
              HARVEST_DATE, PROJ_AGE_1, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME,INVENTORY_STANDARD_CD,
-             BEC_ZONE_CODE,BEC_SUBZONE, BEC_VARIANT,BEC_PHASE)
+             BEC_ZONE_CODE,BEC_SUBZONE, BEC_VARIANT,BEC_PHASE,REFERENCE_YEAR)
 
     if(length(wkt_filter) > 0 ){
       vri_query <- vri_query %>% filter(INTERSECTS(sf::st_as_sfc(wkt_filter)))
@@ -40,18 +40,19 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
                    "SPECIES_PCT_1", "SPECIES_PCT_2", "SPECIES_PCT_3", "SPECIES_PCT_4", "SPECIES_PCT_5"
                    ,"SPECIES_PCT_6","CROWN_CLOSURE", "LAND_COVER_CLASS_CD_1", "EST_COVERAGE_PCT_1",
                    "LINE_5_VEGETATION_COVER","HARVEST_DATE","BEC_ZONE_CODE","BEC_SUBZONE",
-                   "BEC_VARIANT","BEC_PHASE"),
+                   "BEC_VARIANT","BEC_PHASE","REFERENCE_YEAR"),
 
            new = c("BCLCS_LV_1", "BCLCS_LV_2", "BCLCS_LV_3", "BCLCS_LV_4", "BCLCS_LV_5",
                    "SPEC_CD_1", "SPEC_CD_2", "SPEC_CD_3", "SPEC_CD_4", "SPEC_CD_5", "SPEC_CD_6",
                    "SPEC_PCT_1", "SPEC_PCT_2", "SPEC_PCT_3", "SPEC_PCT_4", "SPEC_PCT_5", "SPEC_PCT_6",
                    "CR_CLOSURE", "LAND_CD_1", "COV_PCT_1", "LBL_VEGCOV", "HRVSTDT",
-                   "VRI_BEC_ZONE","VRI_BEC_SUBZON","VRI_BEC_VRT","VRI_BEC_PHASE"),
+                   "VRI_BEC_ZONE","VRI_BEC_SUBZON","VRI_BEC_VRT","VRI_BEC_PHASE","VRI_SURVEY_YEAR"),
 
            skip_absent = TRUE
            )
   #Restructure bem while waiting for real info
   vri <- rename_geometry(vri, "Shape")
+
   #make shape valid because ARCGIS draw polygon differently than sf
   vri$Shape <- st_cast(st_make_valid(vri$Shape),"MULTIPOLYGON")
 
@@ -287,3 +288,45 @@ read_fire <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVER
   fire$Shape <- sf::st_make_valid(fire$Shape)
   return(fire)
 }
+
+#'
+#'
+#'Read aoi (TSAs)
+#'
+#'Read in the TSA of interest as an aoi
+#'Filter to Skeena region (for TSAs that extend past Skeena region boundary). If not required, Skeena_boundary=FALSE
+#'
+#' @inheritParams read_vri
+#' @return sf object
+#' @import sf
+#' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select  `%>%`
+#' @export
+read_tsa <- function(tsa_name, Skeena_boundary=TRUE){
+  aoi <- bcdc_query_geodata("8daa29da-d7f4-401c-83ae-d962e3a28980") |>
+    filter(TSA_NUMBER_DESCRIPTION == tsa_name) |>
+    select(TSA_NUMBER_DESCRIPTION) |>
+    collect() |>
+    st_union() |> #get rid of boundaries between blocks
+    st_as_sf() |>
+    st_make_valid() |> #make sure shape is valid
+    rename_geometry("Shape") # rename_geometry(.,"Shape")
+
+  #make sure aoi within Skeena boundary (if needed)
+  if(Skeena_boundary==TRUE){
+    Skeena_aoi <- bcdc_query_geodata("dfc492c0-69c5-4c20-a6de-2c9bc999301f") |>
+      filter(ORG_UNIT_NAME == "Skeena Natural Resource Region") |>
+      select(ORG_UNIT_NAME) |>
+      collect() |>
+      st_union() |> #get rid of boundaries between blocks
+      st_as_sf() |>
+      st_make_valid() |> #make sure shape is valid
+      rename_geometry("Shape")
+
+    aoi <- st_intersection(aoi,Skeena_aoi) |> st_make_valid(.)
+
+    return(aoi)
+  }else{return(aoi)}
+
+}
+
+
