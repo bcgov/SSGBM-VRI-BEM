@@ -6,13 +6,15 @@
 #' @param rules_dt data.table object that contains rule to apply to vri_bem to update beumc
 #' @return sf object
 #' @importFrom rlang parse_expr parse_exprs
+#' @importFrom dplyr mutate_at across case_when mutate
+#' @importFrom tidyr replace_na
 #' @import data.table
 #' @import sf
 #' @export
 update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
 
   if (FALSE) {
-    total_expr<-NULL
+    total_expr<-SDEC_1<-BEUMC_S2<-SDEC_2<-BEUMC_S3<-SDEC_3<-NULL
   }
 
   setDT(vri_bem)
@@ -99,7 +101,36 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     }
   }
 
-  return(st_as_sf(vri_bem))
+  #correct for cases where BEUMC_S1 now equals BEUMC_S2 (or BEUMC_S3)
+  vri_bem <- vri_bem |>
+    dplyr::mutate_at(c('SDEC_1','SDEC_2','SDEC_3'), ~tidyr::replace_na(.,0)) |>
+
+    dplyr::mutate(SDEC_1 = dplyr::case_when(
+      BEUMC_S1 == BEUMC_S2 ~ rowSums(dplyr::across(c("SDEC_1","SDEC_2"))),
+      BEUMC_S1 == BEUMC_S3 ~ rowSums(dplyr::across(c("SDEC_1","SDEC_3"))),
+     .default = SDEC_1),
+
+    BEUMC_S2 = dplyr::case_when(
+        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ BEUMC_S3,
+        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ NA_character_,
+        .default = BEUMC_S2),
+
+    SDEC_2 = dplyr::case_when(
+        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ SDEC_3,
+        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ 0,
+        .default = SDEC_2),
+
+    BEUMC_S3 = dplyr::case_when(
+        BEUMC_S1 == BEUMC_S2 ~ NA_character_,
+        BEUMC_S1 == BEUMC_S3 ~ NA_character_,
+        .default = BEUMC_S3),
+
+    SDEC_3 = dplyr::case_when(
+          BEUMC_S1 == BEUMC_S2 ~ 0,
+          BEUMC_S1 == BEUMC_S3 ~ 0,
+          .default = SDEC_3))
+
+  return(sf::st_as_sf(vri_bem))
 }
 
 #' var_contains

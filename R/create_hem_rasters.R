@@ -5,6 +5,13 @@
 #' @keywords data
 NULL
 
+#' This is data to be included in my package
+#'
+#' @name albers
+#' @docType data
+#' @keywords data
+NULL
+
 #' Create raster with layers for each hem fields
 #'
 #'

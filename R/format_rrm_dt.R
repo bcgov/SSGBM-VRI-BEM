@@ -10,7 +10,7 @@
 format_rrm_dt <- function(rrm_dt,animal) { #added animal because will change based on bear/moose
 
   if (FALSE) {
-    Above_Elev_Thold<-Beumc<-Bgc_phase<-Bgc_subzon<-Bgc_vrt<-Bgc_zone<-Crown_Bear<-Crown_Moose<-
+    Above_Elev_Thold<-Beumc<-Bgc_phase<-Bgc_subzon<-Bgc_vrt<-Bgc_zone<-Crown_All<-
       Eco_sec<-MURAR_PEFD_6C<-Site_m3a<-Slope_mod<-Snow_code<-NULL
   }
 
@@ -21,13 +21,13 @@ format_rrm_dt <- function(rrm_dt,animal) { #added animal because will change bas
 
   if(animal == "bear") { #added bear to differentiate
   setorder(rrm_dt, Eco_sec, Bgc_zone, Bgc_subzon, Bgc_vrt, Bgc_phase, Beumc,
-           Slope_mod, Site_m3a, Snow_code, Above_Elev_Thold, Crown_Bear, MURAR_PEFD_6C)
+           Slope_mod, Site_m3a, Snow_code, Above_Elev_Thold, Crown_All, MURAR_PEFD_6C)
 
   }
   if(animal == "moose") { #all code below is new, to distinguish moose from bear
 
     setorder(rrm_dt, Eco_sec, Bgc_zone, Bgc_subzon, Bgc_vrt, Bgc_phase, Beumc,
-             Slope_mod, Site_m3a, Snow_code, Above_Elev_Thold, Crown_Moose)
+             Slope_mod, Site_m3a, Snow_code, Above_Elev_Thold, Crown_All)
   }
 
   return(rrm_dt)

@@ -5,12 +5,10 @@
 \title{Clean up the VRI-BEM-WHR output
 This function cleans up the final VRI-BEM-WHR output (removes extraneous fields), removes slivers < 1m^2, and adds the unique ID (PolyID) and ECO_TYPE}
 \usage{
-clean_vri_bem_output(vri_bem, animal)
+clean_vri_bem_output(vri_bem)
 }
 \arguments{
 \item{vri_bem}{VRI-BEM feature class}
-
-\item{animal}{A character string. Either \code{bear} or \code{moose}.}
 }
 \value{
 "cleaned" vri_bem

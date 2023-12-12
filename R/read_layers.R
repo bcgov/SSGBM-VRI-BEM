@@ -18,18 +18,18 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
       INVENTORY_STANDARD_CD<-LAND_COVER_CLASS_CD_1<-LINE_5_VEGETATION_COVER<-PROJ_AGE_1<-
       SOIL_MOISTURE_REGIME_1<-SOIL_NUTRIENT_REGIME<-SPECIES_CD_1<-SPECIES_CD_2<-SPECIES_CD_3<-
       SPECIES_CD_4<-SPECIES_CD_5<-SPECIES_CD_6<-SPECIES_PCT_1<-SPECIES_PCT_2<-SPECIES_PCT_3<-
-      SPECIES_PCT_4<-SPECIES_PCT_5<-SPECIES_PCT_6<-NULL
+      SPECIES_PCT_4<-SPECIES_PCT_5<-SPECIES_PCT_6<-REFERENCE_YEAR<-NULL
   }
 
   if (is.null(dsn)){
-    vri_query <- bcdata::bcdc_query_geodata(record =  "2ebb35d8-c82f-4a17-9c96-612ac3532d55")  |>
+    vri_query <- bcdata::bcdc_query_geodata(record =  "2ebb35d8-c82f-4a17-9c96-612ac3532d55") |>
       bcdata::select(
         BCLCS_LEVEL_1, BCLCS_LEVEL_2, BCLCS_LEVEL_3, BCLCS_LEVEL_4, BCLCS_LEVEL_5,
         SPECIES_CD_1, SPECIES_CD_2, SPECIES_CD_3, SPECIES_CD_4, SPECIES_CD_5, SPECIES_CD_6,
         SPECIES_PCT_1, SPECIES_PCT_2, SPECIES_PCT_3, SPECIES_PCT_4, SPECIES_PCT_5, SPECIES_PCT_6,
         CROWN_CLOSURE, LAND_COVER_CLASS_CD_1, EST_COVERAGE_PCT_1, LINE_5_VEGETATION_COVER,
         HARVEST_DATE, PROJ_AGE_1, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME,INVENTORY_STANDARD_CD,
-        BEC_ZONE_CODE,BEC_SUBZONE, BEC_VARIANT,BEC_PHASE
+        BEC_ZONE_CODE,BEC_SUBZONE, BEC_VARIANT,BEC_PHASE,REFERENCE_YEAR
       )
 
     if(length(wkt_filter) > 0 ){
@@ -59,18 +59,19 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
                    "SPECIES_PCT_1", "SPECIES_PCT_2", "SPECIES_PCT_3", "SPECIES_PCT_4", "SPECIES_PCT_5"
                    ,"SPECIES_PCT_6","CROWN_CLOSURE", "LAND_COVER_CLASS_CD_1", "EST_COVERAGE_PCT_1",
                    "LINE_5_VEGETATION_COVER","HARVEST_DATE","BEC_ZONE_CODE","BEC_SUBZONE",
-                   "BEC_VARIANT","BEC_PHASE"),
+                   "BEC_VARIANT","BEC_PHASE","REFERENCE_YEAR"),
 
            new = c("BCLCS_LV_1", "BCLCS_LV_2", "BCLCS_LV_3", "BCLCS_LV_4", "BCLCS_LV_5",
                    "SPEC_CD_1", "SPEC_CD_2", "SPEC_CD_3", "SPEC_CD_4", "SPEC_CD_5", "SPEC_CD_6",
                    "SPEC_PCT_1", "SPEC_PCT_2", "SPEC_PCT_3", "SPEC_PCT_4", "SPEC_PCT_5", "SPEC_PCT_6",
                    "CR_CLOSURE", "LAND_CD_1", "COV_PCT_1", "LBL_VEGCOV", "HRVSTDT",
-                   "VRI_BEC_ZONE","VRI_BEC_SUBZON","VRI_BEC_VRT","VRI_BEC_PHASE"),
+                   "VRI_BEC_ZONE","VRI_BEC_SUBZON","VRI_BEC_VRT","VRI_BEC_PHASE","VRI_SURVEY_YEAR"),
 
            skip_absent = TRUE
            )
   #Restructure bem while waiting for real info
   vri <- rename_geometry(vri, "Shape")
+
   #make shape valid because ARCGIS draw polygon differently than sf
   vri$Shape <- sf::st_cast(sf::st_make_valid(vri$Shape),"MULTIPOLYGON")
 
@@ -336,3 +337,52 @@ read_fire <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVER
   fire$Shape <- sf::st_make_valid(fire$Shape)
   return(fire)
 }
+
+#'
+#'
+#'Read aoi (TSAs)
+#'
+#'Read in the TSA of interest as an aoi
+#'Filter to Skeena region (for TSAs that extend past Skeena region boundary). If not required, Skeena_boundary=FALSE
+#'
+#' @param tsa_name Character vector. A vector of TSA_NUMBER_DESCRIPTION values to filter.
+#' @param Skeena_boundary Boolean. Restrict tsa to Skeena region.
+#' @return sf object
+#' @import sf
+#' @importFrom bcdata bcdc_query_geodata filter collect select
+#' @export
+read_tsa <- function(tsa_name, Skeena_boundary=TRUE){
+
+  if (FALSE) {
+    TSA_NUMBER_DESCRIPTION<-ORG_UNIT_NAME<-NULL
+  }
+
+  aoi <- bcdata::bcdc_query_geodata("8daa29da-d7f4-401c-83ae-d962e3a28980") |>
+    bcdata::filter(TSA_NUMBER_DESCRIPTION %in% tsa_name) |>
+    bcdata::select(TSA_NUMBER_DESCRIPTION) |>
+    bcdata::collect() |>
+    sf::st_union() |> #get rid of boundaries between blocks
+    sf::st_as_sf() |>
+    sf::st_make_valid() |> #make sure shape is valid
+    rename_geometry("Shape") # rename_geometry(.,"Shape")
+
+  #make sure aoi within Skeena boundary (if needed)
+  if(Skeena_boundary==TRUE){
+    Skeena_aoi <- bcdata::bcdc_query_geodata("dfc492c0-69c5-4c20-a6de-2c9bc999301f") |>
+      bcdata::filter(ORG_UNIT_NAME == "Skeena Natural Resource Region") |>
+      bcdata::select(ORG_UNIT_NAME) |>
+      bcdata::collect() |>
+      sf::st_union() |> #get rid of boundaries between blocks
+      sf::st_as_sf() |>
+      sf::st_make_valid() |> #make sure shape is valid
+      rename_geometry("Shape")
+
+    aoi <- sf::st_intersection(aoi,Skeena_aoi) |>
+      sf::st_make_valid()
+  }
+
+  return(aoi)
+
+}
+
+

@@ -12,7 +12,7 @@ create_hem_rasters(
   ymin = 960987.5,
   ymax = 970987.5,
   resolution = 100,
-  crs = albers
+  crs = SSGBM.VRI.BEM::albers
 )
 }
 \arguments{

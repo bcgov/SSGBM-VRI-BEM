@@ -19,6 +19,7 @@ Imports:
   terra, 
   units,
   bcdata,
+  bcmaps,
   rlang,
   tibble,
   tidyr
