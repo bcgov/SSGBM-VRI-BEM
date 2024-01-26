@@ -36,6 +36,10 @@
 #'
 calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
 
+  if (FALSE) {
+    HARVEST_YEAR<-PROJ_AGE_1<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
+  }
+
     # use data.table for fast data manipulation
   #classes_vri <- attr(vri_bem, "class")
   vriCRS <- st_crs(vri_bem)

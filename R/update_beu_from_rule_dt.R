@@ -5,11 +5,15 @@
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param rules_dt data.table object that contains rule to apply to vri_bem to update beumc
 #' @return sf object
-#' @import rlang
+#' @importFrom rlang parse_expr parse_exprs
 #' @import data.table
 #' @import sf
 #' @export
 update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
+
+  if (FALSE) {
+    total_expr<-NULL
+  }
 
   setDT(vri_bem)
   rules_dt <- copy(rules_dt)
@@ -48,8 +52,8 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     column_name_expr <-  parse_expr(column_name)
     rules_dt[, paste0(rules_dt_names[column], "_expr") := fcase(grepl("^CONTAINS", eval(column_name_expr)), var_contains(var_name = column_name, rule = eval(column_name_expr)),
                                                                 grepl("^DOES NOT CONTAIN", eval(column_name_expr)), var_does_not_contains(var_name = column_name, rule = eval(column_name_expr)),
-                                                                grepl(",", eval(column_name_expr)), var_in_list(var_name = column_name, rule = eval(column_name_expr)),
-                                                                !is.na(eval(column_name_expr)), var_equal_value(var_name = column_name, rule = eval(column_name_expr)),
+                                                                grepl(",", eval(column_name_expr)), var_in_list(var_name = column_name, rule_list = eval(column_name_expr)),
+                                                                !is.na(eval(column_name_expr)), var_equal_value(var_name = column_name, rule_value = eval(column_name_expr)),
                                                                 default = "TRUE")]
 
   }
@@ -67,8 +71,8 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
   vri_bem_pct_var <- grep("^SPEC_PCT_[0-9]$", names(vri_bem), value = T)
 
   for (i in seq_along(tree_list_var)) {
-    tree_list_var_parse <- parse_expr(tree_list_var[i])
-    tree_pct_var_parse <- parse_expr(tree_pct_var[i])
+    tree_list_var_parse <- rlang::parse_expr(tree_list_var[i])
+    tree_pct_var_parse <- rlang::parse_expr(tree_pct_var[i])
     rules_dt[, paste0(tree_list_var[i], "_expr") := fcase(grepl("<|>", eval(tree_list_var_parse)), compare_pct_of_species_in_list(tree_list = eval(tree_list_var_parse), species_var = vri_bem_species_var, pct_var = vri_bem_pct_var),
                                                           !is.na(eval(tree_list_var_parse)), sum_pct_of_species_in_list_is_within_range(tree_list = eval(tree_list_var_parse), tree_range = eval(tree_pct_var_parse), species_var = vri_bem_species_var, pct_var = vri_bem_pct_var),
                                                           default = "TRUE")]
@@ -76,7 +80,7 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
   }
 
   # create total expression
-  rules_dt[ , total_expr := parse_exprs(do.call(paste, c(.SD, list(sep = " & ")))), .SDcols = c(paste0(rules_dt_names[rule_columns], "_expr"), paste0(tree_list_var, "_expr"))]
+  rules_dt[ , total_expr := rlang::parse_exprs(do.call(paste, c(.SD, list(sep = " & ")))), .SDcols = c(paste0(rules_dt_names[rule_columns], "_expr"), paste0(tree_list_var, "_expr"))]
 
   # apply total expr on vri_bem and update output columns based on rules result
   for (rule in 1:nrow(rules_dt)) {

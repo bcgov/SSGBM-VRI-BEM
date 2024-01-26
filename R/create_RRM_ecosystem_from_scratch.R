@@ -50,6 +50,11 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
                                               beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv", rules_xl, unique_ecosystem = "csv/Skeena_VRIBEM_LUT.csv",
                                               clear_site_ma = TRUE, use_ifelse = TRUE, most_recent_harvest_year, elevation_threshold = 1400, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
 
+  if (FALSE) {
+    .<-ABOVE_ELEV<-BEUMC<-BGC_PHASE<-BGC_SUBZON<-BGC_VRT<-BGC_ZONE<-CROWN_MOOSE<-ECO_SEC<-FORESTED<-
+      Hectares<-SITE_M3A<-SLOPE_MOD<-SNOW_CODE<-STAND<-STRCT<-NULL
+  }
+
   # TODO add default wkt_filter when no filter is passed but number of iterations is greater than 1 (maybe default to the whole skeena region, store it as part of the package)
   # TODO check what appends when wkt_filter cover an area where there is no polygon
   # then maybe add a if in the loop to check if the vri is empty just go to the next iteration
@@ -71,13 +76,18 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
   beu_bec_csv <- fread(beu_bec_csv)
   beu_wetland_update_csv <- fread(beu_wetland_update_csv)
   unique_ecosystem_dt <- read_unique_ecosystem_dt(unique_ecosystem)
-  rules_dt <- setDT(read_excel(rules_xl, sheet = "Combined_Rules_for_Script"))
+
+  if (!requireNamespace("readxl", quietly = TRUE)) {
+    utils::install.packages("readxl")
+  }
+
+  rules_dt <- setDT(readxl::read_excel(rules_xl, sheet = "Combined_Rules_for_Script"))
 
   # compute slope and aspect only once before the loop
   if (verbose) {
     message("computing slope and aspect from elevation raster")
   }
-  terrain_raster <- terrain(elevation, v = c("slope", "aspect"), unit = "radians")
+  terrain_raster <- terra::terrain(elevation, v = c("slope", "aspect"), unit = "radians")
 
   # initialize empty list for RRM ecosystem which will be filled when iterating
   RRM_ecosystem_list <- list()
@@ -144,9 +154,7 @@ create_RRM_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn,
     if (verbose) {
       message("Finding dominant bear and moose")
     }
-    vri_bem <- find_crown_area_dominant_values(vri = vri_bem,
-                                               bem = bem,
-                                               intersection_dt = vri_bem_intersection_dt)
+    vri_bem <- find_crown_area_dominant_values(vri = vri_bem)
 
     # creating rrm output
     if (verbose) {

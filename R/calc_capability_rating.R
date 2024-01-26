@@ -8,6 +8,12 @@
 #' @import data.table
 #' @export
 calc_capability_rating <- function(rrm_dt, animal) {
+
+  if (FALSE) {
+    .<-Eco_sec<-Bgc_zone<-Bgc_subzon<-Bgc_vrt<-Bgc_phase<- Beumc<-Slope_mod<-Site_m3a<-
+      Salmon<-Snow_code<-Above_Elev_Thold<-Crown_Bear<-Crown_Moose<-NULL
+  }
+
   setDT(rrm_dt)
   rating_variables <- grep("_6C$", names(rrm_dt), value = TRUE)
   cap_rating_variables <- paste0(rating_variables, "_CAP")

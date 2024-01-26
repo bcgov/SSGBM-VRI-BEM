@@ -2,19 +2,34 @@
 #'This function cleans up the final VRI-BEM-WHR output (removes extraneous fields), removes slivers < 1m^2, and adds the unique ID (PolyID) and ECO_TYPE
 #'
 #' @param vri_bem VRI-BEM feature class
+#' @param animal A character string. Either `bear` or `moose`.
 #'
 #' @return "cleaned" vri_bem
-#' @import vri_bem
+#' @importFrom tidyr unite
 #' @export
 #'
 
 clean_vri_bem_output <- function(vri_bem, animal) {
 
-  #Exclude polygon fragments smaller than 1 m^2 (can make this larger if needed)
+  if (FALSE) {
+    ABOVE_ELEV_THOLD<-AGE_CL_STD<-AGE_CL_STS<-BCLCS_LV_1<-BCLCS_LV_5<-BEU_BEC<-BGC_PHASE<-BGC_ZONE<-
+      COV_PCT_1<-CR_CLOSURE<-CROWN_BEAR_1<-CROWN_BEAR_3<-CROWN_MOOSE_1<-CROWN_MOOSE_3<-DOM_TREE<-
+      dupID<-ECO_SEC<-ELEV<-FEATURE_ID<-finalarea<-FORESTED_1<-FORESTED_3<-HARVEST_YEAR<-KIND_1<-
+      KIND_2<-KIND_3<-LAND_CD_1<-LBL_VEGCOV<-m<-MALAN_WFD_6C_SU_1<-MALAN_WST_6C_CAP_WA<-MEAN_ASP<-
+      MEAN_SLOPE<-MURAR_HI_6C_CAP_WA<-MURAR_PEFD_6C_SU_1<-POLY_COMM<-PolyID<-PROJ_AGE_1<-
+      rrm_merge_ind<-Salmon<-SDEC_1<-SDEC_2<-SDEC_3<-Shape<-Shape_Area<-SITE_M3A<-SLOPE_MOD<-
+      SOIL_MOISTURE_REGIME_1<-SOIL_NUTRIENT_REGIME<-SPEC_CD_1<-SPEC_CD_2<-SPEC_CD_3<-SPEC_CD_4<-
+      SPEC_CD_5<-SPEC_CD_6<-SPEC_PCT_1<-SPEC_PCT_2<-SPEC_PCT_3<-SPEC_PCT_4<-SPEC_PCT_5<-
+      SPEC_PCT_6<-STAND_A1<-STAND_A2<-STAND_A3<-STAND_CLIMAX_1<-STAND_CLIMAX_2<-STAND_CLIMAX_3<-
+      STRCT_mod<-STRCT_S1<-STRCT_S2<-STRCT_S3<-STS_CLIMAX_1<-STS_CLIMAX_2<-STS_CLIMAX_3<-TEIS_ID<-
+      VEG_CONSOLIDATED_CUT_BLOCK_ID<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
+  }
+
+  #Exclude polygon fragments smaller than 1 m² (can make this larger if needed)
   #Possible future update: dissolve fragments into nearby polygons
   vri_bem <-  vri_bem |>
     dplyr::mutate(finalarea = st_area(vri_bem)) |>
-    dplyr::filter(finalarea >= units::set_units(1, m^2)) |>
+    dplyr::filter(finalarea >= units::set_units(1, "m^2")) |>
     mutate(Shape_Area = as.numeric(finalarea)) |>
     select(-(finalarea))
 
@@ -35,7 +50,7 @@ clean_vri_bem_output <- function(vri_bem, animal) {
   vri_bem_dt[,PolyID := paste(PolyID,"_",dupID,sep = "")][, dupID := NULL]
 
   #Concatenate BGC vars into "BEU_BEC"
-  vri_bem_dt <- vri_bem_dt %>% unite("BEU_BEC", BGC_ZONE:BGC_PHASE, na.rm = TRUE, remove = FALSE, sep = "")
+  vri_bem_dt <- vri_bem_dt |> tidyr::unite("BEU_BEC", BGC_ZONE:BGC_PHASE, na.rm = TRUE, remove = FALSE, sep = "")
 
   #Establish dominant tree for SPEC_CD_1 (may need to revisit these definitions and update missing tree codes)
   #unique(vri_bem_dt[,SPEC_CD_1])
@@ -77,18 +92,27 @@ clean_vri_bem_output <- function(vri_bem, animal) {
 #' @param vri_bem VRI-BEM feature class
 #'
 #' @return simplified vri_bem
-#' @import vri_bem
 #' @export
 #'
 
 simplify_vri_bem_output <- function(vri_bem) {
 
+  if (FALSE) {
+    BCLCS_LV_1<-BCLCS_LV_5<-BEU_BEC<-BEUMC_S1<-BGC_PHASE<-BGC_SUBZON<-BGC_VRT<-BGC_ZONE<-
+      CROWN_BEAR_1<-CROWN_MOOSE_1<-DOM_TREE<-ECO_TYPE<-ELEV<-MALAN_GFD_6C_SU_WA<-
+      MALAN_WFD_6C_SU_WA<-MALAN_WST_6C_SU_WA<-MEAN_ASP<-MEAN_SLOPE<-MURAR_FFD_6C_SU_WA<-
+      MURAR_HI_6C_SU_WA<-MURAR_PEFD_6C_SU_WA<-MURAR_PLFD_6C_SU_WA<-MURAR_SFD_6C_SU_WA<-PolyID<-
+      PROJ_AGE_1<-Salmon<-Shape<-SITE_M3A<-SOIL_MOISTURE_REGIME_1<-SOIL_NUTRIENT_REGIME<-SPEC_CD_1<-
+      SPEC_CD_2<-SPEC_CD_3<-SPEC_CD_4<-SPEC_CD_5<-SPEC_CD_6<-SPEC_PCT_1<-SPEC_PCT_2<-SPEC_PCT_3<-
+      SPEC_PCT_4<-SPEC_PCT_5<-SPEC_PCT_6<-STAND_A1<-STRCT_mod<-TEIS_ID<-NULL
+  }
+
   if("DOM_TREE" %in% colnames(vri_bem)){
-    vri_bem <- vri_bem |> select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_BEAR_1, CROWN_MOOSE_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA,   MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
+    vri_bem <- vri_bem |> dplyr::select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_BEAR_1, CROWN_MOOSE_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA,   MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
 
   if(!"DOM_TREE" %in% colnames(vri_bem)){
     vri_bem <- clean_vri_bem_output(vri_bem)|>
-      select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_BEAR_1, CROWN_MOOSE_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA,   MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
+      dplyr::select(PolyID, TEIS_ID, ECO_TYPE, BCLCS_LV_1:BCLCS_LV_5, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, BEU_BEC, BEUMC_S1, ELEV, MEAN_ASP, MEAN_SLOPE, SITE_M3A, STAND_A1, STRCT_mod, PROJ_AGE_1, CROWN_BEAR_1, CROWN_MOOSE_1, DOM_TREE, SPEC_CD_1, SPEC_PCT_1, SPEC_CD_2, SPEC_PCT_2, SPEC_CD_3, SPEC_PCT_3, SPEC_CD_4, SPEC_PCT_4, SPEC_CD_5, SPEC_PCT_5, SPEC_CD_6, SPEC_PCT_6, Salmon, SOIL_MOISTURE_REGIME_1, SOIL_NUTRIENT_REGIME, MALAN_WFD_6C_SU_WA, MALAN_GFD_6C_SU_WA, MALAN_WST_6C_SU_WA, MURAR_PEFD_6C_SU_WA,   MURAR_PLFD_6C_SU_WA, MURAR_SFD_6C_SU_WA, MURAR_FFD_6C_SU_WA, MURAR_HI_6C_SU_WA, Shape)}
 
     return(vri_bem)
 }

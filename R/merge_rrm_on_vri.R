@@ -7,10 +7,14 @@
 #' @param rrm_dt data.table object that contains the rrm
 #' @param animal character, "bear" or "moose"
 #' @param return_sf logical, if TRUE  return sf object , if FALSE return data.table object and update by reference
-#' @return sf  vri-bem object with new columns for rating
+#' @return vri-bem object with new columns for rating
 #' @import data.table
 #' @export
 merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
+
+  if (FALSE) {
+    Hectares_1<-Hectares_2<-Hectares_3<-rrm_merge_ind<-SDEC_1<-SDEC_2<-SDEC_3<-NULL
+  }
 
   vri_bem <- vri_bem |> mutate(SDEC_1 = ifelse(is.na(SDEC_1), 0, SDEC_1),
                                SDEC_2 = ifelse(is.na(SDEC_2), 0, SDEC_2),
@@ -175,7 +179,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param rrm_dt data.table object that contains the rrm
 #' @param rating_variables list, vector for each rating variables to create
-#' @param rating_variable_expr parse_expr , expression for variable to merge in data.table
+#' @param rating_variables_expr parse_expr , expression for variable to merge in data.table
 #' @return sf  vri-bem object with new columns for rating
 #' @import data.table
 #' @export
@@ -216,7 +220,7 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param rrm_dt data.table object that contains the rrm
 #' @param rating_variables list, vector for each rating variables to create
-#' @param rating_variable_expr parse_expr , expression for variable to merge in data.table
+#' @param rating_variables_expr parse_expr , expression for variable to merge in data.table
 #' @return sf  vri-bem object with new columns for rating
 #' @import data.table
 #' @export

@@ -20,6 +20,27 @@
 
 merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
 
+  if (FALSE) {
+    .<-BEU_MC<-BGC_PHASE<-BGC_SUBZON<-BGC_VRT<-BGC_ZONE<-FORESTED_1<-FORESTED_2<-FORESTED_3<-
+      i.CLASS<-`i.Forested (Y/N)`<-i.GROUP<-i.KIND<-i.REALM<-i.Snow_Code<-`i.Stand_Age_0-15`<-
+      `i.Stand_Age_16-30`<-`i.Stand_Age_31-50`<-`i.Stand_Age_51-80`<-`i.Stand_Age_80+`<-
+      i.Stand_Climax<-i.Strct_Climax<-`i.Struct_Age_0-3`<-`i.Struct_Age_11-30`<-
+      `i.Struct_Age_140-249`<-i.Struct_Age_25<-`i.Struct_Age_250+`<-`i.Struct_Age_31-40`<-
+      `i.Struct_Age_4-10`<-`i.Struct_Age_41-60`<-`i.Struct_Age_61-80`<-`i.Struct_Age_81-139`<-
+      parkland_ind<-STAND_1_Age_0_15<-STAND_1_Age_16_30<-STAND_1_Age_31_50<-STAND_1_Age_51_80<-
+      STAND_1_Age_gt_80<-STAND_2_Age_0_15<-STAND_2_Age_16_30<-STAND_2_Age_31_50<-STAND_2_Age_51_80<-
+      STAND_2_Age_gt_80<-STAND_3_Age_0_15<-STAND_3_Age_16_30<-STAND_3_Age_31_50<-STAND_3_Age_51_80<-
+      STAND_3_Age_gt_80<-STAND_A1<-STAND_A2<-STAND_A3<-STAND_AGE_1<-STAND_AGE_2<-STAND_AGE_3<-
+      STAND_CLIMAX_1<-STAND_CLIMAX_2<-STAND_CLIMAX_3<-STD_VRI<-STRCT_S1<-STRCT_S2<-STRCT_S3<-
+      STS_1_Age_0_3<-STS_1_Age_11_30<-STS_1_Age_140_249<-STS_1_Age_31_40<-STS_1_Age_4_10<-
+      STS_1_Age_41_60<-STS_1_Age_61_80<-STS_1_Age_81_139<-STS_1_Age_gt_249<-STS_2_Age_0_3<-
+      STS_2_Age_11_30<-STS_2_Age_140_249<-STS_2_Age_31_40<-STS_2_Age_4_10<-STS_2_Age_41_60<-
+      STS_2_Age_61_80<-STS_2_Age_81_139<-STS_2_Age_gt_249<-STS_3_Age_0_3<-STS_3_Age_11_30<-
+      STS_3_Age_140_249<-STS_3_Age_31_40<-STS_3_Age_4_10<-STS_3_Age_41_60<-STS_3_Age_61_80<-
+      STS_3_Age_81_139<-STS_3_Age_gt_249<-STS_AGE_1<-STS_AGE_2<-STS_AGE_3<-STS_CLIMAX_1<-
+      STS_CLIMAX_2<-STS_CLIMAX_3<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
+  }
+
   # use data table for fast data manipulation and fast merges
   classes_vri_bem <- attr(vri_bem, "class")
   setDT(vri_bem)
