@@ -15,7 +15,7 @@ merge_bem_on_vri.data.table(vri, bem)
 data.table object that represent the original VRI with merged BEM attributes.
 }
 \description{
-This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
+This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation resource inventory).
 }
 \details{
 Its attribute table will have all of the BEM attribute fields added to the existing VRI attributes.

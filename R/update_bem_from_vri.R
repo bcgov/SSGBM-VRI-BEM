@@ -21,6 +21,12 @@
 
 update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, use_ifelse = TRUE) {
 
+  if (FALSE) {
+    .<-`BEU_#`<-BEUMC_S1<-BEUMC_S2<-BEUMC_S3<-`BGC Subzone`<-change_to_beu<-DEC_Total<-
+      `i.Change to BEU =`<-`i.Script rule`<-lbl_edit<-merge_key<-script_rule<-SDEC_1<-SDEC_2<-
+      SDEC_3<-SITE_M3A<-SMPL_TYPE<-SPEC_CD_1<-NULL
+  }
+
   # TODO verify that FORESTED_1 and BEUMC_S1 are blank when needed
 
   classes_vri_bem <- attr(vri_bem, "class")
@@ -473,6 +479,10 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
 
 
 combine_duplicated_BEUMC <- function(ifc, use_ifelse = TRUE){
+
+  if (FALSE) {
+    SDEC_1<-SDEC_2<-NULL
+  }
 
   duplicated <- ifc[["BEUMC_S1"]] == ifc[["BEUMC_S2"]] & is.na(ifc[["SMPL_TYPE"]])
 

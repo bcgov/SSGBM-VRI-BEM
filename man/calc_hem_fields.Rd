@@ -18,7 +18,7 @@ calc_hem_fields(
 
 \item{hem_fields}{data.table containing a column called 'names' with the name of the hem fields to compute, default to the hem_field object in the package}
 
-\item{curent_year}{numeric of the year use to compute age, default to year of current date}
+\item{current_year}{numeric of the year use to compute age, default to year of current date}
 }
 \value{
 sf object

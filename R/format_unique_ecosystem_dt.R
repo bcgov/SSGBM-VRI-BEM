@@ -7,6 +7,11 @@
 #' @import data.table
 #' @export
 format_unique_ecosystem_dt <- function(unique_ecosystem_dt) {
+
+  if (FALSE) {
+    BGC_VRT<-BGC_PHASE<-NULL
+  }
+
   #default to NAs for missing data
   unique_ecosystem_dt[BGC_VRT == "" | BGC_VRT == 0, BGC_VRT := NA_character_]
   unique_ecosystem_dt[ , BGC_VRT := as.character(BGC_VRT)]

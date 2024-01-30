@@ -28,8 +28,8 @@ For each of the following combination compute the sum of the area
 \item SLOPE_MOD
 \item SITE_M3A
 \item SNOW_CODE
-\item ABOVE_ELEV
-\item CROWN_MOOSE (CROWN_MOOSE_1, CROWN_MOOSE_2, CROWN_MOOSE_3)
+\item ABOVE_ELEV_THOLD
+\item CROWN_ALL (CROWN_ALL_1, CROWN_ALL_2, CROWN_ALL_3) #formerly CROWN_MOOSE
 \item STRCT (STRCT_S1, STRCT_S2, STRCT_S3)
 \item STAND (STAND_A1, STAND_A2, STAND_A3)
 \item FORESTED (FORESTED_1, FORESTED_2, FORESTED_3)

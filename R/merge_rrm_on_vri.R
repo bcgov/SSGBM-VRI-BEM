@@ -7,10 +7,14 @@
 #' @param rrm_dt data.table object that contains the rrm
 #' @param animal character, "bear" or "moose"
 #' @param return_sf logical, if TRUE  return sf object , if FALSE return data.table object and update by reference
-#' @return sf  vri-bem object with new columns for rating
+#' @return vri-bem object with new columns for rating
 #' @import data.table
 #' @export
 merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
+
+  if (FALSE) {
+    Hectares_1<-Hectares_2<-Hectares_3<-rrm_merge_ind<-SDEC_1<-SDEC_2<-SDEC_3<-NULL
+  }
 
   vri_bem <- vri_bem |> mutate(SDEC_1 = ifelse(is.na(SDEC_1), 0, SDEC_1),
                                SDEC_2 = ifelse(is.na(SDEC_2), 0, SDEC_2),
@@ -19,8 +23,8 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
   setDT(vri_bem)
 
   # calc capability rating and format rrm table
-  format_rrm_dt(rrm_dt = rrm_dt, animal = animal) #updated to format in a species-specific way
-  calc_capability_rating(rrm_dt = rrm_dt, animal = animal)
+  rrm_dt <- format_rrm_dt(rrm_dt = rrm_dt, animal = animal) #updated to format in a species-specific way
+  rrm_dt <- calc_capability_rating(rrm_dt = rrm_dt, animal = animal)
 
 
   rating_variables <- grep("_6C$", names(rrm_dt), value = T)
@@ -175,7 +179,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param rrm_dt data.table object that contains the rrm
 #' @param rating_variables list, vector for each rating variables to create
-#' @param rating_variable_expr parse_expr , expression for variable to merge in data.table
+#' @param rating_variables_expr parse_expr , expression for variable to merge in data.table
 #' @return sf  vri-bem object with new columns for rating
 #' @import data.table
 #' @export
@@ -184,14 +188,14 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S1 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, Salmon = Salmon, SNOW_CODE = Snow_code, ABOVE_ELEV_THOLD = Above_Elev_Thold,
-                         CROWN_BEAR_1 = Crown_Bear, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
+                         CROWN_ALL_1 = Crown_All, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
           c(", paste0("'", paste(rating_variables[[1]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   # merge on decile 2 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S2 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, Salmon = Salmon, SNOW_CODE = Snow_code, ABOVE_ELEV_THOLD = Above_Elev_Thold,
-                         CROWN_BEAR_2 = Crown_Bear, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
+                         CROWN_ALL_2 = Crown_All, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
           c(", paste0("'", paste(rating_variables[[2]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
 
@@ -200,7 +204,7 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S3 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, Salmon = Salmon, SNOW_CODE = Snow_code, ABOVE_ELEV_THOLD = Above_Elev_Thold,
-                         CROWN_BEAR_3 = Crown_Bear, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
+                         CROWN_ALL_3 = Crown_All, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
           c(", paste0("'", paste(rating_variables[[3]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
 
@@ -216,7 +220,7 @@ merge_rating_bear <- function(vri_bem, rrm_dt, rating_variables, rating_variable
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param rrm_dt data.table object that contains the rrm
 #' @param rating_variables list, vector for each rating variables to create
-#' @param rating_variable_expr parse_expr , expression for variable to merge in data.table
+#' @param rating_variables_expr parse_expr , expression for variable to merge in data.table
 #' @return sf  vri-bem object with new columns for rating
 #' @import data.table
 #' @export
@@ -225,14 +229,14 @@ merge_rating_moose <- function(vri_bem, rrm_dt, rating_variables, rating_variabl
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S1 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV_THOLD = Above_Elev_Thold,
-                         CROWN_MOOSE_1 = Crown_Moose, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
+                         CROWN_ALL_1 = Crown_All, STRCT_S1 = Strct_d, STAND_A1 = Stand_d),
           c(", paste0("'", paste(rating_variables[[1]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   # merge on decile 2 ----
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S2 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV_THOLD = Above_Elev_Thold,
-                         CROWN_MOOSE_2 = Crown_Moose, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
+                         CROWN_ALL_2 = Crown_All, STRCT_S2 = Strct_d, STAND_A2 = Stand_d),
           c(", paste0("'", paste(rating_variables[[2]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
 
@@ -241,7 +245,7 @@ merge_rating_moose <- function(vri_bem, rrm_dt, rating_variables, rating_variabl
   eval(parse_expr(paste0("vri_bem[rrm_dt, on = .(ECO_SEC = Eco_sec, BGC_ZONE = Bgc_zone, BGC_SUBZON = Bgc_subzon, BGC_VRT = Bgc_vrt,
                          BGC_PHASE = Bgc_phase, BEUMC_S3 = Beumc, SLOPE_MOD = Slope_mod,
                          SITE_M3A = Site_m3a, SNOW_CODE = Snow_code, ABOVE_ELEV_THOLD = Above_Elev_Thold,
-                         CROWN_MOOSE_3 = Crown_Moose, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
+                         CROWN_ALL_3 = Crown_All, STRCT_S3 = Strct_d, STAND_A3 = Stand_d),
           c(", paste0("'", paste(rating_variables[[3]], collapse = "','"), "'"), ") := ", rating_variables_expr,"]")))
 
   return(vri_bem)

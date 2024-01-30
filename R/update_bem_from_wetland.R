@@ -26,6 +26,14 @@
 #' @export
 update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
+  if (FALSE) {
+    .<-area<-BCLCS_LV_4<-BEUMC_S1<-BEUMC_S2<-BEUMC_S3<-BGC_ZONE<-Code_Orig<-Code_WL1<-Code_WL10<-
+      Code_WL2<-Code_WL3<-Code_WL4<-Code_WL5<-Code_WL6<-Code_WL7<-Code_WL8<-curr_beu_code<-
+      curr_wl_zone<-i.Code_WL0<-i.Code_WL1<-i.Code_WL10<-i.Code_WL2<-i.Code_WL3<-i.Code_WL4<-
+      i.Code_WL5<-i.Code_WL6<-i.Code_WL7<-i.Code_WL8<-Lbl_edit_wl<-new_beu_code<-SDEC_1<-SDEC_2<-
+      SDEC_3<-SITE_M3A<-vri_area<-wetland_area<-wl_pct<-NULL
+  }
+
   setDT(vri_bem)
 
   # check if all required attributes are there

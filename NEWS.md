@@ -17,7 +17,7 @@
 # SSGBM.VRI.BEM 0.2.1
 
 * Added suffixes for rating variables
-* New argument anmial in `calc_capability_rating` to differentiate moose and bear
+* New argument `animal` in `calc_capability_rating` to differentiate moose and bear
 * Fix weighted average in `merge_rrm_on_vri` to handle missing decile or ratings
 
 

@@ -17,7 +17,7 @@ merge_bem_on_vri(vri, bem, return_intersection_dt = FALSE)
 sf object that represent the original VRI with merged BEM attributes based on largest overlay.
 }
 \description{
-This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation ressource inventory).
+This function copies all of the attributes in the specified BEM (broad ecosystem mapping) to each polygon in the specified VRI (vegetation resource inventory).
 }
 \details{
 This function output will be a copy of the VRI polygons clipped to the BEM, then exploded to single part, and its slivers will be eliminated.

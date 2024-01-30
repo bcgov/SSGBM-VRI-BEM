@@ -5,11 +5,17 @@
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param rules_dt data.table object that contains rule to apply to vri_bem to update beumc
 #' @return sf object
-#' @import rlang
+#' @importFrom rlang parse_expr parse_exprs
+#' @importFrom dplyr mutate_at across case_when mutate
+#' @importFrom tidyr replace_na
 #' @import data.table
 #' @import sf
 #' @export
 update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
+
+  if (FALSE) {
+    total_expr<-SDEC_1<-BEUMC_S2<-SDEC_2<-BEUMC_S3<-SDEC_3<-NULL
+  }
 
   setDT(vri_bem)
   rules_dt <- copy(rules_dt)
@@ -48,8 +54,8 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     column_name_expr <-  parse_expr(column_name)
     rules_dt[, paste0(rules_dt_names[column], "_expr") := fcase(grepl("^CONTAINS", eval(column_name_expr)), var_contains(var_name = column_name, rule = eval(column_name_expr)),
                                                                 grepl("^DOES NOT CONTAIN", eval(column_name_expr)), var_does_not_contains(var_name = column_name, rule = eval(column_name_expr)),
-                                                                grepl(",", eval(column_name_expr)), var_in_list(var_name = column_name, rule = eval(column_name_expr)),
-                                                                !is.na(eval(column_name_expr)), var_equal_value(var_name = column_name, rule = eval(column_name_expr)),
+                                                                grepl(",", eval(column_name_expr)), var_in_list(var_name = column_name, rule_list = eval(column_name_expr)),
+                                                                !is.na(eval(column_name_expr)), var_equal_value(var_name = column_name, rule_value = eval(column_name_expr)),
                                                                 default = "TRUE")]
 
   }
@@ -67,8 +73,8 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
   vri_bem_pct_var <- grep("^SPEC_PCT_[0-9]$", names(vri_bem), value = T)
 
   for (i in seq_along(tree_list_var)) {
-    tree_list_var_parse <- parse_expr(tree_list_var[i])
-    tree_pct_var_parse <- parse_expr(tree_pct_var[i])
+    tree_list_var_parse <- rlang::parse_expr(tree_list_var[i])
+    tree_pct_var_parse <- rlang::parse_expr(tree_pct_var[i])
     rules_dt[, paste0(tree_list_var[i], "_expr") := fcase(grepl("<|>", eval(tree_list_var_parse)), compare_pct_of_species_in_list(tree_list = eval(tree_list_var_parse), species_var = vri_bem_species_var, pct_var = vri_bem_pct_var),
                                                           !is.na(eval(tree_list_var_parse)), sum_pct_of_species_in_list_is_within_range(tree_list = eval(tree_list_var_parse), tree_range = eval(tree_pct_var_parse), species_var = vri_bem_species_var, pct_var = vri_bem_pct_var),
                                                           default = "TRUE")]
@@ -76,7 +82,7 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
   }
 
   # create total expression
-  rules_dt[ , total_expr := parse_exprs(do.call(paste, c(.SD, list(sep = " & ")))), .SDcols = c(paste0(rules_dt_names[rule_columns], "_expr"), paste0(tree_list_var, "_expr"))]
+  rules_dt[ , total_expr := rlang::parse_exprs(do.call(paste, c(.SD, list(sep = " & ")))), .SDcols = c(paste0(rules_dt_names[rule_columns], "_expr"), paste0(tree_list_var, "_expr"))]
 
   # apply total expr on vri_bem and update output columns based on rules result
   for (rule in 1:nrow(rules_dt)) {
@@ -95,7 +101,36 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
     }
   }
 
-  return(st_as_sf(vri_bem))
+  #correct for cases where BEUMC_S1 now equals BEUMC_S2 (or BEUMC_S3)
+  vri_bem <- vri_bem |>
+    dplyr::mutate_at(c('SDEC_1','SDEC_2','SDEC_3'), ~tidyr::replace_na(.,0)) |>
+
+    dplyr::mutate(SDEC_1 = dplyr::case_when(
+      BEUMC_S1 == BEUMC_S2 ~ rowSums(dplyr::across(c("SDEC_1","SDEC_2"))),
+      BEUMC_S1 == BEUMC_S3 ~ rowSums(dplyr::across(c("SDEC_1","SDEC_3"))),
+     .default = SDEC_1),
+
+    BEUMC_S2 = dplyr::case_when(
+        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ BEUMC_S3,
+        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ NA_character_,
+        .default = BEUMC_S2),
+
+    SDEC_2 = dplyr::case_when(
+        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ SDEC_3,
+        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ 0,
+        .default = SDEC_2),
+
+    BEUMC_S3 = dplyr::case_when(
+        BEUMC_S1 == BEUMC_S2 ~ NA_character_,
+        BEUMC_S1 == BEUMC_S3 ~ NA_character_,
+        .default = BEUMC_S3),
+
+    SDEC_3 = dplyr::case_when(
+          BEUMC_S1 == BEUMC_S2 ~ 0,
+          BEUMC_S1 == BEUMC_S3 ~ 0,
+          .default = SDEC_3))
+
+  return(sf::st_as_sf(vri_bem))
 }
 
 #' var_contains

@@ -16,18 +16,22 @@
 #'
 #' @import data.table
 #' @export
-create_unique_ecosystem_dt <- function(vri_bem, current_unique_ecosyteme_csv = NULL) {
+create_unique_ecosystem_dt <- function(vri_bem, current_unique_ecosystem_csv = NULL) {
+
+  if (FALSE) {
+    FREQ<-merge_ind<-merge_ind.x<-merge_ind.y<-NULL
+  }
 
   vri_bem <- as.data.table(vri_bem)
 
   unique_ecosystem_dt <- summarize_unique_ecosystem(vri_bem)
 
-  if (!is.null(current_unique_ecosyteme_csv)) {
-    current_unique_ecosyteme_dt <- fread(current_unique_ecosyteme_csv)
-    format_unique_ecosystem_dt(current_unique_ecosyteme_dt)
+  if (!is.null(current_unique_ecosystem_csv)) {
+    current_unique_ecosysteme_dt <- fread(current_unique_ecosystem_csv)
+    format_unique_ecosystem_dt(current_unique_ecosysteme_dt)
     unique_ecosystem_dt[, merge_ind := 1]
-    current_unique_ecosyteme_dt[, merge_ind := 1]
-    new_unique_ecosystem_dt <- merge(current_unique_ecosyteme_dt, unique_ecosystem_dt, by = c("BGC_ZONE", "BGC_SUBZON", "BGC_VRT", "BGC_PHASE", "BEU_MC"), all = TRUE)
+    current_unique_ecosysteme_dt[, merge_ind := 1]
+    new_unique_ecosystem_dt <- merge(current_unique_ecosysteme_dt, unique_ecosystem_dt, by = c("BGC_ZONE", "BGC_SUBZON", "BGC_VRT", "BGC_PHASE", "BEU_MC"), all = TRUE)
 
     #cases of missing variables should be NA, not ""
     for(j in seq_along(new_unique_ecosystem_dt)){

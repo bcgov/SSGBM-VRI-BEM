@@ -16,6 +16,11 @@
 #' @export
 merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
 
+  if (FALSE) {
+    .<-area<-cell<-merge_bem_on_vri.data.<-TEIS_ID<-vri_area<-VRI_BEC_PHASE<-VRI_BEC_SUBZON<-
+      VRI_BEC_VRT<-VRI_BEC_ZONE<-vri_index<-VRI_OBJ_ID<-NULL
+  }
+
   # check if teis_id seems already merged on vri
   if (!is.null(vri[["TEIS_ID"]])) {
     duplicated_names <- setdiff(names(bem), names(vri))
@@ -100,6 +105,10 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
 #' @export
 #' @keywords internal
 merge_bem_on_vri.data.table <- function(vri, bem) {
+
+  if (FALSE) {
+    TEIS_ID<-cell<-NULL
+  }
 
   # check if teis_id seems already merged on vri
   if (!is.null(vri[["TEIS_ID"]])) {

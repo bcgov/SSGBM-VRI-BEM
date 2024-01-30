@@ -4,7 +4,7 @@
 \alias{read_bem}
 \title{Read BEM spatial dataset}
 \usage{
-read_bem(dsn, layer = "BEM", wkt_filter = character(0))
+read_bem(dsn, layer = "BEM", wkt_filter = NULL)
 }
 \arguments{
 \item{dsn}{data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.
