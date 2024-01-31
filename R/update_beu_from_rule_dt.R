@@ -103,6 +103,7 @@ update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
 
   #correct for cases where BEUMC_S1 now equals BEUMC_S2 (or BEUMC_S3)
   vri_bem <- vri_bem |>
+
     dplyr::mutate_at(c('SDEC_1','SDEC_2','SDEC_3'), ~tidyr::replace_na(.,0)) |>
 
     dplyr::mutate(SDEC_1 = dplyr::case_when(

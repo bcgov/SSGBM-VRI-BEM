@@ -27,7 +27,5 @@ merge_ccb_on_vri <- function(vri_bem, ccb) {
     sf::st_cast("POLYGON", warn = FALSE) |>
     sf::st_make_valid()
 
-  dplyr::bind_rows(vri_ccb_intersection, vri_ccb_diff) |>
-    bcmaps::transform_bc_albers()
-
+  return(dplyr::bind_rows(vri_ccb_intersection, vri_ccb_diff) |> transform_bc_albers())
 }

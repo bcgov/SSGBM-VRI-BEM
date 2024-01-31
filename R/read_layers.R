@@ -22,6 +22,7 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
   }
 
   if (is.null(dsn)){
+
     vri_query <- bcdata::bcdc_query_geodata(record =  "2ebb35d8-c82f-4a17-9c96-612ac3532d55") |>
       bcdata::select(
         BCLCS_LEVEL_1, BCLCS_LEVEL_2, BCLCS_LEVEL_3, BCLCS_LEVEL_4, BCLCS_LEVEL_5,
@@ -364,6 +365,7 @@ read_tsa <- function(tsa_name, Skeena_boundary=TRUE){
     sf::st_union() |> #get rid of boundaries between blocks
     sf::st_as_sf() |>
     sf::st_make_valid() |> #make sure shape is valid
+
     rename_geometry("Shape") # rename_geometry(.,"Shape")
 
   #make sure aoi within Skeena boundary (if needed)
@@ -382,7 +384,6 @@ read_tsa <- function(tsa_name, Skeena_boundary=TRUE){
   }
 
   return(aoi)
-
 }
 
 
