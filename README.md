@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/badge/Lifecycle-Experimental-339999) 
 
-This repository is for a Python to R script conversion for the VRI-BEM (vegetation Resource Inventory &amp; Broad Ecosystem Mapping) component of wildlife models
+This repository is for a Python to R script conversion for the VRI-BEM (Vegetation Resource Inventory &amp; Broad Ecosystem Mapping) component of wildlife models
 
 ## Installation
 
@@ -11,6 +11,17 @@ Install the latest development version (on GitHub) via `{remotes}`:
 ``` r
 remotes::install_github("bcgov/SSGBM-VRI-BEM")
 ```
+
+## Acronym Index
+
+### BEM
+Broad Ecosystem Mapping
+
+### HEM
+
+
+### VRI
+Vegetation Resource Inventory
 
 ## Contributing
 

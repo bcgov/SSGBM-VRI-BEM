@@ -31,7 +31,8 @@
 #'
 create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = dsn, rivers_dsn = dsn, wetlands_dsn = dsn,
                                                  layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers = "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY"),
-                                                 beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
+                                                 beu_bec_csv = system.file("csv/Allowed_BEC_BEUs_NE_ALL.csv", package = "SSGBM-VRI-BEM"),
+                                                 beu_wetland_update_csv = system.file("csv/beu_wetland_updates.csv", package = "SSGBM-VRI-BEM"),
                                                  clear_site_ma = TRUE, use_ifelse = TRUE, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
 
   if (FALSE) {
@@ -43,10 +44,6 @@ create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = d
   # then maybe add a if in the loop to check if the vri is empty just go to the next iteration
 
   # make grid with wkt filter based on number of iterations
-  if (n_iterations %% 1 != 0) {
-    n_iterations <- round(n_iterations)
-    warning(paste0("n_iterations must be an integer, n_iterations was rounder to ", n_iterations))
-  }
   grid <- create_grid_from_iteration_number(n_iterations, wkt_filter, as.text = TRUE)
 
   # reading csv once before the loop

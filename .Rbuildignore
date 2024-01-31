@@ -4,8 +4,6 @@ CONTRIBUTING\.md
 COMPLIANCE\.yaml
 Contributor_Code_of_Conduct\.md
 ^\.git*
-^Python_Scripts$
-^Supporting_Docs$
 ^\.Rhistory
 ^data-raw$
 ^vignettes$
