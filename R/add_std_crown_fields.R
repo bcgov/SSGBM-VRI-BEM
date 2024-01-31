@@ -12,7 +12,12 @@
 #' @export
 add_std_crown_fields <- function(vri) {
 
-
+  if (FALSE) {
+    pct_in_species_1<-SPEC_CD_1<-SPEC_PCT_1<-pct_in_species_2<-SPEC_CD_2<-SPEC_PCT_2<-
+      pct_in_species_3<-SPEC_CD_3<-SPEC_PCT_3<-pct_in_species_4<-SPEC_CD_4<-SPEC_PCT_4<-
+      pct_in_species_5<-SPEC_CD_5<-SPEC_PCT_5<-pct_in_species_6<-SPEC_CD_6<-SPEC_PCT_6<-
+      pct_in_species_tot<-STD_VRI<-CR_CLOSURE<-CROWN_ALL<-NULL
+  }
 
   # compute total percentage of species in list
 

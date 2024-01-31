@@ -4,13 +4,23 @@
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
 #' @param fire sf object that represent
 #' @param hem_fields data.table containing a column called 'names' with the name of the hem fields to compute, default to the hem_field object in the package
-#' @param curent_year numeric of the year use to compute age, default to year of current date
+#' @param current_year numeric of the year use to compute age, default to year of current date
 #'
 #' @return sf object
 #' @import sf
 #' @import data.table
 #' @export
 calc_hem_fields <- function(vri_bem, fire, hem_fields = SSGBM.VRI.BEM::hem_fields, current_year = year(Sys.Date())) {
+
+  if (FALSE) {
+    .<-AGE_CL_STS<-Age_Class8_9<-area<-BCLCS_LV_1<-BCLCS_LV_2<-BCLCS_LV_3<-BCLCS_LV_4<-BCLCS_LV_5<-
+      CROWN_MOOSE<-Dynamic_F<-Dynamic_L<-Dynamic_WFD_11to30<-Dynamic_WFD_4to10<-Dynamic_WFD_All<-
+      ELEV<-Elev_Threshold<-fire_area<-fire_pct<-HARVEST_YEAR<-LBL_VEGCOV<-MEAN_SLOPE<-PROJ_AGE_1<-
+      Security_1<-Slope_Limit<-SPEC_CD_1<-SPEC_CD_2<-SPEC_PCT_1<-SPEC_PCT_2<-Static_Brush<-
+      Static_Persist_Decid<-Static_Riparian<-Static_Sb_Bog<-Static_Upland<-Static_Wetland_HE<-
+      Static_Wetland_Shrub_Riparian<-Static_Wetland_SL<-Static_Wetland_ST<-Static_WFD_All<-
+      Static_Willow<-vri_area<-vri_index<-W_Shelter_1<-W_Site_Conditions_Met<-Waterbody<-NULL
+  }
 
   # Compute percentage of vri with fire
   st_agr(fire) <- "constant"

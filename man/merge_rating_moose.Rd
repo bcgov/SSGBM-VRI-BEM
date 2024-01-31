@@ -13,7 +13,7 @@ merge_rating_moose(vri_bem, rrm_dt, rating_variables, rating_variables_expr)
 
 \item{rating_variables}{list, vector for each rating variables to create}
 
-\item{rating_variable_expr}{parse_expr , expression for variable to merge in data.table}
+\item{rating_variables_expr}{parse_expr , expression for variable to merge in data.table}
 }
 \value{
 sf  vri-bem object with new columns for rating

@@ -29,8 +29,25 @@
 
 create_RRM_ecosystem <- function(vri_bem){
 
+  if (FALSE) {
+    .<-ABOVE_ELEV_THOLD<-area_sum<-BEUMC<-BEUMC_S1<-BEUMC_S2<-BEUMC_S3<-BGC_PHASE<-BGC_SUBZON<-
+      BGC_VRT<-BGC_ZONE<-CROWN_ALL<-CROWN_ALL_1<-CROWN_ALL_2<-CROWN_ALL_3<-ECO_SEC<-
+      FORESTED<-FORESTED_1<-FORESTED_2<-FORESTED_3<-projection<-SDEC_1<-SDEC_2<-SDEC_3<-Shape_Area<-
+      SITE_M3A<-SLOPE_MOD<-SNOW_CODE<-STAND<-STAND_1_Age_0_15<-STAND_1_Age_16_30<-
+      STAND_1_Age_31_50<-STAND_1_Age_51_80<-STAND_1_Age_gt_80<-STAND_2_Age_0_15<-STAND_2_Age_16_30<-
+      STAND_2_Age_31_50<-STAND_2_Age_51_80<-STAND_2_Age_gt_80<-STAND_3_Age_0_15<-STAND_3_Age_16_30<-
+      STAND_3_Age_31_50<-STAND_3_Age_51_80<-STAND_3_Age_gt_80<-STAND_A1<-STAND_A2<-STAND_A3<-STRCT<-
+      STRCT_S1<-STRCT_S2<-STRCT_S3<-STS_1_Age_0_3<-STS_1_Age_11_30<-STS_1_Age_140_249<-
+      STS_1_Age_31_40<-STS_1_Age_4_10<-STS_1_Age_41_60<-STS_1_Age_61_80<-STS_1_Age_81_139<-
+      STS_1_Age_gt_249<-STS_2_Age_0_3<-STS_2_Age_11_30<-STS_2_Age_140_249<-STS_2_Age_31_40<-
+      STS_2_Age_4_10<-STS_2_Age_41_60<-STS_2_Age_61_80<-STS_2_Age_81_139<-STS_2_Age_gt_249<-
+      STS_3_Age_0_3<-STS_3_Age_11_30<-STS_3_Age_140_249<-STS_3_Age_31_40<-STS_3_Age_4_10<-
+      STS_3_Age_41_60<-STS_3_Age_61_80<-STS_3_Age_81_139<-STS_3_Age_gt_249<-NULL
+  }
+
   #Update Shape_Area for accurate measurement of polygon area
-  vri_bem <- vri_bem %>% dplyr::mutate(Shape_Area = st_area(.)) %>% mutate(Shape_Area = as.numeric(Shape_Area))
+  vri_bem <- dplyr::mutate(vri_bem, Shape_Area = as.numeric(sf::st_area(vri_bem)))
+
   bem_dt <- as.data.table(vri_bem)
 
   summ_area <- rbind(
@@ -263,8 +280,24 @@ create_RRM_ecosystem_moose <- function(vri_bem){
 
 create_RRM_ecosystem_bear <- function(vri_bem){
 
+  if (FALSE) {
+    .<-ABOVE_ELEV_THOLD<-area_sum<-BEUMC<-BEUMC_S1<-BEUMC_S2<-BEUMC_S3<-BGC_PHASE<-BGC_SUBZON<-
+      BGC_VRT<-BGC_ZONE<-CROWN_ALL<-CROWN_ALL_1<-CROWN_ALL_2<-CROWN_ALL_3<-ECO_SEC<-FORESTED<-
+      FORESTED_1<-FORESTED_2<-FORESTED_3<-projection<-Salmon<-SDEC_1<-SDEC_2<-SDEC_3<-Shape_Area<-
+      SITE_M3A<-SLOPE_MOD<-SNOW_CODE<-STAND<-STAND_1_Age_0_15<-STAND_1_Age_16_30<-
+      STAND_1_Age_31_50<-STAND_1_Age_51_80<-STAND_1_Age_gt_80<-STAND_2_Age_0_15<-STAND_2_Age_16_30<-
+      STAND_2_Age_31_50<-STAND_2_Age_51_80<-STAND_2_Age_gt_80<-STAND_3_Age_0_15<-STAND_3_Age_16_30<-
+      STAND_3_Age_31_50<-STAND_3_Age_51_80<-STAND_3_Age_gt_80<-STAND_A1<-STAND_A2<-STAND_A3<-STRCT<-
+      STRCT_S1<-STRCT_S2<-STRCT_S3<-STS_1_Age_0_3<-STS_1_Age_11_30<-STS_1_Age_140_249<-
+      STS_1_Age_31_40<-STS_1_Age_4_10<-STS_1_Age_41_60<-STS_1_Age_61_80<-STS_1_Age_81_139<-
+      STS_1_Age_gt_249<-STS_2_Age_0_3<-STS_2_Age_11_30<-STS_2_Age_140_249<-STS_2_Age_31_40<-
+      STS_2_Age_4_10<-STS_2_Age_41_60<-STS_2_Age_61_80<-STS_2_Age_81_139<-STS_2_Age_gt_249<-
+      STS_3_Age_0_3<-STS_3_Age_11_30<-STS_3_Age_140_249<-STS_3_Age_31_40<-STS_3_Age_4_10<-
+      STS_3_Age_41_60<-STS_3_Age_61_80<-STS_3_Age_81_139<-STS_3_Age_gt_249<-NULL
+  }
+
   #Update Shape_Area for accurate measurement of polygon area
-  vri_bem <- vri_bem %>% dplyr::mutate(Shape_Area = st_area(.)) |> mutate(Shape_Area = as.numeric(Shape_Area))
+  vri_bem <- dplyr::mutate(vri_bem, Shape_Area = as.numeric(sf::st_area(vri_bem)))
 
   bem_dt <- as.data.table(vri_bem)
 

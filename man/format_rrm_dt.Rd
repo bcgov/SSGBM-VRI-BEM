@@ -12,7 +12,7 @@ format_rrm_dt(rrm_dt, animal)
 \item{animal}{character, "bear" or "moose"}
 }
 \value{
-data.table  formatted rrm_dt
+data.table  formatted rrm_dtf
 }
 \description{
 format the rrm data to match the type of columns of vri-bem

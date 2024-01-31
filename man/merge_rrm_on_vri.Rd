@@ -16,7 +16,7 @@ merge_rrm_on_vri(vri_bem, rrm_dt, animal, return_sf = TRUE)
 \item{return_sf}{logical, if TRUE  return sf object , if FALSE return data.table object and update by reference}
 }
 \value{
-sf  vri-bem object with new columns for rating
+vri-bem object with new columns for rating
 }
 \description{
 merge suitability and capability rating from rrm onto vri-bem

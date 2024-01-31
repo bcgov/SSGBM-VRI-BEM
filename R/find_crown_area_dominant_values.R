@@ -13,7 +13,7 @@ find_crown_area_dominant_values <- function(vri) {
 
   # use data.table for fast data manipulation
   classes_vri <- attr(vri, "class")
-  setDT(vri)
+  data.table::setDT(vri)
 
   # merge CROWN_ALL on vri
   set(vri, j = paste0("CROWN_ALL_",1:3), value = vri$CROWN_ALL)

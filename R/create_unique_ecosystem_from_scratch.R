@@ -34,6 +34,10 @@ create_unique_ecosystem_from_scratch <- function(dsn, vri_dsn = dsn, bem_dsn = d
                                                  beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv", beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
                                                  clear_site_ma = TRUE, use_ifelse = TRUE, wkt_filter = character(0), n_iterations = 1, verbose = TRUE) {
 
+  if (FALSE) {
+    .<-BEU_MC<-BGC_PHASE<-BGC_SUBZON<-BGC_VRT<-BGC_ZONE<-FREQ<-NULL
+  }
+
   # TODO add default wkt_filter when no filter is passed but number of iterations is greater than 1 (maybe default to the whole skeena region, store it as part of the package)
   # TODO check what appends when wkt_filter cover an area where there is no polygon
   # then maybe add a if in the loop to check if the vri is empty just go to the next iteration
