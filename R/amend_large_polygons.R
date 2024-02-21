@@ -213,7 +213,11 @@ merge_bem_on_vri_xl <- function(vrixl_merge, bem){
         !is.na(BEUMC_1) ~ "XL edit",
         is.na(BEUMC_1) ~ NA))
 
-  vri_bem_xl <- dplyr::select(vri_bem_xl,-c(BEUMC_1, DEC_1))
+  vri_bem_xl <- dplyr::select(vri_bem_xl,-c(BEUMC_1, DEC_1)) |>
+    st_as_sf() |>
+    {\(x) {dplyr::filter(x, st_geometry_type(x) %in% c("POLYGON","MULTIPOLYGON"))}}() |>
+    sf::st_cast("POLYGON",warn=FALSE)
+
 
   return(vri_bem_xl)
 }
