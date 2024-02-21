@@ -473,7 +473,7 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
   set(vri_bem, j = c("row_updated", "blank_eco_variables", "merge_key"), value = NULL)
 
   attr(vri_bem, "class") <- classes_vri_bem
-  return(vri_bem)
+  return(st_as_sf(vri_bem))
 
 }
 
