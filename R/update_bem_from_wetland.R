@@ -23,6 +23,7 @@
 #' @return sf object with corrections from wetlands
 #' @import sf
 #' @import data.table
+#' @importFrom dplyr case_when mutate
 #' @export
 update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
@@ -33,6 +34,9 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
       i.Code_WL5<-i.Code_WL6<-i.Code_WL7<-i.Code_WL8<-Lbl_edit_wl<-new_beu_code<-SDEC_1<-SDEC_2<-
       SDEC_3<-SITE_M3A<-vri_area<-wetland_area<-wl_pct<-NULL
   }
+
+  # Ensure vri_area is up-to-date
+  vri_bem <- dplyr::mutate(vri_bem,vri_area = as.numeric(sf::st_area(vri_bem)))
 
   setDT(vri_bem)
 
@@ -74,7 +78,7 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   vri_bem[index_dt[["vri_bem"]], wetland_area := index_dt[["wetland_area"]]]
   # as.numeric to remove class units
-  vri_bem[, wl_pct:= as.numeric(wetland_area/vri_area)]
+  vri_bem[, wl_pct:= as.numeric(wetland_area/vri_area*100)]
   vri_bem[is.na(wl_pct), `:=`(wl_pct = 0, wetland_area = set_units(0, "m^2"))]
 
   vri_bem[, Lbl_edit_wl := "No Wetland."]
@@ -87,6 +91,15 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   vri_bem[SDEC_2 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_2, " ", BEUMC_S2)]
   vri_bem[SDEC_3 > 0, Lbl_edit_wl := paste0(Lbl_edit_wl, ", ", SDEC_3, " ", BEUMC_S3)]
 
+  # Remove all 'WL' mapcodes from Dec3 - these were added during the BEM process and no longer apply at
+  # the VRI scale
+  vri_bem[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
+          `:=`(SDEC_1 = SDEC_1 + SDEC_3,
+               SDEC_3 = 0,
+               BEUMC_S3 = NA_character_)]
+
+  set_shifted_eco_variables(vri_bem, i = which(vri_bem[["SDEC_3"]] > 0 & vri_bem[["BEUMC_S3"]] == "WL"), list(c(3, NA)))
+
   # If curr_beu_code is 4 digits: 1 digit for each decile, with the 4th digit:
   #     0 if none of the 3 components is WL
   #     1 if the 1st component is WL
@@ -98,23 +111,19 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   #     1 if the first and only component is WL
 
   vri_bem[, curr_wl_zone:=fcase(BEUMC_S1 == "WL", 1,
-                                BEUMC_S2 == "WL", 2,
-                                BEUMC_S3 == "WL", 3,
+                                #cases where BEUMC_S3/S2 exist but SDEC_3 == 0
+                                BEUMC_S2 == "WL" & SDEC_3 != 0, 2,
+                                BEUMC_S3 == "WL" & SDEC_3 != 0, 3,
                                 default = 0)]
+
+  #ensure SDEC_2 and SDEC_3 have zeroes and not NA
+  vri_bem[, SDEC_2:= case_when(is.na(SDEC_2) ~ 0,.default = SDEC_2)]
+  vri_bem[, SDEC_3:= case_when(is.na(SDEC_3) ~ 0,.default = SDEC_3)]
 
   vri_bem[, curr_beu_code:= as.numeric(paste0(SDEC_1, SDEC_2, SDEC_3, curr_wl_zone))]
 
 
   vri_bem[ , Lbl_edit_wl := paste0(Lbl_edit_wl, " (", curr_beu_code, ")")]
-
-
-  # Remove all 'WL' mapcodes from Dec3 - these were added during the BEM process and no longer apply at
-  # the VRI scale
-  vri_bem[(SDEC_3 > 0 & BEUMC_S3 == "WL"),
-          `:=`(SDEC_1 = SDEC_1 + SDEC_3,
-               SDEC_3 = 0)]
-
-  set_shifted_eco_variables(vri_bem, i = which(vri_bem[["SDEC_3"]] > 0 & vri_bem[["BEUMC_S3"]] == "WL"), list(c(3, NA)))
 
   # Merge allowed BEU codes  -----
   # no WL 9 but it's normal
@@ -131,9 +140,13 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
                Code_WL10 = i.Code_WL10)]
 
   # Allowed BEU codes adjustments (line 364) -----
-  vri_bem[!(SDEC_1 >= 5 & BEUMC_S1 %in% c("BB", "CB", "CR", "ER", "RI", "PB", "PR", "RR", "RS", "SK", "SR", "TF",
-                                          "WG", "WR", "YB", "YS", "BG", "FE", "MR", "OW", "SH", "SW", "BA", "LS", "LL")) &
-            !(SDEC_1 == 10 & BEUMC_S1 == "WL") & wl_pct >= 8 & !BCLCS_LV_4 %in% c("TB", "TC", "TM") &
+  #Added "ES", "SC","SH","SW" to water features
+  #Changed to ignore any water BEU (including WL) with a decile of 10
+  #Removed expression ignoring BCLC tree levels because it leads to missing wetland and riparian corridors
+  vri_bem[!(SDEC_1 == 10 & BEUMC_S1 %in% c("BB","CB","CR","ER","PB","PR","RR","RS","SK","SR","TF","WG","WR","YB","YS","BG", "ES", "FE", "ME", "MR","SC","SH","ST","SW","WL","FS", "IM", "IN", "LL", "LS", "RE","SP","OW")) &
+            #!(SDEC_1 == 10 & BEUMC_S1 == "WL") &
+            wl_pct >= 8 &
+            #!BCLCS_LV_4 %in% c("TB", "TC", "TM") & #Removed condition: defer to FWA over VRI BCLC data
             curr_beu_code %in% buc$Code_Orig,
 
           new_beu_code:= fcase(wl_pct < 14, Code_WL1, # condition that wl_pct >= 8 is above
@@ -155,7 +168,7 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   # Reassign ecosystems ----
   #  - reassign eco components
-  #  - make adjustment bellow when creating a WL component
+  #  - make adjustment below when creating a WL component
   #  - create label specifying which rows where updated
 
 
@@ -163,7 +176,6 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   # values for unit 1 will be created later when there was no current wetland and the new wetland is in zone 1
   set_shifted_eco_variables(vri_bem, i = which(vri_bem[["SDEC_1"]] == 10 & vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 1), list(c(1,NA), c(2,NA), c(3,NA)))
-
 
 
   # When the new code says that there is no wetland at all, blank any wetland units
@@ -176,39 +188,89 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   set_shifted_eco_variables(vri_bem, i = which(vri_bem[["curr_wl_zone"]] == 3 & vri_bem[["new_wl_zone"]] == 0), list(c(3, NA)))
 
 
+  #If more specific wetland category exists, defer to that
+  #If adding new WL component, also make REALM_# = "W", GROUP_# = "W" and KIND_# = "U"
+  wetland_features = c("BB","CB","CR","ER","PB","PR","RR","RS","SK","SR","TF","WG","WR","YB","YS","BG", "ES", "FE", "ME", "MR","SC","SH","ST","SW")
 
-  # When adding a new WL component, also make REALM_# = "W", GROUP_# = "W" and KIND_# = "U"
-
-  # Old 0 / New 1 : add WL to component 1, (2 & 3 move down toward 3)
-  which_0_to_1 <- which(vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 1)
+  #OLD 0/new 1 when BEUMC_S1 or BEUMC_S2 include wetland features
+  vri_bem[(BEUMC_S1 %in% wetland_features | BEUMC_S2 %in% wetland_features) &
+            (curr_wl_zone == 0 & new_wl_zone == 1),
+          ':=' (BEUMC_S1 = case_when(
+            BEUMC_S1 %in% wetland_features ~ BEUMC_S1,
+            BEUMC_S2 %in% wetland_features & !BEUMC_S1 %in% wetland_features ~ BEUMC_S2,
+            .default = "WL"),
+            BEUMC_S2 = case_when(
+              BEUMC_S1 %in% wetland_features & BEUMC_S1 %in% wetland_features ~ BEUMC_S2,
+              BEUMC_S2 %in% wetland_features & !BEUMC_S1 %in% wetland_features ~ BEUMC_S1,
+              BEUMC_S2 %in% wetland_features & !BEUMC_S1 %in% wetland_features & !is.na(BEUMC_S3) ~ BEUMC_S3,
+              BEUMC_S2 %in% wetland_features & !BEUMC_S1 %in% wetland_features & is.na(BEUMC_S3) ~ NA,
+              .default = BEUMC_S2),
+            SDEC_1 = case_when(
+              !is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ SDEC_1,
+              is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ SDEC_1 + SDEC_2,
+              is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
+              .default = SDEC_1),
+            SDEC_2 = case_when(
+              SDEC_1 == 10 ~ 0,
+              is.na(BEUMC_S2) ~ 0,
+              !is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ SDEC_2 + SDEC_3,
+              .default = SDEC_2),
+            SDEC_3 = case_when(
+              SDEC_1 == 10 ~ 0,
+              (SDEC_1 + SDEC_2) == 10 ~ 0,
+              is.na(BEUMC_S3) ~ 0,
+              .default = SDEC_3),
+            BEUMC_S3 = case_when(
+              SDEC_3 == 0 ~ NA,
+              .default = BEUMC_S3),
+            REALM_1 = "W",
+            GROUP_1 = "W",
+            KIND_1 = "U")
+  ]
+  # Old 0 / New 1 when BEUMC_S1 or BEUMC_S2 do not include wetland features: add WL to component 1, (2 & 3 move down toward 3)
+  which_0_to_1 <- which(vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 1 & !vri_bem[["BEUMC_S1"]] %in% wetland_features & !vri_bem[["BEUMC_S2"]] %in% wetland_features)
   set_shifted_eco_variables(vri_bem, i = which_0_to_1, list(c(2,1), c(3,2)))
   vri_bem[which_0_to_1, `:=`(BEUMC_S1 = "WL", REALM_1 = "W", GROUP_1 = "W", KIND_1 = "U")]
 
   # Old 0 / New 2 : Add WL to component 2, (2 move down to 3)
-  which_0_to_2 <- vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 2
-  set_shifted_eco_variables(vri_bem, i = which_0_to_2, list(c(3, 2)))
-  vri_bem[which_0_to_2, `:=`(BEUMC_S2 = "WL", REALM_2 = "W", GROUP_2 = "W", KIND_2 = "U")]
+  vri_bem[(curr_wl_zone == 0 & new_wl_zone == 2),
+          ':=' (
+            BEUMC_S3 = case_when(
+              SDEC_3 == 0 ~ NA,
+              !BEUMC_S2 %in% wetland_features & SDEC_3 != 0 ~ BEUMC_S2,
+              .default = BEUMC_S3),
+            BEUMC_S2 = case_when(
+              !BEUMC_S2 %in% wetland_features ~ "WL",
+              .default = BEUMC_S2),
+            SDEC_2 = case_when(
+              is.na(BEUMC_S3) ~ SDEC_2 + SDEC_3,
+              .default = SDEC_2),
+            SDEC_3 = case_when(
+              (SDEC_1 + SDEC_2) == 10 ~ 0,
+              is.na(BEUMC_S3) ~ 0,
+              .default = SDEC_3),
+            REALM_1 = "W",
+            GROUP_1 = "W",
+            KIND_1 = "U")
+  ]
 
   # Old 0 / New 3 : add WL to component 3
-  which_0_to_3 <- vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 3
+  which_0_to_3 <- which(vri_bem[["curr_wl_zone"]] == 0 & vri_bem[["new_wl_zone"]] == 3)
   set_shifted_eco_variables(vri_bem, i = which_0_to_3, list(c(3,NA)))
   vri_bem[which_0_to_3, `:=`(BEUMC_S3 = "WL", REALM_3 = "W", GROUP_3 = "W", KIND_3 = "U")]
-
-
 
   # When there is already a wetland but in the wrong unit
 
   # invert eco_vars 1 & 2
-  which_switch_1_2 <- which((vri_bem[["curr_wl_zone"]] == 2 & vri_bem[["new_wl_zone"]] == 1) | (vri_bem[["curr_wl_zone"]] == 1 & vri_bem[["new_wl_zone"]] == 2))
-  set_shifted_eco_variables(vri_bem, i = which_switch_1_2, list(c(1,2), c(2,1)))
+    vri_bem[(curr_wl_zone == 2 & new_wl_zone == 1) | (curr_wl_zone == 1 & new_wl_zone == 2 & !is.na(BEUMC_S2)),c("BEUMC_S1","BEUMC_S2") := .(BEUMC_S2,BEUMC_S1)]
 
   # invert eco_vars 1 & 3
+  # note: should not be wl in 3 because it was removed earlier in this script as remnant of BEM creation process
   which_switch_1_3 <- which((vri_bem[["curr_wl_zone"]] == 3 & vri_bem[["new_wl_zone"]] == 1) | (vri_bem[["curr_wl_zone"]] == 1 & vri_bem[["new_wl_zone"]] == 3))
-  set_shifted_eco_variables(vri_bem, i = which_switch_1_2, list(c(1,3), c(3,1)))
+  set_shifted_eco_variables(vri_bem, i = which_switch_1_3, list(c(1,3), c(3,1)))
 
   # invert eco_vars 2 & 3
-  which_switch_2_3 <- which((vri_bem[["curr_wl_zone"]] == 3 & vri_bem[["new_wl_zone"]] == 2) | (vri_bem[["curr_wl_zone"]] == 2 & vri_bem[["new_wl_zone"]] == 3))
-  set_shifted_eco_variables(vri_bem, i = which_switch_1_2, list(c(2,3), c(3,2)))
+  vri_bem[(curr_wl_zone == 2 & new_wl_zone == 3 & !is.na(BEUMC_S3)) | (curr_wl_zone == 3 & new_wl_zone == 2),c("BEUMC_S2","BEUMC_S3") := .(BEUMC_S3,BEUMC_S2)]
 
   # update Label
   vri_bem[curr_beu_code!=new_beu_code,
@@ -218,7 +280,53 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
           Lbl_edit_wl:=paste0(Lbl_edit_wl, "; Updated BEU: ", SDEC_1, " ", BEUMC_S1, ", ", SDEC_2, " ", BEUMC_S2, ", ", SDEC_3, " ", "BEUMC_S3",
                               " (", new_beu_code, ")")]
 
+  #If more specific wetland category exists with WL, combine into one category
+  #If BEUMC_S1 has generic WL and BEUMC_S2 has wetland feature, combine under specific wetland feature
+  vri_bem[(BEUMC_S1 == "WL" & BEUMC_S2 %in% wetland_features), ':=' (
+    BEUMC_S1 = BEUMC_S2,
+    BEUMC_S2 = fifelse(is.na(BEUMC_S3),NA_character_,BEUMC_S3),
+    BEUMC_S3 = NA,
+    SDEC_1 = SDEC_1 + SDEC_2,
+    SDEC_2 = fifelse(SDEC_3 == 0,0,SDEC_3),
+    SDEC_3 = 0)]
+  #If BEUMC_S2 has generic WL and BEUMC_S1 has specific wetland/riparian type, combine within BEUMC_S1
+  vri_bem[(BEUMC_S2 == "WL" & BEUMC_S1 %in% wetland_features), ':=' (
+    BEUMC_S2 = fifelse(is.na(BEUMC_S3),NA_character_,BEUMC_S3),
+    BEUMC_S3 = NA,
+    SDEC_1 = SDEC_1 + SDEC_2,
+    SDEC_2 = fifelse(SDEC_3 == 0,0,SDEC_3),
+    SDEC_3 = 0)]
+  #If BEUMC_S3 is generic WL and BEUMC_S1 or BEUMC_S2 more specific wetland type, combine within those (deferring to BEUMC_S1)
+  vri_bem[(BEUMC_S3 == "WL" & BEUMC_S1 %in% wetland_features)|(BEUMC_S3 == "WL" & BEUMC_S2 %in% wetland_features), ':=' (
+    SDEC_3 = 0,
+    SDEC_1 = fifelse(BEUMC_S1 %in% wetland_features,SDEC_1 + SDEC_3,SDEC_1),
+    SDEC_2 = fifelse(BEUMC_S2 %in% wetland_features & !BEUMC_S1 %in% wetland_features,SDEC_2 + SDEC_3,SDEC_2),
+    BEUMC_S3 = NA)]
 
+  #correct cases where wetland has been attributed to both BEUMC_S1 and _S2 or _S3
+  vri_bem[(BEUMC_S1 == BEUMC_S2) | (BEUMC_S1 == BEUMC_S3) | (BEUMC_S2 == BEUMC_S3),':='(
+    BEUMC_S2 = case_when(
+      BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ NA_character_,
+      BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ BEUMC_S3,
+      .default = BEUMC_S2),
+    BEUMC_S3 = case_when(
+      BEUMC_S1 == BEUMC_S3 ~ NA_character_,
+      BEUMC_S2 == BEUMC_S3 ~ NA_character_,
+      SDEC_3 == 0 ~ NA_character_,
+      .default = BEUMC_S3),
+    SDEC_1 = case_when(
+      BEUMC_S1 == BEUMC_S2 ~ SDEC_1 + SDEC_2,
+      BEUMC_S1 == BEUMC_S3 ~ SDEC_1 + SDEC_3,
+      .default = SDEC_1),
+    SDEC_2 = case_when(
+      BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ 0,
+      BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ SDEC_3,
+      .default = SDEC_2),
+    SDEC_3 = case_when(
+      BEUMC_S1 == BEUMC_S2 | BEUMC_S1 == BEUMC_S3 |BEUMC_S2 == BEUMC_S3 ~ 0,
+      is.na(BEUMC_S3) ~ 0,
+      .default = SDEC_3)
+    )]
 
   # Riparian Mapcode adjustments (line 681) -----
 
@@ -244,8 +352,28 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   vri_bem[site_m3a_eq_a , SITE_M3A := "a"]
 
+  vri_bem[,':='(
+    BEUMC_S2 = case_when(
+      SDEC_2 == 0 ~ NA_character_,
+      .default = BEUMC_S2),
+    BEUMC_S3 = case_when(
+      SDEC_3 == 0 ~ NA_character_,
+      .default = BEUMC_S3),
+    SDEC_1 = case_when(
+      is.na(BEUMC_S2) ~ SDEC_1 + SDEC_2,
+      is.na(BEUMC_S3) ~ SDEC_1 + SDEC_3,
+      is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
+      .default = SDEC_1),
+    SDEC_2 = case_when(
+      is.na(BEUMC_S2) ~ 0,
+      .default = SDEC_2),
+    SDEC_3 = case_when(
+      is.na(BEUMC_S3) ~ 0,
+      .default = SDEC_3))]
+
   # delete temp columns
-  set(vri_bem, j = c("curr_wl_zone", "curr_beu_code", "Code_WL0", "Code_WL1", "Code_WL2", "Code_WL3",
+  set(vri_bem, j = c("curr_wl_zone",
+                     "curr_beu_code","Code_WL0", "Code_WL1", "Code_WL2", "Code_WL3",
                      "Code_WL4", "Code_WL5", "Code_WL6", "Code_WL7", "Code_WL8", "Code_WL10",
                      "new_beu_code", "new_wl_zone"), value = NULL)
 

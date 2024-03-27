@@ -36,6 +36,7 @@ correct_small_lakes <- function (vri_bem, lakes){
 
   vri_lakes_diff <- dplyr::filter(vri_bem,!BEUMC_S1 %in% c("LS","LL","OW")) |>
     sf::st_difference(sf::st_union(sf::st_geometry(lakes_presence))) |>
+    st_collection_extract() |>
     sf::st_make_valid() |>
     sf::st_cast("POLYGON", warn = FALSE) |>
     sf::st_make_valid()
@@ -53,7 +54,88 @@ correct_small_lakes <- function (vri_bem, lakes){
         .default = SDEC_2),
       SDEC_3 = dplyr::case_when(
         BEUMC_S1 %in% c("LS","LL","OW") ~ 0,
-        .default = SDEC_3))
+        .default = SDEC_3)) |>
+    st_collection_extract()
 
   return(vri_bem)
+}
+
+#'SDEC fix
+#'@description
+#'Adjust SDEC so all deciles total to 10.
+#'@details
+#'If SDEC_total > 10, subtract from primary ecosystem (BEUMC_S1) until they equal 10
+#'If SDEC_total < 10, add to primary ecosystem until total is 10
+#'
+#'@param vri_bem VRI-BEM feature class
+#'
+#'@import sf
+#'@import data.table
+#'@importFrom dplyr case_when
+#'@export
+
+SDEC_adjustment <- function(vri_bem) {
+setDT (vri_bem)
+
+vri_bem[, SDEC_2:= case_when(is.na(SDEC_2) ~ 0,.default = SDEC_2)]
+vri_bem[, SDEC_3:= case_when(is.na(SDEC_3) ~ 0,.default = SDEC_3)]
+
+vri_bem[,SDEC_total := SDEC_1 + SDEC_2 + SDEC_3]
+
+#If SDEC_total is under 10, add additional value to primary ecosystem
+#If SDEC_total is over 10, remove additional value from primary ecosystem
+
+vri_bem[,SDEC_1 := case_when(
+  SDEC_1 != 10 & SDEC_2 == 0 & SDEC_3 == 0 ~ 10,
+  SDEC_1 != 10 & SDEC_total < 10 ~ SDEC_1 + (10-SDEC_total),
+  SDEC_total > 10 ~ 10 - SDEC_2 - SDEC_3,
+  SDEC_1 > 10 ~ 10,
+  .default = SDEC_1)]
+
+return(st_as_sf(vri_bem))
+}
+
+
+#'BEU fix
+#'
+#'@description
+#'Fix BEUs which are in wrong location
+#'@details
+#'If BEUMC_S1 is missing, fill with BEUMC_S2 or BEUMC_S3 if they exist
+#'If BEUMC are adjusted, SDEC also adjusted
+#'
+#'@param vri_bem VRI-BEM feature class
+#'
+#'@import sf
+#'@import data.table
+#'@importFrom dplyr case_when
+#'@export
+
+BEUMC_adjustment <- function(vri_bem) {
+  setDT (vri_bem)
+
+  #If BEUMC_S1 missing, fill with BEUMC_S2 or BEUMC_S3 if they exist
+  vri_bem[(is.na(BEUMC_S1)),':='
+          (SDEC_1 = case_when(
+            !is.na(BEUMC_S2) ~ SDEC_1 + SDEC_2,
+            is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ 10,
+            is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
+            .default = SDEC_1),
+          SDEC_2 = case_when(
+            !is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ SDEC_3,
+            is.na(BEUMC_S3) ~ 0,
+            is.na(BEUMC_S2) ~ 0,
+            .default = SDEC_2),
+          BEUMC_S1 = case_when(
+            !is.na(BEUMC_S2) ~ BEUMC_S2,
+            is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ BEUMC_S3,
+            .default = NA_character_),
+          BEUMC_S2 = case_when(
+            BEUMC_S2 == BEUMC_S1 & !is.na(BEUMC_S3) ~ BEUMC_S3,
+            BEUMC_S2 == BEUMC_S1 & is.na(BEUMC_S3) ~ NA_character_,
+            .default = NA_character_),
+          BEUMC_S3 = NA_character_,
+          SDEC_3 = 0)]
+
+  return(st_as_sf(vri_bem))
 }
