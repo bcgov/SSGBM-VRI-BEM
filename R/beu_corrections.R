@@ -36,13 +36,15 @@ correct_small_lakes <- function (vri_bem, lakes){
 
   vri_lakes_diff <- dplyr::filter(vri_bem,!BEUMC_S1 %in% c("LS","LL","OW")) |>
     sf::st_difference(sf::st_union(sf::st_geometry(lakes_presence))) |>
-    st_collection_extract() |>
+    {\(x) {dplyr::filter(x, st_geometry_type(x) %in% c("POLYGON","MULTIPOLYGON"))}}() |>
     sf::st_make_valid() |>
     sf::st_cast("POLYGON", warn = FALSE) |>
     sf::st_make_valid()
 
   vri_bem <- dplyr::bind_rows(vri_known_lakes, vri_lakes_intersect,vri_lakes_diff) |>
-    bcmaps::transform_bc_albers()
+    bcmaps::transform_bc_albers() |>
+    {\(x) {dplyr::filter(x, st_geometry_type(x) %in% c("POLYGON","MULTIPOLYGON"))}}() |>
+    sf::st_cast("POLYGON",warn=FALSE)
 
   #If OW, LS, LL, there should be no BEUMC_S2/S3 and SDEC_1 should be 10 for consistency with update_bem_from_vri
   vri_bem <- vri_bem |>
@@ -54,7 +56,10 @@ correct_small_lakes <- function (vri_bem, lakes){
         .default = SDEC_2),
       SDEC_3 = dplyr::case_when(
         BEUMC_S1 %in% c("LS","LL","OW") ~ 0,
-        .default = SDEC_3)) |>
+        .default = SDEC_3),
+      lbl_edit = dplyr::case_when(
+        BEUMC_S1 %in% c("LS","LL","OW") ~ "Corrected with FWA Lakes polygons",
+        .default = lbl_edit)) |>
     st_collection_extract()
 
   return(vri_bem)
