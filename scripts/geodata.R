@@ -54,6 +54,6 @@ ifelse(
   "Wetlands id found in search does not match the one in the package"
 )
 wetlands <- bcdata::bcdc_query_geodata(record = wetlands_id) |>
-  bcdata::filter(bcdata::INTERSECTS(sf::st_as_sf(testing_aoi)))
+  bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sf(testing_aoi))))
 
 #
