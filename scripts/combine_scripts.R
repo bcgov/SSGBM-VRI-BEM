@@ -42,6 +42,10 @@ vri_bem <- update_bem_from_wetlands(vri_bem = vri_bem,
                                     wetlands = wetlands,
                                     buc = beu_wetland_update_csv)
 
+#1d ----
+vri_bem <- update_beu_from_rules_dt(vri_bem = vri_bem,
+                                    rules_dt = "../SSGBM-VRI-BEM-data/Rules_for_scripting_improved_forested_BEUs_Skeena_07Mar2022.xlsx")
+
 #2 ----
 unique_eco <- create_unique_ecosystem_dt(vri_bem = vri_bem)
 

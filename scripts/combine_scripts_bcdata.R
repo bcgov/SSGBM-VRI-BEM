@@ -20,7 +20,7 @@ vri_bem <- vri_bem$vri
 vri_bem <- vri_bem[which(!is.na(vri_bem$TEIS_ID)),]
 
 # 1b ----
-beu_bec_csv <- fread("csv/Allowed_BEC_BEUs_NE_ALL.csv")
+beu_bec_csv <- fread(system.file("csv/Allowed_BEC_BEUs_NE_ALL.csv", package = "SSGBM.VRI.BEM")) # fread("inst/csv/Allowed_BEC_BEUs_NE_ALL.csv")
 rivers <- read_rivers(wkt_filter = aoi_wkt)
 
 vri_bem <- update_bem_from_vri(vri_bem = vri_bem,
@@ -30,16 +30,15 @@ vri_bem <- update_bem_from_vri(vri_bem = vri_bem,
                                use_ifelse = TRUE)
 
 #1c ----
-beu_wetland_update_csv <- fread("csv/beu_wetland_updates.csv")
+beu_wetland_update_csv <- fread(system.file("csv/beu_wetland_updates.csv", package = "SSGBM.VRI.BEM")) # fread("inst/csv/beu_wetland_updates.csv")
 wetlands <- read_wetlands(wkt_filter = aoi_wkt)
 
 vri_bem <- update_bem_from_wetlands(vri_bem = vri_bem,
                                     wetlands = wetlands,
                                     buc = beu_wetland_update_csv)
 #1d ----
-rules_dt <- setDT(read_excel("/Users/nicolas/Documents/boostao/ssgbm/Improve_forested_BEU/Rules_for_scripting_improved_forested_BEUs_Skeena_07Mar2022.xlsx", sheet = "Combined_Rules_for_Script"))
 vri_bem <- update_beu_from_rules_dt(vri_bem = vri_bem,
-                                    rules_dt = rules_dt)
+                                    rules_dt = "../SSGBM-VRI-BEM-data/Rules_for_scripting_improved_forested_BEUs_Skeena_07Mar2022.xlsx")
 
 #2 ----
 unique_eco <- create_unique_ecosystem_dt(vri_bem = vri_bem)
@@ -62,18 +61,20 @@ vri_bem <- merge_ccb_on_vri(vri_bem = vri_bem,
 
 #4 ----
 vri_bem <- calc_forest_age_class(vri_bem = vri_bem,
-                                 most_recent_harvest_year = 2020)
+                                 most_recent_harvest_year = max(ccb$HARVEST_YEAR))
 
 
 #4b /4d2 ----
-unique_eco_example <- read_unique_ecosystem_dt("csv/Skeena_VRIBEM_LUT.csv")
+unique_eco_example <- read_unique_ecosystem_dt("inst/csv/Skeena_VRIBEM_LUT.csv")
   vri_bem <- merge_unique_ecosystem_fields(vri_bem = vri_bem,
                                          unique_ecosystem_dt = unique_eco_example)
 
 #4d3 ----
-vri_bem <- find_crown_area_dominant_values(vri = vri_bem,
-                                           bem = bem,
-                                           intersection_dt = vri_bem_intersection_dt)
+vri_bem <- find_crown_area_dominant_values(vri = vri_bem)
+
+# calc hem fields
+fire <- read_fire(wkt_filter = aoi_wkt)
+vri_bem <- calc_hem_fields(vri_bem = vri_bem, fire = fire)
 
 #5 ----
 export_dt <- create_RRM_ecosystem(vri_bem = vri_bem)
