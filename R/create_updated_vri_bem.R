@@ -52,7 +52,7 @@ create_updated_vri_bem <- function(vri, bem, rivers, wetlands, beu_bec_csv, beu_
                                       wetlands = wetlands,
                                       buc = beu_wetland_update_csv)
 
-  vri_bem <-  update_beu_from_rule_dt(vri_bem = vri_bem,
+  vri_bem <-  update_beu_from_rules_dt(vri_bem = vri_bem,
                                        rules_dt = rules_dt)
 
   if (return_intersection_dt) {

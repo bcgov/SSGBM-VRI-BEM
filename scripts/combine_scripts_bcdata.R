@@ -38,7 +38,7 @@ vri_bem <- update_bem_from_wetlands(vri_bem = vri_bem,
                                     buc = beu_wetland_update_csv)
 #1d ----
 rules_dt <- setDT(read_excel("/Users/nicolas/Documents/boostao/ssgbm/Improve_forested_BEU/Rules_for_scripting_improved_forested_BEUs_Skeena_07Mar2022.xlsx", sheet = "Combined_Rules_for_Script"))
-vri_bem <- update_beu_from_rule_dt(vri_bem = vri_bem,
+vri_bem <- update_beu_from_rules_dt(vri_bem = vri_bem,
                                     rules_dt = rules_dt)
 
 #2 ----

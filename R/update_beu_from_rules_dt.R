@@ -11,13 +11,19 @@
 #' @import data.table
 #' @import sf
 #' @export
-update_beu_from_rule_dt <- function(vri_bem, rules_dt) {
+update_beu_from_rules_dt <- function(vri_bem, rules_dt) {
 
   if (FALSE) {
     total_expr<-SDEC_1<-BEUMC_S2<-SDEC_2<-BEUMC_S3<-SDEC_3<-NULL
   }
 
   setDT(vri_bem)
+
+  if (inherits(rules_dt, "character") && file.exists(rules_dt)) {
+    sht <- readxl::excel_sheets(rules_dt) |> grep(pattern = "^comb.+script", ignore.case = TRUE, value = TRUE)
+    rules_dt <- readxl::read_excel(rules_dt, sht) |> setDT()
+  }
+
   rules_dt <- copy(rules_dt)
 
   # find rule columns except tree rules
