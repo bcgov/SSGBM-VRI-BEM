@@ -2,7 +2,7 @@
 #'
 #'
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
-#' @param fire sf object that represent
+#' @param fire sf object that represent fires
 #' @param hem_fields data.table containing a column called 'names' with the name of the hem fields to compute, default to the hem_field object in the package
 #' @param current_year numeric of the year use to compute age, default to year of current date
 #'
