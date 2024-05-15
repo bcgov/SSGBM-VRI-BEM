@@ -21,8 +21,8 @@ add_std_crown_fields <- function(vri) {
 
   # compute total percentage of species in list
 
-  b_species <- c("D", "DR", "U", "UP", "A", "AC", "ACB", "ACT", "AX", "AT", "R", "RA", "E", "EA", "EXP", "EP", "EW",
-                 "GP", "MB", "MB", "MV", "Q", "QG", "XH", "V", "VB", "VP", "W", "WS", "WA", "WB", "WD", "WP", "WT")
+  b_species <- c("D", "DR", "DG","DM","U", "UP", "A", "AC", "ACB", "ACT", "AX", "AT", "R", "RA", "E", "EA", "EXP", "EP", "EW",
+                 "G","GP", "M", "MB", "MV", "Q", "QG", "XH", "V", "VB", "VP", "W", "WS", "WA", "WB", "WD", "WP", "WT","ZH")
 
   # maybe find a better variable name if we can figure out what b_species are
   #TODO : make sure that SPEC_PCT_ ... are numeric when loading the VRIs
@@ -37,7 +37,7 @@ add_std_crown_fields <- function(vri) {
 
   # create STD_VRI based on percentage
 
-  vri[ , STD_VRI := fcase(pct_in_species_tot == 0, NA_character_,
+  vri[ , STD_VRI := fcase(is.na(pct_in_species_tot), NA_character_,
                           pct_in_species_tot < 25, "C",
                           pct_in_species_tot < 75, "M",
                           default = "B")]
