@@ -79,7 +79,8 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
   # if we have a filter cut all the shapes that are outside of the aoi area
   if (!is.null(wkt_filter)) {
     sf::st_agr(vri) <- "constant"
-    vri <- sf::st_intersection(vri, sf::st_as_sfc(wkt_filter, crs = sf::st_crs(vri)))
+    vri <- sf::st_intersection(vri, sf::st_as_sfc(wkt_filter, crs = sf::st_crs(vri))) |>
+     st_collection_extract() #updated
     vri$Shape <- sf::st_cast(vri$Shape,"MULTIPOLYGON")
   }
 
@@ -302,16 +303,54 @@ read_ccb <- function(dsn = NULL, layer = "CNS_CUT_BL_polygon",  wkt_filter = cha
   return(ccb)
 }
 
-#' Read fire polygons
+#' Read burn severity polygons
 #'
-#' Read the forest fire severity (fire) layer
+#' Read the forest fire severity layer
 #'
 #' @inheritParams read_vri
 #' @return sf object
 #' @import sf
 #' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select
 #' @export
-read_fire <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVERITY_SP",  wkt_filter = character(0)) {
+read_burn <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVERITY_SP",  wkt_filter = character(0)) {
+
+  if (FALSE) {
+    SHAPE<-NULL
+  }
+
+  #If dsn is null read information from bcdata
+  if (is.null(dsn)){
+    wl_query <- bcdata::bcdc_query_geodata(record =  "c58a54e5-76b7-4921-94a7-b5998484e697") |>
+      bcdata::select(SHAPE)
+
+    if(length(wkt_filter) > 0 ){
+      wl_query <- wl_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+    }
+    fire <- bcdata::collect(wl_query)
+
+  } else {
+    fire <- sf::st_read(dsn = dsn, layer = layer, quiet = TRUE,  wkt_filter = wkt_filter)
+  }
+
+
+  #Restructure bem while waiting for real info
+  fire <- rename_geometry(fire, "Shape")
+  #make shape valid because ARCGIS draw polygon differently than sf
+  fire$Shape <- sf::st_make_valid(fire$Shape)
+  return(fire)
+}
+
+
+#' Read fire polygons (fire perimeters)
+#'
+#' Read the forest fire perimeter layer (WHSE_LAND_AND_NATURAL_RESOURCE.PROT_HISTORICAL_FIRE_POLYS_SP)
+#'
+#' @inheritParams read_vri
+#' @return sf object
+#' @import sf
+#' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select
+#' @export
+read_fire <- function(dsn = NULL, layer = "WHSE_LAND_AND_NATURAL_RESOURCE.PROT_HISTORICAL_FIRE_POLYS_SP",  wkt_filter = character(0)) {
 
   if (FALSE) {
     SHAPE<-NULL
@@ -331,13 +370,13 @@ read_fire <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVER
     fire <- sf::st_read(dsn = dsn, layer = layer, quiet = TRUE,  wkt_filter = wkt_filter)
   }
 
-
-  #Restructure bem while waiting for real info
   fire <- rename_geometry(fire, "Shape")
-  #make shape valid because ARCGIS draw polygon differently than sf
+  #make shape valid
   fire$Shape <- sf::st_make_valid(fire$Shape)
   return(fire)
 }
+
+
 
 #'
 #'
