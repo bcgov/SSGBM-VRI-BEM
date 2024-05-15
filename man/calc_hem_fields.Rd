@@ -14,7 +14,7 @@ calc_hem_fields(
 \arguments{
 \item{vri_bem}{sf object that represent VRI (vegetation ressource inventory) features}
 
-\item{fire}{sf object that represent}
+\item{fire}{sf object that represent fires}
 
 \item{hem_fields}{data.table containing a column called 'names' with the name of the hem fields to compute, default to the hem_field object in the package}
 
