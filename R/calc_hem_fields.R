@@ -2,7 +2,7 @@
 #'
 #'
 #' @param vri_bem sf object that represent VRI (vegetation ressource inventory) features
-#' @param fire sf object that represent
+#' @param fire sf object that represent fires
 #' @param hem_fields data.table containing a column called 'names' with the name of the hem fields to compute, default to the hem_field object in the package
 #' @param current_year numeric of the year use to compute age, default to year of current date
 #'
@@ -104,7 +104,7 @@ calc_hem_fields <- function(vri_bem, fire, hem_fields = SSGBM.VRI.BEM::hem_field
                                           default = 0)]
 
   vri_bem[, W_Shelter_1 := fifelse(SPEC_CD_1 %in% c("BA", "BB", "BL", "C", "FDI", "H", "HM", "HW", "HX", "HXM", "P", "PA", "PL", "PLC", "PLI", "S",
-                                                    "SB", "SE", "SS", "SW", "SX", "SXE", "SXL", "SXS", "SXW", "SXX") & SPEC_PCT_1 > 40 & PROJ_AGE_1 %in% c("7","8", "9") & Elev_Threshold == 1 & Slope_Limit == 1 & CROWN_MOOSE > 35 & (Static_Sb_Bog == 0 | Static_Persist_Decid == 0), 1, 0)]
+                                                    "SB", "SE", "SS", "SW", "SX", "SXE", "SXL", "SXS", "SXW", "SXX") & SPEC_PCT_1 > 40 & PROJ_AGE_1 > 120 & Elev_Threshold == 1 & Slope_Limit == 1 & CR_CLOSURE > 35 & (Static_Sb_Bog == 0 | Static_Persist_Decid == 0), 1, 0)]
 
 
   vri_bem[, W_Shelter_1 := fifelse(W_Shelter_1 == 1 & Static_Persist_Decid == 1, 0, W_Shelter_1)]

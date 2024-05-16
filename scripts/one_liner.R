@@ -1,5 +1,26 @@
 devtools::load_all()
 
+# Piping
+options("bcdata.chunk_limit" = 1000000, "bcdata.single_download_limit" = 100000000)
+beu_bec_csv <- fread("inst/csv/Allowed_BEC_BEUs_NE_ALL.csv")
+beu_wetland_update_csv <- fread("inst/csv/beu_wetland_updates.csv")
+
+bem <- read_bem("../SSGBM-VRI-BEM-data/BEM_VRI", layer = "BEM")
+wkt_filter <- sf::st_bbox(bem) |> sf::st_as_sfc() |> sf::st_as_text()
+vri <- read_vri(wkt_filter = wkt_filter)
+rivers <- read_rivers(wkt_filter = wkt_filter)
+wetlands <- read_wetlands(wkt_filter = wkt_filter)
+vri_bem <- create_updated_vri_bem(vri = vri,
+                                  bem = bem,
+                                  rivers = rivers,
+                                  wetlands = wetlands,
+                                  beu_bec_csv = beu_bec_csv,
+                                  beu_wetland_update_csv = beu_wetland_update_csv,
+                                  clear_site_ma = TRUE,
+                                  use_ifelse = TRUE,
+                                  rules_dt = "../SSGBM-VRI-BEM-data/Rules_for_scripting_improved_forested_BEUs_Skeena_07Mar2022.xlsx",
+                                  verbose = TRUE)
+
 unique_eco <-  create_unique_ecosystem_from_scratch(dsn = "../SSGBM-VRI-BEM-data/CodeWithUs.gdb",
                                      vri_dsn = "../SSGBM-VRI-BEM-data/VEG_COMP_LYR_R1_POLY",
                                      bem_dsn = "../SSGBM-VRI-BEM-data/BEM_VRI",

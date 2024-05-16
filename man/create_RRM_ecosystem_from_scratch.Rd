@@ -14,10 +14,11 @@ create_RRM_ecosystem_from_scratch(
   elevation_dsn,
   layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers =
     "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY", ccb = "CNS_CUT_BL_polygon"),
-  beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv",
-  beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
+  beu_bec_csv = system.file("csv/Allowed_BEC_BEUs_NE_ALL.csv", package = "SSGBM.VRI.BEM"),
+  beu_wetland_update_csv = system.file("csv/beu_wetland_updates.csv", package =
+    "SSGBM.VRI.BEM"),
   rules_xl,
-  unique_ecosystem = "csv/Skeena_VRIBEM_LUT.csv",
+  unique_ecosystem = system.file("csv/Skeena_VRIBEM_LUT.csv", package = "SSGBM.VRI.BEM"),
   clear_site_ma = TRUE,
   use_ifelse = TRUE,
   most_recent_harvest_year,

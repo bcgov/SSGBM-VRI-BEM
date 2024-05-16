@@ -12,8 +12,9 @@ create_unique_ecosystem_from_scratch(
   wetlands_dsn = dsn,
   layers_names_list = list(vri = "VEG_R1_PLY_polygon", bem = "BEM", rivers =
     "FWA_RIVERS_POLY", wetlands = "FWA_WETLANDS_POLY"),
-  beu_bec_csv = "csv/Allowed_BEC_BEUs_NE_ALL.csv",
-  beu_wetland_update_csv = "csv/beu_wetland_updates.csv",
+  beu_bec_csv = system.file("csv/Allowed_BEC_BEUs_NE_ALL.csv", package = "SSGBM.VRI.BEM"),
+  beu_wetland_update_csv = system.file("csv/beu_wetland_updates.csv", package =
+    "SSGBM.VRI.BEM"),
   clear_site_ma = TRUE,
   use_ifelse = TRUE,
   wkt_filter = character(0),

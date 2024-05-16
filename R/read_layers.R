@@ -34,7 +34,7 @@ read_vri <- function(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL
       )
 
     if(length(wkt_filter) > 0 ){
-      vri_query <- vri_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      vri_query <- vri_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
 
     vri <- bcdata::collect(vri_query)
@@ -100,14 +100,14 @@ read_bem <- function(dsn, layer = "BEM", wkt_filter = NULL) {
     dsn = dsn,
     layer = layer,
     quiet = TRUE,
-    wkt_filter = if (is.null(wkt_filter)) {
+    wkt_filter =   if (is.null(wkt_filter)) {
       character(0)
     } else {
-      sf::st_as_text(sf::st_as_sfc(wkt_filter))
+      sf::st_as_text(sf::st_as_sfc(wkt_filter, crs = sf::st_crs(albers)))
     }
   )
   if(length(wkt_filter) > 0 ){
-    bem <- sf::st_intersection(bem,wkt_filter)
+    bem <- sf::st_intersection(bem, sf::st_as_sfc(wkt_filter, crs = sf::st_crs(albers)))
   }
   #Restructure bem while waiting for real info
   bem <- rename_geometry(bem, "Shape")
@@ -141,7 +141,7 @@ read_wetlands <- function(dsn = NULL, layer = "FWA_WETLANDS_POLY",  wkt_filter =
       bcdata::select(GEOMETRY)
 
     if(length(wkt_filter) > 0 ){
-      wl_query <- wl_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      wl_query <- wl_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
     wetlands <- bcdata::collect(wl_query)
 
@@ -178,7 +178,7 @@ read_rivers <- function(dsn = NULL, layer = "FWA_RIVERS_POLY",  wkt_filter = cha
       bcdata::select(GEOMETRY)
 
     if(length(wkt_filter) > 0 ){
-      rivers_query <- rivers_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      rivers_query <- rivers_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
     rivers <- bcdata::collect(rivers_query)
 
@@ -214,7 +214,7 @@ read_lakes <- function(dsn = NULL, layer = "FWA_LAKES_POLY",  wkt_filter = chara
       bcdata::select(GEOMETRY)
 
     if(length(wkt_filter) > 0 ){
-      lakes_query <- lakes_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      lakes_query <- lakes_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
     lakes <- bcdata::collect(lakes_query)
 
@@ -252,7 +252,7 @@ read_glaciers <- function(dsn = NULL, layer = "BTM_PLU_V1",  wkt_filter = charac
       bcdata::select(GEOMETRY)
 
     if(length(wkt_filter) > 0 ){
-      glaciers_query <- glaciers_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      glaciers_query <- glaciers_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
     glaciers <- bcdata::collect(glaciers_query)
 
@@ -288,7 +288,7 @@ read_ccb <- function(dsn = NULL, layer = "CNS_CUT_BL_polygon",  wkt_filter = cha
       bcdata::select(HARVEST_YEAR)
 
     if(length(wkt_filter) > 0 ){
-      ccb_query <- ccb_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      ccb_query <- ccb_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
     ccb <- bcdata::collect(ccb_query)
 
@@ -362,7 +362,7 @@ read_fire <- function(dsn = NULL, layer = "WHSE_LAND_AND_NATURAL_RESOURCE.PROT_H
       bcdata::select(SHAPE)
 
     if(length(wkt_filter) > 0 ){
-      wl_query <- wl_query |> bcdata::filter(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter)))
+      wl_query <- wl_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
     }
     fire <- bcdata::collect(wl_query)
 
@@ -424,5 +424,3 @@ read_tsa <- function(tsa_name, Skeena_boundary=TRUE){
 
   return(aoi)
 }
-
-
