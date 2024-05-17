@@ -18,7 +18,7 @@ remotes::install_github("bcgov/SSGBM-VRI-BEM")
 Broad Ecosystem Mapping
 
 ### HEM
-
+Habitat Effectiveness Models
 
 ### VRI
 Vegetation Resource Inventory
