@@ -446,7 +446,10 @@ rrm_calc_ratings <- function(input_xlsx) {
   dt_calc_script_elapsed <- Sys.time() - dt_calc_script_start
   logger::log_info("Script complete after %s" |> format(dt_calc_script_elapsed))
 
-  rrt_sheet
+  structure(
+    rrt_sheet,
+    missing_lines = missing_lines
+  )
 
 }
 
