@@ -1,12 +1,13 @@
-input_xlsx <- list.files(
-  "../SSGBM-VRI-BEM-data/Q12024/RRM_inputs",
-  pattern = "template.xlsx$",
-  full.names = TRUE
-)[[2]]
-
-
-###################
-
+#' Calculate WHR ratings based on RRM
+#' @details Calculates WHR ratings based on an RRM Excel file
+#' that contains RSI, AVE and RRT worksheets in their expected
+#' formats. Worksheet names must contain prefix RSI_, AVE_ or RRT_.
+#' The RRT_ worksheet will be modified with added columns containing
+#' the calculated ratings.
+#' @param input_xlsx A character. Path to an RRM Excel file.
+#' @return A data.table matching RRT sheet with two additional columns for each
+#' formula. Attribute `missing_lines` contains a list of missing lines for each
+#' component sheet.
 rrm_calc_ratings <- function(input_xlsx) {
 
   logger::log_info("Initializing...")
@@ -368,7 +369,7 @@ rrm_calc_ratings <- function(input_xlsx) {
 
   rrt_sheet <- readxl::read_excel(
     path = input_xlsx,
-    sheet = which(rrt_idx)
+    sheet = which(rrt_idx),
   ) |> data.table::setDT()
 
   if (nrow(rrt_sheet) < 1) {
@@ -382,16 +383,36 @@ rrm_calc_ratings <- function(input_xlsx) {
   missing_lines <- list()
   for (sht in names(data[["iav"]])) {
     iav <- data[["iav"]][[sht]]
-    rrt_sheet <- iav[rrt_sheet, on = data.table::key(iav)]
-    missing_lines[["iav"]][[sht]] <- rrt_sheet[!iav, on = data.table::key(iav)]
+    # Making sure keys have the same type
+    k <- data.table::key(iav)
+    for (col in k) {
+      if (!inherits(rrt_sheet[[col]], class(iav[[col]]))) {
+        data.table::set(rrt_sheet, j = col, value = as(rrt_sheet[[col]], class(iav[[col]])))
+      }
+    }
+    rrt_sheet <- iav[rrt_sheet, on = k]
+    miss <- rrt_sheet[!iav, on = k]
+    if (nrow(miss)) {
+      missing_lines[["iav"]][[sht]] <- miss
+    }
   }
 
   # Now for each RSI or AVE table, look up the RSI/AVE values.
 
   for (sht in names(data[["rsi_ave"]])) {
     rsi_ave <- data[["rsi_ave"]][[sht]]
-    rrt_sheet <- rsi_ave[rrt_sheet, on = data.table::key(rsi_ave)]
-    missing_lines[["rsi_ave"]][[sht]] <- rrt_sheet[!rsi_ave, on = data.table::key(rsi_ave)]
+    # Making sure keys have the same type
+    k <- data.table::key(rsi_ave)
+    for (col in k) {
+      if (!inherits(rrt_sheet[[col]], class(rsi_ave[[col]]))) {
+        data.table::set(rrt_sheet, j = col, value = as(rrt_sheet[[col]], class(rsi_ave[[col]])))
+      }
+    }
+    rrt_sheet <- rsi_ave[rrt_sheet, on = k]
+    miss <- rrt_sheet[!rsi_ave, on = k]
+    if (nrow(miss)) {
+      missing_lines[["rsi_ave"]][[sht]] <- miss
+    }
   }
 
   rating <- function(x) {
@@ -417,6 +438,7 @@ rrm_calc_ratings <- function(input_xlsx) {
     }]
   }
 
+  # # Save back to xlsx file (writing back is a more CPU expensive operation in R)
   # wb <- openxlsx::loadWorkbook(input_xlsx)
   #
   # openxlsx::writeData(
@@ -444,12 +466,22 @@ rrm_calc_ratings <- function(input_xlsx) {
   # Use missing_lines, no R lib to insert rows in excel files at the moment
 
   dt_calc_script_elapsed <- Sys.time() - dt_calc_script_start
-  logger::log_info("Script complete after %s" |> format(dt_calc_script_elapsed))
+  logger::log_info("Script complete after %s" |> sprintf(format(dt_calc_script_elapsed)))
 
   structure(
     rrt_sheet,
-    missing_lines = missing_lines
+    missing_lines = if (length(missing_lines)) {missing_lines},
+    class = c("rrm_calc_ratings", class(rrt_sheet))
   )
 
 }
 
+#' Extract missing lines from the result of `rrm_calc_ratings`.
+#' @param x Result of `rrm_calc_ratings`.
+#' @return A list of missing lines by sheet or `NULL` if none.
+#' @rdname rrm_calc_ratings
+rrm_missing_lines <- function(x) {
+  if (inherits(x, "rrm_calc_ratings")) {
+    attr(x, "missing_lines")
+  }
+}
