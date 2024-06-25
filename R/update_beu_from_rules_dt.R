@@ -19,6 +19,12 @@ update_beu_from_rules_dt <- function(vri_bem, rules_dt) {
 
   setDT(vri_bem)
 
+  #BGC_ZONE needs to be a factor
+  vri_bem[,c("BGC_ZONE") := lapply(.SD,factor), .SDcols = c("BGC_ZONE")]
+  #SPEC_PCT columns need to be numeric with 0 instead of NA
+  vri_bem[,c("SPEC_PCT_1","SPEC_PCT_2","SPEC_PCT_3","SPEC_PCT_4","SPEC_PCT_5","SPEC_PCT_6") := lapply(.SD,as.numeric), .SDcols = c("SPEC_PCT_1","SPEC_PCT_2","SPEC_PCT_3","SPEC_PCT_4","SPEC_PCT_5","SPEC_PCT_6")]
+  vri_bem[,c("SPEC_PCT_1","SPEC_PCT_2","SPEC_PCT_3","SPEC_PCT_4","SPEC_PCT_5","SPEC_PCT_6") := lapply(.SD,function(x) replace_na(x,0)), .SDcols = c("SPEC_PCT_1","SPEC_PCT_2","SPEC_PCT_3","SPEC_PCT_4","SPEC_PCT_5","SPEC_PCT_6")]
+
   if (inherits(rules_dt, "character") && file.exists(rules_dt)) {
     sht <- readxl::excel_sheets(rules_dt) |> grep(pattern = "^comb.+script", ignore.case = TRUE, value = TRUE)
     rules_dt <- readxl::read_excel(rules_dt, sht) |> setDT()
@@ -65,6 +71,8 @@ update_beu_from_rules_dt <- function(vri_bem, rules_dt) {
                                                                 default = "TRUE")]
 
   }
+
+  rules_dt[,SLOPE_MOD_expr:=dplyr::case_when(SLOPE_MOD == "BLANK" ~ "!SLOPE_MOD %in% c('k','q','j','w','z')",.default = SLOPE_MOD_expr)]
 
   # create expression for each pairs of tree list and percentage
 
