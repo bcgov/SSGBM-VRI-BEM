@@ -97,10 +97,10 @@ calc_hem_fields <- function(vri_bem, fire, hem_fields = SSGBM.VRI.BEM::hem_field
 
   vri_bem[, W_Site_Conditions_Met := fifelse(Waterbody == 1 & Elev_Threshold == 1 & Slope_Limit == 1, 1, 0)]
 
-  vri_bem[, Age_Class8_9 := fifelse(PROJ_AGE_1 %in% c("8", "9"), 1, 0)]
+  vri_bem[, Age_Class8_9 := fifelse(PROJ_AGE_1 > 140, 1, 0)]
 
-  vri_bem[, Static_Persist_Decid := fcase(PROJ_AGE_1 %in% c("4", "5", "6", "7", "8", "9") & (SPEC_CD_1 %in% c("D", "DG", "DR", "A", "AC", "AT", "ACT", "ACB", "AX", "E", "EA", "EX", "EP") & SPEC_PCT_1 > 60), 1,
-                                          PROJ_AGE_1 %in% c("4", "5", "6", "7", "8", "9") & (SPEC_CD_2 %in% c("D", "DG", "DR", "A", "AC", "AT", "ACT", "ACB", "AX", "E", "EA", "EX", "EP") & SPEC_PCT_2 > 60), 1,
+  vri_bem[, Static_Persist_Decid := fcase(PROJ_AGE_1 > 60 & (SPEC_CD_1 %in% c("D", "DG", "DR", "A", "AC", "AT", "ACT", "ACB", "AX", "E", "EA", "EX", "EP") & SPEC_PCT_1 > 60), 1,
+                                          PROJ_AGE_1 > 60 & (SPEC_CD_2 %in% c("D", "DG", "DR", "A", "AC", "AT", "ACT", "ACB", "AX", "E", "EA", "EX", "EP") & SPEC_PCT_2 > 60), 1,
                                           default = 0)]
 
   vri_bem[, W_Shelter_1 := fifelse(SPEC_CD_1 %in% c("BA", "BB", "BL", "C", "FDI", "H", "HM", "HW", "HX", "HXM", "P", "PA", "PL", "PLC", "PLI", "S",
@@ -113,7 +113,7 @@ calc_hem_fields <- function(vri_bem, fire, hem_fields = SSGBM.VRI.BEM::hem_field
 
   vri_bem[, Dynamic_WFD_11to30 := fifelse(AGE_CL_STS == 20 & Elev_Threshold == 1 & Slope_Limit == 1, 1, 0)]
 
-  vri_bem[, Security_1 := fifelse(PROJ_AGE_1 %in% c("3","4", "5", "6", "7", "8", "9") & Elev_Threshold == 1 & Slope_Limit == 1, 1, 0)]
+  vri_bem[, Security_1 := fifelse(PROJ_AGE_1 > 40 & Elev_Threshold == 1 & Slope_Limit == 1, 1, 0)]
 
   vri_bem[, Static_Brush := fifelse(LBL_VEGCOV %in% c("NC", "NCBR", "NP", "NPBR", "NPBU", "NSR"), 1, 0)]
 
