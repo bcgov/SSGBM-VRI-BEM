@@ -102,7 +102,8 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
 
     wa_expr <- parse_expr(paste0("round(((", first_suit_var, " * SDEC_1) + (", second_suit_var, " * SDEC_2) + (", third_suit_var, "* SDEC_3))/(SDEC_1 * (", first_suit_var, " != 0) + SDEC_2 * (", second_suit_var, " != 0) + SDEC_3 * (", third_suit_var, " != 0) ))"))
     vri_bem[, (weighted_average_suit_var) := eval(wa_expr)]
-    set(vri_bem, i = which(vri_bem[[weighted_average_suit_var]] > 6 | vri_bem[[weighted_average_suit_var]] == 0 | is.nan(vri_bem[[weighted_average_suit_var]])), j = weighted_average_suit_var, value = NA)
+    set(vri_bem, i = which(vri_bem[[weighted_average_suit_var]] > 6 | vri_bem[[weighted_average_suit_var]] == 0 | is.nan(vri_bem[[weighted_average_suit_var]]) | is.nan(vri_bem[[first_suit_var]]) | vri_bem[[first_suit_var]] == 0), j = weighted_average_suit_var, value = NA)
+    # weighted_average should be NA if missing first suitability value
 
   }
 
@@ -146,7 +147,7 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
 
     wa_expr <- parse_expr(paste0("round(((", first_cap_var, " * SDEC_1) + (", second_cap_var, " * SDEC_2) + (", third_cap_var, "* SDEC_3))/(SDEC_1 * (", first_cap_var, " != 0) + SDEC_2 * (", second_cap_var, " != 0) + SDEC_3 * (", third_cap_var, " != 0) ))")) #otherwise not calculating CAP properly (moose)
     vri_bem[, (weighted_average_cap_var) := eval(wa_expr)]
-    set(vri_bem, i = which(vri_bem[[weighted_average_cap_var]] > 6), j = weighted_average_cap_var, value = NA)
+    set(vri_bem, i = which(vri_bem[[weighted_average_cap_var]] > 6 | is.nan(vri_bem[[first_cap_var]]) | vri_bem[[first_cap_var]] == 0), j = weighted_average_cap_var, value = NA)
 
   }
 

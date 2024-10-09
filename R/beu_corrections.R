@@ -30,7 +30,10 @@ correct_small_lakes <- function (vri_bem, lakes){
     dplyr::mutate(BEUMC_S1 = dplyr::case_when(
       area < units::set_units(100000,"m^2") ~ "OW",
       area > units::set_units(100000,"m^2") ~ "LS",
-      area > units::set_units(600000,"m^2") ~ "LL")
+      area > units::set_units(600000,"m^2") ~ "LL"),
+      lbl_edit = dplyr::case_when(
+        BEUMC_S1 %in% c("LS","LL","OW") ~ "Corrected with FWA Lakes polygons",
+        .default = lbl_edit)
     ) |>
     dplyr::select(-c(area,lake))
 
@@ -47,6 +50,7 @@ correct_small_lakes <- function (vri_bem, lakes){
     sf::st_cast("POLYGON",warn=FALSE)
 
   #If OW, LS, LL, there should be no BEUMC_S2/S3 and SDEC_1 should be 10 for consistency with update_bem_from_vri
+  #remove floodplain label for lakes
   vri_bem <- vri_bem |>
     dplyr::mutate(SDEC_1 = dplyr::case_when(
       BEUMC_S1 %in% c("LS","LL","OW") ~ 10,
@@ -57,9 +61,9 @@ correct_small_lakes <- function (vri_bem, lakes){
       SDEC_3 = dplyr::case_when(
         BEUMC_S1 %in% c("LS","LL","OW") ~ 0,
         .default = SDEC_3),
-      lbl_edit = dplyr::case_when(
-        BEUMC_S1 %in% c("LS","LL","OW") ~ "Corrected with FWA Lakes polygons",
-        .default = lbl_edit)) |>
+      SITE_M3A = dplyr::case_when(
+        BEUMC_S1 %in% c("LS","LL","OW") ~ NA_character_,
+        .default = SITE_M3A)) |>
     st_collection_extract()
 
   return(vri_bem)
