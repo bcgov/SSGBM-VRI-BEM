@@ -89,7 +89,7 @@ albers_polys_op <- function(x, y, op) {
   inter <- sf:::CPL_geos_binop(x, y, "intersects", pattern = NA_character_, prepared = TRUE)
 
   # Loop on x
-  for (i in seq_len(length(x))) {
+  for (i in seq_along(x)) {
     idx <- inter[[i]] # get indexes
     if (length(idx) > 0L) {
       x1 <- x[i]
