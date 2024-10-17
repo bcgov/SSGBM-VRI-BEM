@@ -5,12 +5,12 @@
 \alias{rrm_missing_lines}
 \title{Calculate WHR ratings based on RRM}
 \usage{
-rrm_calc_ratings(input_xlsx)
+rrm_calc_ratings(template)
 
 rrm_missing_lines(x)
 }
 \arguments{
-\item{input_xlsx}{A character. Path to an RRM Excel file.}
+\item{template}{A character. Path to an RRM Excel file.}
 
 \item{x}{Result of \code{rrm_calc_ratings}.}
 }

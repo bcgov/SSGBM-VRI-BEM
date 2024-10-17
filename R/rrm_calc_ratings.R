@@ -4,11 +4,11 @@
 #' formats. Worksheet names must contain prefix RSI_, AVE_ or RRT_.
 #' The RRT_ worksheet will be modified with added columns containing
 #' the calculated ratings.
-#' @param input_xlsx A character. Path to an RRM Excel file.
+#' @param template A character. Path to an RRM Excel file.
 #' @return A data.table matching RRT sheet with two additional columns for each
 #' formula. Attribute `missing_lines` contains a list of missing lines for each
 #' component sheet.
-rrm_calc_ratings <- function(input_xlsx) {
+rrm_calc_ratings <- function(template) {
 
   logger::log_info("Initializing...")
   # Time already in log
@@ -21,13 +21,13 @@ rrm_calc_ratings <- function(input_xlsx) {
   # ---------------------------------------------------------------------------------------------------------
 
   # Already checked by readxl functions via `readxl:::check_file`, redundant
-  if (!file.exists(input_xlsx)) {
-    logger::log_error("File %s does not exist." |> sprintf(input_xlsx))
+  if (!file.exists(template)) {
+    logger::log_error("File %s does not exist." |> sprintf(template))
     return()
   }
 
   logger::log_info("Loading file.")
-  sheet_names <- readxl::excel_sheets(path = input_xlsx)
+  sheet_names <- readxl::excel_sheets(path = template)
 
   if (!any(rrt_idx <- grepl("^RRT_", sheet_names))) {
     logger::log_error("File does not contain an RRT sheet.")
@@ -54,7 +54,7 @@ rrm_calc_ratings <- function(input_xlsx) {
       sprintf(sheet_names[rrt_idx])
   )
   rrt_sheet <- readxl::read_excel(
-    path = input_xlsx,
+    path = template,
     sheet = which(rrt_idx),
     n_max = 1
   )
@@ -148,7 +148,7 @@ rrm_calc_ratings <- function(input_xlsx) {
     logger::log_info("Reading sheet name %s." |> sprintf(sht))
 
     first_row <- readxl::read_excel(
-      path = input_xlsx,
+      path = template,
       sheet = sht,
       n_max = 1
     )
@@ -191,7 +191,7 @@ rrm_calc_ratings <- function(input_xlsx) {
     }
 
     first_col <- readxl::read_excel(
-      path = input_xlsx,
+      path = template,
       sheet = sht,
       range = readxl::cell_cols("A")
     )
@@ -266,7 +266,7 @@ rrm_calc_ratings <- function(input_xlsx) {
 
     k <- data[["iav"]][[sht]][["key"]]
     r <- data[["iav"]][[sht]][["range"]]
-    data[["iav"]][[sht]] <- readxl::read_excel(path = input_xlsx, sheet = sht, range = r) |>
+    data[["iav"]][[sht]] <- readxl::read_excel(path = template, sheet = sht, range = r) |>
       data.table::setDT(key = k)
 
     dup_rows <- duplicated(data[["iav"]][[sht]][, k, with = FALSE])
@@ -300,7 +300,7 @@ rrm_calc_ratings <- function(input_xlsx) {
 
     k <- data[["rsi_ave"]][[sht]][["key"]]
     r <- data[["rsi_ave"]][[sht]][["range"]]
-    data[["rsi_ave"]][[sht]] <- readxl::read_excel(path = input_xlsx, sheet = sht, range = r) |>
+    data[["rsi_ave"]][[sht]] <- readxl::read_excel(path = template, sheet = sht, range = r) |>
       data.table::setDT(key = k)
 
     iav_columns <- grep(pattern = "^IAV", x = k, ignore.case = TRUE, value = TRUE)
@@ -355,11 +355,11 @@ rrm_calc_ratings <- function(input_xlsx) {
 
   bak_xlsx <- "%s_BACKUP_%s.xlsx" |>
     sprintf(
-      tools::file_path_sans_ext(input_xlsx),
+      tools::file_path_sans_ext(template),
       format(Sys.time(), "%Y%m%d_%H%M%S")
     )
   logger::log_info("Creating backup Excel file %s." |> sprintf(bak_xlsx))
-  file.copy(from = input_xlsx, to = bak_xlsx)
+  file.copy(from = template, to = bak_xlsx)
 
   # ---------------------------------------------------------------------------------------------------------
   # Read the RRT table(s) and calculate formula results and ratings for each row.
@@ -368,7 +368,7 @@ rrm_calc_ratings <- function(input_xlsx) {
   logger::log_info("Reading RRT sheet name %s." |> sprintf(sheet_names[rrt_idx]))
 
   rrt_sheet <- readxl::read_excel(
-    path = input_xlsx,
+    path = template,
     sheet = which(rrt_idx),
   ) |> data.table::setDT()
 
@@ -439,7 +439,7 @@ rrm_calc_ratings <- function(input_xlsx) {
   }
 
   # # Save back to xlsx file (writing back is a more CPU expensive operation in R)
-  # wb <- openxlsx::loadWorkbook(input_xlsx)
+  # wb <- openxlsx::loadWorkbook(template)
   #
   # openxlsx::writeData(
   #   wb = wb,
@@ -450,7 +450,7 @@ rrm_calc_ratings <- function(input_xlsx) {
   #   x = rrt_sheet[,(length(rrt_sheet)-length(formulas)*2+1):length(rrt_sheet), with = FALSE]
   # )
   #
-  # openxlsx::saveWorkbook(wb, input_xlsx, overwrite = TRUE)
+  # openxlsx::saveWorkbook(wb, template, overwrite = TRUE)
 
   # ---------------------------------------------------------------------------------------------------------
   # Add new rows to the RSI/AVE tables for missing combinations from the RRT table, if needed.

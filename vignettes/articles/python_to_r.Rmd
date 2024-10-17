@@ -30,7 +30,7 @@ The purpose of this article is to make it easier for someone who knew the Python
 |                                                                   |                                 |
 | 03c_Step3_Add_ELEV_Attributes_VRIxBEM                             |                                 |
 +-------------------------------------------------------------------+---------------------------------+
-| ...                                                               | merge_ccb_on_vri                |
+| ...                                                               | merge_geometry                  |
 +-------------------------------------------------------------------+---------------------------------+
 | 04_Add_LUT_age_classes_to_VRI_with_Consolidated_Cutblocks_VRIxBEM | calc_forest_age_class           |
 +-------------------------------------------------------------------+---------------------------------+
