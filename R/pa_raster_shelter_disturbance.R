@@ -1,8 +1,10 @@
-# disturbance <- "../SSGBM-VRI-BEM-data/Q12024/Disturbance" |> sf::st_read()
-# vri_bem <- readRDS("../SSGBM-VRI-BEM-data/vri_bem_step5.rds")
-
-###############
-
+#' Disturbance around shelter
+#' 
+#' @param shelter vri-bem sf object.
+#' @param disturbance sf object
+#' @param depth unit
+#' @param rasterize A logical. Should the results be rasterized.
+#' @param ... 
 depth_calculations <- function(shelter, disturbance, depth = units::as_units("400 m"), rasterize = TRUE, ...) {
 
   # Check that input feature classes exist
@@ -75,8 +77,8 @@ static_within_from_shelter <- function(shelter, static_forage = shelter, AOI_WMU
 
 albers_polys_op <- function(x, y, op) {
 
-  res <- sf::st_sfc(crs = albers) # Results set
-  quickreturn <- switch(op, "difference" = x, "intersection" = res)
+  res <- sf::st_sfc(crs = 3005) # Results set
+  quickreturn <- switch(op, "difference" = x, "intersect" = res)
 
   x <- sf::st_geometry(x) # Extract x geometry
   if (!length(x)) return(quickreturn) # Return if empty
@@ -95,10 +97,10 @@ albers_polys_op <- function(x, y, op) {
       x1 <- x[i]
       area_y <- y[idx]
       new_geo <- sf:::CPL_geos_union(area_y) |> # Combine y intersecting polys
-        sf::st_sfc(crs = albers) |> # reclass to sfc
+        sf::st_sfc(crs = 3005) |> # reclass to sfc
         sf::st_crop(sf::st_bbox(x1)) |>  # Crop to x1 bbox to reduce compute area
         sf:::CPL_geos_op2(op, x1, sfcy = _) |> # Compute op
-        sf::st_sfc(crs = albers) |> # reclass to sfc
+        sf::st_sfc(crs = 3005) |> # reclass to sfc
         sf::st_cast("POLYGON") # Recast to POLYGON
       if (length(new_geo)) {
         res <- c(res, new_geo) # Append to results set
@@ -107,23 +109,5 @@ albers_polys_op <- function(x, y, op) {
   }
 
   return(res)
-
-}
-
-rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"), extent = terra::ext(159587.5, 1881187.5, 173787.5, 1748187.5), field = 1, background = 0, ...) {
-
-  ## Smaller extent
-  # extent = terra::ext(1020387.5, 1030387.5, 960987.5, 970987.5)
-  ## Full extents would be "159587.5, 1881187.5, 173787.5, 1748187.5"
-
-  y <- terra::rast(
-    crs = crs,
-    resolution = resolution,
-    extent = extent
-  )
-
-  x <- terra::vect(x)
-
-  return(terra::rasterize(x, y, field = field, background = background))
 
 }

@@ -58,9 +58,9 @@ ccb <- read_ccb(wkt_filter = aoi_wkt)
 
 vri_bem <- merge_geometry(vri_bem, ccb, tolerance = units::as_units(10, "m2"))
 
-#merge burn
-burn <- read_burn(wkt_filter = aoi_wkt)
-vri_bem <- merge_geometry(vri_bem, burn, tolerance = units::as_units(10, "m2"))
+#merge burn - What do you want to do with Burn?
+# burn <- read_burn(wkt_filter = aoi_wkt)
+# vri_bem <- merge_geometry(vri_bem, burn, tolerance = units::as_units(10, "m2"))
 
 #4 ----
 vri_bem <- calc_forest_age_class(vri_bem = vri_bem,
@@ -82,10 +82,12 @@ vri_bem <- calc_hem_fields(vri_bem = vri_bem, fire = fire)
 #5 ----
 export_dt <- create_RRM_ecosystem(vri_bem = vri_bem)
 fwrite(export_dt, file = "../RRM_input_table.csv")
+saveRDS(export_dt, file = "./data-raw/RRM_input_table.rds")
+
+#6 ---- In progress RRM to R - To validate before packaging in whole run function
+export_dt <- readRDS("./data-raw/RRM_input_table.rds") |> data.table::setDT()
 RSI_BGC_BEU <- unique(export_dt[,list(BGC_ZONE,BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC)])[order(BGC_ZONE,BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC)]
 data.table::setkey(RSI_BGC_BEU, BGC_ZONE,BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC)
-
-#6 ---- In progress RRM to R
 
 # Moose
 template_dir <- "../SSGBM-VRI-BEM-data/Q12024/RRM_inputs/"
@@ -112,10 +114,12 @@ moose_init <- mapply(
   names(rsi_rating) |> grep("_Optimal Structural Stage$", x = _, value = TRUE),
   SIMPLIFY = FALSE
 )
-names(moose_init) <- names(rsi_rating) |> grep("_RSI$", x = _, value = TRUE) |> tolower() |> gsub("_rsi", "", x = _) |> gsub("\\s+", "_", x = _) |> paste("moose", ... = _, sep = "_")
+names(moose_init) <- names(rsi_rating) |> grep("_RSI$", x = _, value = TRUE) |> tolower() |> gsub("_rsi", "", x = _) |> trimws()  |> gsub("\\s+", "_", x = _) |> paste("moose", ... = _, sep = "_")
 
-rrm_calc_ratings(templates[1], moose_init$moose_winter_forage)
-
+logger::log_threshold("WARN")
+MALAN_WFD_6C <- rrm_calc_ratings(export_dt, templates[1], moose_init$moose_winter_forage)
+MALAN_WST_6C <- rrm_calc_ratings(export_dt, templates[2], moose_init$moose_winter_shelter)
+rrm_missing_lines(MALAN_WFD_6C)
 
 # Grizzly
 template_dir <- "../SSGBM-VRI-BEM-data/Q12024/Grizzly_RRM_inputs"
@@ -133,15 +137,36 @@ if (nrow(grizzly_no_match)) {
 }
 
 grizzly_init <- mapply(
-  function(x,y, z) {
+  function(x,y,z) {
     res <- rsi_rating[RSI_BGC_BEU]
-    res <- res[, list(BGC_ZONE,BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEU_Mapcode, Iav_strct_d = res[[y]], RSI = res[[x]])]
+    res <- res[, list(BGC_ZONE,BGC_SUBZON, BGC_VRT, BGC_PHASE, BEUMC = BEU_Mapcode, Iav_strct_d = res[[y]], Iav_site_m3a = res[[z]], RSI = res[[x]])]
     return(res)
   },
   names(rsi_rating) |> grep("^Grizzly_RSI", x = _, value = TRUE),
-  names(rsi_rating) |> grep("_Optimal Structural Stage$", x = _, value = TRUE),
-
-
+  names(rsi_rating) |> grep("^Grizzly_IAV_Structural", x = _, value = TRUE),
+  names(rsi_rating) |> grep("^Grizzly_IAV_Site", x = _, value = TRUE),
   SIMPLIFY = FALSE
 )
-names(grizzly_init) <- names(rsi_rating) |> grep("_RSI$", x = _, value = TRUE) |> tolower() |> gsub("_rsi", "", x = _) |> gsub("\\s+", "_", x = _) |> paste("grizzly", ... = _, sep = "_")
+names(grizzly_init) <- names(rsi_rating) |> grep("^Grizzly_RSI_", x = _, value = TRUE) |> tolower() |> gsub("^grizzly_rsi_", "", x = _) |> trimws() |> gsub("\\s+", "_", x = _) |> paste("grizzly", ... = _, sep = "_")
+
+logger::log_threshold("INFO")
+MURAR_FFD_6C  <- rrm_calc_ratings(export_dt, templates[1], grizzly_init$grizzly_fall_forage)
+MURAR_HI_6C   <- rrm_calc_ratings(export_dt, templates[2], grizzly_init$grizzly_hibernation)
+MURAR_PEFD_6C <- rrm_calc_ratings(export_dt, templates[3], grizzly_init$grizzly_early_spring_forage)
+MURAR_PLFD_6C <- rrm_calc_ratings(export_dt, templates[4], grizzly_init$grizzly_late_spring_forage)
+MURAR_SFD_6C  <- rrm_calc_ratings(export_dt, templates[5], grizzly_init$grizzly_summer_forage)
+
+
+# Append ratings
+data.table::set(export_dt, j = "MALAN_WFD_6C", value = MALAN_WFD_6C[[1]]$RATING)
+data.table::set(export_dt, j = "MALAN_WST_6C", value = MALAN_WST_6C[[1]]$RATING)
+data.table::set(export_dt, j = "MURAR_FFD_6C", value = MURAR_FFD_6C[[1]]$RATING)
+data.table::set(export_dt, j = "MURAR_HI_6C", value = MURAR_HI_6C[[1]]$RATING)
+data.table::set(export_dt, j = "MURAR_PEFD_6C", value = MURAR_PEFD_6C[[1]]$RATING)
+data.table::set(export_dt, j = "MURAR_PLFD_6C", value = MURAR_PLFD_6C[[1]]$RATING)
+data.table::set(export_dt, j = "MURAR_SFD_6C", value = MURAR_SFD_6C[[1]]$RATING)
+
+# PA scripts-convert
+vri_bem <- readRDS("../SSGBM-VRI-BEM-data/vri_bem_step5.rds")
+disturbance <- "../SSGBM-VRI-BEM-data/Q12024/Disturbance" |> sf::st_read() |> sf::st_transform(3005)
+d <- depth_calculations(vri_bem, disturbance)

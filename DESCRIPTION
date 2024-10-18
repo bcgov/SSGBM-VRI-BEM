@@ -24,7 +24,8 @@ Imports:
   tibble,
   tidyr,
   logger,
-  parallel
+  parallel,
+  stringdist
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

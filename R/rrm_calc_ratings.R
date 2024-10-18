@@ -4,12 +4,17 @@
 #' formats. Worksheet names must contain prefix RSI_, AVE_ or RRT_.
 #' The RRT_ worksheet will be modified with added columns containing
 #' the calculated ratings.
+#' @param rrm_input A data.table.
 #' @param template A character. Path to an RRM Excel file.
 #' @param rsi_source A data.table.
+#' @param output A character. Either `value/rating` or `full` for the full
+#' details with all variables from the formula sheet.
 #' @return A data.table matching RRT sheet with two additional columns for each
 #' formula. Attribute `missing_lines` contains a list of missing lines for each
 #' component sheet.
-rrm_calc_ratings <- function(template, rsi_source) {
+rrm_calc_ratings <- function(rrm_input, template, rsi_source, output = c("value/rating", "full")) {
+
+  output <- match.arg(output)
 
   data.table::setnames(
     rsi_source,
@@ -402,8 +407,10 @@ rrm_calc_ratings <- function(template, rsi_source) {
     sheet = which(rrt_idx),
   ) |> data.table::setDT()
 
+  data.table::setnames(rrm_input, match_labels(rrm_input, rrt_sheet))
+
   rrt_sheet <- data.table::rbindlist(
-    list(rrt_sheet, rsi_source[,intersect(names(rsi_source), names(rrt_sheet)), with = FALSE]),
+    list(rrt_sheet, rrm_input[,intersect(names(rrm_input), names(rrt_sheet)), with = FALSE]),
     use.names = TRUE,
     fill = TRUE
   )
@@ -451,6 +458,7 @@ rrm_calc_ratings <- function(template, rsi_source) {
     7L - cut(x * 10000000000, breaks = b) |> as.integer()
   }
 
+  res <- list()
   for (fml in formulas) {
     rrt_sheet[, paste(
       c("RESULT", "RATING"),
@@ -465,7 +473,8 @@ rrm_calc_ratings <- function(template, rsi_source) {
         "Processed %s rows. Found %s calculable ratings." |>
           sprintf(length(r), sum(!is.na(r)))
       )
-      list(x,r)
+      res[[fml]] <<- list("VALUE" = x, "RATING" = r)
+      list(x, r)
     }]
   }
 
@@ -500,7 +509,7 @@ rrm_calc_ratings <- function(template, rsi_source) {
   logger::log_info("Script complete after %s" |> sprintf(format(dt_calc_script_elapsed)))
 
   structure(
-    rrt_sheet,
+    if (output == "full") rrt_sheet else {res},
     missing_lines = if (length(missing_lines)) {missing_lines},
     class = c("rrm_calc_ratings", class(rrt_sheet))
   )

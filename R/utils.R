@@ -119,3 +119,59 @@ erase_geometry <- function(target, erase) {
   return(res[!sf::st_is_empty(res),])
 
 }
+
+#' @noRd
+#' @importFrom stringdist stringdist
+match_labels <- function(x, y) {
+  s1 <- names(x)
+  s2 <- names(y)
+  res <- character(length(s1))
+  first_pass <- lapply(tolower(s1), \(x) head(s2[which(stringdist::stringdist(x,tolower(s2)) == 0)],1))
+  i <- which(lengths(first_pass) > 0)
+  res[i] <- first_pass[i] |> unlist()
+  for (j in seq_along(s1)[-i]) {
+    d <- stringdist::stringdist(tolower(s1[j]),tolower(s2[-i]))
+    tol <- nchar(s1[j]) * 1.33
+    wm <- which.min(d)
+    cur_i <- wm[d[wm] < tol]
+    if (length(cur_i)) {
+      res[j] <- head(s2[-i][cur_i],1)
+      i <- c(i,seq_along(s1)[-i][cur_i])
+    } else {
+      res[j] <- s1[j]
+    }
+  }
+  return(res)
+}
+
+
+#' Rasterize an sf object
+#' 
+#' @param x sf object
+#' @param crs Target crs
+#' @param resolution Target resolution as unit.
+#' @param extent Target raster extent.
+#' @param field character or numeric. If field is a character, it should a variable name in `x`.
+#' If field is numeric it typically is a single number or a vector of length `nrow(x)`.
+#' The values are recycled to `nrow(x)`.
+#' @param background numeric. Value to put in the cells that are not covered by any
+#' of the features of `x`. Default is `NA`.
+#' @param ... 
+#' @export
+rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"), extent = terra::ext(159587.5, 1881187.5, 173787.5, 1748187.5), field = 1, background = 0, ...) {
+
+  ## Smaller extent
+  # extent = terra::ext(1020387.5, 1030387.5, 960987.5, 970987.5)
+  ## Full extents would be "159587.5, 1881187.5, 173787.5, 1748187.5"
+
+  y <- terra::rast(
+    crs = crs,
+    resolution = resolution,
+    extent = extent
+  )
+
+  x <- terra::vect(x)
+
+  return(terra::rasterize(x, y, field = field, background = background))
+
+}

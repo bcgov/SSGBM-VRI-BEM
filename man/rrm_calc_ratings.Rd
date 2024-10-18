@@ -5,14 +5,24 @@
 \alias{rrm_missing_lines}
 \title{Calculate WHR ratings based on RRM}
 \usage{
-rrm_calc_ratings(template, rsi_source)
+rrm_calc_ratings(
+  rrm_input,
+  template,
+  rsi_source,
+  output = c("value/rating", "full")
+)
 
 rrm_missing_lines(x)
 }
 \arguments{
+\item{rrm_input}{A data.table.}
+
 \item{template}{A character. Path to an RRM Excel file.}
 
 \item{rsi_source}{A data.table.}
+
+\item{output}{A character. Either \code{value/rating} or \code{full} for the full
+details with all variables from the formula sheet.}
 
 \item{x}{Result of \code{rrm_calc_ratings}.}
 }
