@@ -275,7 +275,7 @@ rrm_calc_ratings <- function(template, rsi_source) {
 
     k <- data[["iav"]][[sht]][["key"]]
     r <- data[["iav"]][[sht]][["range"]]
-    
+
     data[["iav"]][[sht]] <- readxl::read_excel(path = template, sheet = sht, range = r) |>
       data.table::setDT(key = k)
 
