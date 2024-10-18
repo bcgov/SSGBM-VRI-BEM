@@ -1,13 +1,25 @@
-input_xlsx <- list.files(
-  "../SSGBM-VRI-BEM-data/Q12024/RRM_inputs",
-  pattern = "template.xlsx$",
-  full.names = TRUE
-)[[2]]
+#' Calculate WHR ratings based on RRM
+#' @details Calculates WHR ratings based on an RRM Excel file
+#' that contains RSI, AVE and RRT worksheets in their expected
+#' formats. Worksheet names must contain prefix RSI_, AVE_ or RRT_.
+#' The RRT_ worksheet will be modified with added columns containing
+#' the calculated ratings.
+#' @param rrm_input A data.table.
+#' @param template A character. Path to an RRM Excel file.
+#' @param rsi_source A data.table.
+#' @param output A character. Either `value/rating` or `full` for the full
+#' details with all variables from the formula sheet.
+#' @return A data.table matching RRT sheet with two additional columns for each
+#' formula. Attribute `missing_lines` contains a list of missing lines for each
+#' component sheet.
+rrm_calc_ratings <- function(rrm_input, template, rsi_source, output = c("value/rating", "full")) {
 
+  output <- match.arg(output)
 
-###################
-
-rrm_calc_ratings <- function(input_xlsx) {
+  data.table::setnames(
+    rsi_source,
+    c(tools::toTitleCase(tolower(names(rsi_source)))[-ncol(rsi_source)], tail(names(rsi_source), 1))
+  )
 
   logger::log_info("Initializing...")
   # Time already in log
@@ -20,13 +32,13 @@ rrm_calc_ratings <- function(input_xlsx) {
   # ---------------------------------------------------------------------------------------------------------
 
   # Already checked by readxl functions via `readxl:::check_file`, redundant
-  if (!file.exists(input_xlsx)) {
-    logger::log_error("File %s does not exist." |> sprintf(input_xlsx))
+  if (!file.exists(template)) {
+    logger::log_error("File %s does not exist." |> sprintf(template))
     return()
   }
 
   logger::log_info("Loading file.")
-  sheet_names <- readxl::excel_sheets(path = input_xlsx)
+  sheet_names <- readxl::excel_sheets(path = template)
 
   if (!any(rrt_idx <- grepl("^RRT_", sheet_names))) {
     logger::log_error("File does not contain an RRT sheet.")
@@ -53,7 +65,7 @@ rrm_calc_ratings <- function(input_xlsx) {
       sprintf(sheet_names[rrt_idx])
   )
   rrt_sheet <- readxl::read_excel(
-    path = input_xlsx,
+    path = template,
     sheet = which(rrt_idx),
     n_max = 1
   )
@@ -114,7 +126,7 @@ rrm_calc_ratings <- function(input_xlsx) {
     lapply(strsplit, "*", fixed = TRUE) |>
     lapply(unlist)
 
-  for (i in seq_len(length(formulas_components))) {
+  for (i in seq_along(formulas_components)) {
     components <- formulas_components[[i]]
     formula_ref <- names(formulas_components)[i]
     column_ref <- formula_ref |>
@@ -147,7 +159,7 @@ rrm_calc_ratings <- function(input_xlsx) {
     logger::log_info("Reading sheet name %s." |> sprintf(sht))
 
     first_row <- readxl::read_excel(
-      path = input_xlsx,
+      path = template,
       sheet = sht,
       n_max = 1
     )
@@ -190,12 +202,13 @@ rrm_calc_ratings <- function(input_xlsx) {
     }
 
     first_col <- readxl::read_excel(
-      path = input_xlsx,
+      path = template,
       sheet = sht,
       range = readxl::cell_cols("A")
     )
 
     last_nonblank_row <- which(first_col[[1]] %in% "#") |> head(1)
+    if (sht %in% "RSI_BGC_BEU") last_nonblank_row <- 1L
 
     if (!length(last_nonblank_row)) {
       logger::log_error(
@@ -258,6 +271,8 @@ rrm_calc_ratings <- function(input_xlsx) {
 
   for (sht in names(data[["iav"]])) {
 
+    use_init <- sht %in% "RSI_BGC_BEU"
+
     logger::log_info(
       "Reading sheet named %s to assign IAV values to ecosystem units" |>
         sprintf(sht)
@@ -265,8 +280,18 @@ rrm_calc_ratings <- function(input_xlsx) {
 
     k <- data[["iav"]][[sht]][["key"]]
     r <- data[["iav"]][[sht]][["range"]]
-    data[["iav"]][[sht]] <- readxl::read_excel(path = input_xlsx, sheet = sht, range = r) |>
+
+    data[["iav"]][[sht]] <- readxl::read_excel(path = template, sheet = sht, range = r) |>
       data.table::setDT(key = k)
+
+    if (use_init) {
+      data[["iav"]][[sht]] <- data.table::rbindlist(
+        list(data[["iav"]][[sht]], rsi_source[,intersect(names(rsi_source), names(data[["iav"]][[sht]])), with = FALSE]),
+        use.names = TRUE,
+        fill = TRUE
+      ) |>
+        data.table::setDT(key = k)
+    }
 
     dup_rows <- duplicated(data[["iav"]][[sht]][, k, with = FALSE])
 
@@ -292,6 +317,8 @@ rrm_calc_ratings <- function(input_xlsx) {
 
   for (sht in rsi_ave_sheets) {
 
+    use_init <- sht %in% "RSI_BGC_BEU"
+
     logger::log_info(
       "Reading worksheet name %s to assign RSI/AVE values to ecosystem units" |>
         sprintf(sht)
@@ -299,8 +326,17 @@ rrm_calc_ratings <- function(input_xlsx) {
 
     k <- data[["rsi_ave"]][[sht]][["key"]]
     r <- data[["rsi_ave"]][[sht]][["range"]]
-    data[["rsi_ave"]][[sht]] <- readxl::read_excel(path = input_xlsx, sheet = sht, range = r) |>
+    data[["rsi_ave"]][[sht]] <- readxl::read_excel(path = template, sheet = sht, range = r) |>
       data.table::setDT(key = k)
+
+    if (use_init) {
+      data[["rsi_ave"]][[sht]] <- data.table::rbindlist(
+        list(data[["rsi_ave"]][[sht]], rsi_source[,intersect(names(rsi_source), names(data[["rsi_ave"]][[sht]])), with = FALSE]),
+        use.names = TRUE,
+        fill = TRUE
+      ) |>
+        data.table::setDT(key = k)
+    }
 
     iav_columns <- grep(pattern = "^IAV", x = k, ignore.case = TRUE, value = TRUE)
     if (any(missing_iav <- which(!iav_columns %in% all_assigned_iav_headers))) {
@@ -352,13 +388,13 @@ rrm_calc_ratings <- function(input_xlsx) {
   # Save a backup of the Excel file
   # ---------------------------------------------------------------------------------------------------------
 
-  bak_xlsx <- "%s_BACKUP_%s.xlsx" |>
-    sprintf(
-      tools::file_path_sans_ext(input_xlsx),
-      format(Sys.time(), "%Y%m%d_%H%M%S")
-    )
-  logger::log_info("Creating backup Excel file %s." |> sprintf(bak_xlsx))
-  file.copy(from = input_xlsx, to = bak_xlsx)
+  # bak_xlsx <- "%s_BACKUP_%s.xlsx" |>
+  #   sprintf(
+  #     tools::file_path_sans_ext(template),
+  #     format(Sys.time(), "%Y%m%d_%H%M%S")
+  #   )
+  # logger::log_info("Creating backup Excel file %s." |> sprintf(bak_xlsx))
+  # file.copy(from = template, to = bak_xlsx)
 
   # ---------------------------------------------------------------------------------------------------------
   # Read the RRT table(s) and calculate formula results and ratings for each row.
@@ -367,14 +403,17 @@ rrm_calc_ratings <- function(input_xlsx) {
   logger::log_info("Reading RRT sheet name %s." |> sprintf(sheet_names[rrt_idx]))
 
   rrt_sheet <- readxl::read_excel(
-    path = input_xlsx,
-    sheet = which(rrt_idx)
+    path = template,
+    sheet = which(rrt_idx),
   ) |> data.table::setDT()
 
-  if (nrow(rrt_sheet) < 1) {
-    logger::log_error("Sheet %s contains no data." |> sprintf(sheet_names[rrt_idx]))
-    return()
-  }
+  data.table::setnames(rrm_input, match_labels(rrm_input, rrt_sheet))
+
+  rrt_sheet <- data.table::rbindlist(
+    list(rrt_sheet, rrm_input[,intersect(names(rrm_input), names(rrt_sheet)), with = FALSE]),
+    use.names = TRUE,
+    fill = TRUE
+  )
 
   # Now read each RRT table and assign all of those IAV values from the IAV-assigning RSI/AVE table to each
   # RRT row.
@@ -382,16 +421,36 @@ rrm_calc_ratings <- function(input_xlsx) {
   missing_lines <- list()
   for (sht in names(data[["iav"]])) {
     iav <- data[["iav"]][[sht]]
-    rrt_sheet <- iav[rrt_sheet, on = data.table::key(iav)]
-    missing_lines[["iav"]][[sht]] <- rrt_sheet[!iav, on = data.table::key(iav)]
+    # Making sure keys have the same type
+    k <- data.table::key(iav)
+    for (col in k) {
+      if (!inherits(rrt_sheet[[col]], class(iav[[col]]))) {
+        data.table::set(rrt_sheet, j = col, value = as(rrt_sheet[[col]], class(iav[[col]])))
+      }
+    }
+    rrt_sheet <- iav[rrt_sheet, on = k]
+    miss <- rrt_sheet[!iav, on = k]
+    if (nrow(miss)) {
+      missing_lines[["iav"]][[sht]] <- miss
+    }
   }
 
   # Now for each RSI or AVE table, look up the RSI/AVE values.
 
   for (sht in names(data[["rsi_ave"]])) {
     rsi_ave <- data[["rsi_ave"]][[sht]]
-    rrt_sheet <- rsi_ave[rrt_sheet, on = data.table::key(rsi_ave)]
-    missing_lines[["rsi_ave"]][[sht]] <- rrt_sheet[!rsi_ave, on = data.table::key(rsi_ave)]
+    # Making sure keys have the same type
+    k <- data.table::key(rsi_ave)
+    for (col in k) {
+      if (!inherits(rrt_sheet[[col]], class(rsi_ave[[col]]))) {
+        data.table::set(rrt_sheet, j = col, value = as(rrt_sheet[[col]], class(rsi_ave[[col]])))
+      }
+    }
+    rrt_sheet <- rsi_ave[rrt_sheet, on = k]
+    miss <- rrt_sheet[!rsi_ave, on = k]
+    if (nrow(miss)) {
+      missing_lines[["rsi_ave"]][[sht]] <- miss
+    }
   }
 
   rating <- function(x) {
@@ -399,6 +458,7 @@ rrm_calc_ratings <- function(input_xlsx) {
     7L - cut(x * 10000000000, breaks = b) |> as.integer()
   }
 
+  res <- list()
   for (fml in formulas) {
     rrt_sheet[, paste(
       c("RESULT", "RATING"),
@@ -413,11 +473,13 @@ rrm_calc_ratings <- function(input_xlsx) {
         "Processed %s rows. Found %s calculable ratings." |>
           sprintf(length(r), sum(!is.na(r)))
       )
-      list(x,r)
+      res[[fml]] <<- list("VALUE" = x, "RATING" = r)
+      list(x, r)
     }]
   }
 
-  # wb <- openxlsx::loadWorkbook(input_xlsx)
+  # # Save back to xlsx file (writing back is a more CPU expensive operation in R)
+  # wb <- openxlsx::loadWorkbook(template)
   #
   # openxlsx::writeData(
   #   wb = wb,
@@ -428,7 +490,7 @@ rrm_calc_ratings <- function(input_xlsx) {
   #   x = rrt_sheet[,(length(rrt_sheet)-length(formulas)*2+1):length(rrt_sheet), with = FALSE]
   # )
   #
-  # openxlsx::saveWorkbook(wb, input_xlsx, overwrite = TRUE)
+  # openxlsx::saveWorkbook(wb, template, overwrite = TRUE)
 
   # ---------------------------------------------------------------------------------------------------------
   # Add new rows to the RSI/AVE tables for missing combinations from the RRT table, if needed.
@@ -444,9 +506,22 @@ rrm_calc_ratings <- function(input_xlsx) {
   # Use missing_lines, no R lib to insert rows in excel files at the moment
 
   dt_calc_script_elapsed <- Sys.time() - dt_calc_script_start
-  logger::log_info("Script complete after %s" |> format(dt_calc_script_elapsed))
+  logger::log_info("Script complete after %s" |> sprintf(format(dt_calc_script_elapsed)))
 
-  rrt_sheet
+  structure(
+    if (output == "full") rrt_sheet else {res},
+    missing_lines = if (length(missing_lines)) {missing_lines},
+    class = c("rrm_calc_ratings", class(rrt_sheet))
+  )
 
 }
 
+#' Extract missing lines from the result of `rrm_calc_ratings`.
+#' @param x Result of `rrm_calc_ratings`.
+#' @return A list of missing lines by sheet or `NULL` if none.
+#' @rdname rrm_calc_ratings
+rrm_missing_lines <- function(x) {
+  if (inherits(x, "rrm_calc_ratings")) {
+    attr(x, "missing_lines")
+  }
+}

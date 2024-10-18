@@ -68,8 +68,8 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
   }
 
   # check for VRI that have no BEM match
-  if (length(which(is.na(vri$TEIS_ID))) > 0) {
-    warning("The following VRI_OBJ_ID had no overlaping bem : ", paste(vri[is.na(TEIS_ID), VRI_OBJ_ID], collapse = ", "))
+  if ({cnt <- length(which(is.na(vri$TEIS_ID)))} > 0) {
+    warning("The following VRI_OBJ_ID had no overlaping bem [%s]: %s" |> sprintf(cnt, paste(vri[is.na(TEIS_ID), VRI_OBJ_ID], collapse = ", ")))
   }
 
   #replace BEM biogeoclimatic attributes with VRI

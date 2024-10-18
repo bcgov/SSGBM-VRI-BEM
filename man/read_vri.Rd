@@ -4,7 +4,7 @@
 \alias{read_vri}
 \title{Read VRI spatial dataset}
 \usage{
-read_vri(dsn = NULL, layer = "VEG_R1_PLY_polygon", wkt_filter = NULL)
+read_vri(dsn = NULL, layer = "VEG_COMP_LYR_R1_POLY", wkt_filter = character(0))
 }
 \arguments{
 \item{dsn}{data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder, or contain the name and access credentials of a database); in case of GeoJSON, dsn may be the character string holding the geojson data. It can also be an open database connection.

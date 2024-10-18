@@ -36,7 +36,7 @@ amend_large_polygons <- function (vri_bem, glaciers, lakes, wetlands, bem){
     vri_bem_xl <- merge_bem_on_vri_xl(vrixl_merge, bem)
 
     #Remove XL polygons from initial VRI-BEM and replace with updated polygons
-    vri_bem_xl_diff <- sf::st_difference(vri_bem, sf::st_union(sf::st_geometry(vri_bem_xl))) |> sf::st_make_valid() |>
+    vri_bem_xl_diff <- erase_geometry(vri_bem, vri_bem_xl) |> sf::st_make_valid() |>
       sf::st_collection_extract() |> sf::st_cast("POLYGON", warn = FALSE) |> sf::st_make_valid()
 
     #Make sure TEIS_ID is character
@@ -96,53 +96,14 @@ merge_extra_layers <- function(vrixl, glaciers, lakes, wetlands) {
       BGC_VRT<-BGC_ZONE<-DEC_1<-INVENTORY_STANDARD_CD<-SPEC_CD_1<-NULL
   }
 
-  # tell sf that attributes are constant throughout the geometries to avoid warning
-  sf::st_agr(vrixl) <- "constant"
-  sf::st_agr(glaciers) <- "constant"
-  sf::st_agr(lakes) <- "constant"
-  sf::st_agr(wetlands) <- "constant"
-
   #merge CEF glaciers and snow on large VRI polygons
-  merge_glaciers_intersection <- sf::st_intersection(vrixl, glaciers) |>
-    sf::st_make_valid() |>
-    sf::st_collection_extract() |>
-    sf::st_cast("POLYGON",warn = FALSE) |>
-    sf::st_make_valid() |>
-    dplyr::mutate(BEUMC_S1 = "GL")
-  merge_glaciers_diff <- sf::st_difference(vrixl, sf::st_union(sf::st_geometry(glaciers))) |>
-    sf::st_make_valid() |>
-    sf::st_collection_extract() |>
-    sf::st_cast("POLYGON", warn = FALSE) |>
-    sf::st_make_valid()
-  vrixl <- dplyr::bind_rows(merge_glaciers_intersection,merge_glaciers_diff)
+  vrixl <- merge_geometry(vrixl, glaciers, tolerance = units::as_units(10, "m2"), label = list(BEUMC_S1 = "GL"))
 
   #merge lakes on large VRI polygons
-  merge_lakes_intersection <- sf::st_intersection(vrixl, lakes) |>
-    sf::st_make_valid() |>
-    sf::st_collection_extract() |>
-    sf::st_cast("POLYGON",warn = FALSE) |>
-    sf::st_make_valid()|>
-    dplyr::mutate(BEUMC_S1 = "LL")
-  merge_lakes_diff <- sf::st_difference(vrixl, sf::st_union(sf::st_geometry(lakes))) |>
-    sf::st_make_valid() |>
-    sf::st_collection_extract() |>
-    sf::st_cast("POLYGON", warn = FALSE) |>
-    sf::st_make_valid()
-  vrixl <- dplyr::bind_rows(merge_lakes_intersection,merge_lakes_diff)
+  vrixl <- merge_geometry(vrixl, lakes, tolerance = units::as_units(10, "m2"), label = list(BEUMC_S1 = "LL"))
 
   #merge wetlands on large VRI polygons
-  merge_wetlands_intersection <- sf::st_intersection(vrixl, wetlands) |>
-    sf::st_make_valid() |>
-    sf::st_collection_extract() |>
-    sf::st_cast("POLYGON",warn=FALSE) |>
-    sf::st_make_valid() |>
-    dplyr::mutate(BEUMC_S1 = "WL")
-  merge_wetlands_diff <- sf::st_difference(vrixl, sf::st_union(sf::st_geometry(wetlands))) |>
-    sf::st_make_valid() |>
-    sf::st_collection_extract() |>
-    sf::st_cast("POLYGON", warn = FALSE) |>
-    sf::st_make_valid()
-  vrixl <- dplyr::bind_rows(merge_wetlands_intersection,merge_wetlands_diff)
+  vrixl <- merge_geometry(vrixl, wetlands, tolerance = units::as_units(10, "m2"), label = list(BEUMC_S1 = "WL"))
 
   #bind VRI categories
   vrixl_merge <- vrixl |>
