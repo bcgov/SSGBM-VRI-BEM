@@ -168,5 +168,5 @@ data.table::set(export_dt, j = "MURAR_SFD_6C", value = MURAR_SFD_6C[[1]]$RATING)
 
 # PA scripts-convert
 vri_bem <- readRDS("../SSGBM-VRI-BEM-data/vri_bem_step5.rds")
-disturbance <- "../SSGBM-VRI-BEM-data/Q12024/Disturbance" |> sf::st_read() |> sf::st_transform(3005)
-d <- depth_calculations(vri_bem, disturbance)
+disturbance <- "../SSGBM-VRI-BEM-data/Q12024/Disturbance"
+ewh1 <- pa_Shelter_EWH(vri_bem, disturbance)

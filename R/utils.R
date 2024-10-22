@@ -15,7 +15,7 @@ rename_geometry <- function(g, name){
 #'
 #' Performs a Union merge between y attributes on x features
 #'
-#' @param x sf object 
+#' @param x sf object
 #' @param y sf object
 #' @return sf object that represent the intersections of x and y
 #' @export
@@ -32,7 +32,7 @@ merge_geometry <- function(x, y, tolerance = units::as_units("100 m2"), label = 
   if (!nrow(y)) {
     return(x |> sanitize_geometry(tolerance))
   }
-      
+
   sf::st_agr(x) <- "constant"
   sf::st_agr(y) <- "constant"
 
@@ -101,7 +101,7 @@ erase_geometry <- function(target, erase) {
   if (Sys.info()[["sysname"]] == "Windows") {
     erased <- lapply(idx, function(i) sf:::CPL_geos_op2("difference", tg[i], sf::st_union(eg[intersections[[i]]])))
   } else {
-    erased <- parallel::mclapply(idx, 
+    erased <- parallel::mclapply(idx,
       function(i) {
         res <- sf::st_sfc(sf:::CPL_geos_op2("difference", tg[i], sf::st_union(eg[intersections[[i]]])))
         if (!length(res)) res <- empty_g
@@ -146,7 +146,7 @@ match_labels <- function(x, y) {
 
 
 #' Rasterize an sf object
-#' 
+#'
 #' @param x sf object
 #' @param crs Target crs
 #' @param resolution Target resolution as unit.
@@ -156,7 +156,7 @@ match_labels <- function(x, y) {
 #' The values are recycled to `nrow(x)`.
 #' @param background numeric. Value to put in the cells that are not covered by any
 #' of the features of `x`. Default is `NA`.
-#' @param ... 
+#' @param ...
 #' @export
 rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"), extent = terra::ext(159587.5, 1881187.5, 173787.5, 1748187.5), field = 1, background = 0, ...) {
 
@@ -174,4 +174,48 @@ rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"),
 
   return(terra::rasterize(x, y, field = field, background = background))
 
+}
+
+#' @noRd
+winos <- function() {
+  isTRUE(Sys.info()["sysname"] == "Windows")
+}
+
+#' @noRd
+multicpu <- function() {
+  isTRUE(getOption("SSGBM.VRI.BEM.use.parallel", TRUE))
+}
+
+#' @importFrom future plan multisession
+#' @importFrom parallel mclapply detectCores
+#' @importFrom future.apply future_lapply
+#' @noRd
+parlapply <- function() {
+  if (!multicpu()) {
+    lapply
+  } else if (winos()) {
+    options("future.rng.onMisuse" = "ignore")
+    future::plan(future::multisession, workers = parallel::detectCores())
+    future.apply::future_lapply
+  } else {
+    options("mc.cores" = parallel::detectCores())
+    parallel::mclapply
+  }
+}
+
+#' @importFrom future plan multisession
+#' @importFrom parallel mcmapply
+#' @importFrom future.apply future_mapply
+#' @noRd
+parmapply <- function() {
+  if (!multicpu()) {
+    mapply
+  } else if (winos()) {
+    options("future.rng.onMisuse" = "ignore")
+    future::plan(future::multisession, workers = parallel::detectCores())
+    future.apply::future_mapply
+  } else {
+    options("mc.cores" = parallel::detectCores())
+    parallel::mcmapply
+  }
 }

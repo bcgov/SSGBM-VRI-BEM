@@ -1,11 +1,11 @@
 #' Disturbance around shelter
-#' 
+#'
 #' @param shelter vri-bem sf object.
 #' @param disturbance sf object
 #' @param depth unit
 #' @param rasterize A logical. Should the results be rasterized.
-#' @param ... 
-depth_calculations <- function(shelter, disturbance, depth = units::as_units("400 m"), rasterize = TRUE, ...) {
+#' @param ...
+pa_Shelter_EWH <- function(shelter, disturbance, depth = units::as_units("400 m")) {
 
   # Check that input feature classes exist
 
@@ -13,40 +13,32 @@ depth_calculations <- function(shelter, disturbance, depth = units::as_units("40
     logger::log_error("**** Specified shelter polygon feature class does not contain required field W_Shelter_1.")
   }
 
+  threshold <- (depth^2L) * 0.66 # To account for difference between a polygon and a raster
+
   Shelter_EWH <- shelter[shelter$W_Shelter_1 == 1, "W_Shelter_1"] |> # Select shelter polygon
     sf::st_union() |> # combine intersecting shelters polygons
     sf::st_cast("POLYGON", warn = FALSE) # recast to single polygons
 
   # Select shelters with a greater than depth^2 area
-  Shelter_EWH_Intact <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= depth^2L),]
+  Shelter_EWH <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= threshold),]
 
   # If linear disturbance are provided, remove from shelters (assuming pre buffered)
   if (!missing(disturbance)) {
     # If a path is provided, read it
     if (inherits(disturbance, "character") && file.exists(disturbance)) {
       disturbance <- sf::read_sf(disturbance)
+      if (sf::st_crs(disturbance) != sf::st_crs(sf::st_sfc(crs = 3005))) {
+        disturbance <- disturbance |> sf::st_transform(3005)
+      }
     }
     # Remove disturbance geometry from shelter polygons
-    Shelter_EWH <- albers_polys_op(Shelter_EWH_Intact, disturbance, "difference")
+    Shelter_EWH <- albers_polys_op(Shelter_EWH, disturbance, "difference")
     # Select shelters with a greater than depth^2 area
-    Shelter_EWH <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= depth^2L),]
+    Shelter_EWH <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= threshold),]
   }
 
-  # Rasterize parameter
-  if (isTRUE(rasterize)) {
-    f <- rasterize_sf
-  } else {
-    f <- \(x, ...) identity(x)
-  }
+  return(Shelter_EWH)
 
-  # Return a structure
-  structure(
-    list(
-      "Shelter_EWH" = Shelter_EWH |> f(...),
-      "Shelter_EWH_Intact" = Shelter_EWH_Intact |> f(...)
-    ),
-    depth = depth
-  )
 }
 
 static_within_from_shelter <- function(shelter, static_forage = shelter, AOI_WMUs_6, dist = units::as_units("100 m")) {
@@ -65,7 +57,7 @@ static_within_from_shelter <- function(shelter, static_forage = shelter, AOI_WMU
   intersecting <- shelters |>
     sf::st_buffer(dist = dist) |> # Buffer with dist
     albers_polys_op(shelters, "difference") |> # Create dist band around shelters
-    albers_polys_op(static_forage, "intersect") |> # Compute intersecting
+    albers_polys_op(static_forage, "intersection") |> # Compute intersecting
     terra::vect() # Turn into terra vect
 
   aoi6_r <- terra::rast(AOI_WMUs_6)
@@ -78,7 +70,7 @@ static_within_from_shelter <- function(shelter, static_forage = shelter, AOI_WMU
 albers_polys_op <- function(x, y, op) {
 
   res <- sf::st_sfc(crs = 3005) # Results set
-  quickreturn <- switch(op, "difference" = x, "intersect" = res)
+  quickreturn <- switch(op, "difference" = x, "intersection" = res)
 
   x <- sf::st_geometry(x) # Extract x geometry
   if (!length(x)) return(quickreturn) # Return if empty
@@ -90,11 +82,11 @@ albers_polys_op <- function(x, y, op) {
   # Compute intersects
   inter <- sf:::CPL_geos_binop(x, y, "intersects", pattern = NA_character_, prepared = TRUE)
 
-  # Loop on x
-  for (i in seq_along(x)) {
-    idx <- inter[[i]] # get indexes
+  algo <- function(i, inter, x, y, ...) {
+    res <- sf::st_sfc(crs = 3005)
+    idx <- inter[[i]]
+    x1 <- x[i]
     if (length(idx) > 0L) {
-      x1 <- x[i]
       area_y <- y[idx]
       new_geo <- sf:::CPL_geos_union(area_y) |> # Combine y intersecting polys
         sf::st_sfc(crs = 3005) |> # reclass to sfc
@@ -105,8 +97,13 @@ albers_polys_op <- function(x, y, op) {
       if (length(new_geo)) {
         res <- c(res, new_geo) # Append to results set
       }
+    } else if (op %in% "difference") {
+      res <- c(res, x1)
     }
+    return(res)
   }
+
+  res <- do.call(c, parlapply()(seq_along(x), algo, inter = inter, x = x, y = y, future.envir  = new.env()))
 
   return(res)
 
