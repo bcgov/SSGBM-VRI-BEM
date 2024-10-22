@@ -21,7 +21,6 @@
 #'
 #' @import data.table
 #' @importFrom terra extract terrain `add<-` vect
-#' @importFrom parallel mclapply detectCores
 #' @export
 #'
 merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_threshold = 1500, terrain_raster = NULL) { #elevation threshold 1500 for moose
@@ -50,7 +49,7 @@ merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_thresho
 
   felev <- function(i) {
     constant1 <- 57.29578 / 90 * 100
-    setDT(
+    data.table::setDT(
       terra::extract(
         terrain_raster,
         terra::vect(vg[i]),
@@ -80,17 +79,17 @@ merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_thresho
       data.table::rbindlist(use.names = TRUE, fill = TRUE)
   }
 
-  setDT(vri_bem)
+  data.table::setDT(vri_bem)
 
   # Merge info into VRI-BEM ----
   for (variable in c("ELEV", "MEAN_SLOPE", "MEAN_ASP")) {
     # remove variables if they already exist in vri_bem
     if (!is.null(vri_bem[[variable]])){
-      set(vri_bem, j = variable, value = NULL)
+      data.table::set(vri_bem, j = variable, value = NULL)
     }
 
     # Add variables to vri_bem
-    set(vri_bem, i = mean_raster_by_vri_bem[["vri_bem_index"]], j = variable, value = mean_raster_by_vri_bem[[variable]])
+    data.table::set(vri_bem, i = mean_raster_by_vri_bem[["vri_bem_index"]], j = variable, value = mean_raster_by_vri_bem[[variable]])
   }
 
   which_no_elev <- which(is.na(vri_bem[["ELEV"]]))

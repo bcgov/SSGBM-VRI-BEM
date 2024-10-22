@@ -156,7 +156,7 @@ match_labels <- function(x, y) {
 #' The values are recycled to `nrow(x)`.
 #' @param background numeric. Value to put in the cells that are not covered by any
 #' of the features of `x`. Default is `NA`.
-#' @param ...
+#' @param ... Not used.
 #' @export
 rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"), extent = terra::ext(159587.5, 1881187.5, 173787.5, 1748187.5), field = 1, background = 0, ...) {
 
@@ -173,6 +173,49 @@ rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"),
   x <- terra::vect(x)
 
   return(terra::rasterize(x, y, field = field, background = background))
+
+}
+
+#' @noRd
+albers_polys_op <- function(x, y, op) {
+
+  res <- sf::st_sfc(crs = 3005) # Results set
+  quickreturn <- switch(op, "difference" = x, "intersection" = res)
+
+  x <- sf::st_geometry(x) # Extract x geometry
+  if (!length(x)) return(quickreturn) # Return if empty
+  y <- sf::st_geometry(y) |> # Extract y geometry
+    sf::st_cast("POLYGON", warn = FALSE) |> # Recast to POLYGON
+    sf::st_crop(sf::st_bbox(x)) # Crop to x bbox to reduce compute area
+  if (!length(y)) return(quickreturn) # Return if empty
+
+  # Compute intersects
+  inter <- sf:::CPL_geos_binop(x, y, "intersects", pattern = NA_character_, prepared = TRUE)
+
+  algo <- function(i, inter, x, y, ...) {
+    res <- sf::st_sfc(crs = 3005)
+    idx <- inter[[i]]
+    x1 <- x[i]
+    if (length(idx) > 0L) {
+      area_y <- y[idx]
+      new_geo <- sf:::CPL_geos_union(area_y) |> # Combine y intersecting polys
+        sf::st_sfc(crs = 3005) |> # reclass to sfc
+        sf::st_crop(sf::st_bbox(x1)) |>  # Crop to x1 bbox to reduce compute area
+        sf:::CPL_geos_op2(op, x1, sfcy = _) |> # Compute op
+        sf::st_sfc(crs = 3005) |> # reclass to sfc
+        sf::st_cast("POLYGON") # Recast to POLYGON
+      if (length(new_geo)) {
+        res <- c(res, new_geo) # Append to results set
+      }
+    } else if (op %in% "difference") {
+      res <- c(res, x1)
+    }
+    return(res)
+  }
+
+  res <- do.call(c, parlapply()(seq_along(x), algo, inter = inter, x = x, y = y, future.envir  = new.env()))
+
+  return(res)
 
 }
 

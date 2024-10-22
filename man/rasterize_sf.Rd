@@ -30,7 +30,7 @@ The values are recycled to \code{nrow(x)}.}
 \item{background}{numeric. Value to put in the cells that are not covered by any
 of the features of \code{x}. Default is \code{NA}.}
 
-\item{...}{}
+\item{...}{Not used.}
 }
 \description{
 Rasterize an sf object
