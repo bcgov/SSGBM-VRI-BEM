@@ -1,9 +1,12 @@
-# disturbance <- "../SSGBM-VRI-BEM-data/Q12024/Disturbance" |> sf::st_read()
-# vri_bem <- readRDS("../SSGBM-VRI-BEM-data/vri_bem_step5.rds")
-
-###############
-
-depth_calculations <- function(shelter, disturbance, depth = units::as_units("400 m"), rasterize = TRUE, ...) {
+#' Effective Winter Habitat with or without disturbance
+#'
+#' @param shelter vri-bem sf object.
+#' @param disturbance sf object
+#' @param dist unit
+#' @param rasterize A logical. Should the results be rasterized.
+#' @rdname pa
+#' @export
+pa_Shelter_EWH <- function(shelter, disturbance, dist = units::as_units("400 m")) {
 
   # Check that input feature classes exist
 
@@ -11,43 +14,41 @@ depth_calculations <- function(shelter, disturbance, depth = units::as_units("40
     logger::log_error("**** Specified shelter polygon feature class does not contain required field W_Shelter_1.")
   }
 
+  threshold <- (dist^2L) * 0.66 # To account for difference between a polygon and a raster
+
   Shelter_EWH <- shelter[shelter$W_Shelter_1 == 1, "W_Shelter_1"] |> # Select shelter polygon
     sf::st_union() |> # combine intersecting shelters polygons
     sf::st_cast("POLYGON", warn = FALSE) # recast to single polygons
 
-  # Select shelters with a greater than depth^2 area
-  Shelter_EWH_Intact <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= depth^2L),]
+  # Select shelters with a greater than threshold
+  Shelter_EWH <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= threshold), ]
 
   # If linear disturbance are provided, remove from shelters (assuming pre buffered)
   if (!missing(disturbance)) {
     # If a path is provided, read it
     if (inherits(disturbance, "character") && file.exists(disturbance)) {
       disturbance <- sf::read_sf(disturbance)
+      if (sf::st_crs(disturbance) != sf::st_crs(sf::st_sfc(crs = 3005))) {
+        disturbance <- disturbance |> sf::st_transform(3005)
+      }
     }
     # Remove disturbance geometry from shelter polygons
-    Shelter_EWH <- albers_polys_op(Shelter_EWH_Intact, disturbance, "difference")
-    # Select shelters with a greater than depth^2 area
-    Shelter_EWH <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= depth^2L),]
+    Shelter_EWH <- albers_polys_op(Shelter_EWH, disturbance, "difference")
+    # Select shelters with a greater than threshold
+    Shelter_EWH <- Shelter_EWH[which(sf::st_area(Shelter_EWH) >= threshold),]
   }
 
-  # Rasterize parameter
-  if (isTRUE(rasterize)) {
-    f <- rasterize_sf
-  } else {
-    f <- \(x, ...) identity(x)
-  }
+  return(Shelter_EWH)
 
-  # Return a structure
-  structure(
-    list(
-      "Shelter_EWH" = Shelter_EWH |> f(...),
-      "Shelter_EWH_Intact" = Shelter_EWH_Intact |> f(...)
-    ),
-    depth = depth
-  )
 }
 
-static_within_from_shelter <- function(shelter, static_forage = shelter, AOI_WMUs_6, dist = units::as_units("100 m")) {
+#' Static forage within distance from shelters
+#'
+#' @param AOI_WMUs_6 sf object
+#' @param static_forage sf object
+#' @rdname pa
+#' @export
+pa_Shelter_WFD <- function(shelter, static_forage = shelter, AOI_WMUs_6, dist = units::as_units("500 m")) {
 
   if (!"W_Shelter_1" %in% names(shelter)) {
     logger::log_error("**** Specified shelter polygon feature class does not contain required field W_Shelter_1.")
@@ -57,73 +58,39 @@ static_within_from_shelter <- function(shelter, static_forage = shelter, AOI_WMU
     logger::log_error("**** Specified static forage polygon feature class does not contain required field Static_WFD_All.")
   }
 
-  shelters <- shelter[shelter$W_Shelter_1 == 1, "W_Shelter_1"] # Select W_Shelter_1 == 1
-  static_forage <- static_forage[static_forage$Static_WFD_All == 1, "Static_WFD_All"]
+  shelters <- shelter[shelter$W_Shelter_1 == 1, "W_Shelter_1"] |> sf::st_geometry() # Select W_Shelter_1 == 1
+  static_forage <- static_forage[static_forage$Static_WFD_All == 1, "Static_WFD_All"] |> sf::st_geometry()
 
-  intersecting <- shelters |>
+  Shelter_WFD <- shelters |>
     sf::st_buffer(dist = dist) |> # Buffer with dist
     albers_polys_op(shelters, "difference") |> # Create dist band around shelters
-    albers_polys_op(static_forage, "intersect") |> # Compute intersecting
-    terra::vect() # Turn into terra vect
+    albers_polys_op(static_forage, "intersection") |> # Compute intersecting
+    albers_polys_op(AOI_WMUs_6, "intersection") # Compute intersecting
 
-  aoi6_r <- terra::rast(AOI_WMUs_6)
-
-  # TODO: Continue. Intersect rast ...
-  terra::rasterize(intersecting, aoi6_r, field = 1, background = 0)
+  return(Shelter_WFD)
 
 }
 
-albers_polys_op <- function(x, y, op) {
+#' Dash security distance
+#'
+#' @rdname pa
+#' @export
+pa_dash_security <- function(shelter, AOI_WMUs_6, dist = units::as_units("100 m")) {
 
-  res <- sf::st_sfc(crs = albers) # Results set
-  quickreturn <- switch(op, "difference" = x, "intersection" = res)
-
-  x <- sf::st_geometry(x) # Extract x geometry
-  if (!length(x)) return(quickreturn) # Return if empty
-  y <- sf::st_geometry(y) |> # Extract y geometry
-    sf::st_cast("POLYGON", warn = FALSE) |> # Recast to POLYGON
-    sf::st_crop(sf::st_bbox(x)) # Crop to x bbox to reduce compute area
-  if (!length(y)) return(quickreturn) # Return if empty
-
-  # Compute intersects
-  inter <- sf:::CPL_geos_binop(x, y, "intersects", pattern = NA_character_, prepared = TRUE)
-
-  # Loop on x
-  for (i in seq_len(length(x))) {
-    idx <- inter[[i]] # get indexes
-    if (length(idx) > 0L) {
-      x1 <- x[i]
-      area_y <- y[idx]
-      new_geo <- sf:::CPL_geos_union(area_y) |> # Combine y intersecting polys
-        sf::st_sfc(crs = albers) |> # reclass to sfc
-        sf::st_crop(sf::st_bbox(x1)) |>  # Crop to x1 bbox to reduce compute area
-        sf:::CPL_geos_op2(op, x1, sfcy = _) |> # Compute op
-        sf::st_sfc(crs = albers) |> # reclass to sfc
-        sf::st_cast("POLYGON") # Recast to POLYGON
-      if (length(new_geo)) {
-        res <- c(res, new_geo) # Append to results set
-      }
+  for (f in c("W_Shelter_1", "Dynamic_WFD_All", "Security_1")) {
+    if (!f %in% names(shelter)) {
+      logger::log_error("**** Specified shelter polygon feature class does not contain required field `%s`." |> sprintf(f))
     }
   }
 
-  return(res)
+  security <- shelter[shelter$Security_1 == 1, "Security_1"] |> sf::st_geometry()
+  dymamic_forage <- shelter[shelter$Dynamic_WFD_All == 1, "Dynamic_WFD_All"] |> sf::st_geometry()
 
-}
+  dash_security <- security |>
+    sf::st_buffer(dist = dist) |> # Buffer with dist
+    albers_polys_op(dymamic_forage, "intersection") |> # Compute intersecting
+    albers_polys_op(AOI_WMUs_6, "intersection") # Compute intersecting
 
-rasterize_sf <- function(x, crs = albers, resolution = units::as_units("100 m"), extent = terra::ext(159587.5, 1881187.5, 173787.5, 1748187.5), field = 1, background = 0, ...) {
-
-  ## Smaller extent
-  # extent = terra::ext(1020387.5, 1030387.5, 960987.5, 970987.5)
-  ## Full extents would be "159587.5, 1881187.5, 173787.5, 1748187.5"
-
-  y <- terra::rast(
-    crs = crs,
-    resolution = resolution,
-    extent = extent
-  )
-
-  x <- terra::vect(x)
-
-  return(terra::rasterize(x, y, field = field, background = background))
+  return(dash_security)
 
 }

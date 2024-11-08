@@ -45,7 +45,7 @@ correct_small_lakes <- function (vri_bem, lakes){
     sf::st_make_valid()
 
   vri_bem <- dplyr::bind_rows(vri_known_lakes, vri_lakes_intersect,vri_lakes_diff) |>
-    bcmaps::transform_bc_albers() |>
+    sf::st_transform(3005) |>
     {\(x) {dplyr::filter(x, st_geometry_type(x) %in% c("POLYGON","MULTIPOLYGON"))}}() |>
     sf::st_cast("POLYGON",warn=FALSE)
 
