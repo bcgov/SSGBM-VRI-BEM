@@ -454,8 +454,8 @@ rrm_calc_ratings <- function(rrm_input, template, rsi_source, output = c("value/
   }
 
   rating <- function(x) {
-    b <- c(-Inf,0,5,25,50,75,Inf) * 100000000
-    7L - cut(x * 10000000000, breaks = b) |> as.integer()
+    b <- c(-Inf, 0, 0.05, 0.25, 0.5, 0.75, Inf)
+    cut(signif(x,digits=3), breaks = b,labels = c(6,5,4,3,2,1), right = TRUE) |> as.character() |> as.integer()
   }
 
   res <- list()
