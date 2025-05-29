@@ -37,7 +37,7 @@
 calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
 
   if (FALSE) {
-    HARVEST_YEAR<-PROJ_AGE_1<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
+    MRSRD_Y<-PROJ_AGE_1<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
   }
 
     # use data.table for fast data manipulation
@@ -46,12 +46,17 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
   setDT(vri_bem)
 
   # if proj_age_1 is empty the year of harvest date and most_recent_harvest_year to compute the projected age
-  # the VRI layer (PROJ_AGE_1) is more out-of-date than the CCB (HARVEST_YEAR), so in all cases where HARVEST_YEAR is not NA, it should be used to calculate polygon age. When HARVEST_YEAR is NA, PROJ_AGE_1 should retain its initial value
+  # Updated to incorporate Forest Disturbance Layer, where MRSRD_Y is the year of the most recent stand replacing disturbance
+  # Which includes burns (moderate and severe), logging, and pine beetle above 80% (see MRSRD_A)
+  # From Moose CEF team
 
   #make sure PROJ_AGE is numeric
   vri_bem[, PROJ_AGE_1 := as.numeric(PROJ_AGE_1)]
 
-  vri_bem[!is.na(HARVEST_YEAR), PROJ_AGE_1 := most_recent_harvest_year - HARVEST_YEAR]
+  #make sure MRSRD_Y is numeric
+  vri_bem[, MRSRD_Y := as.numeric(MRSRD_Y)]
+
+  vri_bem[!is.na(MRSRD_Y), PROJ_AGE_1 := most_recent_harvest_year - MRSRD_Y]
 
   # create variable for structural stage look up
   vri_bem[ , VRI_AGE_CL_STS := fcase(PROJ_AGE_1 < 0, -1,
