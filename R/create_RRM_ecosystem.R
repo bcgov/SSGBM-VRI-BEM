@@ -465,3 +465,62 @@ create_RRM_ecosystem_bear <- function(vri_bem){
 
 }
 
+#' Create RRM ecosystem information for huckleberry
+#'
+#' This function generates a unique list of ecosystems based on select huckleberry habitat characteristics.
+#' It only includes existing (not potential) ecosystems
+#'
+#' @param vri_bem VRI-BEM feature class
+#' @details
+#' For each of the following combination compute the sum of the area
+#'   * ECO_SEC
+#'   * BGC_ZONE
+#'   * BGC_SUBZON
+#'   * BGC_VRT
+#'   * BGC_PHASE
+#'   * HUCK_ASP
+#'   * HUCK_ELEV_Thold
+#'   * CROWN_ALL (CROWN_ALL_1, CROWN_ALL_2, CROWN_ALL_3)
+#'   * STRCT (STRCT_S1, STRCT_S2, STRCT_S3)
+#'   * STAND (STAND_A1, STAND_A2, STAND_A3)
+#'   * FORESTED (FORESTED_1, FORESTED_2, FORESTED_3)
+#'
+#'
+#' @return Summary of Area by unique ecosystem
+#' @import data.table
+#' @export
+
+create_RRM_ecosystem_huckleberry <- function(vri_bem){
+
+  if (FALSE) {
+    .<-ABOVE_ELEV_THOLD<-area_sum<-BEUMC<-BEUMC_S1<-BEUMC_S2<-BEUMC_S3<-BGC_PHASE<-BGC_SUBZON<-
+      BGC_VRT<-BGC_ZONE<-CROWN_ALL<-CROWN_ALL_1<-CROWN_ALL_2<-CROWN_ALL_3<-ECO_SEC<-FORESTED<-
+      FORESTED_1<-FORESTED_2<-FORESTED_3<-projection<-Salmon<-SDEC_1<-SDEC_2<-SDEC_3<-Shape_Area<-
+      SITE_M3A<-SLOPE_MOD<-SNOW_CODE<-STAND<-HUCK_ASP<-HUCK_ELEV_Thold<-NULL
+  }
+
+  #Update Shape_Area for accurate measurement of polygon area
+  vri_bem <- dplyr::mutate(vri_bem, Shape_Area = as.numeric(sf::st_area(vri_bem)))
+
+  bem_dt <- as.data.table(vri_bem)
+
+  summ_area <- rbind(
+    bem_dt[SDEC_1 > 0 & !is.na(BEUMC_S1) & !is.na(FORESTED_1), .(area_sum = sum(Shape_Area*SDEC_1/10), projection = FALSE),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, HUCK_ASP, HUCK_ELEV_Thold,
+                     CROWN_ALL = CROWN_ALL_1, STRCT = STRCT_S1, STAND = STAND_A1, FORESTED = FORESTED_1)],
+
+    bem_dt[SDEC_2 > 0 & !is.na(BEUMC_S2) & !is.na(FORESTED_2), .(area_sum = sum(Shape_Area*SDEC_2/10), projection = FALSE),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, HUCK_ASP, HUCK_ELEV_Thold,
+                     CROWN_ALL = CROWN_ALL_2, STRCT = STRCT_S2, STAND = STAND_A2, FORESTED = FORESTED_2)],
+
+    bem_dt[SDEC_3 > 0 & !is.na(BEUMC_S3) & !is.na(FORESTED_3), .(area_sum = sum(Shape_Area*SDEC_3/10), projection = FALSE),
+           by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, HUCK_ASP, HUCK_ELEV_Thold,
+                     CROWN_ALL = CROWN_ALL_3, STRCT = STRCT_S3, STAND = STAND_A3, FORESTED = FORESTED_3)])
+
+  summ_area[(projection) & STAND %in% c("B", "C", "M") & !STRCT %in% c("4", "5", "6", "7"), STAND := NA_character_]
+
+  summ_area[, .(Hectares = (sum(area_sum)/10000)),
+            by = list(ECO_SEC, BGC_ZONE, BGC_SUBZON, BGC_VRT, BGC_PHASE, HUCK_ASP, HUCK_ELEV_Thold,
+                      CROWN_ALL, STRCT, STAND, FORESTED)]
+
+}
