@@ -393,60 +393,8 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
                              "**** DECILE TOTAL ", SDEC_1, "+", SDEC_2, "+", SDEC_3, "=", DEC_Total),
            row_updated = TRUE)]
 
-  # bgc subzone and beu mapcode
-
-   set(vri_bem, j = "merge_key", value = paste0(vri_bem[["BGC_ZONE"]], vri_bem[["BGC_SUBZON"]]))
-
-   # merge and change beu for decile 1
-
-   vri_bem[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S1 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
-
-   vri_bem[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S1 = change_to_beu,
-                                                                 lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " corrected to ", change_to_beu, " in decile 1"),
-                                                                 row_updated = TRUE)]
-
-   vri_bem[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 is invalid combination (mapper needs to assess)"),
-                                                                 row_updated = TRUE)]
-
-   vri_bem[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 combination is not listed"),
-                                                            row_updated = TRUE)]
-
-   # remove merged variables
-   set(vri_bem, j = c("script_rule", "change_to_beu"), value = NULL)
-
-
-   # merge and change beu for decile 2
-
-   vri_bem[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S2 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
-
-   vri_bem[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S2 = change_to_beu,
-                                                                 lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " corrected to ", change_to_beu, " in decile 2"),
-                                                                 row_updated = TRUE)]
-
-   vri_bem[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 is invalid combination (mapper needs to assess)"),
-                                                                 row_updated = TRUE)]
-
-   vri_bem[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 combination is not listed"),
-                                                            row_updated = TRUE)]
-
-   set(vri_bem, j = c("script_rule", "change_to_beu"), value = NULL)
-
-
-   # merge and change beu for decile 3
-
-   vri_bem[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S3 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
-
-   vri_bem[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S3 = change_to_beu,
-                                                                 lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " corrected to ", change_to_beu, " in decile 3"),
-                                                                 row_updated = TRUE)]
-
-   vri_bem[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 is invalid combination (mapper needs to assess)"),
-                                                                 row_updated = TRUE)]
-
-   vri_bem[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 combination is not listed"),
-                                                            row_updated = TRUE)]
-
-   set(vri_bem, j = c("script_rule", "change_to_beu"), value = NULL)
+  #Check for allowed BEC/BEU combinations
+  vri_bem <- check_allowed_bec_beu(vri_bem,beu_bec)
 
   # for all feature that intersect with rivers
   # SITE_M3A becomes "a"
@@ -593,3 +541,80 @@ remove_inadequate_wetlands <- function(ifc){
 }
 
 
+#' Check allowed BEC/BEU combinations
+#'
+#'This function uses a table of allowed BEC/BEU combinations and updates BEUs which are identified as mismatches.
+#
+#' @param vri_bem sf object that represent the combined vri & bem polygon feature class
+#' @param beu_bec data.table object of allowed BEC and BEM Code Combos
+#' @details
+#' This function checks all BEC/BEU combinations.
+#' In cases where BEUs are assigned to BEC units they can't occur in, they will be updated to the correct BEU.
+#' Note that mismatches may still occur if they aren't reflected in the allowed BEC/BEU code combos. Make sure to update regularly.
+#'
+#' @return sf object which contains adjusted map codes
+#' @import sf
+#' @import data.table
+#' @export
+
+check_allowed_bec_beu <- function(vri_bem, beu_bec) {
+
+  setDT(vri_bem)
+
+  # bgc subzone and beu mapcode
+
+  set(vri_bem, j = "merge_key", value = paste0(vri_bem[["BGC_ZONE"]], vri_bem[["BGC_SUBZON"]]))
+
+  # merge and change beu for decile 1
+
+  vri_bem[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S1 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
+
+  vri_bem[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S1 = change_to_beu,
+                                                                    lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " corrected to ", change_to_beu, " in decile 1"),
+                                                                    row_updated = TRUE)]
+
+  vri_bem[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 is invalid combination (mapper needs to assess)"),
+                                                                    row_updated = TRUE)]
+
+  vri_bem[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S1, " in decile 1 combination is not listed"),
+                                                               row_updated = TRUE)]
+
+  # remove merged variables
+  set(vri_bem, j = c("script_rule", "change_to_beu"), value = NULL)
+
+
+  # merge and change beu for decile 2
+
+  vri_bem[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S2 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
+
+  vri_bem[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S2 = change_to_beu,
+                                                                    lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " corrected to ", change_to_beu, " in decile 2"),
+                                                                    row_updated = TRUE)]
+
+  vri_bem[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 is invalid combination (mapper needs to assess)"),
+                                                                    row_updated = TRUE)]
+
+  vri_bem[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S2, " in decile 2 combination is not listed"),
+                                                               row_updated = TRUE)]
+
+  set(vri_bem, j = c("script_rule", "change_to_beu"), value = NULL)
+
+
+  # merge and change beu for decile 3
+
+  vri_bem[beu_bec, on = .(merge_key = `BGC Subzone`, BEUMC_S3 = `BEU_#`), `:=`(script_rule = `i.Script rule`, change_to_beu = `i.Change to BEU =`)]
+
+  vri_bem[script_rule == "Error" &  nchar(change_to_beu) == 2, `:=`(BEUMC_S3 = change_to_beu,
+                                                                    lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " corrected to ", change_to_beu, " in decile 3"),
+                                                                    row_updated = TRUE)]
+
+  vri_bem[script_rule == "Error" &  nchar(change_to_beu) != 2, `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 is invalid combination (mapper needs to assess)"),
+                                                                    row_updated = TRUE)]
+
+  vri_bem[script_rule == "Error" &  is.na(change_to_beu), `:=`(lbl_edit = paste0(lbl_edit, fifelse(lbl_edit == "", "", "; "), merge_key, " ", BEUMC_S3, " in decile 3 combination is not listed"),
+                                                               row_updated = TRUE)]
+
+  set(vri_bem, j = c("script_rule", "change_to_beu"), value = NULL)
+
+  return(vri_bem)
+}

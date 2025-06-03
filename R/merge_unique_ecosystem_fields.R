@@ -161,8 +161,13 @@ merge_unique_ecosystem_fields <- function(vri_bem, unique_ecosystem_dt) {
 
 
   vri_bem[, STRCT_S1 := fcase(VRI_AGE_CL_STS > 0, STS_AGE_1,
-                              FORESTED_1 == "N" | parkland_ind , STS_CLIMAX_1,
+                              FORESTED_1 == "N" | parkland_ind, STS_CLIMAX_1,
                               default = NA_character_)]
+
+    #Correct STRCT for shrub wetlands
+  vri_bem[, STRCT_S1 := fcase(BEUMC_S1 == "WL" & BCLCS_LV_2 != "W" & BCLCS_LV_3 == "W" & BCLCS_LV_4 %in% c("HE","HF","HG"),"2",
+                            default = STRCT_S1)]
+
 
   # TODO validate what format is are the struct_age_ and stand_Age variables in the csv (number or text)
   vri_bem[substr(STRCT_S1, start = 1, stop = 1) %in% c("4", "5", "6", "7","7a","7b") , #added 7a, b

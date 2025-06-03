@@ -36,7 +36,14 @@ merge_fire_perimeters <- function(vri_bem,fire_perimeter) {
       !is.na(intersect_area) ~ as.numeric(intersect_area/Shape_Area*100),
       .default = 0),
       most_recent_fire = FIRE_YEAR)|>
-    dplyr::select(-c("temp_id","intersect_area","FIRE_YEAR"))
+    dplyr::select(-c("temp_id","intersect_area","FIRE_YEAR")) |>
+    #ensure water polygons do not have fire ratings
+    dplyr::mutate(percent_burned = case_when(
+      BEUMC_S1 %in% c("OW","LL","LS") ~ 0,
+      .default = percent_burned),
+      most_recent_fire = case_when(
+        BEUMC_S1 %in% c("OW","LL","LS") ~ NA,
+        .default = most_recent_fire))
 
   return(vri_bem)
 }

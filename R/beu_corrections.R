@@ -19,13 +19,16 @@ correct_small_lakes <- function (vri_bem, lakes){
 
   lakes_presence <- lakes |>
     sf::st_cast("POLYGON") |>
+    st_make_valid()|>
     dplyr::mutate(lake = "Yes") |>
     dplyr::select(-(1:8))
 
   vri_known_lakes <- dplyr::filter(vri_bem, BEUMC_S1 %in% c("LS","LL","OW"))
 
-  vri_lakes_intersect <- dplyr::filter(vri_bem, !BEUMC_S1 %in% c("LS","LL","OW")) |>
-    sf::st_intersection(lakes_presence) |>
+  vri_no_lakes <- dplyr::filter(vri_bem, !BEUMC_S1 %in% c("LS","LL","OW")) |> st_make_valid()
+
+  vri_lakes_intersect <- sf::st_intersection(vri_no_lakes,lakes_presence) |>
+    sf::st_make_valid() |>
     {\(x) {dplyr::mutate(x, area = sf::st_area(x))}}() |>
     dplyr::mutate(BEUMC_S1 = dplyr::case_when(
       area < units::set_units(100000,"m^2") ~ "OW",
@@ -33,21 +36,25 @@ correct_small_lakes <- function (vri_bem, lakes){
       area > units::set_units(600000,"m^2") ~ "LL"),
       lbl_edit = dplyr::case_when(
         BEUMC_S1 %in% c("LS","LL","OW") ~ "Corrected with FWA Lakes polygons",
-        .default = lbl_edit)
-    ) |>
+        .default = lbl_edit),
+      across(contains("SPEC_CD"), ~ NA_character_),
+      across(contains("SPEC_PCT"), ~ NA_real_),
+      BCLCS_LV_1 = "N",
+      BCLCS_LV_2 = "W",
+      BCLCS_LV_3 = NA_character_,
+      BCLCS_LV_4 = NA_character_,
+      BCLCS_LV_5 = "LA") |>
     dplyr::select(-c(area,lake))
 
-  vri_lakes_diff <- dplyr::filter(vri_bem,!BEUMC_S1 %in% c("LS","LL","OW")) |>
-    sf::st_difference(sf::st_union(sf::st_geometry(lakes_presence))) |>
-    {\(x) {dplyr::filter(x, st_geometry_type(x) %in% c("POLYGON","MULTIPOLYGON"))}}() |>
-    sf::st_make_valid() |>
-    sf::st_cast("POLYGON", warn = FALSE) |>
-    sf::st_make_valid()
+  lakes_union <- sf::st_union(sf::st_geometry(lakes_presence))
 
-  vri_bem <- dplyr::bind_rows(vri_known_lakes, vri_lakes_intersect,vri_lakes_diff) |>
+  vri_lakes_diff <- sf::st_difference(vri_no_lakes, lakes_union) |>
+    sf::st_make_valid() |>
+    st_collection_extract("POLYGON")
+
+  vri_bem <- dplyr::bind_rows(vri_lakes_intersect,vri_lakes_diff,vri_known_lakes) |>
     sf::st_transform(3005) |>
-    {\(x) {dplyr::filter(x, st_geometry_type(x) %in% c("POLYGON","MULTIPOLYGON"))}}() |>
-    sf::st_cast("POLYGON",warn=FALSE)
+    st_collection_extract("POLYGON")
 
   #If OW, LS, LL, there should be no BEUMC_S2/S3 and SDEC_1 should be 10 for consistency with update_bem_from_vri
   #remove floodplain label for lakes

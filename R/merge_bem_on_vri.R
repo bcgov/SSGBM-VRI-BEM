@@ -14,7 +14,7 @@
 #' @import data.table
 #' @importFrom units set_units
 #' @export
-merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
+merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE,stop_if_dup = FALSE) {
 
   if (FALSE) {
     .<-area<-cell<-merge_bem_on_vri.data.<-TEIS_ID<-vri_area<-VRI_BEC_PHASE<-VRI_BEC_SUBZON<-
@@ -31,8 +31,10 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE) {
 
   # check if BEM contains duplicate TEIS_ID
   if (length(unique(bem$TEIS_ID)) < nrow(bem)) {
-    stop("Duplicate values of TEIS_ID found in `bem`.")
-  }
+    if(stop_if_dup == TRUE){
+         stop("Duplicate values of TEIS_ID found in `bem`.")
+      }
+    }
 
   # cast multipart polygon to singlepart
   vri <- st_cast(vri, "POLYGON", warn = F)

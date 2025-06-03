@@ -14,12 +14,12 @@ read_vri <- function(dsn = NULL, layer = "VEG_COMP_LYR_R1_POLY", wkt_filter = ch
 
   vri_record <- "2ebb35d8-c82f-4a17-9c96-612ac3532d55"
   vri_resources <- bcdata::bcdc_tidy_resources(vri_record)
-  vri_vars <- c("BCLCS_LEVEL_1","BCLCS_LEVEL_2","BCLCS_LEVEL_3","BCLCS_LEVEL_4","BCLCS_LEVEL_5",
+  vri_vars <- c("FEATURE_ID","BCLCS_LEVEL_1","BCLCS_LEVEL_2","BCLCS_LEVEL_3","BCLCS_LEVEL_4","BCLCS_LEVEL_5",
     "SPECIES_CD_1","SPECIES_CD_2","SPECIES_CD_3","SPECIES_CD_4","SPECIES_CD_5","SPECIES_CD_6",
     "SPECIES_PCT_1","SPECIES_PCT_2","SPECIES_PCT_3","SPECIES_PCT_4","SPECIES_PCT_5","SPECIES_PCT_6",
     "CROWN_CLOSURE","LAND_COVER_CLASS_CD_1","EST_COVERAGE_PCT_1","LINE_5_VEGETATION_COVER",
     "HARVEST_DATE","PROJ_AGE_1","SOIL_MOISTURE_REGIME_1","SOIL_NUTRIENT_REGIME","INVENTORY_STANDARD_CD",
-    "BEC_ZONE_CODE","BEC_SUBZONE","BEC_VARIANT","BEC_PHASE","REFERENCE_YEAR")
+    "BEC_ZONE_CODE","BEC_SUBZONE","BEC_VARIANT","BEC_PHASE","REFERENCE_YEAR","SITE_POSITION_MESO","SITE_INDEX","EST_SITE_INDEX")
 
   vri_query <- bcdata::bcdc_query_geodata(record = vri_record) |>
     bcdata::select(.include = vri_vars)
@@ -29,11 +29,11 @@ read_vri <- function(dsn = NULL, layer = "VEG_COMP_LYR_R1_POLY", wkt_filter = ch
   }
 
   collect <- number_of_records(vri_query) <= 50000L
-  
+
   if (!collect && is.null(dsn)) {
     dsn <- resolve_resource(vri_resources)
   }
-  
+
   if (collect) {
 
     rlang::with_options(
@@ -223,7 +223,7 @@ read_rivers <- function(dsn = NULL, layer = "FWA_RIVERS_POLY", wkt_filter = char
     }
 
   }
-  
+
   rivers <- rename_geometry(rivers, "GEOMETRY")
   #make shape valid because ARCGIS draw polygon differently than sf
   rivers$GEOMETRY <- sf::st_make_valid(rivers$GEOMETRY)
@@ -354,11 +354,11 @@ read_ccb <- function(dsn = NULL, layer = "Cut_Block_all_BC",  wkt_filter = chara
   }
 
   collect <- number_of_records(ccb_query) <= 10000L
-  
+
   if (!collect && is.null(dsn)) {
     dsn <- resolve_resource(ccb_resources)
   }
-    
+
   if (collect) {
 
     rlang::with_options(
@@ -367,7 +367,7 @@ read_ccb <- function(dsn = NULL, layer = "Cut_Block_all_BC",  wkt_filter = chara
     )
 
   } else {
-    
+
     ccb <- sf::st_read(
       dsn = dsn,
       quiet = TRUE,
@@ -531,7 +531,7 @@ read_tsa <- function(tsa_name, Skeena_boundary = TRUE){
   if (isTRUE(Skeena_boundary)) {
 
     rlang::with_options(
-      {    
+      {
         Skeena_aoi <- bcdata::bcdc_query_geodata(skeena_record) |>
           bcdata::filter(ORG_UNIT_NAME == "Skeena Natural Resource Region") |>
           bcdata::select(ORG_UNIT_NAME) |>
