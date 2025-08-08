@@ -36,7 +36,8 @@ amend_large_polygons <- function (vri_bem, glaciers, lakes, wetlands, bem){
     vri_bem_xl <- merge_bem_on_vri_xl(vrixl_merge, bem)
 
     #Remove XL polygons from initial VRI-BEM and replace with updated polygons
-    vri_bem_xl_diff <- erase_geometry(vri_bem, vri_bem_xl) |> sf::st_make_valid() |>
+    vri_bem_xl_diff <- erase_geometry(vri_bem, vri_bem_xl) |>
+      sf::st_make_valid() |>
       sf::st_collection_extract() |> sf::st_cast("POLYGON", warn = FALSE) |> sf::st_make_valid()
 
     #Make sure TEIS_ID is character
@@ -83,7 +84,7 @@ extract_large_polygons <- function (vri_bem) {
   vrixl <- polygon_dissolve |> dplyr::ungroup() |> {\(x) {dplyr::mutate(x, area = sf::st_area(x))}}() |>
     dplyr::filter(area > units::set_units(35000000, "m^2"))
 
-  return(vrixl)
+  return(st_collection_extract(vrixl,"POLYGON"))
 
 }
 
@@ -97,13 +98,13 @@ merge_extra_layers <- function(vrixl, glaciers, lakes, wetlands) {
   }
 
   #merge CEF glaciers and snow on large VRI polygons
-  vrixl <- merge_geometry(vrixl, glaciers, tolerance = units::as_units(10, "m2"), label = list(BEUMC_S1 = "GL"))
+  vrixl <- merge_geometry(vrixl, glaciers, tolerance = units::as_units(100, "m2"), label = list(BEUMC_S1 = "GL"))
 
   #merge lakes on large VRI polygons
-  vrixl <- merge_geometry(vrixl, lakes, tolerance = units::as_units(10, "m2"), label = list(BEUMC_S1 = "LL"))
+  vrixl <- merge_geometry(vrixl, lakes, tolerance = units::as_units(100, "m2"), label = list(BEUMC_S1 = "LL"))
 
   #merge wetlands on large VRI polygons
-  vrixl <- merge_geometry(vrixl, wetlands, tolerance = units::as_units(10, "m2"), label = list(BEUMC_S1 = "WL"))
+  vrixl <- merge_geometry(vrixl, wetlands, tolerance = units::as_units(100, "m2"), label = list(BEUMC_S1 = "WL"))
 
   #bind VRI categories
   vrixl_merge <- vrixl |>

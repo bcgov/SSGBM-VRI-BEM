@@ -94,9 +94,9 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
     set(vri_bem, i = which_na_list[[third_suit_var]], j = third_suit_var, value = 9)
 
     # calc best rating
-    fcase_expr <- parse_expr(paste0("fcase((",first_suit_var," <= ", second_suit_var, ") & (", first_suit_var, " <= ", third_suit_var, "), ", first_suit_var, ",
-                                            ", second_suit_var, " <= ", third_suit_var, ", ", second_suit_var, ",
-                                            ", third_suit_var, " <= ", second_suit_var, ", ", third_suit_var, ",
+    fcase_expr <- parse_expr(paste0("fcase((",first_suit_var," <= ", second_suit_var, ") & (", first_suit_var, " <= ", third_suit_var, "), as.numeric(", first_suit_var, "),
+                                            ", second_suit_var, " <= ", third_suit_var, ", as.numeric(", second_suit_var, "),
+                                            ", third_suit_var, " <= ", second_suit_var, ", as.numeric(", third_suit_var, "),
                                             default = NA)"))
     vri_bem[, (high_value_suit_var) := eval(fcase_expr)]
 
@@ -139,9 +139,9 @@ merge_rrm_on_vri <- function(vri_bem, rrm_dt, animal, return_sf = TRUE) {
     set(vri_bem, i = which_na_list[[third_cap_var]], j = third_cap_var, value = 9)
 
     # calc best rating
-    fcase_expr <- parse_expr(paste0("fcase((",first_cap_var," <= ", second_cap_var, ") & (", first_cap_var, " <= ", third_cap_var, "), ", first_cap_var, ",
-                                            ", second_cap_var, " <= ", third_cap_var, ", ", second_cap_var, ",
-                                            ", third_cap_var, " <= ", second_cap_var, ", ", third_cap_var, ",
+    fcase_expr <- parse_expr(paste0("fcase((",first_cap_var," <= ", second_cap_var, ") & (", first_cap_var, " <= ", third_cap_var, "), as.numeric(", first_cap_var, "),
+                                            ", second_cap_var, " <= ", third_cap_var, ", as.numeric(", second_cap_var, "),
+                                            ", third_cap_var, " <= ", second_cap_var, ", as.numeric(", third_cap_var, "),
                                             default = NA)"))
     vri_bem[, (high_value_cap_var) := eval(fcase_expr)]
 
