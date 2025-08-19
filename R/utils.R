@@ -36,17 +36,23 @@ merge_geometry <- function(x, y, tolerance = units::as_units("100 m2"), label = 
   sf::st_agr(x) <- "constant"
   sf::st_agr(y) <- "constant"
 
-  x_y_intersection <- sf::st_intersection(x, y) |>
-    sanitize_geometry(tolerance)
+  x_y_intersection <- sf::st_intersection(x, y)
+  if(nrow(x_y_intersection)==0){
+    x_y_intersection <- x[0,]
+  } else{
+    x_y_intersection <- sanitize_geometry(x_y_intersection,tolerance)
+  }
 
-  if (!is.null(label)) {
+  if (!is.null(label) && nrow(x_y_intersection)>0) {
     for (nm in names(label)) {
       x_y_intersection[[nm]] <- rep(label[[nm]], nrow(x_y_intersection))
     }
   }
 
-  x_y_diff <- erase_geometry(x, y) |>
-    sanitize_geometry(tolerance)
+  x_y_diff <- erase_geometry(x, y)
+  if(nrow(x_y_diff)>0){
+    x_y_diff <-sanitize_geometry(x_y_diff,tolerance)
+  }
 
   res <- dplyr::bind_rows(x_y_intersection, x_y_diff)
 
@@ -99,24 +105,48 @@ erase_geometry <- function(target, erase) {
   # Group overlapping erase polygons (could be run multi cpu to make it faster on Linux)
   empty_g <- sf::st_as_sfc("POLYGON EMPTY")
   if (Sys.info()[["sysname"]] == "Windows") {
-    erased <- lapply(idx, function(i) sf:::CPL_geos_op2("difference", tg[i], sf::st_union(eg[intersections[[i]]])))
+    erased <- lapply(idx, function(i) {
+      diff_result <- sf:::CPL_geos_op2("difference", tg[i], sf::st_union(eg[intersections[[i]]]))
+
+    sfc_result <- sf::st_sfc(diff_result,crs=crs)
+
+    cleaned <- sf::st_collection_extract(sfc_result,"POLYGON")
+
+    if(length(cleaned) == 0) {return(empty_g[[1]])}
+
+    return(sf::st_cast(cleaned,"MULTIPOLYGON")[[1]])
+    })
+
   } else {
     erased <- parallel::mclapply(idx,
       function(i) {
-        res <- sf::st_sfc(sf:::CPL_geos_op2("difference", tg[i], sf::st_union(eg[intersections[[i]]])))
-        if (!length(res)) res <- empty_g
-        return(res)
-      },
-      mc.cores = getOption("mc.cores", parallel::detectCores())
-    )
+        diff_result <- sf:::CPL_geos_op2("difference", tg[i], sf::st_union(eg[intersections[[i]]]))
+
+        sfc_result <- sf::st_sfc(diff_result,crs=crs)
+
+        cleaned <- sf::st_collection_extract(sfc_result,"POLYGON")
+
+        if(length(cleaned) == 0) {return(empty_g[[1]])}
+
+        return(sf::st_cast(cleaned,"MULTIPOLYGON")[[1]])},
+      mc.cores = getOption("mc.cores",parallel::detectCores()))
   }
 
-  outg <- list()
+  #Make sure output list has same # as original geometries
+  outg <- vector("list",length=length(tg))
   outg[idx] <- erased
-  outg[inv_idx] <- lapply(inv_idx, \(i) tg[i])
+  outg[inv_idx] <- tg[inv_idx]
 
-  res <- sf::st_set_geometry(target, sf::st_sfc(do.call(c, outg), crs = crs))
-  return(res[!sf::st_is_empty(res),])
+  new_geom <-sf::st_sfc(outg,crs=crs)
+
+  #Keep rows where geometry is not empty and matches new_geom length
+  non_empty_idx <-which(!sf::st_is_empty(new_geom))
+
+  res <- target[non_empty_idx, ,drop=FALSE]
+
+  sf::st_geometry(res) <- new_geom[non_empty_idx]
+
+  return(res)
 
 }
 
