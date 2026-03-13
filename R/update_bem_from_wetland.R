@@ -304,29 +304,34 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
     BEUMC_S3 = NA)]
 
   #correct cases where wetland has been attributed to both BEUMC_S1 and _S2 or _S3
+  #preserve original columns
+  vri_bem[,c("BEU_1","BEU_2","BEU_3","DEC_1","DEC_2","DEC_3") := .(BEUMC_S1,BEUMC_S2,BEUMC_S3,SDEC_1,SDEC_2,SDEC_3)]
+
   vri_bem[(BEUMC_S1 == BEUMC_S2) | (BEUMC_S1 == BEUMC_S3) | (BEUMC_S2 == BEUMC_S3),':='(
     BEUMC_S2 = case_when(
-      BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ NA_character_,
-      BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ BEUMC_S3,
-      .default = BEUMC_S2),
+      BEU_1 == BEU_2 & is.na(BEU_3) ~ NA_character_,
+      BEU_1 == BEU_2 & !is.na(BEU_3) ~ BEU_3,
+      .default = BEU_2),
     BEUMC_S3 = case_when(
-      BEUMC_S1 == BEUMC_S3 ~ NA_character_,
-      BEUMC_S2 == BEUMC_S3 ~ NA_character_,
+      BEU_1 == BEU_3 ~ NA_character_,
+      BEU_2 == BEU_3 ~ NA_character_,
       SDEC_3 == 0 ~ NA_character_,
-      .default = BEUMC_S3),
+      .default = BEU_3),
     SDEC_1 = case_when(
-      BEUMC_S1 == BEUMC_S2 ~ SDEC_1 + SDEC_2,
-      BEUMC_S1 == BEUMC_S3 ~ SDEC_1 + SDEC_3,
-      .default = SDEC_1),
+      BEU_1 == BEU_2 & is.na(BEU_3) ~ 10,
+      BEU_1 == BEU_2 & !is.na(BEU_3) ~ DEC_1 + DEC_2,
+      BEU_1 == BEU_3 & is.na(BEU_2) ~ 10,
+      BEU_1 == BEU_3 & !is.na(BEU_2) ~ DEC_1 + DEC_3,
+      .default = DEC_1),
     SDEC_2 = case_when(
-      BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ 0,
-      BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ SDEC_3,
-      .default = SDEC_2),
+      BEU_1 == BEU_2 & is.na(BEU_3) ~ 0,
+      BEU_1 == BEU_2 & !is.na(BEU_3) ~ DEC_3,
+      .default = DEC_2),
     SDEC_3 = case_when(
-      BEUMC_S1 == BEUMC_S2 | BEUMC_S1 == BEUMC_S3 |BEUMC_S2 == BEUMC_S3 ~ 0,
-      is.na(BEUMC_S3) ~ 0,
-      .default = SDEC_3)
-    )]
+      BEU_1 == BEU_2 | BEU_1 == BEU_3 |BEU_2 == BEU_3 ~ 0,
+      is.na(BEU_3) ~ 0,
+      .default = DEC_3)
+  )]
 
   # Riparian Mapcode adjustments (line 681) -----
 
@@ -352,6 +357,9 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   vri_bem[site_m3a_eq_a , SITE_M3A := "a"]
 
+  #preserve original columns
+  vri_bem[,c("BEU_1","BEU_2","BEU_3","DEC_1","DEC_2","DEC_3") := .(BEUMC_S1,BEUMC_S2,BEUMC_S3,SDEC_1,SDEC_2,SDEC_3)]
+
   vri_bem[,':='(
     BEUMC_S2 = case_when(
       SDEC_2 == 0 ~ NA_character_,
@@ -360,22 +368,22 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
       SDEC_3 == 0 ~ NA_character_,
       .default = BEUMC_S3),
     SDEC_1 = case_when(
-      is.na(BEUMC_S2) ~ SDEC_1 + SDEC_2,
-      is.na(BEUMC_S3) ~ SDEC_1 + SDEC_3,
+      is.na(BEUMC_S2) ~ DEC_1 + DEC_2,
+      is.na(BEUMC_S3) ~ DEC_1 + DEC_3,
       is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
-      .default = SDEC_1),
+      .default = DEC_1),
     SDEC_2 = case_when(
       is.na(BEUMC_S2) ~ 0,
-      .default = SDEC_2),
+      .default = DEC_2),
     SDEC_3 = case_when(
       is.na(BEUMC_S3) ~ 0,
-      .default = SDEC_3))]
+      .default = DEC_3))]
 
   # delete temp columns
   set(vri_bem, j = c("curr_wl_zone",
                      "curr_beu_code","Code_WL0", "Code_WL1", "Code_WL2", "Code_WL3",
                      "Code_WL4", "Code_WL5", "Code_WL6", "Code_WL7", "Code_WL8", "Code_WL10",
-                     "new_beu_code", "new_wl_zone"), value = NULL)
+                     "new_beu_code", "new_wl_zone","BEU_1","BEU_2","BEU_3","DEC_1","DEC_2","DEC_3"), value = NULL)
 
   return(st_as_sf(vri_bem))
 }
