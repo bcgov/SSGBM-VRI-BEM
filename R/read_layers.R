@@ -9,6 +9,7 @@
 #' @return sf object
 #' @import sf
 #' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select
+#' @importFrom wk as_wkt
 #' @export
 read_vri <- function(dsn = NULL, layer = "VEG_COMP_LYR_R1_POLY", wkt_filter = character(0)) {
 
@@ -23,6 +24,10 @@ read_vri <- function(dsn = NULL, layer = "VEG_COMP_LYR_R1_POLY", wkt_filter = ch
 
   vri_query <- bcdata::bcdc_query_geodata(record = vri_record) |>
     bcdata::select(.include = vri_vars)
+
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
 
   if(length(wkt_filter) > 0 ){
     vri_query <- vri_query |> bcdata::filter(local(bcdata::INTERSECTS(sf::st_as_sfc(wkt_filter))))
@@ -101,6 +106,10 @@ read_vri <- function(dsn = NULL, layer = "VEG_COMP_LYR_R1_POLY", wkt_filter = ch
 #' @export
 read_bem <- function(dsn, layer = "BEM", wkt_filter = character(0)) {
 
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
+
   bem <- sf::st_read(
     dsn = dsn,
     layer = layer,
@@ -141,6 +150,10 @@ read_bem <- function(dsn, layer = "BEM", wkt_filter = character(0)) {
 read_wetlands <- function(dsn = NULL, layer = "FWA_WETLANDS_POLY", wkt_filter = character(0)) {
 
   wetlands_record <- "93b413d8-1840-4770-9629-641d74bd1cc6"
+
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
 
   #If dsn is null read information from bcdata
   if (is.null(dsn)) {
@@ -194,6 +207,10 @@ read_rivers <- function(dsn = NULL, layer = "FWA_RIVERS_POLY", wkt_filter = char
 
   rivers_record <- "f7dac054-efbf-402f-ab62-6fc4b32a619e"
 
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
+
   if (is.null(dsn)) {
     rivers_query <- bcdata::bcdc_query_geodata(record = rivers_record) |>
       bcdata::select()
@@ -242,6 +259,10 @@ read_lakes <- function(dsn = NULL, layer = "FWA_LAKES_POLY", wkt_filter = charac
 
   lakes_record <- "cb1e3aba-d3fe-4de1-a2d4-b8b6650fb1f6"
 
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
+
   if (is.null(dsn)) {
     lakes_query <- bcdata::bcdc_query_geodata(record = lakes_record) |>
       bcdata::select()
@@ -289,6 +310,10 @@ read_lakes <- function(dsn = NULL, layer = "FWA_LAKES_POLY", wkt_filter = charac
 #' @export
 # from WHSE_BASEMAPPING.BTM_PRESENT_LAND_USE_V1_SVW, which CEF Human Disturbance 2021 BTM glaciers and snow is based on
 read_glaciers <- function(dsn = NULL, layer = "BTM_PLU_V1",  wkt_filter = character(0)) {
+
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
 
   glaciers_record <- "134fdc69-7b0c-4c50-b77c-e8f2553a1d40"
 
@@ -341,6 +366,10 @@ read_glaciers <- function(dsn = NULL, layer = "BTM_PLU_V1",  wkt_filter = charac
 #' @importFrom bcdata bcdc_query_geodata filter collect INTERSECTS select
 #' @export
 read_ccb <- function(dsn = NULL, layer = "Cut_Block_all_BC",  wkt_filter = character(0)) {
+
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
 
   ccb_record <- "b1b647a6-f271-42e0-9cd0-89ec24bce9f7"
   ccb_resources <- bcdata::bcdc_tidy_resources(ccb_record)
@@ -404,6 +433,10 @@ read_burn <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVER
   burn_record <- "c58a54e5-76b7-4921-94a7-b5998484e697"
   burn_vars <- "BURN_SEVERITY_RATING"
 
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
+
   if (is.null(dsn)) {
     burn_query <- bcdata::bcdc_query_geodata(record = burn_record) |>
       bcdata::filter(BURN_SEVERITY_RATING %in% c("High", "Low", "Medium")) |>
@@ -455,6 +488,10 @@ read_burn <- function(dsn = NULL, layer = "WHSE_FOREST_VEGETATION_VEG_BURN_SEVER
 read_fire <- function(dsn = NULL, layer = "WHSE_LAND_AND_NATURAL_RESOURCE.PROT_HISTORICAL_FIRE_POLYS_SP",  wkt_filter = character(0)) {
 
   fire_record <- "22c7cb44-1463-48f7-8e47-88857f207702"
+
+  if (!inherits(wkt_filter, "wk_wkt")) {
+    wkt_filter <- wk::as_wkt(wkt_filter)
+  }
 
   if (is.null(dsn)) {
     fire_query <- bcdata::bcdc_query_geodata(record = fire_record) |>
@@ -571,7 +608,7 @@ cache_dir <- function() {
 #' @rdname cache
 #' @export
 cache_remove <- function() {
-  unlink(cache_dir())
+  unlink(cache_dir(), recursive = TRUE)
 }
 
 number_of_records <- function(x) {
