@@ -59,6 +59,11 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
     set(vri_bem , j = "Lbl_edit_wl", value = "")
   }
 
+  #Make sure all SDEC with no values are 0 (should only be an issue for SDEC_2 and _3)
+  vri_bem$SDEC_2[is.na(vri_bem$SDEC_2)] <- 0
+  vri_bem$SDEC_3[is.na(vri_bem$SDEC_3)] <- 0
+
+
   # Add SMPL_TYPE field if it doesn't already exist
 
   if (is.null(vri_bem[["SMPL_TYPE"]])) {
@@ -143,7 +148,7 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   #Added "ES", "SC","SH","SW" to water features
   #Changed to ignore any water BEU (including WL) with a decile of 10
   #Removed expression ignoring BCLC tree levels because it leads to missing wetland and riparian corridors
-  vri_bem[!(SDEC_1 == 10 & BEUMC_S1 %in% c("BB","CB","CR","ER","PB","PR","RR","RS","SK","SR","TF","WG","WR","YB","YS","BG", "ES", "FE", "ME", "MR","SC","SH","ST","SW","WL","FS", "IM", "IN", "LL", "LS", "RE","SP","OW")) &
+  vri_bem[!(SDEC_1 == 10 & BEUMC_S1 %in% c("BB","CB","CR","ER","PB","PR","RR","RS","SK","SR","TF","WG","WR","YB","YS","BG", "ES", "FE", "ME", "MR","SC","SH","ST","SW","WL","FS", "IM", "IN", "LL", "LS","RI", "RE","SP","OW")) &
             #!(SDEC_1 == 10 & BEUMC_S1 == "WL") &
             wl_pct >= 8 &
             #!BCLCS_LV_4 %in% c("TB", "TC", "TM") & #Removed condition: defer to FWA over VRI BCLC data
@@ -192,6 +197,15 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   #If adding new WL component, also make REALM_# = "W", GROUP_# = "W" and KIND_# = "U"
   wetland_features = c("BB","CB","CR","ER","PB","PR","RR","RS","SK","SR","TF","WG","WR","YB","YS","BG", "ES", "FE", "ME", "MR","SC","SH","ST","SW")
 
+  #preserve original columns
+  dec_cols <- c("SDEC_1","SDEC_2","SDEC_3")
+  vri_bem[, (dec_cols) := lapply(.SD, function(x) fifelse(is.na(x), 0, x)),
+          .SDcols = dec_cols]
+  vri_bem[,c("BEU_1","BEU_2","BEU_3","DEC_1","DEC_2","DEC_3") := .(BEUMC_S1,BEUMC_S2,BEUMC_S3,SDEC_1,SDEC_2,SDEC_3)]
+  dec_cols <- c("DEC_1","DEC_2","DEC_3")
+  vri_bem[, (dec_cols) := lapply(.SD, function(x) fifelse(is.na(x), 0, x)),
+          .SDcols = dec_cols]
+
   #OLD 0/new 1 when BEUMC_S1 or BEUMC_S2 include wetland features
   vri_bem[(BEUMC_S1 %in% wetland_features | BEUMC_S2 %in% wetland_features) &
             (curr_wl_zone == 0 & new_wl_zone == 1),
@@ -206,9 +220,9 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
               BEUMC_S2 %in% wetland_features & !BEUMC_S1 %in% wetland_features & is.na(BEUMC_S3) ~ NA,
               .default = BEUMC_S2),
             SDEC_1 = case_when(
-              !is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ SDEC_1,
-              is.na(BEUMC_S2) & !is.na(BEUMC_S3) ~ SDEC_1 + SDEC_2,
               is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
+              is.na(BEUMC_S2) ~ DEC_1 + DEC_2,
+              is.na(BEUMC_S3) ~ DEC_1 + DEC_3,
               .default = SDEC_1),
             SDEC_2 = case_when(
               SDEC_1 == 10 ~ 0,
@@ -305,7 +319,13 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
 
   #correct cases where wetland has been attributed to both BEUMC_S1 and _S2 or _S3
   #preserve original columns
+  dec_cols <- c("SDEC_1","SDEC_2","SDEC_3")
+  vri_bem[, (dec_cols) := lapply(.SD, function(x) fifelse(is.na(x), 0, x)),
+          .SDcols = dec_cols]
   vri_bem[,c("BEU_1","BEU_2","BEU_3","DEC_1","DEC_2","DEC_3") := .(BEUMC_S1,BEUMC_S2,BEUMC_S3,SDEC_1,SDEC_2,SDEC_3)]
+  dec_cols <- c("DEC_1","DEC_2","DEC_3")
+  vri_bem[, (dec_cols) := lapply(.SD, function(x) fifelse(is.na(x), 0, x)),
+          .SDcols = dec_cols]
 
   vri_bem[(BEUMC_S1 == BEUMC_S2) | (BEUMC_S1 == BEUMC_S3) | (BEUMC_S2 == BEUMC_S3),':='(
     BEUMC_S2 = case_when(
@@ -358,7 +378,13 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
   vri_bem[site_m3a_eq_a , SITE_M3A := "a"]
 
   #preserve original columns
+  dec_cols <- c("SDEC_1","SDEC_2","SDEC_3")
+  vri_bem[, (dec_cols) := lapply(.SD, function(x) fifelse(is.na(x), 0, x)),
+          .SDcols = dec_cols]
   vri_bem[,c("BEU_1","BEU_2","BEU_3","DEC_1","DEC_2","DEC_3") := .(BEUMC_S1,BEUMC_S2,BEUMC_S3,SDEC_1,SDEC_2,SDEC_3)]
+  dec_cols <- c("DEC_1","DEC_2","DEC_3")
+  vri_bem[, (dec_cols) := lapply(.SD, function(x) fifelse(is.na(x), 0, x)),
+          .SDcols = dec_cols]
 
   vri_bem[,':='(
     BEUMC_S2 = case_when(
@@ -368,9 +394,9 @@ update_bem_from_wetlands <- function(vri_bem, wetlands, buc) {
       SDEC_3 == 0 ~ NA_character_,
       .default = BEUMC_S3),
     SDEC_1 = case_when(
+      is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
       is.na(BEUMC_S2) ~ DEC_1 + DEC_2,
       is.na(BEUMC_S3) ~ DEC_1 + DEC_3,
-      is.na(BEUMC_S2) & is.na(BEUMC_S3) ~ 10,
       .default = DEC_1),
     SDEC_2 = case_when(
       is.na(BEUMC_S2) ~ 0,

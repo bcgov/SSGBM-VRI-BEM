@@ -37,7 +37,7 @@
 calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
 
   if (FALSE) {
-    MRSRD_Y<-PROJ_AGE_1<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
+    SIFA<-PROJ_AGE_1<-VRI_AGE_CL_STD<-VRI_AGE_CL_STS<-NULL
   }
 
     # use data.table for fast data manipulation
@@ -53,10 +53,19 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
   #make sure PROJ_AGE is numeric
   vri_bem[, PROJ_AGE_1 := as.numeric(PROJ_AGE_1)]
 
-  #make sure MRSRD_Y is numeric
+  #make sure SIFA is numeric (was already adjusted in creation of Forest Disturbance Layer)
+  #Either time since disturbance (MRSRD_Y) or, if VRI gives a younger age, defers to VRI
+  vri_bem[, SIFA := as.numeric(SIFA)]
   vri_bem[, MRSRD_Y := as.numeric(MRSRD_Y)]
 
-  vri_bem[!is.na(MRSRD_Y), PROJ_AGE_1 := most_recent_harvest_year - MRSRD_Y]
+  #change to disturbance age unless VRI indicates a younger stand age (e.g., more recent disturbance)
+  vri_bem[,PROJ_AGE_1 := fcase(
+    is.na(MRSRD_Y), PROJ_AGE_1,
+    is.na(PROJ_AGE_1) & !is.na(SIFA),SIFA,
+    !is.na(SIFA) & SIFA < PROJ_AGE_1, SIFA,
+    !is.na(SIFA) & SIFA >= PROJ_AGE_1, PROJ_AGE_1,
+    is.na(SIFA) & !is.na(MRSRD_Y),most_recent_harvest_year-MRSRD_Y
+  )]
 
   # create variable for structural stage look up
   vri_bem[ , VRI_AGE_CL_STS := fcase(PROJ_AGE_1 < 0, -1,
@@ -87,7 +96,7 @@ calc_forest_age_class <- function(vri_bem, most_recent_harvest_year) {
 
   # change object back to sf and return
   #attr(vri_bem, "class") <- classes_vri
-  vri_bem <- vri_bem |> st_as_sf(sf_column_name="Shape",crs=vriCRS) |> st_make_valid()
+  vri_bem <- vri_bem |> st_as_sf(sf_column_name="Shape",crs=3005) |> st_make_valid()
 
   return(vri_bem)
 

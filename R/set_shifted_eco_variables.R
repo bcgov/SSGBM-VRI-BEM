@@ -12,10 +12,11 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
                                                                                                                                                          "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1")) {
 
   # if the filter result in zero lines we simply exit the function
-  # we use !isTRUE so that it will also quit if the i contains no TRUE value but some NA
-  if (!isTRUE(any(i))) {
+  row_idx <- i[!is.na(i)]
+  if(length(row_idx) == 0L){
     return()
   }
+
 
   # create other variables names from arguments
   character_variables_2 <- sub("1", "2", character_variables_1)
@@ -85,7 +86,7 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
 
     all_to_integer_variables <- c(all_to_integer_variables, to_integer_variables_temp)
 
-    set(input_dt, i = i, j = c(to_character_variables_temp, to_integer_variables_temp), value = input_dt[i, c(from_character_variables, from_integer_variables), with = FALSE])
+    set(input_dt, i = row_idx, j = c(to_character_variables_temp, to_integer_variables_temp), value = input_dt[i, c(from_character_variables, from_integer_variables), with = FALSE])
   }
 
   # remove leading temp_ in created variables
@@ -93,11 +94,11 @@ set_shifted_eco_variables <- function(input_dt, i, shift_pattern, integer_variab
   final_integer_variables <- sapply(all_to_integer_variables, function(x) substr(x, 6, nchar(x)))
 
   # assign new computed value in variables
-  for (i in seq.int(along.with = all_to_character_variables)) {
-    set(input_dt, i = i, j = final_character_variables[i], value = input_dt[[all_to_character_variables[i]]][i])
+  for (k in seq_along(all_to_character_variables)) {
+    set(input_dt, i = row_idx, j = final_character_variables[k], value = input_dt[[all_to_character_variables[k]]][row_idx])
   }
-  for (i in seq.int(along.with = final_integer_variables)) {
-    set(input_dt, i = i, j = final_integer_variables[i], value = input_dt[[final_integer_variables[i]]][i])
+  for (k in seq_along(all_to_integer_variables)) {
+    set(input_dt, i = row_idx, j = final_integer_variables[k], value = input_dt[[all_to_integer_variables[k]]][row_idx])
   }
 
   # removed temp variables

@@ -25,10 +25,13 @@ create_unique_ecosystem_dt <- function(vri_bem, current_unique_ecosystem_csv = N
   vri_bem <- as.data.table(vri_bem)
 
   unique_ecosystem_dt <- summarize_unique_ecosystem(vri_bem)
+  format_unique_ecosystem_dt(unique_ecosystem_dt)
+
 
   if (!is.null(current_unique_ecosystem_csv)) {
     current_unique_ecosysteme_dt <- fread(current_unique_ecosystem_csv)
     format_unique_ecosystem_dt(current_unique_ecosysteme_dt)
+
     unique_ecosystem_dt[, merge_ind := 1]
     current_unique_ecosysteme_dt[, merge_ind := 1]
     new_unique_ecosystem_dt <- merge(current_unique_ecosysteme_dt, unique_ecosystem_dt, by = c("BGC_ZONE", "BGC_SUBZON", "BGC_VRT", "BGC_PHASE", "BEU_MC"), all = TRUE)
