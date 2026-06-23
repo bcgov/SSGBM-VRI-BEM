@@ -77,9 +77,15 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE,stop_if_du
   #replace BEM biogeoclimatic attributes with VRI
   vri <- vri |> dplyr::mutate(BGC_ZONE = VRI_BEC_ZONE, BGC_SUBZON = VRI_BEC_SUBZON, BGC_VRT = VRI_BEC_VRT, BGC_PHASE = VRI_BEC_PHASE) |> dplyr::select(-c(VRI_BEC_ZONE,VRI_BEC_SUBZON,VRI_BEC_VRT,VRI_BEC_PHASE))
 
-  #ensure vri-bem attributes are consistently NA if value absent
-  for(j in seq_along(vri)){
-    set(vri,i=which(vri[[j]]==""),j=j,value=NA)
+  #ensure vri-bem attributes are consistently NA if value absent (character only)
+  char_cols <- names(vri)[vapply(vri, is.character, logical(1))]
+
+  vri[, (char_cols) := lapply(.SD, function(x) fifelse(x == "", NA_character_, x)),
+      .SDcols = char_cols]
+
+  #Make sure all SDEC with no values are 0 (should only be an issue for SDEC_2 and _3)
+  vri$SDEC_2[is.na(vri$SDEC_2)] <- 0
+  vri$SDEC_3[is.na(vri$SDEC_3)] <- 0
 
   # return final result
   if (return_intersection_dt) {
@@ -89,7 +95,6 @@ merge_bem_on_vri <- function(vri, bem, return_intersection_dt = FALSE,stop_if_du
   else {
     return(st_as_sf(vri))
   }
-}
 }
 
 

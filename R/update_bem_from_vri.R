@@ -152,7 +152,7 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
   which_WL <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_1"]] == "V" & vri_bem[["BCLCS_LV_2"]] == "N"
                     & vri_bem[["BCLCS_LV_3"]] == "W" & vri_bem[["AGE_CL_STS"]] == -1 & !vri_bem[["row_updated"]])
 
-  vri_bem[(which_RI), `:=`(SDEC_1 = 10,
+  vri_bem[(which_WL), `:=`(SDEC_1 = 10,
                        BEUMC_S1 = "WL",
                        lbl_edit = "Updated to 10 WL because BCLCS_LV_1/2/3 = 'V'/'N'/'W' and AGE_CL_STS = -1",
                        row_updated = TRUE,
@@ -191,7 +191,7 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
 
   vri_bem[(which_BU), `:=`(SDEC_1 = 10,
                        DISTCLS_1 = "F",
-                       lbl_edit = "Updated to 10 UR because BCLCS_LV_5 = 'AP'",
+                       lbl_edit = "Updated to 10 UR because BCLCS_LV_5 = 'BU'",
                        row_updated = TRUE)]
 
 
@@ -242,15 +242,6 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
                        row_updated = TRUE,
                        blank_eco_variables = TRUE)]
 
-  ## LL - Landing (line 505) ---- #RW removed below code--BEUMC_S1 of 'LL' is already Large Lake. Moved Landing (BCLCS_LV_5 == "LL") to UV
-  # which_LL <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] == "LL" & !vri_bem[["row_updated"]])
-
-  #vri_bem[(which_LL), `:=`(SDEC_1 = 10,
-  #                     BEUMC_S1 = "LL",
-  #                     lbl_edit = "Updated to 10 LL because BCLCS_LV_5 = 'LL'",
-  #                     row_updated = TRUE,
-  #                     blank_eco_variables = TRUE)]
-
   ## MI - Mine (line 512) ----
   which_MI <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] %in% c("MI", "TZ", "MZ") & !vri_bem[["row_updated"]])
 
@@ -299,20 +290,20 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
 
 
   ## UV - Unvegetated (line 547) ----
-  which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM","LL") & !vri_bem[["row_updated"]]) #edited to add LL ("landing")
+  which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["BCLCS_LV_5"]] %in% c("MU","MN", "RM") & !vri_bem[["row_updated"]])
 
   vri_bem[(which_UV), `:=`(SDEC_1 = 10,
                            BEUMC_S1 = "UV",
-                           lbl_edit = "Updated to 10 UV because BCLCS_LV_5 = 'UV', 'RS', 'MU', 'ES', 'CB', 'MN','LL', or 'RM'", #edited to add LL ("landing")
+                           lbl_edit = "Updated to 10 UV because BCLCS_LV_5 = ''MU','MN','RM'",
                            row_updated = TRUE,
                            blank_eco_variables = TRUE)]
 
-  which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["LAND_CD_1"]] %in% c("UV", "RS", "MU", "ES", "CB", "MN", "RM") &
+  which_UV <- which(is.na(vri_bem[["SMPL_TYPE"]]) & vri_bem[["LAND_CD_1"]] %in% c("MU","MN", "RM") &
                       vri_bem[["COV_PCT_1"]] >= 95 & !vri_bem[["row_updated"]])
 
   vri_bem[(which_UV), `:=`(SDEC_1 = 10,
                        BEUMC_S1 = "UV",
-                       lbl_edit = "Updated to 10 UV because LAND_CD_1 = 'UV', 'RS', 'MU', 'ES', 'CB', 'MN' or 'RM' and COV_PCT_1 >= 95'",
+                       lbl_edit = "Updated to 10 UV because LAND_CD_1 = 'MU','MN' or 'RM' and COV_PCT_1 >= 95'",
                        row_updated = TRUE,
                        blank_eco_variables = TRUE)]
 
@@ -384,6 +375,8 @@ update_bem_from_vri <- function(vri_bem, rivers, beu_bec, clear_site_ma = TRUE, 
                                                                                                    "DISTCLS_1", "DISTSCLS_1", "DISSSCLS_1", "SECL_1",
                                                                                                    "SESUBCL_1", "COND_1", "VIAB_1", "FORESTED_1"))
   set(vri_bem, i = which_to_blank, j = c("SDEC_2", "SDEC_3"), value = 0)
+  #ensure SDEC_1 is 10 if which_to_blank == TRUE
+  set(vri_bem, i = which_to_blank, j = "SDEC_1", value = 10)
 
   # line 654
   vri_bem[is.na(SMPL_TYPE), DEC_Total:= SDEC_1 + SDEC_2 + SDEC_3]
@@ -508,7 +501,7 @@ remove_inadequate_wetlands <- function(ifc){
 
   #Warning if polyfgon is pule WL ----
   which_treed_pure_WL <- which(is.na(ifc[["SMPL_TYPE"]]) & ifc[["BCLCS_LV_4"]] %in% c("TB", "TC", "TM") &
-                                 ifc[["BEUMC_S1"]] %in% c(0, NA_integer_))
+                                 ifc[["BEUMC_S1"]] %in% c(NA_character_,""))
 
   set(ifc, i = which_treed_pure_WL, j = "lbl_edit", value = "**** Warning: Polygon is pure WL, but BCLCS_LV_4 = 'TB', 'TC' or 'TM'")
   set(ifc, i = which_treed_pure_WL, j = "row_updated", value = TRUE)

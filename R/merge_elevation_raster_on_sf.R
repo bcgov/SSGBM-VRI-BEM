@@ -104,6 +104,14 @@ merge_elevation_raster_on_sf <- function(elev_raster, vri_bem, elevation_thresho
   value_map <- c("N", "Y")
   set(vri_bem, j = "ABOVE_ELEV_THOLD", value = value_map[(vri_bem[["ELEV"]] > elevation_threshold) + 1])
 
+  # Create elevation band categories
+  vri_bem[,ELEV_BAND:=fcase(ELEV <= 1200,"0-1200",ELEV <= 1500, "1201-1500",ELEV > 1500, "1501+")]
+
+  #Create cardinal direction categories (aspect), making sure flat slopes (<10) aren't given a direction
+  vri_bem[,ASPECT_CAT:=fcase(MEAN_SLOPE < 10,"Flat",MEAN_ASP > 315 | MEAN_ASP < 45,"North",MEAN_ASP < 135, "East", MEAN_ASP < 225, "South", MEAN_ASP <315,"West")]
+
+  #Create slope breakdown
+  vri_bem[,SLOPE_CAT:=fcase(MEAN_SLOPE < 10,"Flat",MEAN_SLOPE <= 40, "VL",MEAN_SLOPE <= 60, "L", MEAN_SLOPE <= 100, "M", MEAN_SLOPE > 100, "H-VH")]
 
   # Populate SLOPE_MOD field ----
   ## "k" (cool aspect) if aspect is 285-359 or 0-134 AND slope is 25%-100% (except in CWH and MH zones, it's 35%-100%)

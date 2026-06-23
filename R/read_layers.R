@@ -546,7 +546,7 @@ read_fire <- function(dsn = NULL, layer = "WHSE_LAND_AND_NATURAL_RESOURCE.PROT_H
 #' @export
 read_tsa <- function(tsa_name, Skeena_boundary = TRUE){
 
-  aoi_record <- "8daa29da-d7f4-401c-83ae-d962e3a28980"
+  aoi_record <- "dab3daa4-d502-4b95-b39e-5f746a1041ed"
   skeena_record <- "dfc492c0-69c5-4c20-a6de-2c9bc999301f"
 
   rlang::with_options(
