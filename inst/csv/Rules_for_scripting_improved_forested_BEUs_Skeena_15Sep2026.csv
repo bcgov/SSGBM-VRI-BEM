@@ -1,0 +1,81 @@
+RULE#,Orig_Rule_Num,Zone_Rule_Num,AJD_Comments,Matches_found_in_Skeena,INPUTS,BGC_ZONE,BGC_SUBZON,BGC_VRT,TREE_RL_SP_CD_1,TREE_RL_SP_PCT_1,TREE_RL_SP_CD_2,TREE_RL_SP_PCT_2,TREE_RL_SP_CD_3,TREE_RL_SP_PCT_3,TREE_RL_SP_CD_4,TREE_RL_SP_PCT_4,SOIL_MOISTURE_REGIME_1,SLOPE_MOD,OUTPUTS,BEUMC
+1,2,1,Do not want sites with aspen >25% as they are less likely to be fluvial sites. Might be good to check the resultant polygons to check that they are riparian. ,0,,BWBS,,,"ACT,ACB,AC",25-100,AT,0-25,,,,,,,,PR
+2,4,2,"This is being used to capture all stands with a significant component of Aspen stands regardless of the other species, as per description is can have a range of other tree species. The cutoff was lowered as the description doesn't say it needs to be aspen leading.",0,,BWBS,,,AT,30-100,,,,,,,,,,BA
+3,21,3,"Need a high % cover of Sb to be considered a bog, lower % are likely just poor sites on mineral soil.",0,,BWBS,,,SB,90-100,,,,,,,,,,BB
+4,20,4,"Intended to capture all the Pine / Black spruce combinations where the SB is between 25 and 90% cover, and Pine is between 10% and 75% cover. If the secondary species is Sw or Se can they also go in this BEU? Is the SB 25% low enough to realistically capture all the poor sites on mineral soil?",0,,BWBS,,,SB,25-90,"PL, PLI",10-75,,,,,,,,BL
+5,16,5,All stands with a significant omponenet of Tamarack (LT).,0,,BWBS,,,LT,25-100,,,,,,,,,,TF
+6,7,6,"Higher elevation stands, dominated by BL but can have SW.",0,,BWBS,,,"BL, B",50-100,,,,,,,,,,FB
+7,19,7,Needed to lower the Pl from 75% to 60%. But is a stand with 50 to 60% Pine better in LP or BP?,0,,BWBS,,,"PL, PLI",60-100,,,,,,,,,,LP
+8,26,8,"This is the Spruce - Horsetail sites that occurs on moist sites. The requirement for Pl and Bl was removed. Populus spp added based on validation, which showed that sites with prominent broadleaf (typicallly aspen) over 3% separated swamps from non-swamps.",0,,BWBS,,,"SW,SXW,SX",30-100,"ACT,ACB,AC,AT",0-5,,,,,"5,6,7,8",BLANK,,SK
+9,18,9,"Intended to capture PL SW combinations, along with stands that have some AT or SB",0,,BWBS,,,"PL, PLI",0.1-59.9,SW,10-90,AT,0-29.9,SB,0-24.9,,,,BP
+11,30,1,,1964,,CWH,,,"ACT,ACB,AC",25-100,,,,,,,,BLANK,,CR
+12,31,2,,18126,,CWH,,,BA,25-100,HW,15-100,,,,,,,,FR
+13,32,3,,237,,CWH,,,CW,25-100,,,,,,,"5,6,7,8",BLANK,,RS
+14,33,4,,27380,,CWH,,,CW,50-100,,,,,,,,,,CH
+15,34,5,,856,,CWH,,,"EP,EXP,EA",20-100,,,,,,,,,,HB
+16,35,6,,20,,CWH,,,"FD,FDC",25-80,"PLC, PL",10-100,,,,,,,,CP
+17,36,7,,82,,CWH,,,"FD,FDC",50-100,,,,,,,,,,CD
+18,37,8,,121,,CWH,,,HW,50-100,"FD,FDC",10-50,,,,,,,,CW
+19,38,9,,1985,,CWH,,,"PL,PLC",25-100,HW,15-100,,,,,,,,HL
+20,39,10,,5208,,CWH,,,"PLC,PL",25-100,"CW,YC",25-75,,,,,,,,CB
+21,40,11,,0,,CWH,,,RA,10-100,"FD,FDC",25-90,,,,,,,,DA
+22,41,12,,145,,CWH,,,SS,20-100,"ACT,ACB,AC",5-30,,,,,,BLANK,,SR
+23,42,13,,1139,,CWH,,,SS,50-100,HW,5-50,,,,,,,,HS
+24,43,14,,10,,CWH,,,YC,25-100,"HM,HW",10-75,,,,,"5,6,7,8",BLANK,,YB
+25,22,1,"Riparian SE, as SE occurs over much of the ESSF landscape, not sure how to restrict this to riparian areas using only species. ACT and BL only sometimes occur.",54,,ESSF,,,SE,30-100,"BL, BA, B",5-100,"ACT,ACB,AC",5-100,,,,,,ER
+26,21,2,"Need a high % cover of Sb to be considered a bog, lower % are likely just poor sites on mineral soil.",240,,ESSF,,,SB,90-100,,,,,,,,,,BB
+27,17,3,"The PA cover will generally be low as a secondary species, so the cover values were lowered. Not worried too much about the other species in the polygon",3074,,ESSF,DOES NOT CONTAIN p,,PA,5-100,,,,,,,,,,WB
+28,19,4,Needed to lower the Pl from 75% to 60%. But is a stand with 50 to 60% Pine better in LP or SL?,9164,,ESSF,,,"PL, PLI, PLC",60-100,,,,,,,,,,LP
+29,,5,Supposed to only occur in the ESSFmv3,34153,,ESSF,mv,3,"SW, SX, SE, S, SWX",25-100,"BL, B, BA",0.1-100,,,,,,,,SF
+30,9,6,"Wet forest, All combinations for BL and HM.",18783,,ESSF,DOES NOT CONTAIN p,,"BL, B, BA",5-95,"HM, HW, H",5-100,,,,,,,,EW
+31,8,7,"The name is called ""Dry forest"" but when you read the description it occurs on a wide variety of moisture regimes. All combinations of SE and BL, and 100% BL, B, BA and spruce. Will also contain PL stands not captured in other rules, and AT, BM, EP, and FDI. The SB <90% should aslo go in here I guess as no other fit for them.",30437,,ESSF,DOES NOT CONTAIN p,,"BL, B, BA",0.1-100,"SW, SXW, SX, SE, S",0.1-100,SB,0-89.9,,,,,,EF
+32,17,1,"The PA cover will generally be low as a secondary species, so the cover values were lowered. Not worried too much about the other species in the polygon",106,,ESSF,CONTAINS p,,PA,25-100,,,,,,,,,,WB
+33,10,2,Combinations of subalpine fir and hemlock,1444,,ESSF,CONTAINS p,,"BL, BA, B",5-100,HM,5-100,,,,,,,,WP
+34,,3,Combinations of subalpine fir and spruce. This unit can also be used as a catch-all for other species combinations.,1315,,ESSF,CONTAINS p,,"BL, BA, B",5-100,"SE, S, SW",5-100,,,,,,,,FP
+35,3,1,"In the ICH there are 4 riparian cottonwood BUEs, the WR has spruce (high bench) and the CR does not (middle bench). Do not want sites with aspen <25% as they are less likely to be fluvial sites. Might be good to check the resultant polygons to check that they are riparian. ",1784,,ICH,,,"ACT, ACB, AC",25-100,"SW, SXW, SX, SE, S",10-75,AT,0-25,,,,,,WR
+36,,2,"This is a pure cottonwood BEU, equavalent to middle bench floodplains.",1529,,ICH,,,"ACT, ACB, AC",25-100,,,,,,,,,,CR
+37,,4,This is the High bench Sitka Spruce that mostly occurs in the CWH,0,,ICH,,,SS,50-90,"ACT, ACB, AC",10-50,,,,,,,,SR
+38,23,5,"This is being used to capture all stands with a significant component of Aspen stands regardless of the other species, as per description is can have a range of other tree species. The cutoff was lowered as the description doesn't say it needs to be aspen leading.",0,,ICH,,,AT ,30-100,,,,,,,,,,SA
+39,24,6,"Supposedly restricted to the SBSmh, the range expanded here to include birch sites in other subzones. As they can succed through At, Pl and Fd, and Spruce is climax they may not have to be present so just having  a highish cover of Birch is likely good enough. Edited to that birch can be anything above 30%, but this could be changed.",2308,,ICH,,,"EP, E",30-100,,,,,,,,,,SB
+40,21,7,"Sb is not common in the ICH but there are pure stands, so added BB. Need a high % cover of Sb to be considered a bog, lower % are likely just poor sites on mineral soil.",47,,ICH,,,SB,90-100,,,,,,,,,,BB
+41,29,8,"There are stands that are combination of Black and white spruce in the ICH, the WG seems the best fit.",8,,ICH,,,SB,50-90,"SW, SXW, SX, SE, S",10-50,,,,,,,,WG
+42,,9,Only supposed to occur in the ICHmc1a where Ba primarily occurs,1519,,ICH,,,BA,30-100,,,,,,,,,,FR
+43,19,10,Needed to lower the Pl from 75% to 60%. But is a stand with 50 to 60% Pine better in LP or SL?,2318,,ICH,,,"PL, PLI, PLC",60-100,,,,,,,,,,LP
+44,12,11,"Combinations Hw and Spruce, that have CW in climax",1857,,ICH,,,"HW, HM, H",30-100,"SW, SXW, SX, SE, S",30-100,,,,,,,,IS
+45,13,12,"The incorrect code IH was being used for Cw stands, IS is the best fit for CW stands but needs a 2nd rule as stands can also be dominated by HW and Spruce. Lowered CW value to 30% from 40%",766,,ICH,,,CW,30-100,,,,,,,,,,IS
+46,,13,Combinations of HW and BL,4660,,ICH,,,"HW, HM, H",30-100,"BL, BA",30-100,,,,,,,,CS
+47,,14,"This BEU apprently only occurs in the ICHwc, which is north of the current SSMM, but it is extended north it will be included",1273,,ICH,wc,,"HW, HM, H",25-90,"PL, PLI, PLC",25-59,,,,,,,,HL
+48,26,15,"This is the Spruce - Horsetail sites that occurs on moist sites. The requirement for Pl was removed. Bl was added to distinguish from SF. Populus spp added based on validation, which showed that sites with prominent broadleaf (typicallly aspen) over 3% separated swamps from non-swamps.",228,,ICH,,,"SW, SXW, SX, SE, S",30-100,"BL, BA, B",0-14,"ACT,ACB,AC,AT",0-5,,,"5,6,7,8",BLANK,,SK
+49,28,16,"This should contain all Spruce - subalpine fir combos, it can also be used to catch when ACT<25% and EP<25% as they are likely on moister sites.",2405,,ICH,,,"SW, SXW, SX, SE, S",30-65,"BL, BA, B",15-100,,,,,,,,SF
+50,43,1,"The wetland guide description for YC bog forest indicates it has a significant component of pine with some redcedar, but no hemlock",0,,MH,,,YC,25-100,"PL, PLI, PLC",10-75,,,,,"5,6,7,8",,,YB
+51,45,2,"The wetland guide description for YC - Skunk swamp forests indicates it has YC, HM, HW, and BA. If the wet YC leading polygons with Pine are taken off first then the rest can go into YS.",4,,MH,,,YC,50-100,,,,,,,"5,6,7,8",,,YS
+52,44,3,YC - Hm,3429,,MH,,,YC,25-100,"HM, HW, H",25-100,,,,,,,,YM
+53,46,4,This unit will capture most of the species combinations in the MH.,31560,,MH,,,"HM, HW, H",25-100,"BA, BL, B",10-100,,,,,,,,MF
+54,47,5,"This unit is supposed to capture the higher elevation open HM stands and tree islands. Not sure how effectively this process will be able to separate them from the MF unit, as mix of the same species as the MF is possible. Just letting it capture the leftover after the other rules might not work well.",0,,MH,,,"HM, HW, H",25-100,,,,,,,,,,HP
+55,3,1,Do not want sites with aspen >25% as they are less likely to be fluvial sites. Might be good to check the resultant polygons to check that they are riparian. ,73,,SBPS,,,"ACT, ACB, AC",25-100,AT,0-25,,,,,,,,WR
+56,5,2,"The AC (aspen copse) code was being used in the SPBS, but that is for pure aspen stands, in the SBPS of the 979 At leading stands 937 has a conifer secondary species so SA is better fit.  Only use AC for <90 At.",196,,SBPS,,,AT,90-100,,,,,,,,,,AC
+57,23,3,"This is being used to capture all stands with a significant component of Aspen stands regardless of the other species, as per description is can have a range of other tree species. The cutoff was lowered as the description doesn't say it needs to be aspen leading.",1475,,SBPS,,,AT,30-90,,,,,,,,,,SA
+58,21,4,"Need a high % cover of Sb to be considered a bog, lower % are likely just poor sites on mineral soil.",521,,SBPS,,,SB,90-100,,,,,,,,,,BB
+59,20,5,"Intended to capture all the Pine / Black spruce combinations where the SB is between 25 and 90% cover, and Pine is between 10% and 75% cover. If the secondary species is Sw or Se can they also go in this BEU? Is the SB 25% low enough to realistically capture all the poor sites on mineral soil?",334,,SBPS,,,SB,25-90,"PL, PLI",10-75,,,,,,,,BL
+60,19,6,Needed to lower the Pl from 75% to 60%. But is a stand with 50 to 60% Pine better in LP or SL?,2846,,SBPS,,,PL,60-100,,,,,,,,,,LP
+61,26,7,"This is the Spruce - Horsetail sites that occurs on moist sites. The requirement for Pl and Bl was removed, but maximums were added to distinguish from SF, SL. Populus spp added based on validation, which showed that sites with prominent broadleaf (typicallly aspen) over 3% separated swamps from non-swamps.",3354,,SBPS,,,"SW, SXW, SX, SE, S",30-100,"BL, BA, B",0-14,"PL, PLI",0-19,"ACT,ACB,AC,AT",0-5,"5,6,7,8",BLANK,,SK
+62,28,8,"In the SBPS Bl is not prominent but there are Bl leading polygons, so it was added. This should contain all Spruce - subalpine fir combos, it can also be used to catch when ACT<25% and EP<25% as they are likely on moister sites.",312,,SBPS,,,"SW, SXW, SX, SE, S",30-65,"BL, BA, B",15-100,,,,,,,,SF
+63,27,9,"This will capture all Spruce / Pine, and Spruce / Aspen combinations that have not been placed in other BEUs. It can also be used as a catch-all for odd codes such as LT, LW, W as they will likely occur on dry to mesic sites.",1319,,SBPS,,,"SW, SXW, SX, SE, S",30-65,"PL, PLI",20-50,,,,,,,,SL
+64,3,1,Do not want sites with aspen >25% as they are less likely to be fluvial sites. Might be good to check the resultant polygons to check that they are riparian. ,3134,,SBS,,,"ACT, ACB, AC",25-100,AT,0-25,,,,,,,,WR
+65,23,2,"This is being used to capture all stands with a significant component of Aspen stands regardless of the other species, as per description is can have a range of other tree species. The cutoff was lowered as the description doesn't say it needs to be aspen leading.",0,,SBS,,,AT ,30-100,,,,,,,,,,SA
+66,24,3,"Supposedly restricted to the SBSmh, the range expanded here to include birch sites in other subzones. As they can succed through At, Pl and Fd, and Spruce is climax they may not have to be present so just having  a highish cover of Birch is likely good enough. Edited to that birch can be anything above 30%, but this could be changed.",1170,,SBS,,,EP,30-100,,,,,,,,,,SB
+67,14,4,All Douglas-fir leading stands,1293,,SBS,,,"FD, FDI",50-100,,,,,,,,,,DF
+68,15,5,This site is supposd to be a combination of Fd and Pl. The lower amount of Fd is 5% but could be raised. The amount of Pine shouldbe greater than the amount of Spruce,824,,SBS,,,"FD, FDI",5-49.9,"PL, PLI",5-95,"PL,PLI>SW,SX,SE,S,SXW",,,,,,,DL
+69,25,6,"These site can have At but it doesn't need to be in the rules, just an Fd Spruce combo. The lower amount of Fd is 5% but could be raised. Will also include Fd with other species including SB, AT, BL and SB",2252,,SBS,,,"FD, FDI",5-49.9,"SW, SXW, SX, SE, S",5-95,,,,,,,,SD
+70,21,7,"Need a high % cover of Sb to be considered a bog, lower % are likely just poor sites on mineral soil.",4645,,SBS,,,SB,90-100,,,,,,,,,,BB
+71,20,8,"Intended to capture all the Pine / Black spruce combinations where the SB is between 25 and 90% cover, and Pine is between 10% and 75% cover. If the secondary species is Sw or Se can they also go in this BEU? Is the SB 25% low enough to realistically capture all the poor sites on mineral soil?",3595,,SBS,,,SB,25-90,"PL, PLI",10-75,,,,,,,,BL
+72,19,9,Needed to lower the Pl from 75% to 60%. But is a stand with 50 to 60% Pine better in LP or SL?,69518,,SBS,,,"PL, PLI",60-100,,,,,,,,,,LP
+73,26,10,"This is the Spruce - Horsetail sites that occurs on moist sites. The requirement for Pl and Bl was removed, but maximums were added to distinguish from SF, SL. Populus spp added based on validation, which showed that sites with prominent broadleaf (typicallly aspen) over 3% separated swamps from non-swamps.",26591,,SBS,,,"SW, SXW, SX, SE, S",30-100,"BL, BA, B",0-14,"PL, PLI",0-19,"ACT,ACB,AC,AT",0-5,"5,6,7,8",BLANK,,SK
+74,28,11,"This should contain all Spruce - subalpine fir combos, it can also be used to catch when ACT<25% and EP<25% as they are likely on moister sites.",34051,,SBS,,,"SW, SXW, SX, SE, S",30-65,"BL, BA, B",15-100,,,,,,,,SF
+75,27,12,"This will capture all Spruce / Pine, and Spruce / Aspen combinations that have not been placed in other BEUs. It can also be used as a catch-all for odd codes such as LT, LW, W as they will likely occur on dry to mesic sites.",21962,,SBS,,,"SW, SXW, SX, SE, S",30-65,"PL, PLI",20-50,,,,,,,,SL
+76,6,1,"This is a AT ACB combo unit on warm slopes, stand can have both or either species.",0,,SWB,,,AT,30-100,"ACT,ACB,AC",30-100,,,,,,"w,z",,TB
+77,2,2,Do not want sites with aspen >25% as they are less likely to be fluvial sites. Might be good to check the resultant polygons to check that they are riparian. ,0,,SWB,,,"ACT,ACB,AC",25-100,AT,0-25,,,,,,,,PR
+78,21,3,"Need a high % cover of Sb to be considered a bog, lower % are likely just poor sites on mineral soil.",63,,SWB,,,SB,90-100,,,,,,,,,,BB
+79,19,4,Needed to lower the Pl from 75% to 60%. But is a stand with 50 to 60% Pine better in LP or BP?,1233,,SWB,,,"PL, PLI",60-100,,,,,,,,,,LP
+80,7,5,BL - Scrub birch unit that often has a component of SW,2,,SWB,,,"BL, B",75-100,SW,25-50,,,,,,,,FB
+81,11,6,Bl - Krummholz that has a high cover of BL with very little SW,9867,,SWB,,,"BL, B",50-100,SW ,0-24.9,,,,,,,,BK
