@@ -110,7 +110,20 @@ erase_geometry <- function(target, erase) {
 
     sfc_result <- sf::st_sfc(diff_result,crs=crs)
 
-    cleaned <- sf::st_collection_extract(sfc_result,"POLYGON")
+    #only keep multipolygon or polygon; if none, length(cleaned) == 0
+    if(length(sfc_result) == 0){
+      cleaned <- sfc_result} else {
+        geom_type <- as.character(sf::st_geometry_type(sfc_result))
+
+        if(all(geom_type %in% c("POLYGON","MULTIPOLYGON"))){
+          cleaned <- sfc_result} else if(any(geom_type %in% c("GEOMETRYCOLLECTION","GEOMETRY"))){
+
+            #if geometry or geometry_collection, keep (multi)polygons
+            cleaned <- sf::st_collection_extract(sfc_result,"POLYGON")
+            cleaned <- cleaned[!sf::st_is_empty(cleaned)]} else {
+              #if linestring, multilinestring, etc (not polygon) only
+              cleaned <- sfc_result[0]}
+      }
 
     if(length(cleaned) == 0) {return(empty_g[[1]])}
 
@@ -124,7 +137,20 @@ erase_geometry <- function(target, erase) {
 
         sfc_result <- sf::st_sfc(diff_result,crs=crs)
 
-        cleaned <- sf::st_collection_extract(sfc_result,"POLYGON")
+        #only keep multipolygon or polygon; if none, length(cleaned) == 0
+        if(length(sfc_result) == 0){
+          cleaned <- sfc_result} else {
+            geom_type <- as.character(sf::st_geometry_type(sfc_result))
+
+            if(all(geom_type %in% c("POLYGON","MULTIPOLYGON"))){
+              cleaned <- sfc_result} else if(any(geom_type %in% c("GEOMETRYCOLLECTION","GEOMETRY"))){
+
+                #if geometry or geometry_collection, keep (multi)polygons
+                cleaned <- sf::st_collection_extract(sfc_result,"POLYGON")
+                cleaned <- cleaned[!sf::st_is_empty(cleaned)]} else {
+                  #if linestring, multilinestring, etc (not polygon) only
+                  cleaned <- sfc_result[0]}
+          }
 
         if(length(cleaned) == 0) {return(empty_g[[1]])}
 

@@ -40,7 +40,7 @@ update_beu_from_rules_dt <- function(vri_bem, rules_dt) {
     stop("One empty column named 'INPUTS' is expected in the rule file to mark the beginning of the columns use to create rules")
   }
   which_name_output <- which(rules_dt_names == "OUTPUTS")
-  if (length(which_name_input) != 1) {
+  if (length(which_name_output) != 1) {
     stop("One empty column named 'OUTPUTS' is expected in the rule file to mark the end of the columns use to create rules and the beginning of the columns use to create outputs")
   }
 
@@ -99,12 +99,21 @@ update_beu_from_rules_dt <- function(vri_bem, rules_dt) {
   rules_dt[ , total_expr := rlang::parse_exprs(do.call(paste, c(.SD, list(sep = " & ")))), .SDcols = c(paste0(rules_dt_names[rule_columns], "_expr"), paste0(tree_list_var, "_expr"))]
 
   # apply total expr on vri_bem and update output columns based on rules result
-  for (rule in 1:nrow(rules_dt)) {
+  #Apply first matching rule to each polygon
+  matched <- rep(FALSE,nrow(vri_bem))
+
+  #keep track of where rules have been applied
+  vri_bem[, BEUMC_RULE := NA_character_]
+
+  for (rule in seq_len(nrow(rules_dt))) {
     which_lines <- vri_bem[, which(eval(rules_dt[["total_expr"]][[rule]]))]
+    #check for match
+    which_lines <- which_lines[!matched[which_lines]]
+    if(length(which_lines) == 0L) next
+
+    set(vri_bem,i = which_lines,j = "BEUMC_RULE",value = as.character(rules_dt[["RULE#"]][rule]))
+
     for (output_col in (which_name_output + 1):length_rules_dt_names) {
-      # TODO find out which BEUMC to replace between the 3 deciles
-      # I assume we update all decile
-      # Apr 2023 update: only update first decile
       if (rules_dt_names[output_col] == "BEUMC") {
         for (i in 1) {
           set(vri_bem, i = which_lines, j = paste0(rules_dt_names[output_col], "_S", i), value = rules_dt[[rules_dt_names[output_col]]][rule])
@@ -113,37 +122,42 @@ update_beu_from_rules_dt <- function(vri_bem, rules_dt) {
         set(vri_bem, i = which_lines, j = rules_dt_names[output_col], value = rules_dt[[rules_dt_names[output_col]]][rule])
       }
     }
+    matched[which_lines] <- TRUE
   }
 
   #correct for cases where BEUMC_S1 now equals BEUMC_S2 (or BEUMC_S3)
   vri_bem <- vri_bem |>
 
-    dplyr::mutate_at(c('SDEC_1','SDEC_2','SDEC_3'), ~tidyr::replace_na(.,0)) |>
+    dplyr::mutate_at(c('SDEC_1','SDEC_2','SDEC_3'), ~tidyr::replace_na(.,0))
 
-    dplyr::mutate(SDEC_1 = dplyr::case_when(
-      BEUMC_S1 == BEUMC_S2 ~ rowSums(dplyr::across(c("SDEC_1","SDEC_2"))),
-      BEUMC_S1 == BEUMC_S3 ~ rowSums(dplyr::across(c("SDEC_1","SDEC_3"))),
-     .default = SDEC_1),
+  #Identify cases where BEUMC_S1 == BEUMC_S2
+  match_12 <- with(vri_bem,!is.na(BEUMC_S1)& !is.na(BEUMC_S2) & BEUMC_S1 == BEUMC_S2)
 
-    BEUMC_S2 = dplyr::case_when(
-        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ BEUMC_S3,
-        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ NA_character_,
+  #Identify cases where BEUMC_S1 == BEUMC_S3
+  match_13 <- with(vri_bem,!is.na(BEUMC_S1)& !is.na(BEUMC_S3) & BEUMC_S1 == BEUMC_S3)
+
+  vri_bem <- vri_bem |>
+    dplyr::mutate(
+
+      SDEC_1 = SDEC_1 + ifelse(.env$match_12,SDEC_2,0) + ifelse(.env$match_13,SDEC_3,0),
+
+      BEUMC_S2 = dplyr::case_when(
+        .env$match_12 & .env$match_13 ~ NA_character_,
+        .env$match_12 ~ BEUMC_S3,
         .default = BEUMC_S2),
 
-    SDEC_2 = dplyr::case_when(
-        BEUMC_S1 == BEUMC_S2 & !is.na(BEUMC_S3) ~ SDEC_3,
-        BEUMC_S1 == BEUMC_S2 & is.na(BEUMC_S3) ~ 0,
+      SDEC_2 = dplyr::case_when(
+        .env$match_12 & .env$match_13 ~ 0,
+        .env$match_12 ~ SDEC_3,
         .default = SDEC_2),
 
-    BEUMC_S3 = dplyr::case_when(
-        BEUMC_S1 == BEUMC_S2 ~ NA_character_,
-        BEUMC_S1 == BEUMC_S3 ~ NA_character_,
+      BEUMC_S3 = dplyr::case_when(
+        .env$match_12 | .env$match_13 ~ NA_character_,
         .default = BEUMC_S3),
 
-    SDEC_3 = dplyr::case_when(
-          BEUMC_S1 == BEUMC_S2 ~ 0,
-          BEUMC_S1 == BEUMC_S3 ~ 0,
-          .default = SDEC_3))
+      SDEC_3 = dplyr::case_when(
+        .env$match_12 | .env$match_13 ~ 0,
+        .default = SDEC_3))
 
   return(sf::st_as_sf(vri_bem))
 }
